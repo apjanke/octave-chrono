@@ -464,6 +464,27 @@ classdef datetime
       if isa(B, 'duration')
         out = A;
         out.dnums = A.dnums + B.days;
+      elseif isa(B, 'calendarDuration')
+        if ~isscalar(B)
+          error('calendarDuration inputs must be scalar');
+        end
+        ds = datestruct(A);
+        out = A;
+        if B.Sign < 0
+          ds.Year = ds.Year - B.Years;
+          ds.Month = ds.Month - B.Months;
+          ds.Day = ds.Day - B.Days;
+          tmp = datetime.ofDatestruct(ds);
+          tmp.dnums = tmp.dnums - B.Time;
+          out.dnums = tmp.dnums;
+        else
+          ds.Year = ds.Year + B.Years;
+          ds.Month = ds.Month + B.Months;
+          ds.Day = ds.Day + B.Days;
+          tmp = datetime.ofDatestruct(ds);
+          tmp.dnums = tmp.dnums + B.Time;
+          out.dnums = tmp.dnums;
+        end
       elseif isa(B, 'double')
         out = A + duration.ofDays(B);
       else
