@@ -27,6 +27,8 @@ Chrono Developer Notes
 * `calendarDuration` and its associated functions
   * Determine whether and how to represent NaNs
   * Arithmetic: adding/subtracting/multiplying durations
+  * Find a non-table-dependent implementation of proxykeys
+    * Or just make this take a dependency on table
 * Plotting support
   * Maybe with just shims and conversion to datenums
 * `duration`
