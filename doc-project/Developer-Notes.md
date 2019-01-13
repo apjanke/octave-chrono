@@ -21,8 +21,7 @@ Chrono Developer Notes
   * Trailing name/val option support in constructor
   * SystemTimeZone non-Java implementation
 * `TzDb`
-  * timezones top-level function
-    * Requires `table`
+  * timezones() function: add UTCOffset/DSTOffset
   * bundled or other tzinfo distribution for Windows (which doesn't provide it in the OS)
 * Fix parsing bug with that trailing data/time zone in the zoneinfo files
 * `calDuration` and its associated functions
