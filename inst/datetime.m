@@ -7,7 +7,6 @@ classdef datetime
   % also contains some Octave-specific extensions.
   %
   % TODO: Time zone support
-  % TODO: Remove proxykeys; they're not needed for a single numeric field.
   
   % @planarprecedence(dnums)
   % @planarsetops
@@ -174,6 +173,12 @@ classdef datetime
       end    
     end
     
+    function [keysA,keysB] = proxyKeys(a, b)
+      %PROXYKEYS Proxy key values for sorting and set operations
+      keysA = a.dnums(:);
+      keysB = b.dnums(:);
+    end
+
     function this = set.TimeZone(this, x)
       if ~ischar(x) || ~isrow(x)
         error('TimeZone must be a char row vector; got a %s %s', ...
@@ -846,40 +851,6 @@ classdef datetime
     out = [parensRef(aOut, ':'); parensRef(bOut, ':')];
     end
     
-    function [keysA,keysB] = proxyKeys(a, b)
-    %PROXYKEYS Proxy key values for sorting and set operations
-    propertyValsA = {a.dnums};
-    propertyTypesA = cellfun(@class, propertyValsA, 'UniformOutput',false);
-    isAllNumericA = all(cellfun(@isnumeric, propertyValsA));
-    propertyValsA = cellfun(@(x) x(:), propertyValsA, 'UniformOutput',false);
-    if nargin == 1
-        if isAllNumericA && isscalar(unique(propertyTypesA))
-            % Properties are homogeneous numeric types; we can use them directly 
-            keysA = cat(2, propertyValsA{:});
-        else
-            % Properties are heterogeneous or non-numeric; resort to using a table
-            propertyNames = {'dnums'};
-            keysA = table(propertyValsA{:}, 'VariableNames', propertyNames);
-        end
-    else
-        propertyValsB = {b.dnums};
-        propertyTypesB = cellfun(@class, propertyValsB, 'UniformOutput',false);
-        isAllNumericB = all(cellfun(@isnumeric, propertyValsB));
-        propertyValsB = cellfun(@(x) x(:), propertyValsB, 'UniformOutput',false);
-        if isAllNumericA && isAllNumericB && isscalar(unique(propertyTypesA)) ...
-            && isscalar(unique(propertyTypesB))
-            % Properties are homogeneous numeric types; we can use them directly
-            keysA = cat(2, propertyValsA{:});
-            keysB = cat(2, propertyValsB{:});
-        else
-            % Properties are heterogeneous or non-numeric; resort to using a table
-            propertyNames = {'dnums'};
-            keysA = table(propertyValsA{:}, 'VariableNames', propertyNames);
-            keysB = table(propertyValsB{:}, 'VariableNames', propertyNames);
-        end
-    end
-    end
-  
   end
   
   methods (Access=private)

@@ -17,7 +17,6 @@ Chrono Developer Notes
   * Time zone conversion
   * Leap second conversion
   * Additional `ConvertFrom` types
-  * Remove proxykeys
   * Trailing name/val option support in constructor
   * SystemTimeZone non-Java implementation
 * `TzDb`
