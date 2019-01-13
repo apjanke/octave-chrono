@@ -693,8 +693,7 @@ classdef datetime
         case '()'
             this = subsasgnParensPlanar(this, s(1), rhs);
         case '{}'
-            error('jl:BadOperation',...
-                '{}-subscripting is not supported for class %s', class(this));
+            error('{}-subscripting is not supported for class %s', class(this));
         case '.'
             this.(s(1).subs) = rhs;
     end
@@ -708,8 +707,7 @@ classdef datetime
         case '()'
             out = subsrefParensPlanar(this, s(1));
         case '{}'
-            error('jl:BadOperation',...
-                '{}-subscripting is not supported for class %s', class(this));
+            error('{}-subscripting is not supported for class %s', class(this));
         case '.'
             out = this.(s(1).subs);
     end
