@@ -77,6 +77,12 @@ classdef duration
       end
     end
 
+    function [keysA,keysB] = proxyKeys(a, b)
+      %PROXYKEYS Proxy key values for sorting and set operations
+      keysA = a.days(:);
+      keysB = b.days(:);
+    end
+
     function display(this)
       %DISPLAY Custom display.
       in_name = inputname(1);
@@ -592,41 +598,7 @@ classdef duration
     bOut = parensRef(b, ib);
     out = [parensRef(aOut, ':'); parensRef(bOut, ':')];
     end
-    
-    function [keysA,keysB] = proxyKeys(a, b)
-    %PROXYKEYS Proxy key values for sorting and set operations
-    propertyValsA = {a.days};
-    propertyTypesA = cellfun(@class, propertyValsA, 'UniformOutput',false);
-    isAllNumericA = all(cellfun(@isnumeric, propertyValsA));
-    propertyValsA = cellfun(@(x) x(:), propertyValsA, 'UniformOutput',false);
-    if nargin == 1
-        if isAllNumericA && isscalar(unique(propertyTypesA))
-            % Properties are homogeneous numeric types; we can use them directly 
-            keysA = cat(2, propertyValsA{:});
-        else
-            % Properties are heterogeneous or non-numeric; resort to using a table
-            propertyNames = {'days'};
-            keysA = table(propertyValsA{:}, 'VariableNames', propertyNames);
-        end
-    else
-        propertyValsB = {b.days};
-        propertyTypesB = cellfun(@class, propertyValsB, 'UniformOutput',false);
-        isAllNumericB = all(cellfun(@isnumeric, propertyValsB));
-        propertyValsB = cellfun(@(x) x(:), propertyValsB, 'UniformOutput',false);
-        if isAllNumericA && isAllNumericB && isscalar(unique(propertyTypesA)) ...
-            && isscalar(unique(propertyTypesB))
-            % Properties are homogeneous numeric types; we can use them directly
-            keysA = cat(2, propertyValsA{:});
-            keysB = cat(2, propertyValsB{:});
-        else
-            % Properties are heterogeneous or non-numeric; resort to using a table
-            propertyNames = {'days'};
-            keysA = table(propertyValsA{:}, 'VariableNames', propertyNames);
-            keysB = table(propertyValsB{:}, 'VariableNames', propertyNames);
-        end
-    end
-    end
-  
+      
   end
   
   methods (Access=private)
