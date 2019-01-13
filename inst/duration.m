@@ -456,18 +456,7 @@ classdef duration
         out = subsref(out, s(2:end));
     end
     end
-    
-    function n = numArgumentsFromSubscript(this,~,indexingContext) %#ok<INUSL>
-    switch indexingContext
-        case matlab.mixin.util.IndexingContext.Statement
-            n = 1; % nargout for indexed reference used as statement
-        case matlab.mixin.util.IndexingContext.Expression
-            n = 1; % nargout for indexed reference used as function argument
-        case matlab.mixin.util.IndexingContext.Assignment
-            n = 1; % nargin for indexed assignment
-    end
-    end
-    
+        
     function [out,Indx] = sort(this)
     %SORT Sort array elements.
     if isvector(this)
