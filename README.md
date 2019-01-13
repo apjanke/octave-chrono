@@ -23,9 +23,9 @@ Anything in a namespace with `internal` in its name is for the internal use of t
 
 ## Documentation
 
-See the `doc-project/` directory for notes on this project, especially for [Developer Notes](doc-project/Developer-Notes.md).
+See the `doc-project/` directory for notes on this project, especially for [Developer Notes](doc-project/Developer-Notes.md). Also see [CONTRIBUTING](CONTRIBUTING.md) if you would like to contribute to this project.
 
-Real documentation is hopefully coming soon.
+Real user documentation is hopefully coming soon.
 
 ## Author
 
