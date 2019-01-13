@@ -24,7 +24,7 @@ Chrono Developer Notes
   * timezones() function: add UTCOffset/DSTOffset
   * bundled or other tzinfo distribution for Windows (which doesn't provide it in the OS)
 * Fix parsing bug with that trailing data/time zone in the zoneinfo files
-* `calDuration` and its associated functions
+* `calendarDuration` and its associated functions
   * Determine whether and how to represent NaNs
   * Arithmetic: adding/subtracting/multiplying durations
 * Plotting support

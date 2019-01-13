@@ -3,7 +3,7 @@ Chrono
 
 Date/time functionality for GNU Octave.
 
-This package attempts to provide a set of mostly-Matlab-compatible date/time classes and functions, including `datetime`, `duration`, and `calDuration`. It has support for time zones.
+This package attempts to provide a set of mostly-Matlab-compatible date/time classes and functions, including `datetime`, `duration`, and `calendarDuration`. It has support for time zones (or rather, it will, once it's fully implemented).
 
 All the code in here is currently experimental. Do not use it in any production code!
 
