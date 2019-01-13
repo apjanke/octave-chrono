@@ -9,12 +9,19 @@ All the code in here is currently experimental. Do not use it in any production 
 
 ## Installation and usage
 
-Installation:
+### Quick start
+
+To get started using or testing this project, install it using Octave's `pkg` function:
+
+```
+pkg install https://github.com/apjanke/octave-addons-chrono/archive/master.zip
+pkg load chrono
+```
+
+### Installation for development
 
 * Clone the repo
   * `git clone https://github.com/apjanke/octave-addons-chrono`
-
-Usage:
 * Add the `inst/` directory from the repo to your Octave path.
 
 ## Naming conventions
