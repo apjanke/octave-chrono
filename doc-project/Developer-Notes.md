@@ -39,7 +39,6 @@ Chrono Developer Notes
 * `duration`
   * `InputFmt` support
   * `Format` support
-  * Remove proxykeys
 
 ## Wishlist and maybes
 
