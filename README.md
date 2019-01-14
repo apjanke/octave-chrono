@@ -26,7 +26,11 @@ pkg load chrono
 
 ## License
 
-Chrono contains material licensed under the GPL and Public Domain. All the code in this package is GPLv3. The IANA time zone database ("zoneinfo") redistributed with this package is Public Domain.
+Chrono contains material licensed under the GPL, the Unicode license, and Public Domain.
+
+* All the code in this package is GPLv3.
+* The Unicode `windowsZones.xml` file redistributed with this package is under the Unicode license. See LICENSE-Unicode for details. Full info is available [on the Unicode website](http://www.unicode.org/copyright.html).
+* The IANA time zone database ("zoneinfo") redistributed with this package is Public Domain.
 
 ## Naming conventions
 
