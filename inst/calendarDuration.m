@@ -147,12 +147,19 @@ classdef calendarDuration
     
     % Arithmetic
     
+    function out = isnat(this)
+      %ISNAT True for Not-a-Time.
+      out = isnan(this);
+    end
+
     function out = uminus(this)
+      %UMINUS Unary minus.
       out = this;
       out.Sign = -out.Sign;
     end
     
     function out = plus(this, B)
+      %PLUS Addition.
       if ~isa(this, 'calendarDuration')
         error('Left-hand side of + must be a calendarDuration');
       end
@@ -174,6 +181,7 @@ classdef calendarDuration
     end
     
     function out = times(this, B)
+      %TIMES Array multiplication.
       if isnumeric(this) && isa(B, 'calendarDuration')
         out = times(B, this);
       end
@@ -198,12 +206,14 @@ classdef calendarDuration
     end
     
     function out = minus(A, B)
+      %MINUS Subtraction.
       out = A + -B;
     end
     
     % Display
     
     function disp(this)
+      %DISP Custom display.
       if isempty(this)
         fprintf('Empty %s %s\n', size2str(size(this)), class(this));
         return
@@ -212,6 +222,7 @@ classdef calendarDuration
     end
     
     function out = dispstrs(this)
+      %DISPSTRS Custom display strings.
       out = cell(size(this));
       for i = 1:numel(this)
         out{i} = dispstrScalar(subset(this, i));
@@ -222,6 +233,10 @@ classdef calendarDuration
   methods (Access = private)
     function out = dispstrScalar(this)
       mustBeScalar(this);
+      if isnat(this)
+        out = 'NaT';
+        return
+      end
       els = {};
       if this.Sign < 0
         els{end+1} = '-';
@@ -235,9 +250,11 @@ classdef calendarDuration
       if this.Days ~= 0
         els{end+1} = sprintf('%d d', this.Days);
       end
-      time_str = dispstrs(duration.ofDays(this.Time));
-      time_str = time_str{1};
-      els{end+1} = time_str;
+      if this.Time ~= 0
+        time_str = dispstrs(duration.ofDays(this.Time));
+        time_str = time_str{1};
+        els{end+1} = time_str;
+      end
       out = strjoin(els, ' ');
     end
 
