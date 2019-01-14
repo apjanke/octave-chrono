@@ -5,10 +5,10 @@ Chrono Developer Notes
 
 ## Overall
 
+* Documentation
 * Convert to GNU code style
 * Add BISTs
 * CI tests, once BISTs are in place
-* Documentation
 
 ## Sections
 
