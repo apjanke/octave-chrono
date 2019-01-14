@@ -105,41 +105,92 @@ classdef calendarDuration
       keysB = [b.Sign(:) b.Years(:) b.Months(:) b.Days(:) b.Time(:) double(b.IsNaN(:))];
     end
     
-    function this = set.Sign(this, x)
-      if ~isscalar(x) || ~isnumeric(x)
-        error('Sign must be scalar numeric');
-      end
-      if ~ismember(x, [-1 0 1])
-        error('Sign must be -1, 0, or 1; got %f', x);
-      end
-      this.Sign = x;
-    end
+    % These setters cause Octave to crash if they are enabled.
     
-    function this = set.Years(this, Years)
-      mustBeIntVal(Years);
-      this.Years = Years;
-    end
+    %function this = set.Sign(this, x)
+    %  if ~isscalar(x) || ~isnumeric(x)
+    %    error('Sign must be scalar numeric');
+    %  end
+    %  if ~ismember(x, [-1 1])
+    %    error('Sign must be -1 or 1; got %f', x);
+    %  end
+    %  this.Sign = x;
+    %end
     
-    function this = set.Months(this, Months)
-      mustBeIntVal(Monts);
-      this.Months = Months;
-    end
+    %function this = set.Years(this, Years)
+    %  mustBeIntVal(Years);
+    %  this.Years = Years;
+    %end
     
-    function this = set.Days(this, Days)
-      mustBeIntVal(Days);
-      this.Days = Days;
-    end
+    %function this = set.Months(this, Months)
+    %  mustBeIntVal(Months);
+    %  this.Months = Months;
+    %end
     
-    function this = set.Time(this, Time)
-      this.Time = Time;
-      this = normalizeNaNs(this);
-    end
+    %function this = set.Days(this, Days)
+    %  mustBeIntVal(Days);
+    %  this.Days = Days;
+    %end
+    
+    %function this = set.Time(this, Time)
+    %  this.Time = Time;
+    %  this = normalizeNaNs(this);
+    %end
     
     % Arithmetic
     
     function out = uminus(this)
       out = this;
-      out.Sign = out.Sign * -1;
+      out.Sign = -out.Sign;
+    end
+    
+    function out = plus(this, B)
+      if ~isa(this, 'calendarDuration')
+        error('Left-hand side of + must be a calendarDuration');
+      end
+      if isnumeric(B)
+        B = calendarDuration.ofDays(B);
+      end
+      if isa(B, 'calendarDuration')
+        out = this;
+        out.Years = this.Years + B.Sign * B.Years;
+        out.Months = this.Months + B.Sign * B.Months;
+        out.Days = this.Days + B.Sign * B.Days;
+        out.Time = this.Time + B.Sign * B.Time;
+        out.IsNaN = this.IsNaN | B.IsNaN;
+        out = normalizeNaNs(out);
+      else
+        error('Invalid input: B must be numeric or calendarDuration; got a %s', ...
+          class(B));
+      end
+    end
+    
+    function out = times(this, B)
+      if isnumeric(this) && isa(B, 'calendarDuration')
+        out = times(B, this);
+      end
+      if ~isa(this, 'calendarDuration')
+        error('Left-hand side of * must be numeric or calendarDuration');
+      end
+      if ~isnumeric(B)
+        error('B must be numeric; got a %s', class(B));
+      end
+      out = this;
+      tfNeg = B < 0;
+      if any(any(tfNeg))
+        out.Sign(tfNeg) = -out.Sign(tfNeg);
+        B = abs(B);
+      end
+      out.Years = this.Years .* B;
+      out.Months = this.Months .* B;
+      out.Days = this.Days .* B;
+      out.Time = this.Time .* B;
+      out.IsNaN = this.IsNaN | isnan(B);
+      out = normalizeNaNs(out);
+    end
+    
+    function out = minus(A, B)
+      out = A + -B;
     end
     
     % Display
@@ -184,7 +235,10 @@ classdef calendarDuration
 
     function this = normalizeNaNs(this)
       this.IsNaN = this.IsNaN ...
-        | isnan(this.Time) 
+        | isnan(this.Years) ...
+        | isnan(this.Months) ...
+        | isnan(this.Days) ...
+        | isnan(this.Time);
     end
   end
 
