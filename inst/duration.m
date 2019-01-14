@@ -13,6 +13,8 @@ classdef duration
   properties
     % Duration length in whole and fractional days (double)
     days = 0 % @planar
+    % Display format (currently unsupported)
+    Format = ''
   end
   
   methods (Static)
@@ -75,6 +77,10 @@ classdef duration
         otherwise
           error('Invalid number if inputs: %d', numel(args));
       end
+    end
+    
+    function this = set.Format(this, x)
+      error('Changing the Format of duration is currently unimplemented.');
     end
 
     function [keysA,keysB] = proxyKeys(a, b)

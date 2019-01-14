@@ -33,13 +33,13 @@ Chrono Developer Notes
 * `calendarDuration` and its associated functions
   * Determine whether and how to represent NaNs
   * Arithmetic: adding/subtracting/multiplying durations
+  * split()
 * Plotting support
   * Maybe with just shims and conversion to datenums
 * `duration`
   * `InputFmt` support
   * `Format` support
   * Remove proxykeys
-  * split()
 
 ## Wishlist and maybes
 
