@@ -6,7 +6,6 @@ Chrono Developer Notes
 ## Overall
 
 * Convert to GNU code style
-* Stick a license header on all the files?
 * Add BISTs
 * CI tests, once BISTs are in place
 * Documentation
