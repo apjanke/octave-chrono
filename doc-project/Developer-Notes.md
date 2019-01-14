@@ -23,7 +23,7 @@ Chrono Developer Notes
   * Leap second conversion
   * Additional `ConvertFrom` types
   * Trailing name/val option support in constructor
-  * SystemTimeZone detection on Windows
+  * SystemTimeZone detection on pre-Vista Windows without using Java
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
 * `calendarDuration` and its associated functions

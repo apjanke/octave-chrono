@@ -17,15 +17,13 @@ end
 function out = do_detection()
   %DO_DETECTION Actual detection logic
   
-  % TODO: find a way to detect and convert Windows system time zone without 
-  % using Java or .NET. 'systeminfo | findstr /C:"Time Zone"' is too slow.
-  
   % Let TZ env var take precedence
   tz_env = getenv('TZ');
   if ~isempty(tz_env)
     out = tz_env;
   else
     % Get actual system default
+    out = [];
     if exist('/etc/localtime', 'file')
       % This exists on macOS and RHEL/CentOS 7/some Fedora
       [target,err,msg] = readlink('/etc/localtime');
@@ -37,12 +35,42 @@ function out = do_detection()
     elseif exist('/etc/timezone')
       % This exists on Debian
       out = strtrim(slurpTextFile('/etc/timezone'));
-    else
+    end
+    if isempty(out) && ispc
+      % Newer Windows can do it with PowerShell
+      win_zone = detect_timezone_using_powershell;
+      if ~isempty(win_zone)
+        converter = octave.time.internal.tzinfo.WindowsIanaZoneConverter;
+        out = converter.windows2iana(win_zone);
+      end
+    end
+    if isempty(out)
+      % Fall back to Java if nothing else worked
       if ~usejava('jvm')
         error('Detecting time zone on this OS requires Java, which is not available in this Octave.');
       end
       zone = javaMethod('getDefault', 'java.util.TimeZone');
       out = char(zone.getID());
     end
+  end
+end
+
+function out = detect_timezone_using_powershell()
+  % This only works on Windows Vista or newer. Windows 7 and older lack the
+  % Get-TimeZone command.
+  [status, txt] = system('powershell -Command Get-TimeZone');
+  if status ~= 0
+    out = [];
+    return
+  end
+  out = parse_powershell_get_timezone_output(txt);
+end
+
+function out = parse_powershell_get_timezone_output(str)
+  [match,tok] = regexp(str, 'Id\s+:\s(.*)$', 'match', 'tokens');
+  if isempty(match)
+    out = [];
+  else
+    out = tok{1}{1};
   end
 end
