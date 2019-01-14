@@ -26,7 +26,6 @@ Chrono Developer Notes
   * timezones() function: add UTCOffset/DSTOffset
 * `calendarDuration` and its associated functions
   * split()
-  * calYears() and related functions
   * Can different fields be mixed positive/negative, in addition to the overall Sign? Current
     arithmetic implementation can result in this.
   * Better display: omit trailing fields that are zeros
