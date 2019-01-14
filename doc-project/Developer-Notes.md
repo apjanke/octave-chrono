@@ -17,8 +17,10 @@ Chrono Developer Notes
   * Leap second conversion (probably comes for free with IANA time zone support)
   * `Format` support
     * Needs LDML format support, not datestr() format placeholders
-  * between, caldiff, dateshift, isbetween
-  * week() function
+  * between() - calendarDuration diffs between datetimes
+  * caldiff
+  * dateshift
+  * week()
   * isdst/isweekend
   * Additional `ConvertFrom` types
   * SystemTimeZone detection on pre-Vista Windows without using Java
@@ -43,3 +45,4 @@ Chrono Developer Notes
 See `man tzfile` or [here](http://man7.org/linux/man-pages/man5/tzfile.5.html) for the time zone file format definition.
 
 Matlab doco: [Dates and Time](https://www.mathworks.com/help/matlab/date-and-time-operations.html).
+

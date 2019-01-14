@@ -549,6 +549,12 @@ classdef datetime
       out = duration.ofDays(diff(this.dnums));
     end
     
+    function out = isbetween(this, lower, upper)
+      %ISBETWEEN Whether elements are within a time interval
+      [this, lower, upper] = promote(this, lower, upper);
+      out = lower.dnums <= this.dnums && this.dnums <= upper.dnums;
+    end
+    
     function out = colon(this, varargin)
       narginchk(2, 3);
       switch nargin
