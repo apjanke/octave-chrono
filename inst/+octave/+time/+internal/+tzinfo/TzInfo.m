@@ -53,11 +53,11 @@ classdef TzInfo
         fprintf('  %d  %s\n', this.transitions(i), datestr(dnum));
       end
       fprintf('ttinfos:\n');
-      fprintf('  %12s %5s %8s\n', 'gmtoff', 'isdst', 'abbrind');
+      fprintf('  %12s %5s %8s %-8s\n', 'gmtoff', 'isdst', 'abbrind', 'abbr');
       tti = this.ttinfos;
       for i = 1:numel(this.ttinfos.gmtoff)
-        fprintf('  %12d %5d %8d\n', ...
-          tti.gmtoff(i), tti.isdst(i), tti.abbrind(i));
+        fprintf('  %12d %5d %8d %-8s\n', ...
+          tti.gmtoff(i), tti.isdst(i), tti.abbrind(i), tti.abbr{i});
       end
       fprintf('leap times:\n');
       if isempty(this.leapTimes)

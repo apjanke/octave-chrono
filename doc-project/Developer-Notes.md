@@ -3,11 +3,15 @@ Chrono Developer Notes
 
 # TODO
 
+## Overall
+
 * Convert to GNU code style
 * Stick a license header on all the files?
 * Add BISTs
 * CI tests, once BISTs are in place
 * Documentation
+
+## Sections
 
 * Display
   * 3-D and higher support in format_dispstr_strings
@@ -26,7 +30,6 @@ Chrono Developer Notes
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
   * bundled or other tzinfo distribution for Windows (which doesn't provide it in the OS)
-* Fix parsing bug with that trailing data/time zone in the zoneinfo files
 * `calendarDuration` and its associated functions
   * Determine whether and how to represent NaNs
   * Arithmetic: adding/subtracting/multiplying durations

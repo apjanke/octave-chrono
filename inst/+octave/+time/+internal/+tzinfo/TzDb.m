@@ -168,21 +168,21 @@ classdef TzDb
       if ismember(section1.header.format_id, {'2','3'})
         % A whole nother header/data, except using 8-byte transition/leap times
         ix = ix + n_bytes_read;
-        % Now, this next section is supposed to follow immediately. But in my
-        % tzinfo files on macOS, there's a textual time zone following the first
-        % section (e.g. 'EWT','EPT', and some nulls). So either I'm misreading the
-        % tzfile spec and parsing it wrong, or there's some extension there, or something.
-        % So, scan for the magic cookie to determine where to continue parsing.
+        % Scan for the magic cookie to double-check our parsing.
         magic_ixs = strfind(char(data(ix:end)), 'TZif');
         if isempty(magic_ixs)
           % No second section found
         else
           % Advance to where we found the magic cookie
+          if magic_ixs(1) ~= 1
+            warning(['Unexpected extra data at end of section in tzinfo file for %s.\n' ...
+              'Possible bug in chrono''s parsing code.'], zoneId);
+          end
           ix = ix + magic_ixs(1) - 1;
           [out.section2, n_bytes_read_2] = this.parseZoneSection(data(ix:end), 2);
           ix = ix + n_bytes_read_2;
-          % And then there's the going-forward zone. Again, there's some leftover
-          % data at the end of my parsing, so scan for LFs, which delimit it.
+          % And then there's the going-forward zone at the end.
+          % The first LF should be the very next byte.
           data_left = data(ix:end);
           ixLF = find(data_left == uint8(sprintf('\n')));
           if numel(ixLF) >= 2
@@ -199,25 +199,35 @@ classdef TzDb
       ix = 1; 
       % "get" functions read/convert data; "take" functions read/convert and
       % advance the cursor
-      function out = getint(my_bytes)
+      function out = get_int(my_bytes)
         out = swapbytes(typecast(my_bytes, 'int32'));
       end
-      function out = getint64(my_bytes)
+      function out = get_int64(my_bytes)
         out = swapbytes(typecast(my_bytes, 'int64'));
+      end
+      function out = get_null_terminated_string(my_bytes)
+        my_ix = 1;
+        while my_bytes(my_ix) ~= 0
+          my_ix = my_ix + 1;
+        end
+        out = char(my_bytes(1:my_ix - 1));
       end
       function out = take_byte(n)
         if nargin < 1; n = 1; end
-        out = data(ix:ix+n-1);
+        n = double(n);
+        out = data(ix:ix + n - 1);
         ix = ix + n;
       end
       function out = take_int(n)
         if nargin < 1; n = 1; end
-        out = getint(data(ix:ix+(4*n)-1));
+        n = double(n);
+        out = get_int(data(ix:ix + (4*n) - 1));
         ix = ix + 4*n;
       end
       function out = take_int64(n)
         if nargin < 1; n = 1; end
-        out = getint64(data(ix:ix+(8*n)-1));
+        n = double(n);
+        out = get_int64(data(ix:ix+(8*n)-1));
         ix = ix + 8*n;
       end
       function out = take_timeval(n)
@@ -250,15 +260,31 @@ classdef TzDb
       time_types = take_byte(h.n_time);
       ttinfos = struct('gmtoff',int32([]), 'isdst',uint8([]), 'abbrind',uint8([]));
       function out = take_ttinfo()
-        view = data(ix:ix+6-1);
-        ttinfos.gmtoff(end+1) = getint(view(1:4));
-        ttinfos.isdst(end+1) = view(5);
-        ttinfos.abbrind(end+1) = view(6);
-        ix = ix + 6;
+        ttinfos.gmtoff(end+1) = take_int;
+        ttinfos.isdst(end+1) = take_byte;
+        ttinfos.abbrind(end+1) = take_byte;
       end
       for i = 1:h.n_type
         take_ttinfo;
       end
+      %TODO: read tz abbreviation bytes
+      % It's not clearly documented, but following the ttinfo section are a
+      % series of null-terminated strings. There's no length indicator for them,
+      % so we have to scan for the null after the last string.
+      abbrs = {};
+      if ~isempty(ttinfos.abbrind)
+        last_abbrind = max(ttinfos.abbrind);
+        ix_end = ix + double(last_abbrind);
+        while data(ix_end) ~= 0
+          ix_end = ix_end + 1;
+        end
+        abbr_section = data(ix:ix_end);
+        for i = 1:numel(ttinfos.abbrind)
+          abbrs{i} = get_null_terminated_string(abbr_section(ttinfos.abbrind(i)+1:end));
+        end
+        ix = ix_end + 1;
+      end
+      ttinfos.abbr = abbrs;
       if sectionFormat == 1
         leap_times = repmat(uint32(0), [h.n_leap 1]);
       else
