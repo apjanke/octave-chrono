@@ -105,37 +105,41 @@ classdef calendarDuration
       keysB = [b.Sign(:) b.Years(:) b.Months(:) b.Days(:) b.Time(:) double(b.IsNaN(:))];
     end
     
-    % These setters cause Octave to crash if they are enabled.
+    % These setters have sometimes caused Octave to crash if they are enabled.
     
-    %function this = set.Sign(this, x)
-    %  if ~isscalar(x) || ~isnumeric(x)
-    %    error('Sign must be scalar numeric');
-    %  end
-    %  if ~ismember(x, [-1 1])
-    %    error('Sign must be -1 or 1; got %f', x);
-    %  end
-    %  this.Sign = x;
-    %end
+    function this = set.Sign(this, x)
+      if ~isscalar(x) || ~isnumeric(x)
+        error('Sign must be scalar numeric');
+      end
+      if ~ismember(x, [-1 1])
+        error('Sign must be -1 or 1; got %f', x);
+      end
+      this.Sign = x;
+    end
     
-    %function this = set.Years(this, Years)
-    %  mustBeIntVal(Years);
-    %  this.Years = Years;
-    %end
+    function this = set.Years(this, Years)
+      mustBeIntVal(Years);
+      this.Years = Years;
+      this = normalizeNaNs(this);
+    end
     
-    %function this = set.Months(this, Months)
-    %  mustBeIntVal(Months);
-    %  this.Months = Months;
-    %end
+    function this = set.Months(this, Months)
+      mustBeIntVal(Months);
+      this.Months = Months;
+      this = normalizeNaNs(this);
+    end
     
-    %function this = set.Days(this, Days)
-    %  mustBeIntVal(Days);
-    %  this.Days = Days;
-    %end
+    function this = set.Days(this, Days)
+      mustBeIntVal(Days);
+      this.Days = Days;
+      this = normalizeNaNs(this);
+    end
     
-    %function this = set.Time(this, Time)
-    %  this.Time = Time;
-    %  this = normalizeNaNs(this);
-    %end
+    function this = set.Time(this, Time)
+      this.Time = Time;
+      this = normalizeNaNs(this);
+      this = normalizeNaNs(this);
+    end
     
     function out = calyears(this)
       out = this.Years;
@@ -242,18 +246,21 @@ classdef calendarDuration
         els{end+1} = '-';
       end
       if this.Years ~= 0
-        els{end+1} = sprintf('%d y', this.Years);
+        els{end+1} = sprintf('%dy', this.Years);
       end
       if this.Months ~= 0
-        els{end+1} = sprintf('%d mo', this.Months);
+        els{end+1} = sprintf('%dmo', this.Months);
       end
       if this.Days ~= 0
-        els{end+1} = sprintf('%d d', this.Days);
+        els{end+1} = sprintf('%dd', this.Days);
       end
       if this.Time ~= 0
         time_str = dispstrs(duration.ofDays(this.Time));
         time_str = time_str{1};
         els{end+1} = time_str;
+      end
+      if isempty(els)
+        els = {'0d'};
       end
       out = strjoin(els, ' ');
     end
