@@ -68,7 +68,9 @@ classdef TzInfo
       fprintf('transitions:\n');
       for i = 1:numel(this.transitions)
         dnum = datetime.posix2datenum(this.transitions(i));
-        fprintf('  %d  %s\n', this.transitions(i), datestr(dnum));
+        abbr = this.ttinfos.abbr{this.timeTypes(i)};
+        fprintf('  %d  %s  %d  => %s\n', this.transitions(i), datestr(dnum), ...
+          this.timeTypes(i), abbr);
       end
       fprintf('ttinfos:\n');
       fprintf('  %12s %5s %8s %-8s\n', 'gmtoff', 'isdst', 'abbrind', 'abbr');
