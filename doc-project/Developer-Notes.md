@@ -28,9 +28,10 @@ Chrono Developer Notes
   * timezones() function: add UTCOffset/DSTOffset
   * bundled or other tzinfo distribution for Windows (which doesn't provide it in the OS)
 * `calendarDuration` and its associated functions
-  * Determine whether and how to represent NaNs
   * Arithmetic: adding/subtracting/multiplying durations
   * split()
+  * Determine how to expose NaNs in component getters
+    * Should probably normalize NaNs so that all components of NaN values are themselves NaN
 * Plotting support
   * Maybe with just shims and conversion to datenums
 * `duration`

@@ -68,9 +68,6 @@ classdef calendarDuration
       D = double(D);
       T = double(T);
       [Y, M, D, T] = octave.time.internal.scalarexpand(Y, M, D, T);
-      mustBeIntVal(Y);
-      mustBeIntVal(M);
-      mustBeIntVal(D);
       % Construction
       this.Years = Y;
       this.Months = M;
@@ -79,6 +76,7 @@ classdef calendarDuration
       if isfield(opts, 'Format')
         this.Format = opts.Format;
       end
+      this = normalizeNaNs(this);
     end
     
     % Structure
@@ -88,7 +86,37 @@ classdef calendarDuration
       keysA = [a.Sign(:) a.Years(:) a.Months(:) a.Days(:) a.Time(:) double(a.IsNaN(:))];
       keysB = [b.Sign(:) b.Years(:) b.Months(:) b.Days(:) b.Time(:) double(b.IsNaN(:))];
     end
-
+    
+    function this = set.Sign(this, x)
+      if ~isscalar(x) || ~isnumeric(x)
+        error('Sign must be scalar numeric');
+      end
+      if ~ismember(x, [-1 0 1])
+        error('Sign must be -1, 0, or 1; got %f', x);
+      end
+      this.Sign = x;
+    end
+    
+    function this = set.Years(this, Years)
+      mustBeIntVal(Years);
+      this.Years = Years;
+    end
+    
+    function this = set.Months(this, Months)
+      mustBeIntVal(Monts);
+      this.Months = Months;
+    end
+    
+    function this = set.Days(this, Days)
+      mustBeIntVal(Days);
+      this.Days = Days;
+    end
+    
+    function this = set.Time(this, Time)
+      this.Time = Time;
+      this = normalizeNaNs(this);
+    end
+    
     % Arithmetic
     
     function out = uminus(this)
@@ -134,6 +162,11 @@ classdef calendarDuration
       time_str = time_str{1};
       els{end+1} = time_str;
       out = strjoin(els, ' ');
+    end
+
+    function this = normalizeNaNs(this)
+      this.IsNaN = this.IsNaN ...
+        | isnan(this.Time) 
     end
   end
 
