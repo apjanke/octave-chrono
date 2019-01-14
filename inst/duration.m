@@ -127,7 +127,7 @@ classdef duration
           str = [str sprintf('%d days ', floor(d))];
           d = mod(d,1);
         end
-        millis = round(d * 24 * 60 * 60 * 1000);
+        millis = round(d * (24 * 60 * 60 * 1000));
         sec = millis / 1000;
         fracSec = rem(sec,1);
         x = floor(sec);
