@@ -137,6 +137,14 @@ classdef calendarDuration
     %  this = normalizeNaNs(this);
     %end
     
+    function out = calyears(this)
+      out = this.Years;
+    end
+    
+    function out = calmonths(this)
+      out = this.Months;
+    end
+    
     % Arithmetic
     
     function out = uminus(this)
