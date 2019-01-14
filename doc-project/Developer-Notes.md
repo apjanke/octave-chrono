@@ -14,6 +14,7 @@ Chrono Developer Notes
 
 * `datetime`
   * Time zone conversion
+    * Binary search octfile implementation
   * Leap second conversion (probably comes for free with IANA time zone support)
   * `Format` support
     * Needs LDML format support, not datestr() format placeholders
