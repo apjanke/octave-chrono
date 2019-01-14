@@ -31,6 +31,7 @@ classdef datetime
   end
   properties (Constant)
     PosixEpochDatenum = datenum(1970, 1, 1);
+    SystemTimeZone = octave.time.internal.detect_system_timezone();
   end
   
   methods (Static)
@@ -63,19 +64,7 @@ classdef datetime
     function out = NaT()
       out = datetime(NaN, 'Backdoor');
     end
-    
-    function out = SystemTimeZone()
-      %SYSTEMTIMEZONE The default system time zone
-      %
-      % Returns the identifier for the default system time zone for this Octave
-      % process.
-      if ~usejava('jvm')
-        error('SystemTimeZone requires Java, which is not available in this Octave');
-      end
-      zone = javaMethod('getDefault', 'java.util.TimeZone');
-      out = char(zone.getID());
-    end
-    
+        
     function out = posix2datenum(pdates)
       %POSIX2DATENUM Convert POSIX times to datenums
       %
@@ -924,6 +913,19 @@ else
     out = isnan(x);
 end
 end
+
+function out = slurpTextFile(file)
+  [fid,msg] = fopen(file, 'r');
+  if fid == -1
+    error('Could not open file %s: %s', file, msg);
+  end
+  cleanup.fid = onCleanup(@() fclose(fid));
+  txt = fread(fid, Inf, 'char=>char');
+  txt = txt';
+  out = txt;
+end
+
+
 
 %%%%% END PLANAR-CLASS BOILERPLATE LOCAL FUNCTIONS %%%%%
 
