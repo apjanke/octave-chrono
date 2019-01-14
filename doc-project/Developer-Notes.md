@@ -26,7 +26,7 @@ Chrono Developer Notes
   * Leap second conversion
   * Additional `ConvertFrom` types
   * Trailing name/val option support in constructor
-  * SystemTimeZone non-Java implementation
+  * SystemTimeZone detection on Windows
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
   * bundled or other tzinfo distribution for Windows (which doesn't provide it in the OS)

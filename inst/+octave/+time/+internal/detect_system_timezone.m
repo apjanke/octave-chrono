@@ -15,6 +15,8 @@ function out = detect_system_timezone
 end
 
 function out = do_detection()
+  %DO_DETECTION Actual detection logic
+  
   % TODO: find a way to detect and convert Windows system time zone without 
   % using Java or .NET. 'systeminfo | findstr /C:"Time Zone"' is too slow.
   
