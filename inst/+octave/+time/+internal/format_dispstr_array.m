@@ -1,17 +1,44 @@
 function out = format_dispstr_array(strs)
-  %FORMAT_DISPSTR_ARRAY Format an array of strings as a matrix
-  if ndims(strs) > 2
-    error('Display of strings > 2 dimensions is not implemented.');
+  %FORMAT_DISPSTR_ARRAY Format an array of strings as a matrix display
+
+if ismatrix(strs)
+    out = prettyprint_matrix(strs);
+else
+    sz = size(strs);
+    high_sz = sz(3:end);
+    high_ixs = {};
+    for i = 1:numel(high_sz)
+      high_ixs{i} = [1:high_sz(i)]';
+    end
+    page_ixs = octave.time.internal.mycombvec(high_ixs);
+    chunks = {};
+    for i_page = 1:size(page_ixs, 1)
+      page_ix = page_ixs(i_page,:);
+      chunks{end+1} = sprintf('(:,:,%s) = ', ...
+        strjoin(octave.time.internal.num2cellstr(page_ix), ':')); %#ok<*AGROW>
+      page_ix_cell = num2cell(page_ix);
+      page_strs = strs(:,:,page_ix_cell{:});
+      chunks{end+1} = prettyprint_matrix(page_strs);
+    end
+    out = strjoin(chunks, '\n');
+end
+if nargout == 0
+    disp(out);
+    clear out;
+end
+end
+
+function out = prettyprint_matrix(strs)
+  if ~ismatrix(strs)
+    error('Input must be matrix; got %d-D', ndims(strs));
   end
-  lines = {};
-  col_lens = max(cellfun(@numel, strs));
-  col_fmts = cell(1, numel(col_lens));
-  for i = 1:numel(col_lens)
-    col_fmts{i} = ['%-' num2str(col_lens(i)) 's'];
-  end
-  fmt = ['  ' strjoin(col_fmts, '   ')];
+  lens = cellfun('prodofsize', strs);
+  widths = max(lens);
+  formats = octave.time.internal.sprintfv('%%%ds', widths);
+  format = strjoin(formats, '   ');
+  lines = cell(size(strs,1), 1);
   for i = 1:size(strs, 1)
-    lines{i} = sprintf(fmt, strs{i,:});
+    lines{i} = sprintf(format, strs{i,:});
   end
-  out = [strjoin(lines, sprintf('\n')) sprintf('\n')];
+  out = strjoin(lines, '\n');
 end

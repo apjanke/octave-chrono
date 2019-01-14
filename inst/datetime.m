@@ -351,10 +351,10 @@ classdef datetime
         end
         fprintf(' %s\n', str);
       else
-        out = octave.time.internal.format_dispstr_array(dispstrs(this));
-        fprintf('%s', out);
+        txt = octave.time.internal.format_dispstr_array(dispstrs(this));
+        fprintf('%s\n', txt);
         if ~isempty(this.TimeZone)
-          fprintf('%s', this.TimeZone);
+          fprintf('  %s\n', this.TimeZone);
         end
       end
     end

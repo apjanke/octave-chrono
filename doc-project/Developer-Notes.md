@@ -13,9 +13,6 @@ Chrono Developer Notes
 
 ## Sections
 
-* Display
-  * 3-D and higher support in format_dispstr_strings
-    * Check Janklab's dispstr API: this may already be written
 * `datetime`
   * `Format` support
     * Needs LDML format support, not datestr() format placeholders

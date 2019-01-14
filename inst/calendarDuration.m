@@ -103,7 +103,7 @@ classdef calendarDuration
         fprintf('Empty %s %s\n', size2str(size(this)), class(this));
         return
       end
-      fprintf('%s', octave.time.internal.format_dispstr_array(dispstrs(this)));
+      fprintf('%s\n', octave.time.internal.format_dispstr_array(dispstrs(this)));
     end
     
     function out = dispstrs(this)
