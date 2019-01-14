@@ -13,13 +13,13 @@ Chrono Developer Notes
 ## Sections
 
 * `datetime`
+  * Time zone conversion
+  * Leap second conversion (probably comes for free with IANA time zone support)
   * `Format` support
     * Needs LDML format support, not datestr() format placeholders
+  * between, caldiff, dateshift, isbetween
   * week() function
   * isdst/isweekend
-  * between, caldiff, dateshift, isbetween
-  * Time zone conversion
-  * Leap second conversion
   * Additional `ConvertFrom` types
   * SystemTimeZone detection on pre-Vista Windows without using Java
 * `TzDb`
