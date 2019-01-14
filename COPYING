@@ -1,3 +1,8 @@
+Chrono contains material licensed under the GPL and Public Domain. All
+the code in this package is GPLv3. The IANA time zone database
+("zoneinfo") redistributed with this package is Public Domain.
+
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 

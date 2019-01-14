@@ -314,7 +314,9 @@ classdef TzDb
   methods (Static)
     function out = defaultPath()
       if ispc
-        error('No default path to the tzinfo database is available on Windows');
+        % Use the zoneinfo database bundled with Chrono
+        this_dir = fileparts(mfilename('fullpath'));
+        out = fullfile(this_dir, 'resources', 'zoneinfo');
       else
         out = '/usr/share/zoneinfo';
       end

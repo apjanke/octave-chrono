@@ -26,7 +26,6 @@ Chrono Developer Notes
   * SystemTimeZone detection on Windows
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
-  * bundled or other tzinfo distribution for Windows (which doesn't provide it in the OS)
 * `calendarDuration` and its associated functions
   * Arithmetic: adding/subtracting/multiplying durations
   * split()
