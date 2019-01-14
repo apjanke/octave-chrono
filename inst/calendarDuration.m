@@ -247,6 +247,13 @@ classdef calendarDuration
         | isnan(this.Months) ...
         | isnan(this.Days) ...
         | isnan(this.Time);
+      tfNaN = this.IsNaN;
+      if any(tfNaN(:))
+        this.Years(tfNaN) = NaN;
+        this.Months(tfNaN) = NaN;
+        this.Days(tfNaN) = NaN;
+        this.Time(tfNaN) = NaN;
+      end
     end
   end
 

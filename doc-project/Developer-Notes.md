@@ -26,8 +26,6 @@ Chrono Developer Notes
   * timezones() function: add UTCOffset/DSTOffset
 * `calendarDuration` and its associated functions
   * split()
-  * Determine how to expose NaNs in component getters
-    * Should probably normalize NaNs so that all components of NaN values are themselves NaN
   * calYears() and related functions
   * Can different fields be mixed positive/negative, in addition to the overall Sign? Current
     arithmetic implementation can result in this.
