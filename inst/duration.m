@@ -18,7 +18,7 @@ classdef duration
   methods (Static)
     function out = ofDays(dnums)
       %OFDAYS Convert days/datenums to durations
-      out = duration(dnums, 'Backdoor');
+      out = duration(double(dnums), 'Backdoor');
     end
   end
 
@@ -233,6 +233,29 @@ classdef duration
     function out = uplus(A)
       %UPLUS Unary plus
       out = A;
+    end
+    
+    function out = colon(varargin)
+      %COLON Generate range for colon expression
+      narginchk(2, 3);
+      if nargin == 2;
+        [from, to] = varargin{:};
+        increment = 1;
+      else
+        [from, increment, to] = varargin{:};
+      end
+      [from, increment, to] = promote(from, increment, to);
+      out = from;
+      out.days = from.days:increment.days:to.days;
+    end
+    
+    function out = linspace(A, B, n)
+      %LINSPACE Linearly spaced elements between two values
+      narginchk(2, 3);
+      if nargin < 3; n = 100; end
+      [A, B] = promote(A, B);
+      out = A;
+      out.days = linspace(A.days, B.days, n);
     end
   end
   
@@ -636,6 +659,23 @@ classdef duration
 
 end
 
+
+function varargout = promote(varargin)
+  %PROMOTE Promote inputs to be compatible
+  args = varargin;
+  for i = 1:numel(args)
+    if ~isa(args{i}, 'duration')
+      % Sigh. We can't use a simple constructor call because of its weird
+      % signature.
+      if isnumeric(args{i})
+        args{i} = duration.ofDays(args{i});
+      else
+        args{i} = duration(args{i});
+      end
+    end
+  end
+  varargout = args;
+end
 
 %%%%% START PLANAR-CLASS BOILERPLATE LOCAL FUNCTIONS %%%%%
 

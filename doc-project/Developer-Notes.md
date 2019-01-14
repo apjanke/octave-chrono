@@ -40,8 +40,6 @@ Chrono Developer Notes
   * `Format` support
   * Remove proxykeys
   * split()
-  * linspace()
-  * colon operator
 
 ## Wishlist and maybes
 
