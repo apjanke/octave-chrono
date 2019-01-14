@@ -31,6 +31,7 @@ Chrono Developer Notes
   * calYears() and related functions
   * Can different fields be mixed positive/negative, in addition to the overall Sign? Current
     arithmetic implementation can result in this.
+  * Better display: omit trailing fields that are zeros
 * Plotting support
   * Maybe with just shims and conversion to datenums
 * `duration`
