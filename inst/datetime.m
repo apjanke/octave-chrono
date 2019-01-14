@@ -106,16 +106,26 @@ classdef datetime
     function this = datetime(varargin)
       %DATETIME Construct a new datetime array.
       
-      % TODO: Going to have to redo this whole thing to support trailing name/val
-      % options like 'TimeZone','local' and 'Format','xxxx'.
-      switch nargin
+      % Peel off options
+      args = varargin;
+      knownOptions = {'Format','InputFormat','Locale','PivotYear','TimeZone'};
+      opts = struct;
+      while numel(args) >= 3 && isa(args{end-1}, 'char') ...
+          && ismember(args{end-1}, knownOptions)
+        opts.(args{end-1}) = args{end};
+        args(end-1:end) = [];
+      end
+      
+      % Handle inputs
+      timeZone = '';
+      switch numel(args)
         case 0
-          this = datetime(now, 'ConvertFrom', 'datenum');
+          dnums = now;
         case 1
           x = varargin{1};
           if isnumeric(x)
             % Convert date vectors
-            this.dnums = datenum(x);
+            dnums = datenum(x);
           elseif ischar(x) || iscellstr(x) || isa(x, 'string')
             x = cellstr(x);
             tfRelative = ismember(x, {'today','tomorrow','yesterday','now'});
@@ -125,17 +135,33 @@ classdef datetime
               end
               switch x{1}
                 case 'yesterday'
-                  this.dnums = floor(now) - 1;
+                  dnums = floor(now) - 1;
                 case 'today'
-                  this.dnums = floor(now);
+                  dnums = floor(now);
                 case 'tomorrow'
-                  this.dnums = floor(now) + 1;
+                  dnums = floor(now) + 1;
                 case 'now'
-                  this.dnums = now;
+                  dnums = now;
               end
             else
               % They're datestrs
-              this.dnums = reshape(datenum(x), size(x));
+              % TODO: Support Locale option
+              if isfield(opts, 'Locale')
+                error('Locale option is unimplemented');
+              end
+              % TODO: Support PivotYear option
+              if isfield(opts, 'PivotYear')
+                error('PivotYear option is unimplemented');
+              end
+              if isfield(opts, 'TimeZone')
+                timeZone = opts.TimeZone;
+              end
+              if isfield(opts, 'InputFormat')
+                dnums = datenum(x, opts.InputFormat);
+              else
+                dnums = datenum(x);
+              end
+              dnums = reshape(dnums, size(x));
             end
           end
         case 2
@@ -143,27 +169,23 @@ classdef datetime
           if ~isequal(varargin{2}, 'Backdoor')
             error('Invalid number of inputs: %d', nargin);
           end
-          this.dnums = varargin{1};
+          dnums = varargin{1};
         case 3
           [in1,in2,in3] = varargin{:};
           if isequal(in2, 'ConvertFrom')
             switch in3
               case 'datenum'
-                this.dnums = double(in1);
+                dnums = double(in1);
               case 'posixtime'
-                this.dnums = datetime.posix2datenum(in1);
-                this.TimeZone = 'UTC';
+                dnums = datetime.posix2datenum(in1);
+                timeZone = 'UTC';
               otherwise
                 error('Unsupported ConvertFrom format: %s', in3);
                 % TODO: Implement more formats
             end
-          elseif isequal(in2, 'InputFormat')
-            dstrs = cellstr(in1);
-            format = in3;
-            this.dnums = reshape(datenum(dstrs, format), size(dstrs));
           elseif isnumeric(in2)
             [Y,M,D] = varargin{:};
-            this.dnums = datenum(Y, M, D);
+            dnums = datenum(Y, M, D);
           end
         case 4
           error('Invalid number of inputs: %d', nargin);
@@ -171,13 +193,22 @@ classdef datetime
           error('Invalid number of inputs: %d', nargin);
         case 6
           [Y,M,D,H,MI,S] = varargin{:};
-          this.dnums = datenum(Y, M, D, H, MI, S);
+          dnums = datenum(Y, M, D, H, MI, S);
         case 7
           [Y,M,D,H,MI,S,MS] = varargin{:};
-          this.dnums = datenum(Y, M, D, H, MI, S, MS);
+          dnums = datenum(Y, M, D, H, MI, S, MS);
         otherwise
           error('Invalid number of inputs: %d', nargin);
-      end    
+      end
+      
+      % Construct
+      this.dnums = dnums;
+      if isfield(opts, 'Format')
+        this.Format = opts.Format;
+      end
+      if ~isempty(timeZone)
+        this.TimeZone = timeZone;
+      end
     end
     
     function [keysA,keysB] = proxyKeys(a, b)

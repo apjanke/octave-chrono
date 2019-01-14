@@ -21,7 +21,6 @@ Chrono Developer Notes
   * Time zone conversion
   * Leap second conversion
   * Additional `ConvertFrom` types
-  * Trailing name/val option support in constructor
   * SystemTimeZone detection on pre-Vista Windows without using Java
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
