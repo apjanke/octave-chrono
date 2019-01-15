@@ -21,14 +21,20 @@ octave_idx_type *binsearch (const T vals[], octave_idx_type vals_len, const T ar
         high = mid - 1;
       else if (arr[mid] < val)
         low = mid + 1;
-      else {
+      else if (arr[mid] == val) {
         found = 1;
         out[i] = mid + 1; // found
+        break;
+      } else {
+        std::cout << "Total ordering violation: neither <, >, nor == was true. "
+          << "vals[" << i << "] = " << val << ", arr[" << mid << "] = " << arr[mid]
+          << "\n";
+        // TODO: Raise Octave error.
         break;
       }
     }
     if (!found)
-      out[i] = -1 * (low + 1); // not found - not sure this is correct
+      out[i] = -1 * (low + 1); // not found
   }
   return out;
 }
