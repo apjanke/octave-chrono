@@ -8,6 +8,7 @@ Chrono Developer Notes
 * Documentation
 * Add more BISTs
 * Remove planar-gen boilerplate and isnan2()s once I'm sure class structure is set
+* Find out where mkoctfile lives in a Ubuntu octave installation
 
 * Report crash: giving duration a days method while it has a days property results in a crash.
 
