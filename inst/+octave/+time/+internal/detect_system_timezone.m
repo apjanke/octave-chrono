@@ -70,8 +70,8 @@ function out = do_detection ()
       zone = javaMethod ('getDefault', 'java.util.TimeZone');
       out = char (zone.getID());
     endif
-  endfunction
-endmethods
+  endif
+endfunction
 
 function out = detect_timezone_using_powershell ()
   % This only works on Windows Vista or newer. Windows 7 and older lack the

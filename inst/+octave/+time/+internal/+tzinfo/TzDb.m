@@ -34,8 +34,8 @@ classdef TzDb
         value = octave.time.internal.tzinfo.TzDb;
       endif
       out = value;
-    endif
-  endif
+    endfunction
+  endmethods
 
   methods
     function this = TzDb (path)
@@ -357,8 +357,9 @@ function out = findFilesStep (dirPath, pathPrefix)
   for i = 1:numel (d)
     f = d(i);
     if f.isdir
-      found = [found findFilesStep (fullfile (dirPath, f.name), ...
-        fullfile (pathPrefix, f.name))];
+      % Can't use spaces here or syntax error happens
+      found = [found findFilesStep(fullfile (dirPath, f.name), ...
+        fullfile(pathPrefix, f.name))];
     else
       found{end+1} = fullfile (pathPrefix, f.name);
     endif

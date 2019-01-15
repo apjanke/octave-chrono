@@ -570,7 +570,7 @@ classdef datetime
     function out = linspace (from, to, n)
       %LINSPACE Linearly-spaced values
       narginchk (2, 3);
-      if nargin < 3; n = 100; end
+      if nargin < 3; n = 100; endif
       if isnumeric (from)
         from = datetime.ofDatenum (from);
       endif
@@ -751,7 +751,7 @@ classdef datetime
       endif
     endfunction
         
-    function [out,Indx] = sort (this)
+    function [out, Indx] = sort (this)
       %SORT Sort array elements.
       if isvector (this)
         isRow = isrow (this);
@@ -763,43 +763,50 @@ classdef datetime
         ixNonNan = find (~tfNan);
         proxy = proxyKeys (nonnans);
         [~, ix] = sortrows (proxy);
-        out = [subset (nonnans, ix); nans];
+        % Can't use space after "subset" or syntax error happens
+        out = [subset(nonnans, ix); nans]; 
         Indx = [ixNonNan(ix); find (tfNan)];
         if isRow
             out = out';
         endif
       elseif ismatrix (this)
         out = this;
-        Indx = NaN (size (out));
+        Indx = NaN (size(out));
         for iCol = 1:size (this, 2)
           [sortedCol, Indx(:,iCol)] = sort (subset (this, ':', iCol));
           out = asgn (out, {':', iCol}, sortedCol);
         endfor
       else
-        % I believe this multi-dimensional implementation is correct,
-        % but have not tested it yet. Use with caution.
-        out = this;
-        Indx = NaN (size (out));
-        sz = size (this);
-        nDims = ndims (this);
-        ixs = [{':'} repmat({1}, [1 nDims-1])];
-        while true
-          col = subset (this, ixs{:});
-          [sortedCol, sortIx] = sort (col);
-          Indx(ixs{:}) = sortIx;
-          out = asgn (out, ixs, sortedCol);
-          ixs{end} = ixs{end}+1;
-          for iDim=nDims:-1:3
-            if ixs{iDim} > sz(iDim)
-              ixs{iDim-1} = ixs{iDim-1} + 1;
-              ixs{iDim} = 1;
-            endif
-          endfor
-          if ixs{2} > sz(2)
-            break;
-          endif
-        endwhile
+        [out, Indx] = sortND (this);
       endif
+    endfunction
+
+    function [out, Indx] = sortND (this)
+      %SORTND N-dimensional sort implementation
+      
+      % I believe this multi-dimensional implementation is correct,
+      % but have not tested it yet. Use with caution.
+      out = this;
+      Indx = NaN (size (out));
+      sz = size (this);
+      nDims = ndims (this);
+      ixs = [{':'} repmat({1}, [1 nDims-1])];
+      while true
+        col = subset (this, ixs{:});
+        [sortedCol, sortIx] = sort (col);
+        Indx(ixs{:}) = sortIx;
+        out = asgn (out, ixs, sortedCol);
+        ixs{end} = ixs{end}+1;
+        for iDim=nDims:-1:3
+          if ixs{iDim} > sz(iDim)
+            ixs{iDim-1} = ixs{iDim-1} + 1;
+            ixs{iDim} = 1;
+          endif
+        endfor
+        if ixs{2} > sz(2)
+          break;
+        endif
+      endwhile      
     endfunction
     
     function [out, Indx] = unique (this, varargin)
@@ -823,7 +830,8 @@ classdef datetime
         else
           [~,ix] = unique (keys, 'rows', flags{:});
         endif
-        out = [subset (nonnans, ix); nans];
+        % Can't use space after "subset" or syntax error happens
+        out = [subset(nonnans, ix); nans];
         Indx = [ixNonnan(ix); find (tfNaN)];
         if isRow
           out = out';
@@ -879,7 +887,8 @@ classdef datetime
       [~,ia,ib] = union (proxyA, proxyB, 'rows');
       aOut = parensRef (a, ia);
       bOut = parensRef (b, ib);
-      out = [parensRef (aOut, ':'); parensRef (bOut, ':')];
+      % Can't use space after "parensRef" or syntax error happens
+      out = [parensRef(aOut, ':'); parensRef(bOut, ':')];
     endfunction
     
   endmethods
