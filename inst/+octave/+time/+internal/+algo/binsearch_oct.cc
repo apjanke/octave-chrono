@@ -37,14 +37,64 @@ DEFUN_DLD (binsearch_oct, args, nargout,
            "Vectorized binary search")
 {
   int nargin = args.length ();
-  if (nargin != 2)
+  if (nargin != 2) {
+    std::cout << "Error: Invalid number of arguments. Expected 2; got "
+      << nargin << "\n";
     return octave_value_list ();  // TODO: raise Octave error
+  }
+  
+  octave_value vals = args(0);
+  octave_value arr = args(1);
+  builtin_type_t vals_type = vals.builtin_type ();
+  builtin_type_t arr_type = vals.builtin_type ();
+  if (vals_type != arr_type) {
+    std::cout << "Error: inputs must be same type; got types " << vals_type <<
+      " and " << arr_type << "\n";
+    return octave_value_list ();
+  }
+  octave_idx_type *indexes;
+  switch (vals_type) {
+    case btyp_double:
+      indexes = binsearch(vals.array_value ().fortran_vec (), vals.numel (), 
+        arr.array_value ().fortran_vec (), arr.numel ());
+      break;
+    case btyp_float:
+      indexes = binsearch(vals.float_array_value ().fortran_vec (), vals.numel (), 
+        arr.float_array_value ().fortran_vec (), arr.numel ());
+      break;
+    case btyp_int8:
+      indexes = binsearch(vals.int8_array_value ().fortran_vec (), vals.numel (), 
+        arr.int8_array_value ().fortran_vec (), arr.numel ());
+      break;
+    case btyp_int16:
+      indexes = binsearch(vals.int16_array_value ().fortran_vec (), vals.numel (), 
+        arr.int16_array_value ().fortran_vec (), arr.numel ());
+      break;
+    case btyp_int32:
+      indexes = binsearch(vals.int32_array_value ().fortran_vec (), vals.numel (), 
+        arr.int32_array_value ().fortran_vec (), arr.numel ());
+      break;
+    case btyp_uint8:
+      indexes = binsearch(vals.uint8_array_value ().fortran_vec (), vals.numel (), 
+        arr.uint8_array_value ().fortran_vec (), arr.numel ());
+      break;
+    case btyp_uint16:
+      indexes = binsearch(vals.uint16_array_value ().fortran_vec (), vals.numel (), 
+        arr.uint16_array_value ().fortran_vec (), arr.numel ());
+      break;
+    case btyp_uint32:
+      indexes = binsearch(vals.uint32_array_value ().fortran_vec (), vals.numel (), 
+        arr.uint32_array_value ().fortran_vec (), arr.numel ());
+      break;
+    case btyp_uint64:
+      indexes = binsearch(vals.uint64_array_value ().fortran_vec (), vals.numel (), 
+        arr.uint64_array_value ().fortran_vec (), arr.numel ());
+      break;
+    default:
+      std:: cout << "Error: unsupported data type: " << vals_type << "\n";
+      return octave_value_list (); // TODO: raise Octave error
+  }
 
-  // I don't know how to do type detection in oct files. Assume inputs are doubles.
-  NDArray vals = args(0).array_value ();
-  NDArray arr = args(1).array_value ();
-  octave_idx_type *indexes = binsearch(vals.fortran_vec (), vals.numel (), 
-    arr.fortran_vec (), arr.numel ());
   NDArray out (vals.dims ());
   octave_idx_type n = vals.numel ();
   for (octave_idx_type i = 0; i < n; i++) {
