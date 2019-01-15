@@ -20,11 +20,19 @@ pkg load chrono
 
 ### Installation for development
 
-* Clone the repo
+* Clone the repo.
   * `git clone https://github.com/apjanke/octave-addons-chrono`
 * Add the `inst/` directory from the repo to your Octave path.
-* Build the octfiles
-  * `mkoctfile +octave/+time/+internal/+algo/binsearch_oct.cc`
+* Build the octfiles.
+  * `make_local` will do this.
+
+## Requirements
+
+Chrono runs on Octave 4.0.0 and later.
+
+On Windows 7 and earlier, Java is required to detect the system default time zone.
+
+Building Chrono requires a compiler.
 
 ## License
 

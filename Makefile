@@ -15,9 +15,7 @@ all: local
 
 .PHONY: local
 local: src/__oct_time_binsearch__.cc
-	$(MKOCTFILE) src/__oct_time_binsearch__.cc
-	rm __oct_time_binsearch__.o
-	mv  __oct_time_binsearch__.oct inst/
+	octave --eval="make_local"
 
 .PHONY: clean
 clean:
