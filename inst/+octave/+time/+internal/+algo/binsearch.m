@@ -38,7 +38,7 @@ function [tf, loc] = binsearch (needles, haystack)
     if iscomplex (needles) || iscomplex (haystack)
       error ('Complex values are not supported');
     end
-    loc = double (octave.time.internal.algo.binsearch_oct (needles, haystack));
+    loc = double (__oct_time_binsearch__ (needles, haystack));
   else
     loc = binsearch_mcode (needles, haystack);
   end

@@ -39,7 +39,7 @@ octave_idx_type *binsearch (const T vals[], octave_idx_type vals_len, const T ar
   return out;
 }
 
-DEFUN_DLD (binsearch_oct, args, nargout,
+DEFUN_DLD (__oct_time_binsearch__, args, nargout,
            "Vectorized binary search")
 {
   int nargin = args.length ();
