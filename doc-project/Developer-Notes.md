@@ -11,6 +11,8 @@ Chrono Developer Notes
 * CI tests, once BISTs are in place
 * Remove planar-gen boilerplate and isnan2()s once I'm sure class structure is set
 
+* Report crash: giving duration a days method while it has a days property results in a crash.
+
 ## Sections
 
 * `datetime`

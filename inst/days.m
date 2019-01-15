@@ -28,6 +28,8 @@ function out = days (x)
   % days that duration is.
   if isnumeric (x)
     out = duration.ofDays (double (x));
+  elseif isa (x, 'duration')
+    out = x.days;
   else
     error ('Invalid input: expected numeric or duration; got %s', class (x));    
   end

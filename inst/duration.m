@@ -108,10 +108,11 @@ classdef duration
       out = this.days / 365.2425;      
     endfunction
 
-    function out = days (this)
-      %DAYS Number of fixed-length days equivalent to this.
-      out = this.days;
-    endfunction
+    # Can't do this or it will cause Octave to crash
+##    function out = days (this)
+##      %DAYS Number of fixed-length days equivalent to this.
+##      out = this.days;
+##    endfunction
 
     function out = hours (this)
       %HOURS Number of hours equivalent to this.
