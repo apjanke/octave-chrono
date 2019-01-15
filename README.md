@@ -23,6 +23,8 @@ pkg load chrono
 * Clone the repo
   * `git clone https://github.com/apjanke/octave-addons-chrono`
 * Add the `inst/` directory from the repo to your Octave path.
+* Build the octfiles
+  * `mkoctfile +octave/+time/+internal/+algo/binsearch_oct.cc`
 
 ## License
 
