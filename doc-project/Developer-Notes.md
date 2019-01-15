@@ -6,9 +6,7 @@ Chrono Developer Notes
 ## Overall
 
 * Documentation
-* Figure out how to build the oct files as part of installation
-* Add BISTs
-* CI tests, once BISTs are in place
+* Add more BISTs
 * Remove planar-gen boilerplate and isnan2()s once I'm sure class structure is set
 
 * Report crash: giving duration a days method while it has a days property results in a crash.
