@@ -59,6 +59,8 @@ classdef calendarDuration
       endwhile
       % Parse inputs
       switch numel (args)
+        case 0
+          return
         case 1
           X = args{1};
           Y = X(:,1);
@@ -531,7 +533,8 @@ classdef calendarDuration
         ixNonNan = find (~tfNan);
         proxy = proxyKeys (nonnans);
         [~,ix] = sortrows (proxy);
-        out = [subset (nonnans, ix); nans];
+        % Can't have a space after "subset" or you get a syntax error
+        out = [subset(nonnans, ix); nans];
         Indx = [ixNonNan(ix); find (tfNan)];
         if isRow
           out = out';
@@ -550,7 +553,8 @@ classdef calendarDuration
         Indx = NaN (size (out));
         sz = size (this);
         nDims = ndims (this);
-        ixs = [{':'} repmat ({1}, [1 nDims-1])];
+        % Can't have a space after "repmat" or you get a syntax error
+        ixs = [{':'} repmat({1}, [1 nDims-1])];
         while true
           col = subset (this, ixs{:});
           [sortedCol,sortIx] = sort (col);
@@ -591,7 +595,7 @@ classdef calendarDuration
         else
           [~,ix] = unique (keys, 'rows', flags{:});
         endif
-        out = [subset (nonnans, ix); nans];
+        out = [subset(nonnans, ix); nans];
         Indx = [ixNonnan(ix); find(tfNaN)];
         if isRow
           out = out';
@@ -647,7 +651,8 @@ classdef calendarDuration
       [~,ia,ib] = union (proxyA, proxyB, 'rows');
       aOut = parensRef (a, ia);
       bOut = parensRef (b, ib);
-      out = [parensRef (aOut, ':'); parensRef (bOut, ':')];
+      % Can't have a space after "parensRef" or you get a syntax error
+      out = [parensRef(aOut, ':'); parensRef(bOut, ':')];
     endfunction
   
   endmethods
