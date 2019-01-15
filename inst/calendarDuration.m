@@ -218,6 +218,15 @@ classdef calendarDuration
     
     % Display
     
+    function display (this)
+      %DISPLAY Custom display.
+      in_name = inputname (1);
+      if ~isempty (in_name)
+        fprintf ('%s =\n', in_name);
+      endif
+      disp (this);
+    endfunction
+
     function disp (this)
       %DISP Custom display.
       if isempty (this)
