@@ -963,18 +963,6 @@ function out = isnan2 (x)
   endif
 endfunction
 
-function out = slurpTextFile (file)
-  [fid, msg] = fopen (file, 'r');
-  if fid == -1
-    error ('Could not open file %s: %s', file, msg);
-  end
-  cleanup.fid = onCleanup (@() fclose (fid));
-  txt = fread (fid, Inf, 'char=>char');
-  txt = txt';
-  out = txt;
-endfunction
-
-
 
 %%%%% END PLANAR-CLASS BOILERPLATE LOCAL FUNCTIONS %%%%%
 

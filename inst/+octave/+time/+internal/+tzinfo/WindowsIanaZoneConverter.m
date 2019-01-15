@@ -63,7 +63,7 @@ classdef WindowsIanaZoneConverter
     function out = readWindowsZonesFile (this)
       this_dir = fileparts (mfilename ('fullpath'));
       zones_file = fullfile (this_dir, 'resources', 'windowsZones', 'windowsZones.xml');
-      txt = slurpTextFile (zones_file);
+      txt = octave.time.internal.slurpTextFile (zones_file);
       % Base Octave doesn't have XML reading, so we'll kludge it with regexps
       pattern = '<mapZone +other="([^"]*)" +territory="([^"]*)" type="([^"]*)" */>';
       [starts,tok] = regexp (txt, pattern, 'start', 'tokens');
@@ -75,13 +75,3 @@ classdef WindowsIanaZoneConverter
   endmethods
 endclassdef
 
-function out = slurpTextFile (file)
-  [fid,msg] = fopen (file, 'r');
-  if fid == -1
-    error('Could not open file %s: %s', file, msg);
-  endif
-  cleanup.fid = onCleanup (@() fclose (fid));
-  txt = fread (fid, Inf, 'char=>char');
-  txt = txt';
-  out = txt;
-endfunction

@@ -61,7 +61,7 @@ classdef TzDb
       %
       % Returns the zoneinfo database version as a string.
       versionFile = [this.path '/+VERSION'];
-      txt = slurpTextFile (versionFile);
+      txt = octave.time.internal.slurpTextFile (versionFile);
       out = strtrim (txt);
     endfunction
         
@@ -134,7 +134,7 @@ classdef TzDb
       % on all systems.
       zoneTabFile = [this.path '/zone.tab'];
       
-      txt = slurpTextFile (zoneTabFile);
+      txt = octave.time.internal.slurpTextFile (zoneTabFile);
       lines = strsplit (txt, sprintf('\n'));
       starts = regexp (lines, '^\s*#|^\s*$', 'start', 'once');
       tfComment = ~cellfun ('isempty', starts);
@@ -335,17 +335,6 @@ classdef TzDb
     endfunction
   endmethods
 endclassdef
-
-function out = slurpTextFile (file)
-  [fid,msg] = fopen (file, 'r');
-  if fid == -1
-    error ('Could not open file %s: %s', file, msg);
-  endif
-  cleanup.fid = onCleanup (@() fclose (fid));
-  txt = fread (fid, Inf, 'char=>char');
-  txt = txt';
-  out = txt;
-endfunction
 
 function out = slurpBinaryFile (file)
   [fid,msg] = fopen (file, 'r');

@@ -52,7 +52,7 @@ function out = do_detection ()
       out = regexprep (target, '.*/zoneinfo/', '');
     elseif exist ('/etc/timezone')
       % This exists on Debian
-      out = strtrim (slurpTextFile ('/etc/timezone'));
+      out = strtrim (octave.time.internal.slurpTextFile ('/etc/timezone'));
     endif
     if isempty (out) && ispc
       % Newer Windows can do it with PowerShell
