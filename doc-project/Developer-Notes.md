@@ -33,8 +33,7 @@ Chrono Developer Notes
 * `calendarDuration` and its associated functions
   * split()
   * Can different fields be mixed positive/negative, in addition to the overall Sign? Current
-    arithmetic implementation can result in this. Should that be normalized? Maybe. Not sure it
-    can be fully normalized.
+    arithmetic implementation can result in this. Should that be normalized? Maybe. Not sure it can be fully normalized.
   * proxykeys: pull isnan up to front of precedence? Maybe invert so NaNs sort to end?
 * Plotting support
   * Maybe with just shims and conversion to datenums
