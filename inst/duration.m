@@ -56,6 +56,8 @@ classdef duration
       endwhile
       % Handle inputs
       switch numel (args)
+        case 0
+          return
         case 1
           in = args{1};
           if isnumeric (in)
@@ -172,7 +174,7 @@ classdef duration
           d = abs(d);
         endif
         if d > 1
-          str = [str sprintf ('%d days ', floor (d))];
+          str = [str sprintf('%d days ', floor(d))];
           d = mod (d,1);
         endif
         millis = round (d * (24 * 60 * 60 * 1000));
@@ -189,9 +191,9 @@ classdef duration
           seconds = seconds + 1;
           msec = 0;
         endif
-        str = [str sprintf ('%02d:%02d:%02d', hours, minutes, seconds)];
+        str = [str sprintf('%02d:%02d:%02d', hours, minutes, seconds)];
         if msec >= 1
-          str = [str '.' sprintf ('%03d', msec)];
+          str = [str '.' sprintf('%03d', msec)];
         endif
         out{i} = str;
       endfor
@@ -552,8 +554,8 @@ classdef duration
         ixNonNan = find (~tfNan);
         proxy = proxyKeys (nonnans);
         [~, ix] = sortrows (proxy);
-        out = [subset (nonnans, ix); nans];
-        Indx = [ixNonNan(ix); find (tfNan)];
+        out = [subset(nonnans, ix); nans];
+        Indx = [ixNonNan(ix); find(tfNan)];
         if isRow
           out = out';
         endif
@@ -571,7 +573,7 @@ classdef duration
         Indx = NaN (size (out));
         sz = size (this);
         nDims = ndims (this);
-        ixs = [{':'} repmat ({1}, [1 nDims-1])];
+        ixs = [{':'} repmat({1}, [1 nDims-1])];
         while true
           col = subset (this, ixs{:});
           [sortedCol, sortIx] = sort (col);
@@ -612,8 +614,8 @@ classdef duration
         else
           [~,ix] = unique (keys, 'rows', flags{:});
         endif
-        out = [subset (nonnans, ix); nans];
-        Indx = [ixNonnan(ix); find (tfNaN)];
+        out = [subset(nonnans, ix); nans];
+        Indx = [ixNonnan(ix); find(tfNaN)];
         if isRow
           out = out';
         endif
@@ -668,7 +670,7 @@ classdef duration
       [~,ia,ib] = union (proxyA, proxyB, 'rows');
       aOut = parensRef (a, ia);
       bOut = parensRef (b, ib);
-      out = [parensRef (aOut, ':'); parensRef (bOut, ':')];
+      out = [parensRef(aOut, ':'); parensRef(bOut, ':')];
     endfunction
       
   endmethods
