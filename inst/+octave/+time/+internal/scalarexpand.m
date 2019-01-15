@@ -16,35 +16,34 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
-function varargout = scalarexpand(varargin)
+function varargout = scalarexpand (varargin)
 %SCALAREXPAND Expand scalar inputs to be same size as nonscalar inputs
+  sz = [];
 
-sz = [];
+  for i = 1:nargin
+    if ~isscalar (varargin{i})
+      sz_i = size (varargin{i});
+      if isempty (sz)
+        sz = sz_i;
+      else
+        if ~isequal (sz, sz_i)
+          error ('Matrix dimensions must agree (%s vs %s)',...
+            octave.time.internal.size2str (sz), octave.time.internal.size2str (sz_i))
+        endif
+      endif
+    endif
+  endfor
 
-for i = 1:nargin
-	if ~isscalar(varargin{i})
-		sz_i = size(varargin{i});
-		if isempty(sz)
-			sz = sz_i;
-		else
-			if ~isequal(sz, sz_i)
-				error('Matrix dimensions must agree (%s vs %s)',...
-					size2str(sz), size2str(sz_i))
-			end
-		end
-	end
-end
+  varargout = varargin;
 
-varargout = varargin;
+  if isempty (sz)
+    return
+  endif
 
-if isempty(sz)
-	return
-end
+  for i = 1:nargin
+    if isscalar (varargin{i})
+      varargout{i} = repmat (varargin{i}, sz);
+    endif
+  endfor
 
-for i = 1:nargin
-	if isscalar(varargin{i})
-    varargout{i} = repmat(varargin{i}, sz);
-	end
-end
-
-end
+endfunction

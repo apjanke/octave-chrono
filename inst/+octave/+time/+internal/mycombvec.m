@@ -16,36 +16,36 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
-function out = mycombvec(vecs)
+function out = mycombvec (vecs)
   %MYCOMBVEC All combinations of values from vectors
   %
   % This is similar to Matlab's combvec, but has a different signature.
-  if ~iscell(vecs)
-    error('Input vecs must be cell');
+  if ~iscell (vecs)
+    error ('Input vecs must be cell');
   end
-  switch numel(vecs)
+  switch numel (vecs)
     case 0
-      error('Must supply at least one input vector');
+      error ('Must supply at least one input vector');
     case 1
       out = vecs{1}(:);
     case 2
       a = vecs{1}(:);
       b = vecs{2}(:);
-      out = repmat(a, [numel(b) 2]);
+      out = repmat (a, [numel (b) 2]);
       i_comb = 1;
-      for i_a = 1:numel(a)
-        for i_b = 1:numel(b)
+      for i_a = 1:numel (a)
+        for i_b = 1:numel (b)
           out(i_comb,:) = [a(i_a) b(i_b)];
           i_comb = i_comb + 1;
-        end
-      end
+        endfor
+      endfor
     otherwise
       out = [];
       a = vecs{1}(:);
       rest = vecs(2:end);
-      rest_combs = combvec(rest);
-      for i = 1:numel(a)
-        out = [out; [repmat(a(i), [size(rest_combs,1) 1]) rest_combs]];
-      end
-  end
-end
+      rest_combs = octave.time.internal.mycombvec (rest);
+      for i = 1:numel (a)
+        out = [out; [repmat (a(i), [size (rest_combs,1) 1]) rest_combs]];
+      endfor
+  endswitch
+endfunction

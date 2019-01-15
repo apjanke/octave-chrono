@@ -6,7 +6,6 @@ Chrono Developer Notes
 ## Overall
 
 * Documentation
-* Convert to GNU code style
 * Remove planar-gen boilerplate and isnan2()s
 * Add BISTs
 * CI tests, once BISTs are in place

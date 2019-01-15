@@ -18,77 +18,77 @@
 
 function out = detect_system_timezone
   try
-    out = do_detection();
+    out = do_detection ();
     tzdb = octave.time.internal.tzinfo.TzDb;
-    if ~ismember(out, tzdb.definedZones)
-      warning('System time zone ''%s'' is not defined in the tzinfo database.', ...
+    if ~ismember (out, tzdb.definedZones)
+      warning ('System time zone ''%s'' is not defined in the tzinfo database.', ...
         out);
-    end
+    endif
   catch err
-    warning(['Failed detecting system time zone: %s\n'...
+    warning (['Failed detecting system time zone: %s\n'...
       'Falling back to '''''], ...
       err.message);
     out = '';
   end
-end
+endfunction
 
-function out = do_detection()
+function out = do_detection ()
   %DO_DETECTION Actual detection logic
   
   % Let TZ env var take precedence
-  tz_env = getenv('TZ');
-  if ~isempty(tz_env)
+  tz_env = getenv ('TZ');
+  if ~isempty (tz_env)
     out = tz_env;
   else
     % Get actual system default
     out = [];
-    if exist('/etc/localtime', 'file')
+    if exist ('/etc/localtime', 'file')
       % This exists on macOS and RHEL/CentOS 7/some Fedora
-      [target,err,msg] = readlink('/etc/localtime');
+      [target,err,msg] = readlink ('/etc/localtime');
       if err
-        error('Can''t determine time zone: Failed reading /etc/localtime: %s', ...
+        error ('Can''t determine time zone: Failed reading /etc/localtime: %s', ...
           msg);
       end
-      out = regexprep(target, '.*/zoneinfo/', '');
-    elseif exist('/etc/timezone')
+      out = regexprep (target, '.*/zoneinfo/', '');
+    elseif exist ('/etc/timezone')
       % This exists on Debian
-      out = strtrim(slurpTextFile('/etc/timezone'));
-    end
-    if isempty(out) && ispc
+      out = strtrim (slurpTextFile ('/etc/timezone'));
+    endif
+    if isempty (out) && ispc
       % Newer Windows can do it with PowerShell
       win_zone = detect_timezone_using_powershell;
-      if ~isempty(win_zone)
+      if ~isempty (win_zone)
         converter = octave.time.internal.tzinfo.WindowsIanaZoneConverter;
-        out = converter.windows2iana(win_zone);
-      end
-    end
-    if isempty(out)
+        out = converter.windows2iana (win_zone);
+      endif
+    endif
+    if isempty (out)
       % Fall back to Java if nothing else worked
-      if ~usejava('jvm')
-        error('Detecting time zone on this OS requires Java, which is not available in this Octave.');
-      end
-      zone = javaMethod('getDefault', 'java.util.TimeZone');
-      out = char(zone.getID());
-    end
-  end
-end
+      if ~usejava ('jvm')
+        error ('Detecting time zone on this OS requires Java, which is not available in this Octave.');
+      endif
+      zone = javaMethod ('getDefault', 'java.util.TimeZone');
+      out = char (zone.getID());
+    endif
+  endfunction
+endmethods
 
-function out = detect_timezone_using_powershell()
+function out = detect_timezone_using_powershell ()
   % This only works on Windows Vista or newer. Windows 7 and older lack the
   % Get-TimeZone command.
-  [status, txt] = system('powershell -Command Get-TimeZone');
+  [status, txt] = system ('powershell -Command Get-TimeZone');
   if status ~= 0
     out = [];
     return
-  end
-  out = parse_powershell_get_timezone_output(txt);
+  endif
+  out = parse_powershell_get_timezone_output (txt);
 end
 
-function out = parse_powershell_get_timezone_output(str)
-  [match,tok] = regexp(str, 'Id\s+:\s(.*)$', 'match', 'tokens');
-  if isempty(match)
+function out = parse_powershell_get_timezone_output (str)
+  [match,tok] = regexp (str, 'Id\s+:\s(.*)$', 'match', 'tokens');
+  if isempty (match)
     out = [];
   else
     out = tok{1}{1};
-  end
-end
+  endif
+endfunction

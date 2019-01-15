@@ -16,11 +16,11 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
-function out = timezones(area)
+function out = timezones (area)
   %TIMEZONES List time zones
   %
   % timezones
-  % timezones(area)
+  % timezones (area)
   % T = (...)
   %
   % Lists all the time zones available on this system.
@@ -36,56 +36,56 @@ function out = timezones(area)
   tzdb = octave.time.internal.tzinfo.TzDb;
   ids = tzdb.definedZones;
   ids = ids(:);
-  areas = cell(size(ids));
-  for i = 1:numel(ids)
-    if any(ids{i} == '/')
-      area = regexprep(ids{i}, '/.*', '');
+  areas = cell (size (ids));
+  for i = 1:numel (ids)
+    if any (ids{i} == '/')
+      area = regexprep (ids{i}, '/.*', '');
     else
       area = '';
-    end
+    endif
     areas{i} = area;
-  end
+  endfor
   
   if nargin > 0
-    tf = strcmp(out.Area, area);
+    tf = strcmp (out.Area, area);
     ids = ids(tf);
     areas = areas(tf);
-  end
+  endif
 
   if octave_has_table
-    out = table(ids, areas, 'VariableNames',{'Name','Area'});
+    out = table (ids, areas, 'VariableNames',{'Name','Area'});
   else
     out = struct;
     out.Name = ids;
     out.Area = areas;
-  end
+  endif
   
   if nargout == 0
     if octave_has_table
       % This assumes you're using apjanke's octave-addons-table implementation
-      prettyprint(out);
+      prettyprint (out);
     else
       fmt = '  %-32s  %-20s\n';
-      fprintf(fmt, 'Name', 'Area');
-      fprintf(fmt, repmat('-', [1 32]), repmat('-', [1 20]));
-      for i = 1:numel(out.Name)
-        fprintf(fmt, out.Name{i}, out.Area{i});
-      end
-    end
+      fprintf (fmt, 'Name', 'Area');
+      fprintf (fmt, repmat ('-', [1 32]), repmat ('-', [1 20]));
+      for i = 1:numel (out.Name)
+        fprintf (fmt, out.Name{i}, out.Area{i});
+      endfor
+    endif
     clear out
-  end
+  endif
   
-end
+endfunction
 
 function out = octave_has_table
   persistent cache
-  if isempty(cache)
+  if isempty (cache)
     try
       t = table;
-      cache = isa(t, 'table');
+      cache = isa (t, 'table');
     catch
       cache = false;
     end
-  end
+  endif
   out = cache;
-end
+endfunction

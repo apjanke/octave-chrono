@@ -16,17 +16,17 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
-function out = seconds(x)
+function out = seconds (x)
   %SECONDS Duration in seconds
   %
   % If input is numeric, returns a @duration array that is that many seconds long.
   %
   % If input is a duration, converts the duration to a number of seconds.
-  if isnumeric(x)
-    out = duration.ofDays(x / (24 * 60 * 60));
-  elseif isa(x, 'duration')
+  if isnumeric (x)
+    out = duration.ofDays (double (x) / (24 * 60 * 60));
+  elseif isa (x, 'duration')
     out = x.days * (24 * 60 * 60);
   else
-    error('Invalid input: expected numeric or duration; got %s', class(x));
+    error ('Invalid input: expected numeric or duration; got %s', class (x));
   end
 end

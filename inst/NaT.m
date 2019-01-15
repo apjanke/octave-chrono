@@ -16,13 +16,13 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
-function out = NaT(sz)
+function out = NaT (sz)
   %NAT Not-a-Time
   %
   % Creates an array of datetimes with the value NaT.
   if nargin == 0
     out = datetime.NaT;
   else
-    out = repmat(datetime.NaT, sz);
+    out = repmat( datetime.NaT, sz);
   end
 end

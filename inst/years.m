@@ -16,7 +16,7 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
-function out = years(x)
+function out = years (x)
   %YEARS Duration in years
   %
   % If input is numeric, returns a @duration array in units of fixed-length 
@@ -28,11 +28,11 @@ function out = years(x)
   % Note: years creates fixed-length years, which is probably not what you want.
   % To create a duration of calendar years (which account for actual leap days),
   % use calyears.
-  if isnumeric(x)
-    out = duration.ofDays(365.2425 * x);
-  elseif isa(x, 'duration')
+  if isnumeric (x)
+    out = duration.ofDays (double (x) * 365.2425);
+  elseif isa (x, 'duration')
     out = x.days / 365.2425;
   else
-    error('Invalid input: expected numeric or duration; got %s', class(x));
+    error ('Invalid input: expected numeric or duration; got %s', class (x));
   end
 end

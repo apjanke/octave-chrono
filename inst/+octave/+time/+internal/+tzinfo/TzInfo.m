@@ -35,14 +35,14 @@ classdef TzInfo
     isStd
     isGmt
     goingForwardPosixZone
-  end
+  endproperties
   
   methods
     function this = TzInfo(in)
       if nargin == 0
         return;
       end
-      if isstruct(in)
+      if isstruct (in)
         % Convert from TzDb's tzinfo struct
         s = in;
         this.id = s.zoneId;
@@ -54,172 +54,172 @@ classdef TzInfo
         this.leapSecondTotals = s.leap_second_totals;
         this.isStd = s.is_std;
         this.isGmt = s.is_gmt;
-        if isfield(s, 'goingForwardPosixZone')
+        if isfield (s, 'goingForwardPosixZone')
           this.goingForwardPosixZone = s.goingForwardPosixZone;
           %this.goingForwardPosixZoneRule = octave.time.internal.tzinfo.PosixZoneRule(...
           %  this.goingForwardPosixZone);
-        end
-        this = calculateDerivedData(this);
+        endif
+        this = calculateDerivedData (this);
       else
-        error('Invalid input type: %s', class(in));
-      end
-    end
+        error ('Invalid input type: %s', class (in));
+      endif
+    endfunction
     
-    function this = calculateDerivedData(this)
+    function this = calculateDerivedData (this)
       %CALCULATEDERIVEDDATA Calculate this' derived data fields.
-      this.ttinfos.gmtoff = double(this.ttinfos.gmtoff);
-      this.ttinfos.gmtoffDatenum = secondsToDatenum(this.ttinfos.gmtoff);
+      this.ttinfos.gmtoff = double (this.ttinfos.gmtoff);
+      this.ttinfos.gmtoffDatenum = secondsToDatenum (this.ttinfos.gmtoff);
       gmtoffsAtTransitions = this.ttinfos.gmtoff(this.timeTypes);
       this.transitionsLocal = this.transitions + gmtoffsAtTransitions;
-      this.transitionsDatenum = datetime.posix2datenum(this.transitions);
-      this.transitionsLocalDatenum = datetime.posix2datenum(this.transitionsLocal);
-    end
+      this.transitionsDatenum = datetime.posix2datenum (this.transitions);
+      this.transitionsLocalDatenum = datetime.posix2datenum (this.transitionsLocal);
+    endfunction
     
     % Display
     
-    function display(this)
+    function display (this)
       %DISPLAY Custom display.
-      in_name = inputname(1);
-      if ~isempty(in_name)
-        fprintf('%s =\n', in_name);
-      end
-      disp(this);
-    end
+      in_name = inputname (1);
+      if ~isempty (in_name)
+        fprintf ('%s =\n', in_name);
+      endif
+      disp (this);
+    endfunction
 
-    function disp(this)
+    function disp (this)
       %DISP Custom display.
-      if isempty(this)
-        fprintf('Empty %s %s\n', size2str(size(this)), class(this));
-      elseif isscalar(this)
-        fprintf('TzInfo: %s\n', this.id);
-        displayCommonInfo(this);
+      if isempty (this)
+        fprintf ('Empty %s %s\n', size2str (size (this)), class (this));
+      elseif isscalar (this)
+        fprintf ('TzInfo: %s\n', this.id);
+        displayCommonInfo (this);
       else
-        fprintf('%s: %s\n', class(this), size2str(size(this)));
-      end
-    end
+        fprintf ('%s: %s\n', class (this), size2str (size (this)));
+      endif
+    endfunction
     
-    function prettyprint(this)
+    function prettyprint (this)
       %PRETTYPRINT Display this' data in human-readable format.
-      if ~isscalar(this)
-        fprintf('%s: %s\n', class(this), size2str(size(this)));
+      if ~isscalar (this)
+        fprintf ('%s: %s\n', class (this), size2str (size (this)));
         return;
-      end
-      fprintf('TzInfo: %s\n', this.id);
-      displayCommonInfo(this);
-      fprintf('transitions:\n');
-      for i = 1:numel(this.transitions)
-        dnum = datetime.posix2datenum(this.transitions(i));
+      endif
+      fprintf ('TzInfo: %s\n', this.id);
+      displayCommonInfo (this);
+      fprintf ('transitions:\n');
+      for i = 1:numel (this.transitions)
+        dnum = datetime.posix2datenum (this.transitions(i));
         abbr = this.ttinfos.abbr{this.timeTypes(i)};
-        fprintf('  %d  %s  %d  => %s\n', this.transitions(i), datestr(dnum), ...
+        fprintf ('  %d  %s  %d  => %s\n', this.transitions(i), datestr (dnum), ...
           this.timeTypes(i), abbr);
-      end
-      fprintf('ttinfos:\n');
-      fprintf('  %12s %10s %5s %8s %-8s\n', 'gmtoff', 'gmtoffdn', 'isdst', 'abbrind', 'abbr');
+      endfor
+      fprintf ('ttinfos:\n');
+      fprintf ('  %12s %10s %5s %8s %-8s\n', 'gmtoff', 'gmtoffdn', 'isdst', 'abbrind', 'abbr');
       tti = this.ttinfos;
-      for i = 1:numel(this.ttinfos.gmtoff)
-        gmtoffDur = duration.ofDays(secondsToDatenum(this.ttinfos.gmtoff(i)));
-        fprintf('  %12d %10s %5d %8d %-8s\n', ...
-          tti.gmtoff(i), char(gmtoffDur), tti.isdst(i), tti.abbrind(i), tti.abbr{i});
-      end
-      fprintf('leap times:\n');
-      if isempty(this.leapTimes)
-        fprintf('  <none>\n');
+      for i = 1:numel (this.ttinfos.gmtoff)
+        gmtoffDur = duration.ofDays (secondsToDatenum (this.ttinfos.gmtoff(i)));
+        fprintf ('  %12d %10s %5d %8d %-8s\n', ...
+          tti.gmtoff(i), char (gmtoffDur), tti.isdst(i), tti.abbrind(i), tti.abbr{i});
+      endfor
+      fprintf ('leap times:\n');
+      if isempty (this.leapTimes)
+        fprintf ('  <none>\n');
       else
-        fprintf('  %12s  %20s\n', 'time', 'leap seconds');
-        for i = 1:numel(this.leapTimes)
-          fprintf('  %12d  %20d\n', this.leapTimes(i), this.leapSecondsTotal(i));
-        end        
-      end
-      fprintf('is_std:\n');
-      function out = num2cellstr(x)
-        out = reshape(strtrim(cellstr(num2str(x(:)))), size(x));
-      end
-      fprintf('  %s\n', strjoin(num2cellstr(this.isStd), '  '));
-      fprintf('is_gmt:\n');
-      fprintf('  %s\n', strjoin(num2cellstr(this.isGmt), '  '));
-      if ~isempty(this.goingForwardPosixZone)
-        fprintf('posix_zone:\n');
-        fprintf('  %s\n', this.goingForwardPosixZone);
-      end
-    end
+        fprintf ('  %12s  %20s\n', 'time', 'leap seconds');
+        for i = 1:numel (this.leapTimes)
+          fprintf ('  %12d  %20d\n', this.leapTimes(i), this.leapSecondsTotal(i));
+        endfor 
+      endif
+      fprintf ('is_std:\n');
+      function out = num2cellstr (x)
+        out = reshape (strtrim (cellstr (num2str (x(:)))), size (x));
+      endfunction
+      fprintf ('  %s\n', strjoin (num2cellstr (this.isStd), '  '));
+      fprintf ('is_gmt:\n');
+      fprintf ('  %s\n', strjoin (num2cellstr (this.isGmt), '  '));
+      if ~isempty (this.goingForwardPosixZone)
+        fprintf ('posix_zone:\n');
+        fprintf ('  %s\n', this.goingForwardPosixZone);
+      endif
+    endfunction
 
-    function out = localtimeToGmt(this, dnum)
-      [tf,loc] = octave.time.internal.algo.binsearch(dnum, this.transitionsLocalDatenum);
+    function out = localtimeToGmt (this, dnum)
+      [tf,loc] = octave.time.internal.algo.binsearch (dnum, this.transitionsLocalDatenum);
       ix = loc;
       ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
-      tfOutOfRange = ix == 0 | ix == numel(this.transitions);
+      tfOutOfRange = ix == 0 | ix == numel (this.transitions);
       % In-range dates take their period's gmt offset
-      offsets = NaN(size(dnum));
+      offsets = NaN (size (dnum));
       offsets(~tfOutOfRange) = this.ttinfos.gmtoffDatenum(this.timeTypes(ix(~tfOutOfRange)));
       % Out-of-range dates are handled by the POSIX look-ehead zone
-      if any(tfOutOfRange(:))
+      if any (tfOutOfRange(:))
         % TODO: Implement this
-        error('POSIX zone rules are unimplemented');
-      end
+        error ('POSIX zone rules are unimplemented');
+      endif
       out = dnum - offsets;
-    end
+    endfunction
     
-    function out = gmtToLocaltime(this, dnum)
-      [tf,loc] = octave.time.internal.algo.binsearch(dnum, this.transitionsDatenum);
+    function out = gmtToLocaltime (this, dnum)
+      [tf,loc] = octave.time.internal.algo.binsearch (dnum, this.transitionsDatenum);
       ix = loc;
       ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
       tfOutOfRange = ix == 0 | ix == numel(this.transitions);
       % In-range dates take their period's gmt offset
-      offsets = NaN(size(dnum));
+      offsets = NaN (size (dnum));
       offsets(~tfOutOfRange) = this.ttinfos.gmtoffDatenum(this.timeTypes(ix(~tfOutOfRange)));
       % Out-of-range dates are handled by the POSIX look-ehead zone
-      if any(tfOutOfRange(:))
+      if any (tfOutOfRange(:))
         % TODO: Implement this
-        error('POSIX zone rules are unimplemented');
-      end
+        error ('POSIX zone rules are unimplemented');
+      endif
       out = dnum + offsets;
-    end
+    endfunction
     
   end
   
   methods (Access = private)
-    function displayCommonInfo(this)
+    function displayCommonInfo (this)
       %DISPLAYCOMMONINFO Info common to disp() and prettyprint()
       formatId = this.formatId;
       if formatId == 0
         formatId = '1';
-      end
-      if ismember(this.formatId, {'2','3'})
+      endif
+      if ismember (this.formatId, {'2','3'})
         time_size = '64-bit';
       else
         time_size = '32-bit';
-      end
-      fprintf('  Version %s (%s time values)\n', this.formatId, time_size);
-      fprintf('  %d transitions, %d ttinfos, %d leap times\n', ...
-        numel(this.transitions), numel(this.ttinfos.gmtoff), numel(this.leapTimes));
-      fprintf('  %d is_stds, %d is_gmts\n', ...
-        numel(this.isStd), numel(this.isGmt));
-      if ~isempty(this.goingForwardPosixZone)
-        fprintf('  Forward-looking POSIX zone: %s\n', this.goingForwardPosixZone);
-      end
-    end
-  end
-end
+      endif
+      fprintf ('  Version %s (%s time values)\n', this.formatId, time_size);
+      fprintf ('  %d transitions, %d ttinfos, %d leap times\n', ...
+        numel (this.transitions), numel (this.ttinfos.gmtoff), numel (this.leapTimes));
+      fprintf ('  %d is_stds, %d is_gmts\n', ...
+        numel (this.isStd), numel (this.isGmt));
+      if ~isempty (this.goingForwardPosixZone)
+        fprintf ('  Forward-looking POSIX zone: %s\n', this.goingForwardPosixZone);
+      endif
+    endfunction
+  endmethods
+endclassdef
 
-function out = size2str(sz)
+function out = size2str (sz)
 %SIZE2STR Format an array size for display
 %
-% out = size2str(sz)
+% out = size2str (sz)
 %
 % Sz is an array of dimension sizes, in the format returned by SIZE.
 %
 % Examples:
 %
-% size2str(magic(3))
+% size2str (magic (3))
 
-strs = cell(size(sz));
-for i = 1:numel(sz)
-	strs{i} = sprintf('%d', sz(i));
-end
+strs = cell (size (sz));
+for i = 1:numel (sz)
+	strs{i} = sprintf ('%d', sz(i));
+endfor
 
-out = strjoin(strs, '-by-');
-end
+out = strjoin (strs, '-by-');
+endfunction
 
-function out = secondsToDatenum(secs)
-  out = double(secs) / (60 * 60 * 24);
-end
+function out = secondsToDatenum (secs)
+  out = double (secs) / (60 * 60 * 24);
+endfunction
