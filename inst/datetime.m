@@ -1004,4 +1004,4 @@ endfunction
 %!  d.TimeZone = 'America/New_York';
 %!  d2 = d;
 %!  d2.TimeZone = 'America/Chicago';
-%!  assert (abs(d.dnums - d2.dnums - (1/24)) < .0001)
+%!  assert (abs(d.dnums - d2.dnums), (1/24), .0001)

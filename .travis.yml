@@ -14,4 +14,4 @@ before_install:
 
 script:
   - make local
-  - octave --path="$PWD/inst" --eval="runtests inst verbose"
+  - octave --path="$PWD/inst" --eval="runtests('inst')"
