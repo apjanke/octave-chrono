@@ -258,16 +258,6 @@ classdef datetime
       this.dnums = datetime.datestruct2datenum(s);
     end
       
-    function out = get.Month(this)
-      s = datestruct(this);
-      out = s.Month;
-    end
-    
-    function this = set.Month(this, x)
-      s = datestruct(this);
-      s.Month(:) = x;
-      this.dnums = datetime.datestruct2datenum(s);
-    end
       
     function out = get.Day(this)
       s = datestruct(this);
