@@ -100,6 +100,36 @@ classdef duration
     function this = set.Format (this, x)
       error ('Changing the Format of duration is currently unimplemented.');
     endfunction
+    
+    function out = years (this)
+      %YEARS Number of fixed-length years equivalent to this.
+      out = this.days / 365.2425;      
+    endfunction
+
+    function out = days (this)
+      %DAYS Number of fixed-length days equivalent to this.
+      out = this.days;
+    endfunction
+
+    function out = hours (this)
+      %HOURS Number of hours equivalent to this.
+      out = this.days * 24;
+    endfunction
+    
+    function out = minutes (this)
+      %MINUTES Number of minutes equivalent to this.
+      out = this.days * (24 * 60);
+    endfunction
+    
+    function out = seconds (this)
+      %SECPMDS Number of seconds equivalent to this.
+      out = this.days * (24 * 60 * 60);
+    endfunction
+    
+    function out = milliseconds (this)
+      %MILLISECONDS Number of milliseconds equivalent to this.
+      out = this.days * (24 * 60 * 60 * 1000);
+    endfunction
 
     function [keysA, keysB] = proxyKeys (a, b)
       %PROXYKEYS Proxy key values for sorting and set operations

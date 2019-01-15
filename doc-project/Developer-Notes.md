@@ -40,7 +40,6 @@ Chrono Developer Notes
 * `duration`
   * `InputFmt` support
   * `Format` support
-  * Move logic for years()/days()/hours() functions into override methods
 * Miscellaneous
   * Consolidate slurp* methods in octave.time.internal
   * Reproduce crash - double setter/getters cause it? (Had duplicates for datetime.Month.)

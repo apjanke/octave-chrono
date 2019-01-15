@@ -30,8 +30,6 @@ function out = years (x)
   % use calyears.
   if isnumeric (x)
     out = duration.ofDays (double (x) * 365.2425);
-  elseif isa (x, 'duration')
-    out = x.days / 365.2425;
   else
     error ('Invalid input: expected numeric or duration; got %s', class (x));
   end
