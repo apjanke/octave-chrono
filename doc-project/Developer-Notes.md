@@ -24,8 +24,6 @@ Chrono Developer Notes
   * Additional `ConvertFrom` types
   * SystemTimeZone detection on pre-Vista Windows without using Java
   * POSIX zone rule support for dates outside range of Olson database
-  * Should the field setters be using (:)?
-    * Actually, yes, I think so, to handle scalar broadcasting. The N-D case still works.
   * Test conversion to explicit GMT zone - does it hit POSIX zone rule logic?
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
@@ -41,7 +39,6 @@ Chrono Developer Notes
   * `InputFmt` support
   * `Format` support
 * Miscellaneous
-  * Consolidate slurp* methods in octave.time.internal
   * Reproduce crash - double setter/getters cause it? (Had duplicates for datetime.Month.)
 ## Wishlist and maybes
 
