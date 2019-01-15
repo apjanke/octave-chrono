@@ -1,0 +1,15 @@
+branches:
+  only:
+    - master
+
+os:
+  - linux
+  - osx
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install octave; fi
+
+script:
+  - make local
+  - octave --path="$PWD/inst" --eval="runtests inst verbose"

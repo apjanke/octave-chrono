@@ -764,3 +764,7 @@ endfunction
 
 %%%%% END PLANAR-CLASS BOILERPLATE LOCAL FUNCTIONS %%%%%
 
+%!test duration;
+%!test duration (1, 2, 3);
+%!test assert (duration (1, 2, 3) < duration (1, 2, 4))
+
