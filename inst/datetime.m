@@ -762,7 +762,7 @@ classdef datetime
         nonnans = subset (this, ~tfNan);
         ixNonNan = find (~tfNan);
         proxy = proxyKeys (nonnans);
-        [~,ix] = sortrows (proxy);
+        [~, ix] = sortrows (proxy);
         out = [subset (nonnans, ix); nans];
         Indx = [ixNonNan(ix); find (tfNan)];
         if isRow

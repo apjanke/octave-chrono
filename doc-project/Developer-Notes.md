@@ -5,6 +5,8 @@ Chrono Developer Notes
 
 ## Overall
 
+* Fix syntax errors introduced by code style change
+
 * Documentation
 * Remove planar-gen boilerplate and isnan2()s
 * Add BISTs
