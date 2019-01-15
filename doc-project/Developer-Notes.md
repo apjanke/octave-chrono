@@ -36,7 +36,6 @@ Chrono Developer Notes
 * Plotting support
   * Maybe with just shims and conversion to datenums
 * `duration`
-  * relational operations: gt/lt/eq/etc
   * `InputFmt` support
   * `Format` support
 * Miscellaneous

@@ -207,6 +207,44 @@ classdef duration
       out = char (dispstrs (subset (this, ':')));
     endfunction
     
+    % Relational operations
+
+    function out = lt (A, B)
+      %LT Less than.
+      [A, B] = promote (A, B);
+      out = A.days < B.days;
+    endfunction
+
+    function out = le (A, B)
+      %LE Less than or equal.
+      [A, B] = promote (A, B);
+      out = A.days <= B.days;
+    endfunction
+
+    function out = ne (A, B)
+      %NE Not equal.
+      [A, B] = promote (A, B);
+      out = A.days ~= B.days;
+    endfunction
+
+    function out = eq (A, B)
+      %EQ Equals.
+      [A, B] = promote (A, B);
+      out = A.days == B.days;
+    endfunction
+
+    function out = ge (A, B)
+      %GE Greater than or equal.
+      [A, B] = promote (A, B);
+      out = A.days >= B.days;
+    endfunction
+
+    function out = gt (A, B)
+      %GT Greater than.
+      [A, B] = promote (A, B);
+      out = A.days > B.days;
+    endfunction
+
     % Arithmetic
     
     function out = times (A, B)
