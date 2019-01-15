@@ -18,7 +18,7 @@ fi
 
 cat $tempfile
 
-if grep FAIL $tempfile &>/dev/null; then
+if grep -i '!!!!! test failed' $tempfile &>/dev/null; then
   echo Some tests FAILED!
   exit 1
 else
