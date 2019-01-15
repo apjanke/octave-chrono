@@ -13,8 +13,7 @@ Chrono Developer Notes
 ## Sections
 
 * `datetime`
-  * Time zone conversion
-  * Leap second conversion (probably comes for free with IANA time zone support)
+  * Leap second conversion
   * `Format` support
     * Needs LDML format support, not datestr() format placeholders
   * between() - calendarDuration diffs between datetimes
@@ -24,6 +23,7 @@ Chrono Developer Notes
   * isdst/isweekend
   * Additional `ConvertFrom` types
   * SystemTimeZone detection on pre-Vista Windows without using Java
+  * POSIX zone rule support for dates outside range of Olson database
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
 * `calendarDuration` and its associated functions

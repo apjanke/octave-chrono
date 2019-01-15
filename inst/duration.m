@@ -167,6 +167,13 @@ classdef duration
       end
     end
     
+    function out = char(this)
+      %CHAR Convert to char.
+      %
+      % This is an Octave extension.
+      out = char(dispstrs(subset(this, ':')));
+    end
+    
     % Arithmetic
     
     function out = times(A, B)

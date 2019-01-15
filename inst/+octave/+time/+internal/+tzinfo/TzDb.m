@@ -116,19 +116,13 @@ classdef TzDb
       out = octave.time.internal.tzinfo.TzInfo;
       if isfield(s, 'section2')
         defn_s = s.section2;
-        out.goingForwardPosixZone = s.goingForwardPosixZone;
+        defn_s.goingForwardPosixZone = s.goingForwardPosixZone;
       else
         defn_s = s.section1;
       end
-      out.id = zoneId;
-      out.formatId = defn_s.header.format_id;
-      out.transitions = defn_s.transitions;
-      out.timeTypes = defn_s.time_types;
-      out.ttinfos = defn_s.ttinfos;
-      out.leapTimes = defn_s.leap_times;
-      out.leapSecondTotals = defn_s.leap_second_totals;
-      out.isStd = defn_s.is_std;
-      out.isGmt = defn_s.is_gmt;
+      defn_s.zoneId = zoneId;
+      out = octave.time.internal.tzinfo.TzInfo(defn_s);
+      out = calculateDerivedData(out);
     end
   end
   
@@ -287,8 +281,9 @@ classdef TzDb
       end
       %TODO: read tz abbreviation bytes
       % It's not clearly documented, but following the ttinfo section are a
-      % series of null-terminated strings. There's no length indicator for them,
-      % so we have to scan for the null after the last string.
+      % series of null-terminated strings which hold the abbreviations. There's 
+      % no length indicator for them, so we have to scan for the null after the 
+      % last string.
       abbrs = {};
       if ~isempty(ttinfos.abbrind)
         last_abbrind = max(ttinfos.abbrind);

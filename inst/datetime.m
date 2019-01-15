@@ -942,8 +942,12 @@ classdef datetime
   %%%%% END PLANAR-CLASS BOILERPLATE CODE %%%%%
 
   methods (Static)
-    function out = convertDatenumTimeZone(dnum, fromZone, toZone)
-      error('TimeZone conversion is unimplemented. Sorry.');
+    function out = convertDatenumTimeZone(dnum, fromZoneId, toZoneId)
+      tzdb = octave.time.internal.tzinfo.TzDb;
+      fromZone = tzdb.zoneDefinition(fromZoneId);
+      toZone = tzdb.zoneDefinition(toZoneId);
+      dnumGmt = fromZone.localtimeToGmt(dnum);
+      out = toZone.gmtToLocaltime(dnumGmt);
     end
   end
 end

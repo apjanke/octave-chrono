@@ -22,8 +22,13 @@ classdef TzInfo
   properties
     id
     formatId
+    % These fields are all parallel
     transitions
-    timeTypes
+    transitionsLocal
+    transitionsDatenum
+    transitionsLocalDatenum
+    timeTypes  % index into ttinfos.*(ix), 1-indexed
+    % struct <gmtoff, isdst, abbrind, abbr, gmtoffDatenum>
     ttinfos
     leapTimes
     leapSecondTotals
@@ -33,6 +38,42 @@ classdef TzInfo
   end
   
   methods
+    function this = TzInfo(in)
+      if nargin == 0
+        return;
+      end
+      if isstruct(in)
+        % Convert from TzDb's tzinfo struct
+        s = in;
+        this.id = s.zoneId;
+        this.formatId = s.header.format_id;
+        this.transitions = s.transitions;
+        this.timeTypes = s.time_types + 1; % Convert C 0-indexing to octave 1-indexing
+        this.ttinfos = s.ttinfos;
+        this.leapTimes = s.leap_times;
+        this.leapSecondTotals = s.leap_second_totals;
+        this.isStd = s.is_std;
+        this.isGmt = s.is_gmt;
+        if isfield(s, 'goingForwardPosixZone')
+          this.goingForwardPosixZone = s.goingForwardPosixZone;
+          %this.goingForwardPosixZoneRule = octave.time.internal.tzinfo.PosixZoneRule(...
+          %  this.goingForwardPosixZone);
+        end
+        this = calculateDerivedData(this);
+      else
+        error('Invalid input type: %s', class(in));
+      end
+    end
+    
+    function this = calculateDerivedData(this)
+      %CALCULATEDERIVEDDATA Calculate this' derived data fields.
+      this.ttinfos.gmtoff = double(this.ttinfos.gmtoff);
+      this.ttinfos.gmtoffDatenum = secondsToDatenum(this.ttinfos.gmtoff);
+      gmtoffsAtTransitions = this.ttinfos.gmtoff(this.timeTypes);
+      this.transitionsLocal = this.transitions + gmtoffsAtTransitions;
+      this.transitionsDatenum = datetime.posix2datenum(this.transitions);
+      this.transitionsLocalDatenum = datetime.posix2datenum(this.transitionsLocal);
+    end
     
     % Display
     
@@ -68,16 +109,17 @@ classdef TzInfo
       fprintf('transitions:\n');
       for i = 1:numel(this.transitions)
         dnum = datetime.posix2datenum(this.transitions(i));
-        abbr = this.ttinfos.abbr{this.timeTypes(i)+1};
+        abbr = this.ttinfos.abbr{this.timeTypes(i)};
         fprintf('  %d  %s  %d  => %s\n', this.transitions(i), datestr(dnum), ...
           this.timeTypes(i), abbr);
       end
       fprintf('ttinfos:\n');
-      fprintf('  %12s %5s %8s %-8s\n', 'gmtoff', 'isdst', 'abbrind', 'abbr');
+      fprintf('  %12s %10s %5s %8s %-8s\n', 'gmtoff', 'gmtoffdn', 'isdst', 'abbrind', 'abbr');
       tti = this.ttinfos;
       for i = 1:numel(this.ttinfos.gmtoff)
-        fprintf('  %12d %5d %8d %-8s\n', ...
-          tti.gmtoff(i), tti.isdst(i), tti.abbrind(i), tti.abbr{i});
+        gmtoffDur = duration.ofDays(secondsToDatenum(this.ttinfos.gmtoff(i)));
+        fprintf('  %12d %10s %5d %8d %-8s\n', ...
+          tti.gmtoff(i), char(gmtoffDur), tti.isdst(i), tti.abbrind(i), tti.abbr{i});
       end
       fprintf('leap times:\n');
       if isempty(this.leapTimes)
@@ -95,7 +137,44 @@ classdef TzInfo
       fprintf('  %s\n', strjoin(num2cellstr(this.isStd), '  '));
       fprintf('is_gmt:\n');
       fprintf('  %s\n', strjoin(num2cellstr(this.isGmt), '  '));
+      if ~isempty(this.goingForwardPosixZone)
+        fprintf('posix_zone:\n');
+        fprintf('  %s\n', this.goingForwardPosixZone);
+      end
     end
+
+    function out = localtimeToGmt(this, dnum)
+      [tf,loc] = octave.time.internal.algo.binsearch(dnum, this.transitionsLocalDatenum);
+      ix = loc;
+      ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
+      tfOutOfRange = ix == 0 | ix == numel(this.transitions);
+      % In-range dates take their period's gmt offset
+      offsets = NaN(size(dnum));
+      offsets(~tfOutOfRange) = this.ttinfos.gmtoffDatenum(this.timeTypes(ix(~tfOutOfRange)));
+      % Out-of-range dates are handled by the POSIX look-ehead zone
+      if any(tfOutOfRange(:))
+        % TODO: Implement this
+        error('POSIX zone rules are unimplemented');
+      end
+      out = dnum - offsets;
+    end
+    
+    function out = gmtToLocaltime(this, dnum)
+      [tf,loc] = octave.time.internal.algo.binsearch(dnum, this.transitionsDatenum);
+      ix = loc;
+      ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
+      tfOutOfRange = ix == 0 | ix == numel(this.transitions);
+      % In-range dates take their period's gmt offset
+      offsets = NaN(size(dnum));
+      offsets(~tfOutOfRange) = this.ttinfos.gmtoffDatenum(this.timeTypes(ix(~tfOutOfRange)));
+      % Out-of-range dates are handled by the POSIX look-ehead zone
+      if any(tfOutOfRange(:))
+        % TODO: Implement this
+        error('POSIX zone rules are unimplemented');
+      end
+      out = dnum + offsets;
+    end
+    
   end
   
   methods (Access = private)
@@ -139,4 +218,8 @@ for i = 1:numel(sz)
 end
 
 out = strjoin(strs, '-by-');
+end
+
+function out = secondsToDatenum(secs)
+  out = double(secs) / (60 * 60 * 24);
 end
