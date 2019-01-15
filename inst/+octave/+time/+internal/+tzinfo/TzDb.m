@@ -279,7 +279,6 @@ classdef TzDb
       for i = 1:h.n_type
         take_ttinfo;
       end
-      %TODO: read tz abbreviation bytes
       % It's not clearly documented, but following the ttinfo section are a
       % series of null-terminated strings which hold the abbreviations. There's 
       % no length indicator for them, so we have to scan for the null after the 
