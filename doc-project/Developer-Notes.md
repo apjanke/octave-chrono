@@ -7,7 +7,7 @@ Chrono Developer Notes
 
 * Documentation
 * Convert to GNU code style
-* Remove planar-gen boilerplate
+* Remove planar-gen boilerplate and isnan2()s
 * Add BISTs
 * CI tests, once BISTs are in place
 
@@ -25,6 +25,9 @@ Chrono Developer Notes
   * Additional `ConvertFrom` types
   * SystemTimeZone detection on pre-Vista Windows without using Java
   * POSIX zone rule support for dates outside range of Olson database
+  * Should the field setters be using (:)?
+    * Actually, yes, I think so, to handle scalar broadcasting. The N-D case still works.
+  * Test conversion to explicit GMT zone - does it hit POSIX zone rule logic?
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
 * `calendarDuration` and its associated functions
@@ -38,9 +41,10 @@ Chrono Developer Notes
 * `duration`
   * `InputFmt` support
   * `Format` support
+  * Move logic for years()/days()/hours() functions into override methods
 * Miscellaneous
   * Consolidate slurp* methods in octave.time.internal
-
+  * Reproduce crash - double setter/getters cause it? (Had duplicates for datetime.Month.)
 ## Wishlist and maybes
 
 * MAT-file representation compatibility with Matlab?
