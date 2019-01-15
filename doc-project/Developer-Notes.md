@@ -7,6 +7,7 @@ Chrono Developer Notes
 
 * Documentation
 * Convert to GNU code style
+* Remove planar-gen boilerplate
 * Add BISTs
 * CI tests, once BISTs are in place
 
@@ -31,11 +32,14 @@ Chrono Developer Notes
   * Can different fields be mixed positive/negative, in addition to the overall Sign? Current
     arithmetic implementation can result in this. Should that be normalized? Maybe. Not sure it
     can be fully normalized.
+  * proxykeys: pull isnan up to front of precedence? Maybe invert so NaNs sort to end?
 * Plotting support
   * Maybe with just shims and conversion to datenums
 * `duration`
   * `InputFmt` support
   * `Format` support
+* Miscellaneous
+  * Consolidate slurp* methods in octave.time.internal
 
 ## Wishlist and maybes
 
