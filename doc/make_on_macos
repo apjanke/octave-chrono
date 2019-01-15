@@ -1,0 +1,4 @@
+#!/bin/bash
+
+PATH="$(brew --prefix ghostscript)/bin:$(brew --prefix texinfo)/bin:$PATH"
+make "$*"
