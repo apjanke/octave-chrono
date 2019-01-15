@@ -6,6 +6,7 @@ os:
   - linux
   - osx
 dist: xenial
+group: travis_latest
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
