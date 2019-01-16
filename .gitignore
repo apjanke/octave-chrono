@@ -1,7 +1,2 @@
 *.o
 *.oct
-doc/*.dvi
-doc/*.html
-doc/*.info
-doc/*.pdf
-doc/*.texi

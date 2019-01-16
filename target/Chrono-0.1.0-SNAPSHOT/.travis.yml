@@ -1,0 +1,20 @@
+branches:
+  only:
+    - master
+
+os:
+  - linux
+  - osx
+dist: xenial
+group: travis_latest
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install octave; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install octave octave-pkg-dev; fi
+
+script:
+  - make local
+  - cd doc && make all
+  - dev-tools/runtests.sh inst

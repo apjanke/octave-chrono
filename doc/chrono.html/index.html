@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This manual is for Chrono, version 0.1.0-SNAPSHOT.
+
+Copyright (C) 2019 Andrew Janke
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the same conditions as for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Top (Chrono for Octave v0.1.0-SNAPSHOT)</title>
+
+<meta name="description" content="User manual for Chrono for Octave.">
+<meta name="keywords" content="Top (Chrono for Octave v0.1.0-SNAPSHOT)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="#Top" rel="start" title="Top">
+<link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Introduction.html#Introduction" rel="next" title="Introduction">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<h1 class="settitle" align="center">Chrono for Octave v0.1.0-SNAPSHOT</h1>
+
+
+
+
+
+
+<a name="SEC_Contents"></a>
+<h2 class="contents-heading">Table of Contents</h2>
+
+<div class="contents">
+
+<ul class="no-bullet">
+  <li><a name="toc-Introduction-1" href="Introduction.html#Introduction">1 Introduction</a></li>
+  <li><a name="toc-Getting-Started-1" href="Getting-Started.html#Getting-Started">2 Getting Started</a></li>
+  <li><a name="toc-Date-Representation-1" href="Date-Representation.html#Date-Representation">3 Date Representation</a>
+  <ul class="no-bullet">
+    <li><a name="toc-datetime-Class-1" href="datetime-Class.html#datetime-Class">3.1 <code>datetime</code> Class</a>
+    <ul class="no-bullet">
+      <li><a name="toc-datenum-Compatibility-1" href="datenum-Compatibility.html#datenum-Compatibility">3.1.1 <code>datenum</code> Compatibility</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-Time-Zones-1" href="Time-Zones.html#Time-Zones">4 Time Zones</a></li>
+  <li><a name="toc-Durations-1" href="Durations.html#Durations">5 Durations</a>
+  <ul class="no-bullet">
+    <li><a name="toc-duration-Class-1" href="duration-Class.html#duration-Class">5.1 <code>duration</code> Class</a></li>
+    <li><a name="toc-calendarDuration-Class-1" href="calendarDuration-Class.html#calendarDuration-Class">5.2 <code>calendarDuration</code> Class</a></li>
+  </ul></li>
+  <li><a name="toc-Missing-Functionality-1" href="Missing-Functionality.html#Missing-Functionality">6 Missing Functionality</a></li>
+  <li><a name="toc-Function-Reference-1" href="Function-Reference.html#Function-Reference">7 Function Reference</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Functions-Alphabetically" href="Function-Reference.html#Functions-Alphabetically">7.1 Functions Alphabetically</a>
+    <ul class="no-bullet">
+      <li><a name="toc-NaT-1" href="NaT.html#NaT">7.1.1 NaT</a></li>
+      <li><a name="toc-calendarDuration-1" href="calendarDuration.html#calendarDuration">7.1.2 calendarDuration</a></li>
+      <li><a name="toc-calmonths-1" href="calmonths.html#calmonths">7.1.3 calmonths</a></li>
+      <li><a name="toc-calyears-1" href="calyears.html#calyears">7.1.4 calyears</a></li>
+      <li><a name="toc-datetime-1" href="datetime.html#datetime">7.1.5 datetime</a></li>
+      <li><a name="toc-days-1" href="days.html#days">7.1.6 days</a></li>
+      <li><a name="toc-duration-1" href="duration.html#duration">7.1.7 duration</a></li>
+      <li><a name="toc-hours-1" href="hours.html#hours">7.1.8 hours</a></li>
+      <li><a name="toc-isdatetime-1" href="isdatetime.html#isdatetime">7.1.9 isdatetime</a></li>
+      <li><a name="toc-isduration-1" href="isduration.html#isduration">7.1.10 isduration</a></li>
+      <li><a name="toc-milliseconds-1" href="milliseconds.html#milliseconds">7.1.11 milliseconds</a></li>
+      <li><a name="toc-minutes-1" href="minutes.html#minutes">7.1.12 minutes</a></li>
+      <li><a name="toc-seconds-1" href="seconds.html#seconds">7.1.13 seconds</a></li>
+      <li><a name="toc-timezones-1" href="timezones.html#timezones">7.1.14 timezones</a></li>
+      <li><a name="toc-years-1" href="years.html#years">7.1.15 years</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-Copying-1" href="Copying.html#Copying">8 Copying</a></li>
+</ul>
+</div>
+
+
+<a name="Top"></a>
+<div class="header">
+<p>
+Next: <a href="Introduction.html#Introduction" accesskey="n" rel="next">Introduction</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<a name="Chrono-for-Octave"></a>
+<h1 class="top">Chrono for Octave</h1>
+
+<p>This manual is for Chrono, version 0.1.0-SNAPSHOT.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Introduction.html#Introduction" accesskey="1">Introduction</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Getting-Started.html#Getting-Started" accesskey="2">Getting Started</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Date-Representation.html#Date-Representation" accesskey="3">Date Representation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Time-Zones.html#Time-Zones" accesskey="4">Time Zones</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Durations.html#Durations" accesskey="5">Durations</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Missing-Functionality.html#Missing-Functionality" accesskey="6">Missing Functionality</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-Reference.html#Function-Reference" accesskey="7">Function Reference</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Copying.html#Copying" accesskey="8">Copying</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Introduction.html#Introduction" accesskey="n" rel="next">Introduction</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,622 @@
+This is chrono.info, produced by makeinfo version 6.5 from chrono.texi.
+
+This manual is for Chrono, version 0.1.0-SNAPSHOT.
+
+   Copyright © 2019 Andrew Janke
+
+     Permission is granted to make and distribute verbatim copies of
+     this manual provided the copyright notice and this permission
+     notice are preserved on all copies.
+
+     Permission is granted to copy and distribute modified versions of
+     this manual under the conditions for verbatim copying, provided
+     that the entire resulting derived work is distributed under the
+     terms of a permission notice identical to this one.
+
+     Permission is granted to copy and distribute translations of this
+     manual into another language, under the same conditions as for
+     modified versions.
+
+
+File: chrono.info,  Node: Top,  Next: Introduction
+
+Chrono for Octave
+*****************
+
+This manual is for Chrono, version 0.1.0-SNAPSHOT.
+
+* Menu:
+
+* Introduction::
+* Getting Started::
+* Date Representation::
+* Time Zones::
+* Durations::
+* Missing Functionality::
+* Function Reference::
+* Copying::
+
+
+File: chrono.info,  Node: Introduction,  Next: Getting Started,  Up: Top
+
+1 Introduction
+**************
+
+     Time is an illusion.  Lunchtime doubly so.
+
+                           — _Douglas Adams_
+
+   This is the manual for the Chrono package version 0.1.0-SNAPSHOT for
+GNU Octave.
+
+   This document is a work in progress.  You are invited to help improve
+it and submit patches.
+
+   Chrono provides date/time functionality for Octave by supplying
+Matlab-compatible implementations for the ‘datetime’, ‘duration’, and
+‘calendarDuration’ classes, along with related functions.
+
+   Chrono’s classes are designed to be convenient to use while still
+being efficient.  The data representations used by Chrono are designed
+to be efficient and suitable for working with large-ish data sets.  A
+“large-ish” data set is one that can have millions of elements or rows,
+but still fits in main computer memory.  Chrono’s main relational and
+arithmetic operations are all implemented using vectorized operations on
+primitive Octave data types.
+
+   Chrono was written by Andrew Janke <<floss@apjanke.net>>.  Support
+can be found on the Chrono project GitHub page
+(https://github.com/apjanke/octave-addons-chrono).
+
+
+File: chrono.info,  Node: Getting Started,  Next: Date Representation,  Prev: Introduction,  Up: Top
+
+2 Getting Started
+*****************
+
+The easiest way to obtain Chrono is by using Octave’s ‘pkg’ package
+manager.  To install the latest development (unstable) head of Chrono,
+run this in Octave:
+
+     pkg install https://github.com/apjanke/octave-addons-chrono/archive/master.zip
+
+   Soon, once the code gets a bit more stable, numbered releases for
+Chrono will be available, and you should use those instead.
+
+   For development, you can obtain the source code for Chrono from the
+project repo on GitHub at
+<https://github.com/apjanke/octave-addons-chrono>.  Upon first
+installation, run the ‘make_local’ script to build the octfiles so
+Chrono will work.  Then add the ‘inst’ directory in the repo to your
+Octave path.
+
+
+File: chrono.info,  Node: Date Representation,  Next: Time Zones,  Prev: Getting Started,  Up: Top
+
+3 Date Representation
+*********************
+
+Chrono provides the ‘datetime‘ class for representing points in time.
+
+* Menu:
+
+* datetime Class::
+
+
+File: chrono.info,  Node: datetime Class,  Up: Date Representation
+
+3.1 ‘datetime’ Class
+====================
+
+A ‘datetime’ is an array object that represents points in time in the
+familiar Gregorian calendar.
+
+   This is an attempt to reproduce the functionality of Matlab’s
+‘datetime’.  It also contains some Octave-specific extensions.
+
+   The underlying representation is that of a datenum (a ‘double’
+containing the number of days since the Matlab epoch), but encapsulating
+it in an object provides several benefits: friendly human-readable
+display, type safety, automatic type conversion, and time zone support.
+In addition to the underlying datenum array, a ‘datetime’ inclues an
+optional ‘TimeZone’ property indicating what time zone the datetimes are
+in.
+
+* Menu:
+
+* datenum Compatibility::
+
+
+File: chrono.info,  Node: datenum Compatibility,  Up: datetime Class
+
+3.1.1 ‘datenum’ Compatibility
+-----------------------------
+
+While the underlying data representation of ‘datetime’ is compatible
+with (in fact, identical to) that of datenums, you cannot directly
+combine them via assignment, concatenation, or most arithmetic
+operations.
+
+   This is because of the signature of the ‘datetime’ constructor.  When
+combining objects and primitive types like ‘double’, the primitive type
+is promoted to an object by calling the other object’s one-argument
+constructor on it.  However, the one-argument numeric-input consstructor
+for ‘datetime’ does not accept datenums: it interprets its input as
+datevecs instead.  This is due to a design decision on Matlab’s part;
+for compatibility, Octave does not alter that interface.
+
+   To combine ‘datetime’s with datenums, you can convert the datenums to
+‘datetime’s by calling ‘datetime.ofDatenum’ or ‘datetime(x,
+'ConvertFrom', 'datenum')’, or you can convert the ‘datetime’s to
+datenums by accessing its ‘dnums’ field with ‘x.dnums’.
+
+   Examples:
+
+     dt = datetime('2011-03-04')
+     dn = datenum('2017-01-01')
+     [dt dn]
+         ⇒ error: datenum: expected date vector containing [YEAR, MONTH, DAY, HOUR, MINUTE, SECOND]
+     [dt datetime.ofDatenum(dn)]
+         ⇒ 04-Mar-2011   01-Jan-2017
+
+
+File: chrono.info,  Node: Time Zones,  Next: Durations,  Prev: Date Representation,  Up: Top
+
+4 Time Zones
+************
+
+This section will describe Chrono’s time zone support.
+
+   Chrono’s time zone data is drawn from the IANA Time Zone Database
+(https://www.iana.org/time-zones), also known as the “Olson Database”.
+Chrono includes a copy of this database in its distribution so it can
+work on Windows, which does not supply it like Unix systems do.
+
+
+File: chrono.info,  Node: Durations,  Next: Missing Functionality,  Prev: Time Zones,  Up: Top
+
+5 Durations
+***********
+
+* Menu:
+
+* duration Class::
+* calendarDuration Class::
+
+
+File: chrono.info,  Node: duration Class,  Next: calendarDuration Class,  Up: Durations
+
+5.1 ‘duration’ Class
+====================
+
+This section will describe ‘duration’.
+
+
+File: chrono.info,  Node: calendarDuration Class,  Prev: duration Class,  Up: Durations
+
+5.2 ‘calendarDuration’ Class
+============================
+
+This section will describe ‘calendarDuration’.
+
+
+File: chrono.info,  Node: Missing Functionality,  Next: Function Reference,  Prev: Durations,  Up: Top
+
+6 Missing Functionality
+***********************
+
+Chrono is based on Matlab’s date/time API and supports most of its major
+functionality.  But not all of it is implemented yet.  The missing parts
+are currently:
+
+   • POSIX time zone support for years outside the IANA time zone
+     database coverage
+   • Week-of-year (ISO calendar) calculations
+   • Various ‘'ConvertFrom'’ forms for ‘datetime’ and ‘duration’
+   • Support for LDML formatting for ‘datetime’
+   • Various functions: ‘between’, ‘caldiff’, ‘dateshift’, ‘week’
+   • ‘isdst’, ‘isweekend’
+   • ‘calendarDuration.split’
+   • ‘duration.Format’ support
+   • ‘UTCOffset’ and ‘DSTOffset’ fields in the output of ‘timezones()’
+   • Plotting support
+
+   It is the author’s hope that all these will be implemented some day.
+
+
+File: chrono.info,  Node: Function Reference,  Next: Copying,  Prev: Missing Functionality,  Up: Top
+
+7 Function Reference
+********************
+
+7.1 Functions Alphabetically
+============================
+
+* Menu:
+
+* NaT:: 	“Not-a-Time”.
+* calendarDuration:: Durations in time using variable-length calendar
+		periods, such as days, months, and years, which may vary in
+		length over time.
+* calmonths::	Create a ‘calendarDuration’ that is a given number of
+		calendar months long.
+* calyears::	Construct a ‘calendarDuration’ a given number of years
+		long.
+* datetime::	Represents points in time using the Gregorian calendar.
+* days::	Duration in days.
+* duration::	Represents durations or periods of time as an amount of
+		fixed-length time (i.e.
+* hours::	Create a ‘duration’ X hours long, or get the hours in a
+		‘duration’ X.
+* isdatetime::	True if input is a ‘datetime’ array, false otherwise.
+* isduration::	True if input is a ‘duration’ array, false otherwise.
+* milliseconds:: Create a ‘duration’ X milliseconds long, or get the
+		milliseconds in a ‘duration’ X.
+* minutes::	Create a ‘duration’ X hours long, or get the hours in a
+		‘duration’ X.
+* seconds::	Create a ‘duration’ X seconds long, or get the seconds in a
+		‘duration’ X.
+* timezones::	List all the time zones defined on this system.
+* years::	Create a ‘duration’ X years long, or get the years in a
+		‘duration’ X.
+
+
+File: chrono.info,  Node: NaT,  Next: calendarDuration,  Up: Function Reference
+
+7.1.1 NaT
+---------
+
+ -- Function: OUT = NaT ()
+ -- Function: OUT = NaT (SZ)
+
+     “Not-a-Time”.  Constructs a new ‘datetime’ array of all ‘NaT’
+     values of the given size.  If no input SZ is given, the result is a
+     scalar ‘NaT’.
+
+     ‘NaT’ is the ‘datetime’ equivalent of ‘NaN’.  It represents a
+     missing or invalid value.  ‘NaT’ values never compare equal to,
+     greater than, or less than any value, including other ‘NaT’s.
+     Doing arithmetic with a ‘NaT’ and any other value results in a
+     ‘NaT’.
+
+
+File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Prev: NaT,  Up: Function Reference
+
+7.1.2 calendarDuration
+----------------------
+
+ -- Class: calendarDuration
+
+     Durations in time using variable-length calendar periods, such as
+     days, months, and years, which may vary in length over time.  (For
+     example, a calendar month may have 28, 30, or 31 days.)
+
+ -- Constructor: OBJ = calendarDuration ()
+
+     Constructs a new scalar ‘calendarDuration’ of zero elapsed time.
+
+ -- Constructor: OBJ = calendarDuration (Y, M, D)
+ -- Constructor: OBJ = calendarDuration (Y, M, D, H, MI, S)
+
+     Constructs new ‘calendarDuration’ arrays based on input values.
+
+
+File: chrono.info,  Node: calmonths,  Next: calyears,  Prev: calendarDuration,  Up: Function Reference
+
+7.1.3 calmonths
+---------------
+
+ -- Function File: OUT = calmonths (X)
+     Create a ‘calendarDuration’ that is a given number of calendar
+     months long.
+
+     Input X is a numeric array specifying the number of calendar
+     months.
+
+     This is a shorthand alternative to calling the ‘calendarDuration’
+     constructor with ‘calendarDuration(0, x, 0)’.
+
+     Returns a new ‘calendarDuration’ object of the same size as X.
+
+     *Note calendarDuration::.
+
+
+File: chrono.info,  Node: calyears,  Next: datetime,  Prev: calmonths,  Up: Function Reference
+
+7.1.4 calyears
+--------------
+
+ -- Function: OUT = calyears (X)
+
+     Construct a ‘calendarDuration’ a given number of years long.
+
+     This is a shorthand for calling ‘calendarDuration(X, 0, 0)’.
+
+     *Note calendarDuration::.
+
+
+File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: Function Reference
+
+7.1.5 datetime
+--------------
+
+ -- Class: datetime
+
+     Represents points in time using the Gregorian calendar.
+
+     The underlying values are doubles representing the number of days
+     since the Matlab epoch of "January 0, year 0".  This has a
+     precision of around nanoseconds for typical times.
+
+ -- Instance Variable of datetime: ‘double’ dnums
+     The underlying datenums that represent the points in time.
+
+ -- Instance Variable of datetime: ‘char’ TimeZone
+     The time zone this ‘datetime’ array is in.  Empty if this does not
+     have a time zone associated with it (“unzoned”).  The name of an
+     IANA time zone if this does.
+
+ -- Instance Variable of datetime: ‘char’ Format
+     The format to display this ‘datetime’ in.  Currently unsupported.
+
+ -- Constructor: OBJ = datetime ()
+
+     Constructs a new scalar ‘datetime’ containing the current local
+     time, with no time zone attached.
+
+ -- Constructor: OBJ = datetime (DATEVEC)
+ -- Constructor: OBJ = datetime (DATESTRS)
+ -- Constructor: OBJ = datetime (IN, ‘'ConvertFrom'’, INTYPE)
+ -- Constructor: OBJ = datetime (Y, M, D, H, MI, S)
+ -- Constructor: OBJ = datetime (Y, M, D, H, MI, MS)
+ -- Constructor: OBJ = datetime (..., ‘'Format'’, FORMAT,
+          ‘'InputFormat'’, INPUTFORMAT, ‘'Locale'’, INPUTLOCALE,
+          ‘'PivotYear'’, PIVOTYEAR, ‘'TimeZone'’, TIMEZONE)
+
+     Constructs a new ‘datetime’ array based on input values.
+
+
+File: chrono.info,  Node: days,  Next: duration,  Prev: datetime,  Up: Function Reference
+
+7.1.6 days
+----------
+
+ -- Function: OUT = days (X)
+
+     Duration in days.
+
+     If X is numeric, then OUT is a ‘duration’ array in units of
+     fixed-length 24-hour days, with the same size as X.
+
+     If X is a ‘duration’, then returns a ‘double’ array the same size
+     as X indicating the number of fixed-length days that each duration
+     is.
+
+
+File: chrono.info,  Node: duration,  Next: hours,  Prev: days,  Up: Function Reference
+
+7.1.7 duration
+--------------
+
+ -- Class: duration
+
+     Represents durations or periods of time as an amount of
+     fixed-length time (i.e.  fixed-length seconds).  It does not care
+     about calendar things like months and days that vary in length over
+     time.
+
+     This is an attempt to reproduce the functionality of Matlab’s
+     ‘duration’.  It also contains some Octave-specific extensions.
+
+ -- Constructor: OBJ = duration ()
+
+     Constructs a new scalar ‘duration’ of zero elapsed time.
+
+ -- Constructor: OBJ = duration (DURATIONSTRS)
+ -- Constructor: OBJ = duration (DURATIONSTRS, ‘'InputFormat'’,
+          INPUTFORMAT)
+ -- Constructor: OBJ = duration (H, MI, S)
+ -- Constructor: OBJ = duration (H, MI, S, MS)
+
+     Constructs a new ‘duration’ array based on input values.
+
+
+File: chrono.info,  Node: hours,  Next: isdatetime,  Prev: duration,  Up: Function Reference
+
+7.1.8 hours
+-----------
+
+ -- Function File: OUT = hours (X)
+     Create a ‘duration’ X hours long, or get the hours in a ‘duration’
+     X.
+
+     If input is numeric, returns a ‘duration’ array that is that many
+     hours in time.
+
+     If input is a ‘duration’, converts the ‘duration’ to a number of
+     hours.
+
+     Returns an array the same size as X.
+
+
+File: chrono.info,  Node: isdatetime,  Next: isduration,  Prev: hours,  Up: Function Reference
+
+7.1.9 isdatetime
+----------------
+
+ -- Function: TF = isdatetime (X)
+
+     True if input is a ‘datetime’ array, false otherwise.
+
+     Returns a logical array the same size as X.
+
+
+File: chrono.info,  Node: isduration,  Next: milliseconds,  Prev: isdatetime,  Up: Function Reference
+
+7.1.10 isduration
+-----------------
+
+ -- Function: TF = isduration (X)
+
+     True if input is a ‘duration’ array, false otherwise.
+
+     Returns a logical array the same size as X.
+
+
+File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: isduration,  Up: Function Reference
+
+7.1.11 milliseconds
+-------------------
+
+ -- Function File: OUT = milliseconds (X)
+     Create a ‘duration’ X milliseconds long, or get the milliseconds in
+     a ‘duration’ X.
+
+     If input is numeric, returns a ‘duration’ array that is that many
+     milliseconds in time.
+
+     If input is a ‘duration’, converts the ‘duration’ to a number of
+     milliseconds.
+
+     Returns an array the same size as X.
+
+
+File: chrono.info,  Node: minutes,  Next: seconds,  Prev: milliseconds,  Up: Function Reference
+
+7.1.12 minutes
+--------------
+
+ -- Function File: OUT = hours (X)
+     Create a ‘duration’ X hours long, or get the hours in a ‘duration’
+     X.
+
+
+File: chrono.info,  Node: seconds,  Next: timezones,  Prev: minutes,  Up: Function Reference
+
+7.1.13 seconds
+--------------
+
+ -- Function File: OUT = seconds (X)
+     Create a ‘duration’ X seconds long, or get the seconds in a
+     ‘duration’ X.
+
+     If input is numeric, returns a ‘duration’ array that is that many
+     seconds in time.
+
+     If input is a ‘duration’, converts the ‘duration’ to a number of
+     seconds.
+
+     Returns an array the same size as X.
+
+
+File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: Function Reference
+
+7.1.14 timezones
+----------------
+
+ -- Function: OUT = timezones ()
+ -- Function: OUT = timezones (AREA)
+
+     List all the time zones defined on this system.
+
+     This lists all the time zones that are defined in the IANA time
+     zone database used by this Octave.  (On Linux and macOS, that will
+     generally be the system time zone database from
+     ‘/usr/share/zoneinfo’.  On Windows, it will be the database
+     redistributed with the Chrono package.
+
+     If the return is captured, the output is returned as a table if
+     your Octave has table support, or a struct if it does not.  It will
+     have fields/variables containing column vectors:
+
+     ‘Name’
+          The IANA zone name, as cellstr.
+     ‘Area’
+          The geographical area the zone is in, as cellstr.
+
+     Compatibility note: Matlab also includes UTCOffset and DSTOffset
+     fields in the output; these are currently unimplemented.
+
+
+File: chrono.info,  Node: years,  Prev: timezones,  Up: Function Reference
+
+7.1.15 years
+------------
+
+ -- Function File: OUT = years (X)
+     Create a ‘duration’ X years long, or get the years in a ‘duration’
+     X.
+
+     If input is numeric, returns a ‘duration’ array in units of
+     fixed-length years of 365.2425 days each.
+
+     If input is a ‘duration’, converts the ‘duration’ to a number of
+     fixed-length years as double.
+
+     Note: ‘years’ creates fixed-length years, which may not be what you
+     want.  To create a duration of calendar years (which account for
+     actual leap days), use ‘calyears’.
+
+     *Note calyears::.
+
+
+File: chrono.info,  Node: Copying,  Prev: Function Reference,  Up: Top
+
+8 Copying
+*********
+
+This manual is for Chrono, version 0.1.0-SNAPSHOT.
+
+   Copyright © 2019 Andrew Janke
+
+     Permission is granted to make and distribute verbatim copies of
+     this manual provided the copyright notice and this permission
+     notice are preserved on all copies.
+
+     Permission is granted to copy and distribute modified versions of
+     this manual under the conditions for verbatim copying, provided
+     that the entire resulting derived work is distributed under the
+     terms of a permission notice identical to this one.
+
+     Permission is granted to copy and distribute translations of this
+     manual into another language, under the same conditions as for
+     modified versions.
+
+
+
+Tag Table:
+Node: Top769
+Node: Introduction1073
+Node: Getting Started2299
+Node: Date Representation3139
+Node: datetime Class3390
+Node: datenum Compatibility4219
+Node: Time Zones5621
+Node: Durations6083
+Node: duration Class6262
+Node: calendarDuration Class6444
+Node: Missing Functionality6650
+Node: Function Reference7619
+Node: NaT9068
+Node: calendarDuration9717
+Node: calmonths10403
+Node: calyears10988
+Node: datetime11325
+Node: days12888
+Node: duration13346
+Node: hours14246
+Node: isdatetime14721
+Node: isduration15003
+Node: milliseconds15294
+Node: minutes15826
+Node: seconds16080
+Node: timezones16571
+Node: years17598
+Node: Copying18274
+
+End Tag Table
+
+
+Local Variables:
+coding: utf-8
+End:

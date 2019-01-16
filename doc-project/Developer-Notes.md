@@ -46,13 +46,12 @@ Chrono Developer Notes
 * Miscellaneous
   * Reproduce crash - double setter/getters cause it? (Had duplicates for datetime.Month.)
 * Documentation
-  * Get `mkdoc.pl` to ignore files in `+internal` namespaces.
-  * Get `mkdoc.pl` to include namespaces in class/function definition items.
   * Fix this:
 ```
 warning: doc_cache_create: unusable help text found in file 'datetime'
 ```
   * Make my Texinfo documentation work with Octave's `doc` command
+    * Expose it as QHelpEngine file?
   * Get `help datetime` to recognize my datetime
 ```
 >> which datetime
@@ -60,6 +59,8 @@ warning: doc_cache_create: unusable help text found in file 'datetime'
 >> help datetime
 error: help: 'datetime' is not documented
 ```
+  * Get `mkdoc.pl` to ignore files in `+internal` namespaces.
+  * Get `mkdoc.pl` to include namespaces in class/function definition items.
 
 ## Wishlist and maybes
 
@@ -77,6 +78,7 @@ Matlab doco: [Dates and Time](https://www.mathworks.com/help/matlab/date-and-tim
 # Release checklist
 
 * Run all the tests: `make test`
-* Update the version number and date in `doc/chrono.txi` and rebuild the documentation.
+* Update the version number and date in `DESCRIPTION` and `doc/chrono.txi` and rebuild the documentation.
 * Create a git tag.
+* `make dist`
 * Push the tag to GitHub.
