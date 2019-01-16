@@ -22,7 +22,7 @@ use FileHandle;
 use IPC::Open3;
 use POSIX ":sys_wait_h";
 
-my $project = "chrono";
+my $package = "chrono";
 my $debug = 0;
 my $verbose = 0;
 
@@ -49,7 +49,7 @@ unless (open (OUT, ">", $outfile)) {
 my $preamble = <<EOS;
 <?xml version="1.0" encoding="UTF-8"?>
 <QtHelpProject version="1.0">
-    <namespace>octave.$project</namespace>
+    <namespace>octave.community.$package</namespace>
     <virtualFolder>doc</virtualFolder>
     <filterSection>
         <toc>
@@ -74,8 +74,9 @@ while (my $line = <IN>) {
 	my $section_level = $level_map{$section_type};
 	my $section_qhelp_title = $section_title =~ s/@\w+{(.*?)}/\1/rg;
 	my $html_title = $node_name =~ s/\s/-/gr;
+	$html_title = "index" if $html_title eq "Top";
 	my $html_file = "$html_title.html";
-	push @files, $html_file;
+	unshift @files, $html_file;
 	print "Node: '$node_name' ($section_type): \"$section_title\" => \"$section_qhelp_title\""
 	    . " (level $section_level),  HTML: $html_file\n"
 	    if $verbose;
@@ -97,15 +98,19 @@ while (my $line = <IN>) {
 		print OUT $indent . ("    " x $level) . "</section>\n";
 	}
 	print OUT $indent . ("    " x $section_level) 
-	    . "<section title=\"$section_qhelp_title\" ref=\"./$html_file\">\n";
+	    . "<section title=\"$section_qhelp_title\" ref=\"html/$html_file\">\n";
 	print OUT $indent . ("    " x $section_level) 
 	    . "    <!-- orig_title=\"$section_title\" node_name=\"$node_name\" -->\n"
 	    if $debug;
 	$level = $section_level;
 }
-while ($level > 0) {
+while ($level > 1) {
 	print OUT $indent . ("    " x $level--) . "</section>\n";
 }
+# Include the all-on-one-page version
+print OUT $indent . ("    " x $level) 
+    . "<section title=\"Entire Manual in One Page\" ref=\"$package.html\"/>\n"
+    . $indent . "</section>\n";
 print OUT <<EOS;
         </toc>
         <keywords>
@@ -115,9 +120,8 @@ EOS
 
 # Files section
 
-print OUT "            <file>html/index.html</file>\n";
-for my $file (@files) {
-	next if $file == "Top.html";
+print OUT "            <file>$package.html</file>\n";
+foreach my $file (@files) {
 	print OUT "            <file>html/$file</file>\n";
 }
 

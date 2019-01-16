@@ -1,71 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QtHelpProject version="1.0">
-    <namespace>octave.chrono</namespace>
+    <namespace>octave.community.chrono</namespace>
     <virtualFolder>doc</virtualFolder>
     <filterSection>
         <toc>
-            <section title="Chrono for Octave" ref="./Top.html">
-                <section title="Introduction" ref="./Introduction.html">
+            <section title="Chrono for Octave" ref="html/index.html">
+                <section title="Introduction" ref="html/Introduction.html">
                 </section>
-                <section title="Getting Started" ref="./Getting-Started.html">
+                <section title="Getting Started" ref="html/Getting-Started.html">
                 </section>
-                <section title="Date Representation" ref="./Date-Representation.html">
-                    <section title="datetime Class" ref="./datetime-Class.html">
-                        <section title="datenum Compatibility" ref="./datenum-Compatibility.html">
+                <section title="Date Representation" ref="html/Date-Representation.html">
+                    <section title="datetime Class" ref="html/datetime-Class.html">
+                        <section title="datenum Compatibility" ref="html/datenum-Compatibility.html">
                         </section>
                     </section>
                 </section>
-                <section title="Time Zones" ref="./Time-Zones.html">
+                <section title="Time Zones" ref="html/Time-Zones.html">
                 </section>
-                <section title="Durations" ref="./Durations.html">
-                    <section title="duration Class" ref="./duration-Class.html">
+                <section title="Durations" ref="html/Durations.html">
+                    <section title="duration Class" ref="html/duration-Class.html">
                     </section>
-                    <section title="calendarDuration Class" ref="./calendarDuration-Class.html">
-                    </section>
-                </section>
-                <section title="Missing Functionality" ref="./Missing-Functionality.html">
-                </section>
-                <section title="Function Reference" ref="./Function-Reference.html">
-                    <section title="Functions Alphabetically" ref="./Functions-Alphabetically.html">
-                        <section title="NaT" ref="./NaT.html">
-                        </section>
-                        <section title="calendarDuration" ref="./calendarDuration.html">
-                        </section>
-                        <section title="calmonths" ref="./calmonths.html">
-                        </section>
-                        <section title="calyears" ref="./calyears.html">
-                        </section>
-                        <section title="datetime" ref="./datetime.html">
-                        </section>
-                        <section title="days" ref="./days.html">
-                        </section>
-                        <section title="duration" ref="./duration.html">
-                        </section>
-                        <section title="hours" ref="./hours.html">
-                        </section>
-                        <section title="isdatetime" ref="./isdatetime.html">
-                        </section>
-                        <section title="isduration" ref="./isduration.html">
-                        </section>
-                        <section title="milliseconds" ref="./milliseconds.html">
-                        </section>
-                        <section title="minutes" ref="./minutes.html">
-                        </section>
-                        <section title="seconds" ref="./seconds.html">
-                        </section>
-                        <section title="timezones" ref="./timezones.html">
-                        </section>
-                        <section title="years" ref="./years.html">
-                        </section>
+                    <section title="calendarDuration Class" ref="html/calendarDuration-Class.html">
                     </section>
                 </section>
-                <section title="Copying" ref="./Copying.html">
+                <section title="Missing Functionality" ref="html/Missing-Functionality.html">
                 </section>
-            </section>
+                <section title="Function Reference" ref="html/Function-Reference.html">
+                    <section title="Functions Alphabetically" ref="html/Functions-Alphabetically.html">
+                        <section title="NaT" ref="html/NaT.html">
+                        </section>
+                        <section title="calendarDuration" ref="html/calendarDuration.html">
+                        </section>
+                        <section title="calmonths" ref="html/calmonths.html">
+                        </section>
+                        <section title="calyears" ref="html/calyears.html">
+                        </section>
+                        <section title="datetime" ref="html/datetime.html">
+                        </section>
+                        <section title="days" ref="html/days.html">
+                        </section>
+                        <section title="duration" ref="html/duration.html">
+                        </section>
+                        <section title="hours" ref="html/hours.html">
+                        </section>
+                        <section title="isdatetime" ref="html/isdatetime.html">
+                        </section>
+                        <section title="isduration" ref="html/isduration.html">
+                        </section>
+                        <section title="milliseconds" ref="html/milliseconds.html">
+                        </section>
+                        <section title="minutes" ref="html/minutes.html">
+                        </section>
+                        <section title="seconds" ref="html/seconds.html">
+                        </section>
+                        <section title="timezones" ref="html/timezones.html">
+                        </section>
+                        <section title="years" ref="html/years.html">
+                        </section>
+                    </section>
+                </section>
+                <section title="Copying" ref="html/Copying.html">
+                </section>
+            <section title="Entire Manual in One Page" ref="chrono.html"/>
+        </section>
         </toc>
         <keywords>
         </keywords>
         <files>
+            <file>chrono.html</file>
+            <file>html/Copying.html</file>
+            <file>html/years.html</file>
+            <file>html/timezones.html</file>
+            <file>html/seconds.html</file>
+            <file>html/minutes.html</file>
+            <file>html/milliseconds.html</file>
+            <file>html/isduration.html</file>
+            <file>html/isdatetime.html</file>
+            <file>html/hours.html</file>
+            <file>html/duration.html</file>
+            <file>html/days.html</file>
+            <file>html/datetime.html</file>
+            <file>html/calyears.html</file>
+            <file>html/calmonths.html</file>
+            <file>html/calendarDuration.html</file>
+            <file>html/NaT.html</file>
+            <file>html/Functions-Alphabetically.html</file>
+            <file>html/Function-Reference.html</file>
+            <file>html/Missing-Functionality.html</file>
+            <file>html/calendarDuration-Class.html</file>
+            <file>html/duration-Class.html</file>
+            <file>html/Durations.html</file>
+            <file>html/Time-Zones.html</file>
+            <file>html/datenum-Compatibility.html</file>
+            <file>html/datetime-Class.html</file>
+            <file>html/Date-Representation.html</file>
+            <file>html/Getting-Started.html</file>
+            <file>html/Introduction.html</file>
             <file>html/index.html</file>
         </files>
     </filterSection>

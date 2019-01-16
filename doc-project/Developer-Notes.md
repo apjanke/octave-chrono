@@ -46,6 +46,7 @@ Chrono Developer Notes
 * Miscellaneous
   * Reproduce crash - double setter/getters cause it? (Had duplicates for datetime.Month.)
 * Documentation
+  * Correct asciibetical ordering in Functions Alphabetically
   * Fix this:
 ```
 warning: doc_cache_create: unusable help text found in file 'datetime'
