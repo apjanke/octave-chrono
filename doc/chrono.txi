@@ -60,7 +60,7 @@ This manual is for Chrono, version 0.1.0.
 @end menu
 
 
-@node Introduction, Functionality, Top, Top
+@node Introduction
 @chapter Introduction
 
 This is the manual for the Chrono package version 0.1.0 for GNU Octave.
@@ -72,7 +72,7 @@ The Chrono package provides Matlab-compatible date/time classes for Octave,
 including @code{datetime}, @code{duration}, and @code{calendarDuration}
 classes.
 
-@node Functionality, Class and Function Reference, Introduction, Top
+@node Functionality
 @chapter Functionality
 
 Chrono provides date/time functionality for Octave by supplying Matlab-compatible
@@ -86,12 +86,12 @@ millions of elements or rows, but still fits in main computer memory. Chrono's m
 relational and arithmetic operations are all implemented using vectorized
 operations on primitive Octave data types.
 
-@node Class and Function Reference, Copying, Functionality, Top
+@node Class and Function Reference
 @chapter Class and Function Reference
 
 @REFERENCE_SECTION(Chrono)
 
-@node Copying, , Class and Function Reference, Top
+@node Copying
 @chapter Copying
 
 @insertcopying
