@@ -29,7 +29,8 @@
 ##
 ## Returns a new @code{calendarDuration} object of the same size as @var{x}.
 ##
-## @seealso{calendarDuration}
+## @xref{calendarDuration}.
+##
 ## @end deftypefn
 
 function out = calmonths (x)

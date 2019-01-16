@@ -17,8 +17,26 @@
 ## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{obj} =} calendarDuration (Y, M, D)
-## @deftypefnx {Function File} {@var{obj} =} calendarDuration (Y, M, D, H, MI, S)
+## @deftp {Class} calendarDuration
+##
+## Durations in time using variable-length calendar periods, such as days,
+## months, and years, which may vary in length over time. (For example, a
+## calendar month may have 28, 30, or 31 days.)
+##
+## @end deftp
+##
+## @deftypefn {Constructor} {@var{obj} =} calendarDuration ()
+##
+## Constructs a new scalar @code{calendarDuration} of zero elapsed time.
+##
+## @end deftypefn
+##
+## @deftypefn {Constructor} {@var{obj} =} calendarDuration (@var{Y}, @var{M}, @var{D})
+## @deftypefnx {Constructor} {@var{obj} =} calendarDuration (@var{Y}, @var{M}, @
+##   @var{D}, @var{H}, @var{MI}, @var{S})
+##
+## Constructs new @code{calendarDuration} arrays based on input values.
+##
 ## @end deftypefn
 
 classdef calendarDuration

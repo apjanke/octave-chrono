@@ -21,10 +21,25 @@
 ##
 ## Represents points in time using the Gregorian calendar.
 ##
-## This is an attempt to reproduce the functionality of Matlab's @code{datetime}. It
-## also contains some Octave-specific extensions.
+## The underlying values are doubles representing the number of days since the
+## Matlab epoch of "January 0, year 0". This has a precision of around nanoseconds
+## for typical times.
 ##
 ## @end deftp
+##
+## @deftypeivar datetime @code{double} dnums
+## The underlying datenums that represent the points in time.
+## @end deftypeivar
+##
+## @deftypeivar datetime @code{char} TimeZone
+## The time zone this @code{datetime} array is in. Empty if this does not have a
+## time zone associated with it (“unzoned”). The name of an IANA time zone if
+## this does.
+## @end deftypeivar 
+##
+## @deftypeivar datetime @code{char} Format
+## The format to display this @code{datetime} in. Currently unsupported.
+## @end deftypeivar
 ##
 ## @deftypefn {Constructor} {@var{obj} =} datetime ()
 ##

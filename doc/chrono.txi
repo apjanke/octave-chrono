@@ -56,12 +56,15 @@ This manual is for Chrono, version @value{VERSION}.
 @menu
 * Introduction::
 * Getting Started::
-* Date/Time Classes::
+* Date Representation::
 * Time Zones::
+* Durations::
 * Missing Functionality::
 * Function Reference::
 * Copying::
 @end menu
+
+
 
 
 @node Introduction
@@ -78,13 +81,23 @@ This is the manual for the Chrono package version @value{VERSION} for GNU Octave
 This document is a work in progress. You are invited to help improve it and
 submit patches.
 
-The Chrono package provides Matlab-compatible date/time classes for Octave,
-including @code{datetime}, @code{duration}, and @code{calendarDuration}
-classes.
+Chrono provides date/time functionality for Octave by supplying Matlab-compatible
+implementations for the @code{datetime}, @code{duration}, and @code{calendarDuration}
+classes, along with related functions.
+
+Chrono's classes are designed to be convenient to use while still being efficient.
+The data representations used by Chrono are designed to be efficient and suitable
+for working with large-ish data sets. A “large-ish” data set is one that can have
+millions of elements or rows, but still fits in main computer memory. Chrono's main
+relational and arithmetic operations are all implemented using vectorized
+operations on primitive Octave data types.
 
 Chrono was written by Andrew Janke <@email{floss@@apjanke.net}>. Support can be
 found on the @url{https://github.com/apjanke/octave-addons-chrono, Chrono project
 GitHub page}.
+
+
+
 
 @node Getting Started
 @chapter Getting Started
@@ -103,30 +116,26 @@ For development, you can obtain the source code for Chrono from the project repo
 @url{https://github.com/apjanke/octave-addons-chrono}. Upon first installation, run
 the @file{make_local} script to build the octfiles so Chrono will work. Then add the @file{inst} directory in the repo to your Octave path.
 
-@node Date/Time Classes
-@chapter Date/Time Classes
 
-Chrono provides date/time functionality for Octave by supplying Matlab-compatible
-implementations for the @code{datetime}, @code{duration}, and @code{calendarDuration}
-classes, along with related functions.
 
-Chrono's classes are designed to be convenient to use while still being efficient.
-The data representations used by Chrono are designed to be efficient and suitable
-for working with large-ish data sets. A “large-ish” data set is one that can have
-millions of elements or rows, but still fits in main computer memory. Chrono's main
-relational and arithmetic operations are all implemented using vectorized
-operations on primitive Octave data types.
+
+@node Date Representation
+@chapter Date Representation
+
+Chrono provides the `datetime` class for representing points in time.
 
 @menu
-* datetime class::
-* duration class::
+* datetime Class::
 @end menu
 
-@node datetime class
-@section @code{datetime} class
+@node datetime Class
+@section @code{datetime} Class
 
 A @code{datetime} is an array object that represents points in time in the familiar
 Gregorian calendar.
+
+This is an attempt to reproduce the functionality of Matlab's @code{datetime}. It
+also contains some Octave-specific extensions.
 
 The underlying representation is that of a datenum (a @code{double}
 containing the number of days since the Matlab epoch), but encapsulating it in an
@@ -135,10 +144,38 @@ automatic type conversion, and time zone support. In addition to the underlying
 datenum array, a @code{datetime} inclues an optional @code{TimeZone} property 
 indicating what time zone the datetimes are in.
 
-@node duration class
-@section @code{duration} class
+@node datenum Compatibility
+@subsection @code{datenum} Compatibility
 
-This section will describe @code{duration}.
+While the underlying data representation of @code{datetime} is compatible with
+(in fact, identical to) that of datenums, you cannot directly combine them
+via assignment, concatenation, or most arithmetic operations.
+
+This is because of the signature of the @code{datetime} constructor. When combining
+objects and primitive types like @code{double}, the primitive type is promoted to an
+object by calling the other object's one-argument constructor on it. However, the
+one-argument numeric-input consstructor for @code{datetime} does not accept datenums:
+it interprets its input as datevecs instead. This is due to a design decision on
+Matlab's part; for compatibility, Octave does not alter that interface.
+
+To combine @code{datetime}s with datenums, you can convert the datenums to @code{datetime}s
+by calling @code{datetime.ofDatenum} or @code{datetime(x, 'ConvertFrom', 'datenum')}, or you
+can convert the @code{datetime}s to datenums by accessing its @code{dnums} field with
+@code{x.dnums}.
+
+Examples:
+
+@example
+dt = datetime('2011-03-04')
+dn = datenum('2017-01-01')
+[dt dn]
+    @result{} error: datenum: expected date vector containing [YEAR, MONTH, DAY, HOUR, MINUTE, SECOND]
+[dt datetime.ofDatenum(dn)]
+    @result{} 04-Mar-2011   01-Jan-2017
+@end example
+
+
+
 
 @node Time Zones
 @chapter Time Zones
@@ -149,6 +186,28 @@ Chrono's time zone data is drawn from the @uref{https://www.iana.org/time-zones,
 IANA Time Zone Database}, also known as the “Olson Database”. Chrono includes a
 copy of this database in its distribution so it can work on Windows, which does
 not supply it like Unix systems do.
+
+
+
+@node Durations
+@chapter Durations
+
+@menu
+* duration Class::
+* calendarDuration Class::
+@end menu
+
+@node duration Class
+@section @code{duration} Class
+
+This section will describe @code{duration}.
+
+@node calendarDuration Class
+@section @code{calendarDuration} Class
+
+This section will describe @code{calendarDuration}.
+
+
 
 @node Missing Functionality
 @chapter Missing Functionality
@@ -171,10 +230,17 @@ But not all of it is implemented yet. The missing parts are currently:
 
 It is the author's hope that all these will be implemented some day.
 
+
+
+
+
+
 @node Function Reference
 @chapter Function Reference
 
 @REFERENCE_SECTION(Chrono)
+
+
 
 @node Copying
 @chapter Copying

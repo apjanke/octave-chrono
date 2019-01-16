@@ -17,18 +17,21 @@
 ## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function} {@var{out} =} NAT ()
-## @deftypefnx {Function} {@var{out} =} NAT (@var{sz})
+## @deftypefn {Function} {@var{out} =} NaT ()
+## @deftypefnx {Function} {@var{out} =} NaT (@var{sz})
 ##
-## Not-a-Time. Constructs a new @code{datetime} array of all @code{NaT} values of
+## “Not-a-Time”. Constructs a new @code{datetime} array of all @code{NaT} values of
 ## the given size. If no input @var{sz} is given, the result is a scalar @code{NaT}.
 ##
-## @code{NaT} is the @code{datetime} equivalent of @code{NaN}.
+## @code{NaT} is the @code{datetime} equivalent of @code{NaN}. It represents a missing
+## or invalid value. @code{NaT} values never compare equal to, greater than, or less
+## than any value, including other @code{NaT}s. Doing arithmetic with a @code{NaT} and
+## any other value results in a @code{NaT}.
 ##
 ## @end deftypefn
 
 function out = NaT (sz)
-  %NAT Not-a-Time
+  %NaT Not-a-Time
   %
   % Creates an array of datetimes with the value NaT.
   if nargin == 0

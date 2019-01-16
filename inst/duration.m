@@ -19,7 +19,9 @@
 ## -*- texinfo -*-
 ## @deftp {Class} duration
 ##
-## Represents points in time using the Gregorian calendar.
+## Represents durations or periods of time as an amount of fixed-length
+## time (i.e. fixed-length seconds). It does not care about calendar things
+## like months and days that vary in length over time.
 ##
 ## This is an attempt to reproduce the functionality of Matlab's @code{duration}. It
 ## also contains some Octave-specific extensions.

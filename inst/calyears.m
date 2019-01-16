@@ -23,6 +23,8 @@
 ##
 ## This is a shorthand for calling @code{calendarDuration(@var{x}, 0, 0)}.
 ##
+## @xref{calendarDuration}.
+##
 ## @end deftypefn
 
 function out = calyears (x)

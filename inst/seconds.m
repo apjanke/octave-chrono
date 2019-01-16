@@ -17,10 +17,16 @@
 ## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{out} =} hours (@var{x})
-## Create a @code{duration} @var{x} hours long, or get the hours in a @code{duration}
+## @deftypefn {Function File} {@var{out} =} seconds (@var{x})
+## Create a @code{duration} @var{x} seconds long, or get the seconds in a @code{duration}
 ## @var{x}.
 ##
+## If input is numeric, returns a @code{duration} array that is that many seconds in
+## time.
+##
+## If input is a @code{duration}, converts the @code{duration} to a number of seconds.
+##
+## Returns an array the same size as @var{x}.
 ## @end deftypefn
 
 function out = seconds (x)

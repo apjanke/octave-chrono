@@ -21,6 +21,12 @@
 ## Create a @code{duration} @var{x} hours long, or get the hours in a @code{duration}
 ## @var{x}.
 ##
+## If input is numeric, returns a @code{duration} array that is that many hours in
+## time.
+##
+## If input is a @code{duration}, converts the @code{duration} to a number of hours.
+##
+## Returns an array the same size as @var{x}.
 ## @end deftypefn
 
 function out = hours (x)

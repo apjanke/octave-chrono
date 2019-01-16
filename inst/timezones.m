@@ -27,7 +27,7 @@
 ## time zone database from @file{/usr/share/zoneinfo}. On Windows, it will be
 ## the database redistributed with the Chrono package.
 ##
-## If the return is captured, the list is returned as a table if your Octave
+## If the return is captured, the output is returned as a table if your Octave
 ## has table support, or a struct if it does not. It will have fields/variables
 ## containing column vectors:
 ##

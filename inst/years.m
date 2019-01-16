@@ -17,10 +17,21 @@
 ## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{out} =} hours (@var{x})
-## Create a @code{duration} @var{x} hours long, or get the hours in a @code{duration}
+## @deftypefn {Function File} {@var{out} =} years (@var{x})
+## Create a @code{duration} @var{x} years long, or get the years in a @code{duration}
 ## @var{x}.
 ##
+## If input is numeric, returns a @code{duration} array in units of fixed-length 
+## years of 365.2425 days each.
+##
+## If input is a @code{duration}, converts the @code{duration} to a number of fixed-length
+## years as double.
+##
+## Note: @code{years} creates fixed-length years, which may not be what you want.
+## To create a duration of calendar years (which account for actual leap days),
+## use @code{calyears}.
+##
+## @xref{calyears}.
 ## @end deftypefn
 
 function out = years (x)
