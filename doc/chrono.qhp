@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QtHelpProject version="1.0">
+    <namespace>octave.chrono</namespace>
+    <virtualFolder>doc</virtualFolder>
+    <filterSection>
+        <toc>
+            <section title="Chrono for Octave" ref="./Top.html">
+                <section title="Introduction" ref="./Introduction.html">
+                </section>
+                <section title="Getting Started" ref="./Getting-Started.html">
+                </section>
+                <section title="Date Representation" ref="./Date-Representation.html">
+                    <section title="datetime Class" ref="./datetime-Class.html">
+                        <section title="datenum Compatibility" ref="./datenum-Compatibility.html">
+                        </section>
+                    </section>
+                </section>
+                <section title="Time Zones" ref="./Time-Zones.html">
+                </section>
+                <section title="Durations" ref="./Durations.html">
+                    <section title="duration Class" ref="./duration-Class.html">
+                    </section>
+                    <section title="calendarDuration Class" ref="./calendarDuration-Class.html">
+                    </section>
+                </section>
+                <section title="Missing Functionality" ref="./Missing-Functionality.html">
+                </section>
+                <section title="Function Reference" ref="./Function-Reference.html">
+                    <section title="Functions Alphabetically" ref="./Functions-Alphabetically.html">
+                        <section title="NaT" ref="./NaT.html">
+                        </section>
+                        <section title="calendarDuration" ref="./calendarDuration.html">
+                        </section>
+                        <section title="calmonths" ref="./calmonths.html">
+                        </section>
+                        <section title="calyears" ref="./calyears.html">
+                        </section>
+                        <section title="datetime" ref="./datetime.html">
+                        </section>
+                        <section title="days" ref="./days.html">
+                        </section>
+                        <section title="duration" ref="./duration.html">
+                        </section>
+                        <section title="hours" ref="./hours.html">
+                        </section>
+                        <section title="isdatetime" ref="./isdatetime.html">
+                        </section>
+                        <section title="isduration" ref="./isduration.html">
+                        </section>
+                        <section title="milliseconds" ref="./milliseconds.html">
+                        </section>
+                        <section title="minutes" ref="./minutes.html">
+                        </section>
+                        <section title="seconds" ref="./seconds.html">
+                        </section>
+                        <section title="timezones" ref="./timezones.html">
+                        </section>
+                        <section title="years" ref="./years.html">
+                        </section>
+                    </section>
+                </section>
+                <section title="Copying" ref="./Copying.html">
+                </section>
+            </section>
+        </toc>
+        <keywords>
+        </keywords>
+        <files>
+            <file>html/index.html</file>
+        </files>
+    </filterSection>
+</QtHelpProject>
+

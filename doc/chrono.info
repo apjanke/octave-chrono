@@ -229,6 +229,13 @@ File: chrono.info,  Node: Function Reference,  Next: Copying,  Prev: Missing Fun
 7 Function Reference
 ********************
 
+* Menu:
+
+* Functions Alphabetically::
+
+
+File: chrono.info,  Node: Functions Alphabetically,  Up: Function Reference
+
 7.1 Functions Alphabetically
 ============================
 
@@ -261,7 +268,7 @@ File: chrono.info,  Node: Function Reference,  Next: Copying,  Prev: Missing Fun
 		‘duration’ X.
 
 
-File: chrono.info,  Node: NaT,  Next: calendarDuration,  Up: Function Reference
+File: chrono.info,  Node: NaT,  Next: calendarDuration,  Up: Functions Alphabetically
 
 7.1.1 NaT
 ---------
@@ -280,7 +287,7 @@ File: chrono.info,  Node: NaT,  Next: calendarDuration,  Up: Function Reference
      ‘NaT’.
 
 
-File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Prev: NaT,  Up: Function Reference
+File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Prev: NaT,  Up: Functions Alphabetically
 
 7.1.2 calendarDuration
 ----------------------
@@ -301,7 +308,7 @@ File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Prev: NaT,  Up: F
      Constructs new ‘calendarDuration’ arrays based on input values.
 
 
-File: chrono.info,  Node: calmonths,  Next: calyears,  Prev: calendarDuration,  Up: Function Reference
+File: chrono.info,  Node: calmonths,  Next: calyears,  Prev: calendarDuration,  Up: Functions Alphabetically
 
 7.1.3 calmonths
 ---------------
@@ -321,7 +328,7 @@ File: chrono.info,  Node: calmonths,  Next: calyears,  Prev: calendarDuration,  
      *Note calendarDuration::.
 
 
-File: chrono.info,  Node: calyears,  Next: datetime,  Prev: calmonths,  Up: Function Reference
+File: chrono.info,  Node: calyears,  Next: datetime,  Prev: calmonths,  Up: Functions Alphabetically
 
 7.1.4 calyears
 --------------
@@ -335,7 +342,7 @@ File: chrono.info,  Node: calyears,  Next: datetime,  Prev: calmonths,  Up: Func
      *Note calendarDuration::.
 
 
-File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: Function Reference
+File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: Functions Alphabetically
 
 7.1.5 datetime
 --------------
@@ -376,7 +383,7 @@ File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: Function 
      Constructs a new ‘datetime’ array based on input values.
 
 
-File: chrono.info,  Node: days,  Next: duration,  Prev: datetime,  Up: Function Reference
+File: chrono.info,  Node: days,  Next: duration,  Prev: datetime,  Up: Functions Alphabetically
 
 7.1.6 days
 ----------
@@ -393,7 +400,7 @@ File: chrono.info,  Node: days,  Next: duration,  Prev: datetime,  Up: Function 
      is.
 
 
-File: chrono.info,  Node: duration,  Next: hours,  Prev: days,  Up: Function Reference
+File: chrono.info,  Node: duration,  Next: hours,  Prev: days,  Up: Functions Alphabetically
 
 7.1.7 duration
 --------------
@@ -421,7 +428,7 @@ File: chrono.info,  Node: duration,  Next: hours,  Prev: days,  Up: Function Ref
      Constructs a new ‘duration’ array based on input values.
 
 
-File: chrono.info,  Node: hours,  Next: isdatetime,  Prev: duration,  Up: Function Reference
+File: chrono.info,  Node: hours,  Next: isdatetime,  Prev: duration,  Up: Functions Alphabetically
 
 7.1.8 hours
 -----------
@@ -439,7 +446,7 @@ File: chrono.info,  Node: hours,  Next: isdatetime,  Prev: duration,  Up: Functi
      Returns an array the same size as X.
 
 
-File: chrono.info,  Node: isdatetime,  Next: isduration,  Prev: hours,  Up: Function Reference
+File: chrono.info,  Node: isdatetime,  Next: isduration,  Prev: hours,  Up: Functions Alphabetically
 
 7.1.9 isdatetime
 ----------------
@@ -451,7 +458,7 @@ File: chrono.info,  Node: isdatetime,  Next: isduration,  Prev: hours,  Up: Func
      Returns a logical array the same size as X.
 
 
-File: chrono.info,  Node: isduration,  Next: milliseconds,  Prev: isdatetime,  Up: Function Reference
+File: chrono.info,  Node: isduration,  Next: milliseconds,  Prev: isdatetime,  Up: Functions Alphabetically
 
 7.1.10 isduration
 -----------------
@@ -463,7 +470,7 @@ File: chrono.info,  Node: isduration,  Next: milliseconds,  Prev: isdatetime,  U
      Returns a logical array the same size as X.
 
 
-File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: isduration,  Up: Function Reference
+File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: isduration,  Up: Functions Alphabetically
 
 7.1.11 milliseconds
 -------------------
@@ -481,7 +488,7 @@ File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: isduration,  Up: 
      Returns an array the same size as X.
 
 
-File: chrono.info,  Node: minutes,  Next: seconds,  Prev: milliseconds,  Up: Function Reference
+File: chrono.info,  Node: minutes,  Next: seconds,  Prev: milliseconds,  Up: Functions Alphabetically
 
 7.1.12 minutes
 --------------
@@ -491,7 +498,7 @@ File: chrono.info,  Node: minutes,  Next: seconds,  Prev: milliseconds,  Up: Fun
      X.
 
 
-File: chrono.info,  Node: seconds,  Next: timezones,  Prev: minutes,  Up: Function Reference
+File: chrono.info,  Node: seconds,  Next: timezones,  Prev: minutes,  Up: Functions Alphabetically
 
 7.1.13 seconds
 --------------
@@ -509,7 +516,7 @@ File: chrono.info,  Node: seconds,  Next: timezones,  Prev: minutes,  Up: Functi
      Returns an array the same size as X.
 
 
-File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: Function Reference
+File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: Functions Alphabetically
 
 7.1.14 timezones
 ----------------
@@ -538,7 +545,7 @@ File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: Function
      fields in the output; these are currently unimplemented.
 
 
-File: chrono.info,  Node: years,  Prev: timezones,  Up: Function Reference
+File: chrono.info,  Node: years,  Prev: timezones,  Up: Functions Alphabetically
 
 7.1.15 years
 ------------
@@ -597,22 +604,23 @@ Node: duration Class6262
 Node: calendarDuration Class6444
 Node: Missing Functionality6650
 Node: Function Reference7619
-Node: NaT9068
-Node: calendarDuration9717
-Node: calmonths10403
-Node: calyears10988
-Node: datetime11325
-Node: days12888
-Node: duration13346
-Node: hours14246
-Node: isdatetime14721
-Node: isduration15003
-Node: milliseconds15294
-Node: minutes15826
-Node: seconds16080
-Node: timezones16571
-Node: years17598
-Node: Copying18274
+Node: Functions Alphabetically7805
+Node: NaT9186
+Node: calendarDuration9841
+Node: calmonths10533
+Node: calyears11124
+Node: datetime11467
+Node: days13036
+Node: duration13500
+Node: hours14406
+Node: isdatetime14887
+Node: isduration15175
+Node: milliseconds15472
+Node: minutes16010
+Node: seconds16270
+Node: timezones16767
+Node: years17800
+Node: Copying18482
 
 End Tag Table
 

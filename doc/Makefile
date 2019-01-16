@@ -21,22 +21,29 @@ DVIPS = dvips
 LN_S = ln -s
 OCTAVE = octave
 PERL = perl
+
 # On Mac, prefer Homebrew-installed Texinfo, because the system one is
 # outdated. We need to explicitly pull it in because Homebrew does not 
 # put it on the path by default.
-# TODO: Replace "/usr/local" with a "brew --prefix" test.
 BREW=$(shell which brew 2>/dev/null)
 ifeq ($(BREW),)
 	MAKEINFO = makeinfo
 	TEXI2DVI = texi2dvi
 	TEXI2HTML = makeinfo --html
 	TEXI2PDF = texi2pdf
+	QHELPGENERATOR = qhelpgenerator
 else
 	BREW_TEXINFO = $(shell brew --prefix texinfo)
 	MAKEINFO = $(BREW_TEXINFO)/bin/makeinfo
 	TEXI2DVI = $(BREW_TEXINFO)/bin/texi2dvi
 	TEXI2HTML = $(BREW_TEXINFO)/bin/makeinfo --html
 	TEXI2PDF = $(BREW_TEXINFO)/bin/texi2pdf
+	BREW_QT = $(shell brew --prefix qt)
+	ifeq ($(wildcard $(BREW_QT)/bin/qhelpgenerator),)
+		QHELPGENERATOR = $(BREW_QT)/bin/qcollectiongenerator
+	else
+		QHELPGENERATOR = $(BREW_QT)/bin/qhelpgenerator
+	endif
 endif
 
 INFODOC = $(package).info
@@ -49,12 +56,13 @@ DOCSTRINGS = DOCSTRINGS
 INDEX = ../INDEX
 
 default: all
-all: info html pdf
+all: info html pdf qhelp
 info: $(INFODOC)
 dvi: $(DVIDOC)
 #html: $(HTMLDOC) $(package)-single.html
 pdf: $(PDFDOC)
 ps: $(PSDOC)
+qhelp: $(package).qhc
 
 %.dvi: %.texi
 	$(TEXI2DVI) --clean -o $@ $<
@@ -68,6 +76,12 @@ ps: $(PSDOC)
 %.ps: %.dvi
 	$(DVIPS) -o $@ $<
 
+$(package).qhp: $(package).texi mkqhp.pl
+	$(PERL) mkqhp.pl $(package).texi $(package).qhp
+
+$(package).qhc: $(package).qhcp $(package).qhp
+	$(QHELPGENERATOR) $(package).qhcp -o $(package).qhc
+
 $(package).html: $(package).texi
 	rm -f $(package).html
 	$(TEXI2HTML) --no-split -o $(package).html $<
@@ -77,7 +91,7 @@ html: $(package).texi $(package).html
 	$(TEXI2HTML) -o html $<
 
 .PRECIOUS: %.texi
-%.texi : %.txi
+%.texi : %.txi mkdoc.pl mktexi.pl
 	$(RM) -f $(DOCSTRINGS); \
 	$(PERL) ./mkdoc.pl ../ > $(DOCSTRINGS); \
 	$(PERL) ./mktexi.pl $< $(DOCSTRINGS) $(INDEX) > $@ ; \
@@ -109,4 +123,4 @@ $(PDFDOC): $(DVIDOC)
 clean:
 	rm -rf *.bak *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi images.mk
 
-.PHONY: default all clean dvi html info pdf ps
+.PHONY: default all clean dvi html info pdf ps qhelp

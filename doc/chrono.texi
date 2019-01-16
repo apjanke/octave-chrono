@@ -279,6 +279,7 @@ Create a `duration' X years long, or get the years in a `duration' X.
 @end iftex
 
 
+@node Functions Alphabetically
 @section Functions Alphabetically
 @menu
 * NaT:: 	“Not-a-Time”.
@@ -308,7 +309,7 @@ Create a `duration' X years long, or get the years in a `duration' X.
 		`duration' X.
 @end menu
 
-@node NaT, calendarDuration, , Function Reference
+@node NaT
 @subsection NaT
 
 @deftypefn {Function} {@var{out} =} NaT ()
@@ -326,7 +327,7 @@ any other value results in a @code{NaT}.
 
 
 
-@node calendarDuration, calmonths, NaT, Function Reference
+@node calendarDuration
 @subsection calendarDuration
 
 @deftp {Class} calendarDuration
@@ -353,7 +354,7 @@ Constructs new @code{calendarDuration} arrays based on input values.
 
 
 
-@node calmonths, calyears, calendarDuration, Function Reference
+@node calmonths
 @subsection calmonths
 
 @deftypefn {Function File} {@var{out} =} calmonths (@var{x})
@@ -373,7 +374,7 @@ Returns a new @code{calendarDuration} object of the same size as @var{x}.
 
 
 
-@node calyears, datetime, calmonths, Function Reference
+@node calyears
 @subsection calyears
 
 @deftypefn {Function} {@var{out} =} calyears (@var{x})
@@ -388,7 +389,7 @@ This is a shorthand for calling @code{calendarDuration(@var{x}, 0, 0)}.
 
 
 
-@node datetime, days, calyears, Function Reference
+@node datetime
 @subsection datetime
 
 @deftp {Class} datetime
@@ -440,7 +441,7 @@ Constructs a new @code{datetime} array based on input values.
 
 
 
-@node days, duration, datetime, Function Reference
+@node days
 @subsection days
 
 @deftypefn {Function} {@var{out} =} days (@var{x})
@@ -458,7 +459,7 @@ is.
 
 
 
-@node duration, hours, days, Function Reference
+@node duration
 @subsection duration
 
 @deftp {Class} duration
@@ -490,7 +491,7 @@ Constructs a new @code{duration} array based on input values.
 
 
 
-@node hours, isdatetime, duration, Function Reference
+@node hours
 @subsection hours
 
 @deftypefn {Function File} {@var{out} =} hours (@var{x})
@@ -507,7 +508,7 @@ Returns an array the same size as @var{x}.
 
 
 
-@node isdatetime, isduration, hours, Function Reference
+@node isdatetime
 @subsection isdatetime
 
 @deftypefn {Function} {@var{tf} =} isdatetime (@var{x})
@@ -519,7 +520,7 @@ Returns a logical array the same size as @var{x}.
 
 
 
-@node isduration, milliseconds, isdatetime, Function Reference
+@node isduration
 @subsection isduration
 
 @deftypefn {Function} {@var{tf} =} isduration (@var{x})
@@ -531,7 +532,7 @@ Returns a logical array the same size as @var{x}.
 
 
 
-@node milliseconds, minutes, isduration, Function Reference
+@node milliseconds
 @subsection milliseconds
 
 @deftypefn {Function File} {@var{out} =} milliseconds (@var{x})
@@ -548,7 +549,7 @@ Returns an array the same size as @var{x}.
 
 
 
-@node minutes, seconds, milliseconds, Function Reference
+@node minutes
 @subsection minutes
 
 @deftypefn {Function File} {@var{out} =} hours (@var{x})
@@ -559,7 +560,7 @@ Create a @code{duration} @var{x} hours long, or get the hours in a @code{duratio
 
 
 
-@node seconds, timezones, minutes, Function Reference
+@node seconds
 @subsection seconds
 
 @deftypefn {Function File} {@var{out} =} seconds (@var{x})
@@ -576,7 +577,7 @@ Returns an array the same size as @var{x}.
 
 
 
-@node timezones, years, seconds, Function Reference
+@node timezones
 @subsection timezones
 
 @deftypefn {Function} {@var{out} =} timezones ()
@@ -607,7 +608,7 @@ the output; these are currently unimplemented.
 
 
 
-@node years, , timezones, Function Reference
+@node years
 @subsection years
 
 @deftypefn {Function File} {@var{out} =} years (@var{x})
