@@ -1,17 +1,18 @@
 chrono >> Chrono
-Date/Time Classes and Functions
+Date Representation
+ datetime
+ isdatetime
+ NaT
+Durations
  calendarDuration
  calmonths
  calyears
- datetime
  days
  duration
  hours
- isdatetime
  isduration
  milliseconds
  minutes
- NaT
  seconds
  timezones
  years
