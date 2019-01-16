@@ -15,14 +15,8 @@ dist: xenial
 group: travis_latest
 
 before_install:
-  #- |
-  #  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
-  #    brew update
-  #    time brew upgrade
-  #    brew install octave qt
-  #  fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade; fi
+  # Don't do brew update; it takes forever (like five minutes)
+  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install octave; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install qt; fi
   - |
