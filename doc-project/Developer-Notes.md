@@ -16,6 +16,8 @@ Chrono Developer Notes
 ## Sections
 
 * `datetime`
+  * Fix expansion filling
+    * e.g. `d = datetime; d(5) = d` produces bad `d(2:4)`
   * Leap second conversion
   * `Format` support
     * Needs LDML format support, not datestr() format placeholders
