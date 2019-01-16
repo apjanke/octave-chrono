@@ -46,6 +46,7 @@ Chrono Developer Notes
 * Miscellaneous
   * Reproduce crash - double setter/getters cause it? (Had duplicates for datetime.Month.)
 * Documentation
+  * Fix Travis CI doco build
   * Correct asciibetical ordering in Functions Alphabetically
   * Fix this:
 ```
