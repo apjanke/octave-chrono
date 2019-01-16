@@ -66,6 +66,9 @@ while (my $line = <IN>) {
 	next unless ($line =~ /^\s*\@node +(.*?)(,|$)/);
 	my $node_name = $1;
 	my $next_line = <IN>;
+	while ($next_line && $next_line =~ /^\s*$/) {
+		$next_line = <IN>;
+	}
 	chomp $next_line;
 	unless ($next_line =~ /^\s*\@(\S+) +(.*)/) {
 		die "Error: Failed parsing section line for node '$node_name': $next_line";
