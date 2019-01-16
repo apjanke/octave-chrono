@@ -1,6 +1,6 @@
 # Makefile for Chrono documentation
 #
-# This setup uses the convention that "*.txi" files are the human-editable
+# This setup uses the convention that "*.texi.in" files are the human-editable
 # input files, and corresponding "*.texi" files are processed intermediate
 # files.
 #
@@ -52,7 +52,7 @@ PSDOC = $(patsubst %.info,%.ps,$(INFODOC))
 PDFDOC = $(patsubst %.info,%.pdf,$(INFODOC))
 #HTMLDOC = $(patsubst %.info,%.html,$(INFODOC))
 TEXIDOC = $(patsubst %.info,%.texi,$(INFODOC))
-DOCSTRINGS = DOCSTRINGS
+DOCSTRINGS = DOCSTRINGS.texi.tmp
 INDEX = ../INDEX
 
 default: all
@@ -91,7 +91,7 @@ html: $(package).texi $(package).html
 	$(TEXI2HTML) -o html $<
 
 .PRECIOUS: %.texi
-%.texi : %.txi mkdoc.pl mktexi.pl
+%.texi : %.texi.in mkdoc.pl mktexi.pl
 	$(RM) -f $(DOCSTRINGS); \
 	$(PERL) ./mkdoc.pl ../ > $(DOCSTRINGS); \
 	$(PERL) ./mktexi.pl $< $(DOCSTRINGS) $(INDEX) > $@ ; \
@@ -121,6 +121,9 @@ $(HTMLDOC): $(IMAGES_PNG)
 $(PDFDOC): $(DVIDOC)
 
 clean:
-	rm -rf *.bak *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi images.mk
+	rm -rf *.tmp 
 
-.PHONY: default all clean dvi html info pdf ps qhelp
+maintainer-clean: clean
+	rm -rf *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi *.qhp *.qch *.qhc images.mk
+
+.PHONY: default all clean maintainer-clean dvi html info pdf ps qhelp
