@@ -16,9 +16,13 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install octave; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install octave octave-pkg-dev texlive; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install octave 
+      octave-pkg-dev texlive qttools5-dev-tools; fi
 
 script:
+  - find /usr/lib/x86_64-linux-gnu/qt5/
+  - ls -l /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator
+  - file /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator
   - make local
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make all); fi
   - ./dev-tools/runtests.sh inst
