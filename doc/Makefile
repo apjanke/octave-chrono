@@ -4,7 +4,11 @@
 # input files, and corresponding "*.texi" files are processed intermediate
 # files.
 #
-# TODO: Replace chrono-single.html with pattern-based definition.
+# This Makefile is generic enough that it could be dropped without modification
+# in the doc/ directory of any package that follows Octave Forge conventions.
+# Just include its dependencies: mkdoc.pl, mkqhp.pl, mktexi.pl
+# And make sure that your texinfo doc strings follow this' conventions:
+#   - each @node must be followed immediately by a @chapter/@section/@subsection/@subsubsection
 
 ## Some basic tools (can be overriden using environment variables)
 SED ?= sed
