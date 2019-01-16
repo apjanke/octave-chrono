@@ -6,6 +6,17 @@
 #
 # TODO: Replace chrono-single.html with pattern-based definition.
 
+## Some basic tools (can be overriden using environment variables)
+SED ?= sed
+TAR ?= tar
+GREP ?= grep
+CUT ?= cut
+
+## Note the use of ':=' (immediate set) and not just '=' (lazy set).
+## http://stackoverflow.com/a/448939/1609556
+package := $(shell $(GREP) "^Name: " ../DESCRIPTION | $(CUT) -f2 -d" ")
+version := $(shell $(GREP) "^Version: " ../DESCRIPTION | $(CUT) -f2 -d" ")
+
 DVIPS = dvips
 LN_S = ln -s
 OCTAVE = octave
@@ -14,23 +25,25 @@ PERL = perl
 # outdated. We need to explicitly pull it in because Homebrew does not 
 # put it on the path by default.
 # TODO: Replace "/usr/local" with a "brew --prefix" test.
-ifeq ($(wildcard /usr/local/opt/texinfo/bin/makeinfo),)
+BREW=$(shell which brew 2>/dev/null)
+ifeq ($(BREW),)
 	MAKEINFO = makeinfo
 	TEXI2DVI = texi2dvi
 	TEXI2HTML = makeinfo --html
 	TEXI2PDF = texi2pdf
 else
-	MAKEINFO = /usr/local/opt/texinfo/bin/makeinfo
-	TEXI2DVI = /usr/local/opt/texinfo/bin/texi2dvi
-	TEXI2HTML = /usr/local/opt/texinfo/bin/makeinfo --html
-	TEXI2PDF = /usr/local/opt/texinfo/bin/texi2pdf
+	BREW_TEXINFO = $(shell brew --prefix texinfo)
+	MAKEINFO = $(BREW_TEXINFO)/bin/makeinfo
+	TEXI2DVI = $(BREW_TEXINFO)/bin/texi2dvi
+	TEXI2HTML = $(BREW_TEXINFO)/bin/makeinfo --html
+	TEXI2PDF = $(BREW_TEXINFO)/bin/texi2pdf
 endif
 
-INFODOC = chrono.info
+INFODOC = $(package).info
 DVIDOC = $(patsubst %.info,%.dvi,$(INFODOC))
 PSDOC = $(patsubst %.info,%.ps,$(INFODOC))
 PDFDOC = $(patsubst %.info,%.pdf,$(INFODOC))
-HTMLDOC = $(patsubst %.info,%.html,$(INFODOC))
+#HTMLDOC = $(patsubst %.info,%.html,$(INFODOC))
 TEXIDOC = $(patsubst %.info,%.texi,$(INFODOC))
 DOCSTRINGS = DOCSTRINGS
 INDEX = ../INDEX
@@ -39,7 +52,7 @@ default: all
 all: info html pdf
 info: $(INFODOC)
 dvi: $(DVIDOC)
-html: $(HTMLDOC) chrono-single.html
+#html: $(HTMLDOC) $(package)-single.html
 pdf: $(PDFDOC)
 ps: $(PSDOC)
 
@@ -55,21 +68,16 @@ ps: $(PSDOC)
 %.ps: %.dvi
 	$(DVIPS) -o $@ $<
 
-chrono-single.html: chrono.texi
-	rm -f chrono-single.html
-	$(TEXI2HTML) --no-split -o chrono-single.html $<
+$(package).html: $(package).texi
+	rm -f $(package).html
+	$(TEXI2HTML) --no-split -o $(package).html $<
 
-%.html: %.texi
-	rm -rf $(@:.html=.htp)
-	if $(TEXI2HTML) -o $(@:.html=.htp) $<; then \
-	  rm -rf $@ && mv $(@:.html=.htp) $@; \
-	else \
-	  rm -rf $(@:.html=.htp); exit 1; \
-	fi
+html: $(package).texi $(package).html
+	rm -rf html
+	$(TEXI2HTML) -o html $<
 
 .PRECIOUS: %.texi
 %.texi : %.txi
-	@echo "Making texinfo $@"; \
 	$(RM) -f $(DOCSTRINGS); \
 	$(PERL) ./mkdoc.pl ../ > $(DOCSTRINGS); \
 	$(PERL) ./mktexi.pl $< $(DOCSTRINGS) $(INDEX) > $@ ; \
