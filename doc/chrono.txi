@@ -6,8 +6,6 @@
 @settitle Chrono for Octave v0.1.0
 @documentencoding UTF-8
 
-@paragraphindent 0
-
 @c %**end of header
 
 @copying
@@ -55,6 +53,7 @@ This manual is for Chrono, version 0.1.0.
 
 @menu
 * Introduction::
+* Getting Started::
 * Date/Time Classes::
 * Time Zones::
 * Missing Functionality::
@@ -66,6 +65,12 @@ This manual is for Chrono, version 0.1.0.
 @node Introduction
 @chapter Introduction
 
+@quotation
+Time is an illusion. Lunchtime doubly so.
+
+@author Douglas Adams
+@end quotation
+
 This is the manual for the Chrono package version 0.1.0 for GNU Octave.
 
 This document is a work in progress. You are invited to help improve it and
@@ -74,6 +79,27 @@ submit patches.
 The Chrono package provides Matlab-compatible date/time classes for Octave,
 including @code{datetime}, @code{duration}, and @code{calendarDuration}
 classes.
+
+Chrono was written by Andrew Janke <@email{floss@@apjanke.net}>. Support can be
+found on the @url{https://github.com/apjanke/octave-addons-chrono, Chrono project
+GitHub page}.
+
+@node Getting Started
+@chapter Getting Started
+
+The easiest way to obtain Chrono is by using Octave's @code{pkg} package manager. To
+install the latest development (unstable) head of Chrono, run this in Octave:
+
+@example
+pkg install https://github.com/apjanke/octave-addons-chrono/archive/master.zip
+@end example
+
+Soon, once the code gets a bit more stable, numbered releases for Chrono will be
+available, and you should use those instead.
+
+For development, you can obtain the source code for Chrono from the project repo on GitHub at 
+@url{https://github.com/apjanke/octave-addons-chrono}. Upon first installation, run
+the @file{make_local} script to build the octfiles so Chrono will work. Then add the @file{inst} directory in the repo to your Octave path.
 
 @node Date/Time Classes
 @chapter Date/Time Classes
@@ -84,7 +110,7 @@ classes, along with related functions.
 
 Chrono's classes are designed to be convenient to use while still being efficient.
 The data representations used by Chrono are designed to be efficient and suitable
-for working with large-ish data sets. A "large-ish" data set is one that can have
+for working with large-ish data sets. A “large-ish” data set is one that can have
 millions of elements or rows, but still fits in main computer memory. Chrono's main
 relational and arithmetic operations are all implemented using vectorized
 operations on primitive Octave data types.
@@ -118,7 +144,7 @@ This section will describe @code{duration}.
 This section will describe Chrono's time zone support.
 
 Chrono's time zone data is drawn from the @uref{https://www.iana.org/time-zones, 
-IANA Time Zone Database}, also known as the "Olson Database". Chrono includes a
+IANA Time Zone Database}, also known as the “Olson Database”. Chrono includes a
 copy of this database in its distribution so it can work on Windows, which does
 not supply it like Unix systems do.
 
@@ -128,26 +154,20 @@ not supply it like Unix systems do.
 Chrono is based on Matlab's date/time API and supports most of its major functionality.
 But not all of it is implemented yet. The missing parts are currently:
 
-* POSIX time zone support for years outside the IANA time zone database coverage
+@itemize
+@item POSIX time zone support for years outside the IANA time zone database coverage
+@item Week-of-year (ISO calendar) calculations
+@item Various @code{'ConvertFrom'} forms for @code{datetime} and @code{duration}
+@item Support for LDML formatting for @code{datetime}
+@item Various functions: @code{between}, @code{caldiff}, @code{dateshift}, @code{week}
+@item @code{isdst}, @code{isweekend}
+@item @code{calendarDuration.split}
+@item @code{duration.Format} support
+@item @code{UTCOffset} and @code{DSTOffset} fields in the output of @code{timezones()}
+@item Plotting support
+@end itemize
 
-* Week-of-year (ISO calendar) calculations
-
-* Various @code{'ConvertFrom'} forms for @code{datetime} and @code{duration}
-
-* Support for LDML formatting for @code{datetime}
-
-* Various functions: @code{between}, @code{caldiff}, @code{dateshift}, @code{week}
-
-* @code{isdst}, @code{isweekend}
-
-* @code{calendarDuration.split}
-
-* @code{duration.Format} support
-
-* @code{UTCOffset} and @code{DSTOffset} fields in the output of @code{timezones()}
-
-* Plotting support
-
+It is the author's hope that all these will be implemented some day.
 
 @node Function Reference
 @chapter Function Reference

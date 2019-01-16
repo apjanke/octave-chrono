@@ -51,7 +51,7 @@ function out = prettyprint_matrix (strs)
     error ('Input must be matrix; got %d-D', ndims (strs));
   endif
   lens = cellfun ('prodofsize', strs);
-  widths = max (lens);
+  widths = max (lens, 1);
   formats = octave.time.internal.sprintfv ('%%%ds', widths);
   format = strjoin (formats, '   ');
   lines = cell (size (strs,1), 1);

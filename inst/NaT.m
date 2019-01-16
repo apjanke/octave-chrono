@@ -16,6 +16,7 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+
 function out = NaT (sz)
   %NAT Not-a-Time
   %

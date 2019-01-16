@@ -17,16 +17,26 @@
 ## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{out} =} datetime (@var{varargin})
-## Construct a new @code{datetime} array.
+## @deftp {Class} datetime
+##
+## Represents points in time using the Gregorian calendar.
+##
+## This is an attempt to reproduce the functionality of Matlab's @code{datetime}. It
+## also contains some Octave-specific extensions.
+##
+## @end deftp
+##
+## @deftypefn {Constructor} {@var{out} =} datetime ()
+##
+## Constructs a new scalar @code{datetime} containing the current local time, with
+## no time zone attached.
 ##
 ## @end deftypefn
-
 
 classdef datetime
   %DATETIME Date/time values
   %
-  % Datetime represents points in time using the ISO calendar.
+  % Datetime represents points in time using the Gregorian calendar.
   %
   % This is an attempt to reproduce the functionality of Matlab's @datetime. It
   % also contains some Octave-specific extensions.
@@ -38,7 +48,7 @@ classdef datetime
   % @planarrelops
   
   properties (Access = private)
-    dnums % @planar
+    dnums = NaN % @planar
   endproperties
   properties
     % Time zone code as charvec. Assigning a new TimeZone performs time zone conversion.

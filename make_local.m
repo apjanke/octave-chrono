@@ -16,6 +16,17 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function File} make_local
+##
+## Build all the octfiles in Chrono.
+##
+## This is for use when you are building Chrono from the source in the repo. It
+## is not needed when you are using Chrono after it is installed. You do not need
+## to call it yourself if you install Chrono using @command{pkg}.
+##
+## @end deftypefn
+
 function make_local
   %MAKE_LOCAL Build the octfiles for this repo
   %
