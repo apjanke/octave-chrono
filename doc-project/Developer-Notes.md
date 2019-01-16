@@ -36,8 +36,8 @@ Chrono Developer Notes
     arithmetic implementation can result in this. Should that be normalized? Maybe. Not sure it can be fully normalized.
   * proxykeys: pull isnan up to front of precedence? Maybe invert so NaNs sort to end?
   * Fix expansion filling?
-    * e.g. `d = datetime; d(5) = d` produces bad `d(2:4)`
-    * It's in the expansion of doubles: their default value is 0, not NaN.
+    * e.g. `d = datetime; d(5) = d` produced bad `d(2:4)`
+    * It's in the expansion of numerics: their default value is 0, not NaN.
 * Plotting support
   * Maybe with just shims and conversion to datenums
 * `duration`
