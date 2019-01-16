@@ -72,7 +72,7 @@ help:
 
 ## dist and html targets are only PHONY/alias targets to the release
 ## and html tarballs.
-dist: doc $(release_tarball)
+dist: $(release_tarball)
 html: $(html_tarball)
 
 ## An implicit rule with a recipe to build the tarballs correctly.
