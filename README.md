@@ -32,7 +32,8 @@ Chrono runs on Octave 4.0.0 and later.
 
 On Windows 7 and earlier, Java is required to detect the system default time zone.
 
-Building Chrono requires a compiler.
+Building Chrono requires a compiler. That means you need to [install Visual Studio
+Community](https://visualstudio.microsoft.com/downloads/) on Windows.
 
 ## License
 

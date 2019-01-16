@@ -5,7 +5,6 @@ Chrono Developer Notes
 
 ## Overall
 
-* See if Ubuntu can install a newer Octave; on Travis it's on Octave 3.8.1 and that breaks my tests.
 * Documentation
 * Add more BISTs
 * Remove planar-gen boilerplate and isnan2()s once I'm sure class structure is set
