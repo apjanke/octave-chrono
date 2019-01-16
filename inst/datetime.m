@@ -16,6 +16,13 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{out} =} datetime (@var{varargin})
+## Construct a new @code{datetime} array.
+##
+## @end deftypefn
+
+
 classdef datetime
   %DATETIME Date/time values
   %

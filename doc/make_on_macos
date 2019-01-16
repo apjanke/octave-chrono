@@ -2,7 +2,9 @@
 #
 # Wrapper script for calling make on macOS with a Homebrew installation.
 #
-# This is needed because the system ghostscript and texinfo are outdated.
+# This is needed because the system ghostscript and texinfo are outdated, so
+# you want to use the Homebrew-installed ones, but they're not on the path
+# by default.
 
 if ! which brew &>/dev/null; then
   echo >&2 "Error: Homebrew is required but was not found."

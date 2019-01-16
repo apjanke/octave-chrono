@@ -3,8 +3,10 @@
 @c %**start of header
 
 @setfilename chrono.info
-
 @settitle Chrono for Octave v0.1.0
+@documentencoding UTF-8
+
+@paragraphindent 0
 
 @c %**end of header
 
@@ -33,14 +35,13 @@ User manual for Chrono for Octave.
 @end documentdescription
 
 @titlepage
-@title  Chrono Package for Octave
+@title  Chrono for Octave
 @subtitle version 0.1.0, January 2019
 @author Andrew Janke
 @page
 @vskip 0pt plus 1filll
 @insertcopying
 @end titlepage
-
 
 
 @contents
@@ -54,8 +55,10 @@ This manual is for Chrono, version 0.1.0.
 
 @menu
 * Introduction::
-* Functionality::
-* Class and Function Reference::
+* Date/Time Classes::
+* Time Zones::
+* Missing Functionality::
+* Function Reference::
 * Copying::
 @end menu
 
@@ -72,8 +75,8 @@ The Chrono package provides Matlab-compatible date/time classes for Octave,
 including @code{datetime}, @code{duration}, and @code{calendarDuration}
 classes.
 
-@node Functionality
-@chapter Functionality
+@node Date/Time Classes
+@chapter Date/Time Classes
 
 Chrono provides date/time functionality for Octave by supplying Matlab-compatible
 implementations for the @code{datetime}, @code{duration}, and @code{calendarDuration}
@@ -86,8 +89,68 @@ millions of elements or rows, but still fits in main computer memory. Chrono's m
 relational and arithmetic operations are all implemented using vectorized
 operations on primitive Octave data types.
 
-@node Class and Function Reference
-@chapter Class and Function Reference
+@menu
+* datetime class::
+* duration class::
+@end menu
+
+@node datetime class
+@section @code{datetime} class
+
+A @code{datetime} is an array object that represents points in time in the familiar
+Gregorian calendar.
+
+The underlying representation is that of a datenum (a @code{double}
+containing the number of days since the Matlab epoch), but encapsulating it in an
+object provides several benefits: friendly human-readable display, type safety,
+automatic type conversion, and time zone support. In addition to the underlying
+datenum array, a @code{datetime} inclues an optional @code{TimeZone} property 
+indicating what time zone the datetimes are in.
+
+@node duration class
+@section @code{duration} class
+
+This section will describe @code{duration}.
+
+@node Time Zones
+@chapter Time Zones
+
+This section will describe Chrono's time zone support.
+
+Chrono's time zone data is drawn from the @uref{https://www.iana.org/time-zones, 
+IANA Time Zone Database}, also known as the "Olson Database". Chrono includes a
+copy of this database in its distribution so it can work on Windows, which does
+not supply it like Unix systems do.
+
+@node Missing Functionality
+@chapter Missing Functionality
+
+Chrono is based on Matlab's date/time API and supports most of its major functionality.
+But not all of it is implemented yet. The missing parts are currently:
+
+* POSIX time zone support for years outside the IANA time zone database coverage
+
+* Week-of-year (ISO calendar) calculations
+
+* Various @code{'ConvertFrom'} forms for @code{datetime} and @code{duration}
+
+* Support for LDML formatting for @code{datetime}
+
+* Various functions: @code{between}, @code{caldiff}, @code{dateshift}, @code{week}
+
+* @code{isdst}, @code{isweekend}
+
+* @code{calendarDuration.split}
+
+* @code{duration.Format} support
+
+* @code{UTCOffset} and @code{DSTOffset} fields in the output of @code{timezones()}
+
+* Plotting support
+
+
+@node Function Reference
+@chapter Function Reference
 
 @REFERENCE_SECTION(Chrono)
 

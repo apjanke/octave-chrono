@@ -4,14 +4,26 @@
 # input files, and corresponding "*.texi" files are processed intermediate
 # files.
 
+default: all
+
 DVIPS = dvips
 LN_S = ln -s
 MAKEINFO = makeinfo
 OCTAVE = octave
 PERL = perl
-TEXI2DVI = texi2dvi
-TEXI2HTML = makeinfo --html
-TEXI2PDF = texi2pdf
+# On Mac, prefer Homebrew-installed Texinfo, because the system one is
+# outdated. We need to explicitly pull it in because Homebrew does not 
+# put it on the path by default.
+# TODO: Replace "/usr/local" with a "brew --prefix" test.
+ifeq ($(wildcard /usr/local/opt/texinfo/bin/makeinfo),)
+	TEXI2DVI = texi2dvi
+	TEXI2HTML = makeinfo --html
+	TEXI2PDF = texi2pdf
+else
+	TEXI2DVI = /usr/local/opt/texinfo/bin/texi2dvi
+	TEXI2HTML = /usr/local/opt/texinfo/bin/makeinfo --html
+	TEXI2PDF = /usr/local/opt/texinfo/bin/texi2pdf
+endif
 
 INFODOC = chrono.info
 DVIDOC = $(patsubst %.info,%.dvi,$(INFODOC))
@@ -22,7 +34,6 @@ TEXIDOC = $(patsubst %.info,%.texi,$(INFODOC))
 DOCSTRINGS = DOCSTRINGS
 INDEX = ../INDEX
 
-default: all
 all: info html pdf
 info: $(INFODOC)
 dvi: $(DVIDOC)
@@ -82,10 +93,6 @@ $(HTMLDOC): $(IMAGES_PNG)
 $(PDFDOC): $(DVIDOC)
 
 clean:
-	rm -rf *.bak
+	rm -rf *.bak *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi images.mk
 
-maintainer-clean: clean
-	rm -rf *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi
-	rm -f images.mk
-
-.PHONY: default all clean dvi html info maintainer-clean pdf ps
+.PHONY: default all clean dvi html info pdf ps

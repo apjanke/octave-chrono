@@ -16,6 +16,22 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{out} =} calmonths (@var{x})
+## Create a @code{calendarDuration} that is a given number of calendar months
+## long.
+##
+## Input @var{x} is a numeric array specifying the number of calendar months.
+##
+## This is a shorthand alternative to calling the @code{calendarDuration} 
+## constructor with @code{calendarDuration(0, x, 0)}.
+##
+## Returns a new @code{calendarDuration} object of the same size as @var{x}.
+##
+## @seealso{calendarDuration}
+## @end deftypefn
+
 function out = calmonths (x)
   %CALMONTHS Calendar duration in months
   if ~isnumeric (x)

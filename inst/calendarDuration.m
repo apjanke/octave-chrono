@@ -16,6 +16,11 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{obj} =} calendarDuration (Y, M, D)
+## @deftypefnx {Function File} {@var{obj} =} calendarDuration (Y, M, D, H, MI, S)
+## @end deftypefn
+
 classdef calendarDuration
   %CALENDARDURATION Lengths of time in variable-length calendar units
   

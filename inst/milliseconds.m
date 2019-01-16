@@ -16,6 +16,14 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{out} =} hours (@var{x})
+## Create a @code{duration} @var{x} hours long, or get the hours in a @code{duration}
+## @var{x}.
+##
+## @end deftypefn
+
+
 function out = milliseconds (x)
   %MILLISECONDS Duration in milliseconds
   %
