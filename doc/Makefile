@@ -1,3 +1,9 @@
+# Makefile for Chrono documentation
+#
+# This setup uses the convention that "*.txi" files are the human-editable
+# input files, and corresponding "*.texi" files are processed intermediate
+# files.
+
 DVIPS = dvips
 LN_S = ln -s
 MAKEINFO = makeinfo
@@ -7,7 +13,7 @@ TEXI2DVI = texi2dvi
 TEXI2HTML = makeinfo --html
 TEXI2PDF = texi2pdf
 
-INFODOC = comms.info
+INFODOC = chrono.info
 DVIDOC = $(patsubst %.info,%.dvi,$(INFODOC))
 PSDOC = $(patsubst %.info,%.ps,$(INFODOC))
 PDFDOC = $(patsubst %.info,%.pdf,$(INFODOC))
@@ -16,7 +22,8 @@ TEXIDOC = $(patsubst %.info,%.texi,$(INFODOC))
 DOCSTRINGS = DOCSTRINGS
 INDEX = ../INDEX
 
-all: info
+default: all
+all: info html pdf
 info: $(INFODOC)
 dvi: $(DVIDOC)
 html: $(HTMLDOC)
@@ -81,4 +88,4 @@ maintainer-clean: clean
 	rm -rf *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi
 	rm -f images.mk
 
-.PHONY: all clean dvi html info maintainer-clean pdf ps
+.PHONY: default all clean dvi html info maintainer-clean pdf ps

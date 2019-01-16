@@ -1,17 +1,19 @@
-\input texinfo
+\input texinfo    @c -*-texinfo-*-
+
+@c %**start of header
 
 @setfilename chrono.info
 
-@settitle Chrono Package for Octave
+@settitle Chrono for Octave v0.1.0
 
-@titlepage
-@title  Chrono Package for Octave
-@subtitle November 2019
-@author Andrew Janke
-@page
-@vskip 0pt plus 1filll
+@c %**end of header
+
+@copying
+This manual is for Chrono, version 0.1.0.
+
 Copyright @copyright{} 2019 Andrew Janke
 
+@quotation
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
 are preserved on all copies.
@@ -23,26 +25,75 @@ notice identical to this one.
 
 Permission is granted to copy and distribute translations of this manual
 into another language, under the same conditions as for modified versions.
+@end quotation
+@end copying
+
+@documentdescription
+User manual for Chrono for Octave.
+@end documentdescription
+
+@titlepage
+@title  Chrono Package for Octave
+@subtitle version 0.1.0, January 2019
+@author Andrew Janke
+@page
+@vskip 0pt plus 1filll
+@insertcopying
 @end titlepage
+
+
 
 @contents
 
 @ifnottex
 @node Top, Introduction
-@top
+@top Chrono for Octave
+
+This manual is for Chrono, version 0.1.0.
 @end ifnottex
 
 @menu
 * Introduction::
-* Function Reference::
+* Functionality::
+* Class and Function Reference::
+* Copying::
 @end menu
 
-@node Introduction, Random Signals, Top, Top
+
+@node Introduction, Functionality, Top, Top
 @chapter Introduction
 
+This is the manual for the Chrono package version 0.1.0 for GNU Octave.
 
+This document is a work in progress. You are invited to help improve it and
+submit patches.
 
+The Chrono package provides Matlab-compatible date/time classes for Octave,
+including @code{datetime}, @code{duration}, and @code{calendarDuration}
+classes.
 
+@node Functionality, Class and Function Reference, Introduction, Top
+@chapter Functionality
 
+Chrono provides date/time functionality for Octave by supplying Matlab-compatible
+implementations for the @code{datetime}, @code{duration}, and @code{calendarDuration}
+classes, along with related functions.
+
+Chrono's classes are designed to be convenient to use while still being efficient.
+The data representations used by Chrono are designed to be efficient and suitable
+for working with large-ish data sets. A "large-ish" data set is one that can have
+millions of elements or rows, but still fits in main computer memory. Chrono's main
+relational and arithmetic operations are all implemented using vectorized
+operations on primitive Octave data types.
+
+@node Class and Function Reference, Copying, Functionality, Top
+@chapter Class and Function Reference
+
+@REFERENCE_SECTION(Chrono)
+
+@node Copying, , Class and Function Reference, Top
+@chapter Copying
+
+@insertcopying
 
 @bye

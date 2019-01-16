@@ -9,6 +9,7 @@ Chrono Developer Notes
 * Documentation
 * Add more BISTs
 * Remove planar-gen boilerplate and isnan2()s once I'm sure class structure is set
+* Consider using GNU FDL for the documentation license
 
 * Report crash: giving duration a days method while it has a days property results in a crash.
 
@@ -51,3 +52,10 @@ See `man tzfile` or [here](http://man7.org/linux/man-pages/man5/tzfile.5.html) f
 
 Matlab doco: [Dates and Time](https://www.mathworks.com/help/matlab/date-and-time-operations.html).
 
+
+# Release checklist
+
+* Run all the tests: `make test`
+* Update the version number and date in `doc/chrono.txi` and rebuild the documentation.
+* Create a git tag.
+* Push the tag to GitHub.

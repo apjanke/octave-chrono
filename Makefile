@@ -17,6 +17,10 @@ all: local
 local: src/__oct_time_binsearch__.cc
 	octave --eval="make_local"
 
+.PHONY: test
+test: local
+	devtools/runtests.sh inst 
+
 .PHONY: clean
 clean:
 	rm -f *.oct *.o src/*.oct src/*.o inst/*.oct

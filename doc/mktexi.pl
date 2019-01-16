@@ -1,9 +1,20 @@
 #!/usr/bin/env perl
 #
 # David Bateman Feb 02 2003
+# Andrew Janke 2019
 # 
 # Extracts the help in texinfo format for particular function for use
 # in documentation. Based on make_index script from octave_forge.
+#
+# Usage:
+#
+#   mktexi.pl <file> <docfile> <indexfile>
+#
+#   <file> is the input .txi template file.
+#   <docfile> is the output of mkdoc.pl.
+#   <index> is the main INDEX file at the root of the package repo.
+#
+# Emits output to stdout.
 
 use strict;
 use File::Find;
@@ -18,307 +29,304 @@ my $docfile = shift @ARGV;
 my $indexfile = shift @ARGV;
 my $line;
 
-if ( open(IN,$file) ) {
-  $line = <IN>;
-  my $tex = 0;
-  while ($line) {
-    if ($line =~ /^\@DOCSTRING/) {
-      my $found = 0;
-      my $func = $line;
-      $func =~ s/\@DOCSTRING\(//;
-      $func =~ s/\)[\n\r]+//;
-      my $func0 = $func;
-      my $func1 = $func;
-      $func0 =~ s/,.*$//;
-      $func1 =~ s/^.*,//;
-      if ( open(DOC,$docfile) ) {
-	while (<DOC>) {
-	  next unless /\037/;
-	  my $function = $_;
-	  $function =~ s/\037//;
-	  $function =~ s/[\n\r]+//;
-	  if ($function =~ /^$func0$/) {
-	    my $desc = "";
-	    my $docline;
-	    my $doctex = 0;
-	    while (($docline = <DOC>) && ($docline !~ /^\037/)) {
-	      $docline =~ s/^\s*-[*]- texinfo -[*]-\s*//;
-	      if ($docline =~ /\@tex/) {
-		$doctex = 1;
-	      }
-	      if ($doctex) {
-		$docline =~ s/\\\\/\\/g;
-	      }
-	      if ($docline =~ /\@end tex/) {
-		$doctex = 0;
-	      }
-	      $desc .= $docline;
-	    }
-	    $desc =~ s/$func0/$func1/g;
-	    $desc =~ s/\@seealso\{(.*[^}])\}/See also: \1/g;
-	    print "$desc", "\n";
-	    $found = 1;
-	    last;
-	  }
-        }
-	close (DOC);
-	if (! $found) {
-	  print "\@emph{Not implemented}\n";
-	}
-      } else {
-	print STDERR "Could not open file $docfile\n";
-	exit 1;
-      }
-    } elsif ($line =~ /^\@REFERENCE_SECTION/) {
-      my $secfound = 0;
-      my $sec = $line;
-      $sec =~ s/\@REFERENCE_SECTION\(//;
-      $sec =~ s/\)[\n\r]+//;
-      my @listfunc = ();
-      my $nfunc = 0;
-      my $seccat = 0;
-
-      if ( open(IND,$indexfile) ) {
-	while (<IND>) {
-	  next unless /^[^ ]/;
-	  my $section = $_;
-	  $section =~ s/[\n\r]+//;
-	  if ($section =~ /^(.*?)\s*>>\s*(.*?)$/) {
-	    $section =~ s/.*>>(.*)/\1/;
-	    $seccat = 1;
-	  }
-	  $section =~ s/^ *//;
-	  $section =~ s/ *$//;
-	  if ($section =~ /^$sec$/) {
-	    if ($seccat) {
-	      print "\@iftex\n";
-	      print "\@section Functions by Category\n";
-	      # Get the list of categories to index
-	      my $firstcat = 1;
-	      my $category;
-	      while (<IND>) {
-		last if />>/;
-		if (/^[^ ]/) {	
-		  if (! $firstcat) {
-		    print "\@end table\n";
-		  } else {
-		    $firstcat = 0;
-		  }
-		  $category = $_;
-		  $category =~ s/[\n\r]+//;
-		  print "\@subsection $category\n";
-		  print "\@table \@asis\n";
-		} elsif (/^\s+(\S.*\S)\s*=\s*(\S.*\S)\s*$/) {
-		  my $func = $1;
-		  my $desc = $2;
-		  print "\@item $func\n";
-		  print "$desc\n";
-		  print "\n";
-		} else {
-		  if ($firstcat) {
-		    print STDERR "Error parsing index file\n";
-		    exit 1;
-		  }
-		  s/^\s+//;
-		  my @funcs = split /\s+/;
-		  while ($#funcs >= 0) {
-		    my $func = shift @funcs;
-		    $func =~ s/^ *//;
-		    $func =~ s/[\n\r]+//;
-		    push @listfunc, $func;
-		    $nfunc = $nfunc + 1;
-		    print "\@item $func\n";
-		    print func_summary($func, $docfile);
-		    print "\n";
-		  }
-		}
-	      }
-	      if (! $firstcat) {
-	        print "\@end table\n";
-	      }
-	      print "\@end iftex\n\n";
-	      print "\n\@section Functions Alphabetically\n";
-	    } else {
-	      # Get the list of functions to index
-	      my $indline;
-	      while (($indline = <IND>) && ($indline =~ /^ /)) {
-		if ($indline =~ /^\s+(\S.*\S)\s*=\s*(\S.*\S)\s*$/) {
-		  next;
-		}
-		$indline =~ s/^\s+//;
-		my @funcs = split(/\s+/,$indline);
-		while ($#funcs >= 0) {
-		  my $func = shift @funcs;
-		  $func =~ s/^ *//;
-		  $func =~ s/[\n\r]+//;
-		  push @listfunc, $func;
-		  $nfunc = $nfunc + 1;
-		}
-	      }
-	    }
-	    $secfound = 1;
-	    last;
-	  }
-	}
-	close (IND);
-	if (! $secfound) {
-	  print STDERR "Did not find section $sec\n";
-	}
-      } else {
-	print STDERR "Could not open file $indexfile\n";
-	exit 1;
-      }
-
-      @listfunc = sort(@listfunc);
-      my @listfunc2 = ();
-      my $indent = 16 - 3;
-      print "\@menu\n";
-      foreach my $func (@listfunc) {
-	if ( open(DOC,$docfile) ) {
-	  my $found = 0;
-	  while (<DOC>) {
-	    next unless /\037/;
-	    my $function = $_;
-	    $function =~ s/\037//;
-	    $function =~ s/[\n\r]+//;
-	    if ($function =~ /^$func$/) {
-	      $found = 1;
-	      last;
-	    }
-	  }
-	  close (DOC);
-	  if ($found) {
-	    push @listfunc2, $func;
-	    my $func0 = "${func}::";
-	    my $entry = sprintf("* %-*s %s",$indent,$func0,func_summary($func,$docfile));
-	    print wrap("","\t\t","$entry"), "\n";
-	  }
-	} else {
-	  print STDERR "Could not open file $indexfile\n";
-	  exit 1;
-	}
-      }
-      print "\@end menu\n";
-
-      my $up = "Function Reference";
-      my $next;
-      my $prev;
-      my $mfunc = 1;
-      foreach my $func (@listfunc2) {
-	if ($mfunc == $nfunc) {
-	  $next = "";
-	} else {
-	  $next = @listfunc2[$mfunc];
-	  $mfunc = $mfunc + 1;
-	}
-	print "\n\@node $func, $next, $prev, $up\n";
-	if ($seccat) {
-	  print "\@subsection $func\n\n";
-	} else {
-	  print "\@section $func\n\n";
-	}
-	$prev = $func;
-	my $found = 0;
-	my $desc = "";
-	if ( open(DOC,$docfile) ) {
-	  while (<DOC>) {
-	    next unless /\037/;
-	    my $function = $_;
-	    $function =~ s/\037//;
-	    $function =~ s/[\n\r]+//;
-	    if ($function =~ /^$func$/) {
-	      my $docline;
-	      my $doctex = 0;
-	      while (($docline = <DOC>) && ($docline !~ /^\037/)) {
-		$docline =~ s/^\s*-[*]- texinfo -[*]-\s*//;
-		if ($docline =~ /\@tex/) {
-		  $doctex = 1;
-		}
-		if ($doctex) {
-		  $docline =~ s/\\\\/\\/g;
-		}
-		if ($docline =~ /\@end tex/) {
-		  $doctex = 0;
-		}
-		$desc .= $docline;
-	      }
-	      $desc =~ s/\@seealso\{(.*[^}])\}/See also: \1/g;
-	      print "$desc", "\n";
-	      $found = 1;
-	      last;
-	    }
-	  }
-	  close (DOC);
-	  if (! $found) {
-	    print "\@emph{Not implemented}\n";
-	  }
-        } else {
-	  print STDERR "Could not open file $docfile\n";
-	  exit 1;
-	}
-      }
-    } else {
-      if ($line =~ /\@tex/) {
-	$tex = 1;
-      }
-      if ($tex) {
-	$line =~ s/\\\\/\\/g;
-      }
-      print "$line";
-      if ($line =~ /\@end tex/) {
-	$tex = 0;
-      }
-    }
-    $line = <IN>;
-  }
-} else {
+unless ( open(IN,$file) ) {
     print STDERR "Could not open file $file\n";
     exit 1;
 }
 
-sub func_summary { # {{{1
-  my ($func,		# in function name
-      $docfile		# in DOCSTRINGS
-      )       = @_;
+$line = <IN>;
+my $tex = 0;
+while ($line) {
+    if ($line =~ /^\@DOCSTRING/) {
+        my $found = 0;
+        my $func = $line;
+        $func =~ s/\@DOCSTRING\(//;
+        $func =~ s/\)[\n\r]+//;
+        my $func0 = $func;
+        my $func1 = $func;
+        $func0 =~ s/,.*$//;
+        $func1 =~ s/^.*,//;
+        unless ( open(DOC, $docfile) ) {
+            print STDERR "Could not open file $docfile\n";
+            exit 1;
+        }
+        while (<DOC>) {
+            next unless /\037/;
+            my $function = $_;
+            $function =~ s/\037//;
+            $function =~ s/[\n\r]+//;
+            if ($function =~ /^$func0$/) {
+                my $desc = "";
+                my $docline;
+                my $doctex = 0;
+                while (($docline = <DOC>) && ($docline !~ /^\037/)) {
+                    $docline =~ s/^\s*-[*]- texinfo -[*]-\s*//;
+                    if ($docline =~ /\@tex/) {
+                        $doctex = 1;
+                    }
+                    if ($doctex) {
+                        $docline =~ s/\\\\/\\/g;
+                    }
+                    if ($docline =~ /\@end tex/) {
+                        $doctex = 0;
+                    }
+                    $desc .= $docline;
+                }
+                $desc =~ s/$func0/$func1/g;
+                $desc =~ s/\@seealso\{(.*[^}])\}/See also: \1/g;
+                print "$desc", "\n";
+                $found = 1;
+                last;
+            }
+        }
+        close (DOC);
+        if (! $found) {
+            print "\@emph{Not implemented}\n";
+        }
+    } elsif ($line =~ /^\@REFERENCE_SECTION/) {
+        my $secfound = 0;
+        my $sec = $line;
+        $sec =~ s/\@REFERENCE_SECTION\(//;
+        $sec =~ s/\)[\n\r]+//;
+        my @listfunc = ();
+        my $nfunc = 0;
+        my $seccat = 0;
 
-  my $desc = "";
-  my $found = 0;
-  if ( open(DOC,$docfile) ) {
-    while (<DOC>) {
-      next unless /\037/;
-      my $function = $_;
-      $function =~ s/\037//;
-      $function =~ s/[\n\r]+//;
-      if ($function =~ /^$func$/) {
-	my $docline;
-	my $doctex = 0;
-	while (($docline = <DOC>) && ($docline !~ /^\037/)) {
-	  if ($docline =~ /\@tex/) {
-	    $doctex = 1;
-	  }
-	  if ($doctex) {
-	    $docline =~ s/\\\\/\\/g;
-	  }
-	  if ($docline =~ /\@end tex/) {
-	    $doctex = 0;
-	  }
-	  $desc .= $docline;
-	}
-	$desc =~ s/\@seealso\{(.*[^}])\}/See also: \1/g;
-        $found = 1;
-        last;
-      }
+        unless ( open(IND,$indexfile) ) {
+            print STDERR "Could not open file $indexfile\n";
+            exit 1;
+        }
+        while (<IND>) {
+            next unless /^[^ ]/;
+            my $section = $_;
+            $section =~ s/[\n\r]+//;
+            if ($section =~ /^(.*?)\s*>>\s*(.*?)$/) {
+                $section =~ s/.*>>(.*)/\1/;
+                $seccat = 1;
+            }
+            $section =~ s/^ *//;
+            $section =~ s/ *$//;
+            if ($section =~ /^$sec$/) {
+                if ($seccat) {
+                    print "\@iftex\n";
+                    print "\@section Functions by Category\n";
+                    # Get the list of categories to index
+                    my $firstcat = 1;
+                    my $category;
+                    while (<IND>) {
+                        last if />>/;
+                        if (/^[^ ]/) {  
+                            if (! $firstcat) {
+                                print "\@end table\n";
+                            } else {
+                                $firstcat = 0;
+                            }
+                            $category = $_;
+                            $category =~ s/[\n\r]+//;
+                            print "\@subsection $category\n";
+                            print "\@table \@asis\n";
+                        } elsif (/^\s+(\S.*\S)\s*=\s*(\S.*\S)\s*$/) {
+                            my $func = $1;
+                            my $desc = $2;
+                            print "\@item $func\n";
+                            print "$desc\n";
+                            print "\n";
+                        } else {
+                            if ($firstcat) {
+                                print STDERR "Error parsing index file\n";
+                                exit 1;
+                            }
+                            s/^\s+//;
+                            my @funcs = split /\s+/;
+                            while ($#funcs >= 0) {
+                                my $func = shift @funcs;
+                                $func =~ s/^ *//;
+                                $func =~ s/[\n\r]+//;
+                                push @listfunc, $func;
+                                $nfunc = $nfunc + 1;
+                                print "\@item $func\n";
+                                print func_summary($func, $docfile);
+                                print "\n";
+                            }
+                        }
+                    }
+                    if (! $firstcat) {
+                        print "\@end table\n";
+                    }
+                    print "\@end iftex\n\n";
+                    print "\n\@section Functions Alphabetically\n";
+                } else {
+                    # Get the list of functions to index
+                    my $indline;
+                    while (($indline = <IND>) && ($indline =~ /^ /)) {
+                        if ($indline =~ /^\s+(\S.*\S)\s*=\s*(\S.*\S)\s*$/) {
+                            next;
+                        }
+                        $indline =~ s/^\s+//;
+                        my @funcs = split(/\s+/,$indline);
+                        while ($#funcs >= 0) {
+                            my $func = shift @funcs;
+                            $func =~ s/^ *//;
+                            $func =~ s/[\n\r]+//;
+                            push @listfunc, $func;
+                            $nfunc = $nfunc + 1;
+                        }
+                    }
+                }
+                $secfound = 1;
+                last;
+            }
+        }
+        close (IND);
+        if (! $secfound) {
+            print STDERR "Did not find section $sec\n";
+        }
+
+        @listfunc = sort(@listfunc);
+        my @listfunc2 = ();
+        my $indent = 16 - 3;
+        print "\@menu\n";
+        foreach my $func (@listfunc) {
+            unless ( open(DOC,$docfile) ) {
+                print STDERR "Could not open file $indexfile\n";
+                exit 1;
+            }
+            my $found = 0;
+            while (<DOC>) {
+                next unless /\037/;
+                my $function = $_;
+                $function =~ s/\037//;
+                $function =~ s/[\n\r]+//;
+                if ($function =~ /^$func$/) {
+                    $found = 1;
+                    last;
+                }
+            }
+            close (DOC);
+            if ($found) {
+                push @listfunc2, $func;
+                my $func0 = "${func}::";
+                my $entry = sprintf("* %-*s %s",$indent,$func0,func_summary($func,$docfile));
+                print wrap("","\t\t","$entry"), "\n";
+            }
+        }
+        print "\@end menu\n";
+
+        my $up = "Function Reference";
+        my $next;
+        my $prev;
+        my $mfunc = 1;
+        foreach my $func (@listfunc2) {
+            if ($mfunc == $nfunc) {
+                $next = "";
+            } else {
+                $next = @listfunc2[$mfunc];
+                $mfunc = $mfunc + 1;
+            }
+            print "\n\@node $func, $next, $prev, $up\n";
+            if ($seccat) {
+                print "\@subsection $func\n\n";
+            } else {
+                print "\@section $func\n\n";
+            }
+            $prev = $func;
+            my $found = 0;
+            my $desc = "";
+            unless ( open(DOC,$docfile) ) {
+                print STDERR "Could not open file $docfile\n";
+                exit 1;
+            }
+            while (<DOC>) {
+                next unless /\037/;
+                my $function = $_;
+                $function =~ s/\037//;
+                $function =~ s/[\n\r]+//;
+                if ($function =~ /^$func$/) {
+                    my $docline;
+                    my $doctex = 0;
+                    while (($docline = <DOC>) && ($docline !~ /^\037/)) {
+                        $docline =~ s/^\s*-[*]- texinfo -[*]-\s*//;
+                        if ($docline =~ /\@tex/) {
+                            $doctex = 1;
+                        }
+                        if ($doctex) {
+                            $docline =~ s/\\\\/\\/g;
+                        }
+                        if ($docline =~ /\@end tex/) {
+                            $doctex = 0;
+                        }
+                        $desc .= $docline;
+                    }
+                    $desc =~ s/\@seealso\{(.*[^}])\}/See also: \1/g;
+                    print "$desc", "\n";
+                    $found = 1;
+                    last;
+                }
+            }
+            close (DOC);
+            if (! $found) {
+                print "\@emph{Not implemented}\n";
+            }
+        }
+    } else {
+        if ($line =~ /\@tex/) {
+            $tex = 1;
+        }
+        if ($tex) {
+            $line =~ s/\\\\/\\/g;
+        }
+        print "$line";
+        if ($line =~ /\@end tex/) {
+            $tex = 0;
+        }
     }
-    close (DOC);
-    if (! $found) {
-      $desc = "\@emph{Not implemented}";
+    $line = <IN>;
+}
+
+
+sub func_summary { # {{{1
+    my ($func,          # in function name
+        $docfile        # in DOCSTRINGS
+        )               = @_;
+
+    my $desc = "";
+    my $found = 0;
+    if ( open(DOC,$docfile) ) {
+        while (<DOC>) {
+            next unless /\037/;
+            my $function = $_;
+            $function =~ s/\037//;
+            $function =~ s/[\n\r]+//;
+            if ($function =~ /^$func$/) {
+                my $docline;
+                my $doctex = 0;
+                while (($docline = <DOC>) && ($docline !~ /^\037/)) {
+                    if ($docline =~ /\@tex/) {
+                        $doctex = 1;
+                    }
+                    if ($doctex) {
+                        $docline =~ s/\\\\/\\/g;
+                    }
+                    if ($docline =~ /\@end tex/) {
+                        $doctex = 0;
+                    }
+                    $desc .= $docline;
+                }
+                $desc =~ s/\@seealso\{(.*[^}])\}/See also: \1/g;
+                            $found = 1;
+                            last;
+            }
+        }
+        close (DOC);
+        if (! $found) {
+            $desc = "\@emph{Not implemented}";
+        }
+    } else {
+        print STDERR "Could not open file $docfile\n";
+        exit 1;
     }
-  } else {
-    print STDERR "Could not open file $docfile\n";
-    exit 1;
-  }
-  return first_sentence($desc);
-}   # 1}}}
+    return first_sentence($desc);
+}       # 1}}}
 
 
 sub first_sentence { # {{{1
@@ -333,97 +341,97 @@ sub first_sentence { # {{{1
     # $trace = 1 if $desc =~ /Levenberg/;
     return "" unless defined $desc;
     if ($desc =~ /^\s*-[*]- texinfo -[*]-/) {
-	# help text contains texinfo.  Strip the indicator and run it
-	# through makeinfo. (XXX FIXME XXX this needs to be a function)
-	$desc =~ s/^\s*-[*]- texinfo -[*]-\s*//;
-	my $cmd = "makeinfo --fill-column 1600 --no-warn --no-validate --no-headers --force --ifinfo";
-	open3(*Writer, *Reader, *Errer, $cmd) or die "Could not run info";
-	print Writer "\@macro seealso {args}\n\n\@noindent\nSee also: \\args\\.\n\@end macro\n";
-	print Writer "$desc"; close(Writer);
-	@lines = <Reader>; close(Reader);
-	my @err = <Errer>; close(Errer);
-	waitpid(-1,&WNOHANG);
+        # help text contains texinfo.    Strip the indicator and run it
+        # through makeinfo. (XXX FIXME XXX this needs to be a function)
+        $desc =~ s/^\s*-[*]- texinfo -[*]-\s*//;
+        my $cmd = "makeinfo --fill-column 1600 --no-warn --no-validate --no-headers --force --ifinfo";
+        open3(*Writer, *Reader, *Errer, $cmd) or die "Could not run info";
+        print Writer "\@macro seealso {args}\n\n\@noindent\nSee also: \\args\\.\n\@end macro\n";
+        print Writer "$desc"; close(Writer);
+        @lines = <Reader>; close(Reader);
+        my @err = <Errer>; close(Errer);
+        waitpid(-1,&WNOHANG);
 
-	# Display source and errors, if any
-	if (@err) {
-	    my $n = 1;
-	    foreach $line ( split(/\n/,$desc) ) {
-		printf "%2d: %s\n",$n++,$line;
-	    }
-	    print ">>> @err";
-	}
+        # Display source and errors, if any
+        if (@err) {
+                my $n = 1;
+                foreach $line ( split(/\n/,$desc) ) {
+                    printf "%2d: %s\n",$n++,$line;
+                }
+                print ">>> @err";
+        }
 
-	# Print trace showing formatted output
-#	print "<texinfo--------------------------------\n";
-#	print @lines;
-#	print "--------------------------------texinfo>\n";
+        # Print trace showing formatted output
+        # print "<texinfo--------------------------------\n";
+        # print @lines;
+        # print "--------------------------------texinfo>\n";
 
-	# Skip prototype and blank lines
-	while (1) {
-	    return "" unless @lines;
-	    $line = shift @lines;
-	    next if $line =~ /^\s*-/;
-	    next if $line =~ /^\s*$/;
-	    last;
-	}
+        # Skip prototype and blank lines
+        while (1) {
+                return "" unless @lines;
+                $line = shift @lines;
+                next if $line =~ /^\s*-/;
+                next if $line =~ /^\s*$/;
+                last;
+        }
 
     } else {
 
-#	print "<plain--------------------------------\n";
-#	print $desc;
-#	print "--------------------------------plain>\n";
+        # print "<plain--------------------------------\n";
+        # print $desc;
+        # print "--------------------------------plain>\n";
 
-	# Skip prototype and blank lines
-	@lines = split(/\n/,$desc);
-	while (1) {
-	    return "" if ($#lines < 0);
-	    $line = shift @lines;
-	    next if $line =~ /^\s*[Uu][Ss][Aa][Gg][Ee]/; # skip " usage "
+        # Skip prototype and blank lines
+        @lines = split(/\n/,$desc);
+        while (1) {
+            return "" if ($#lines < 0);
+            $line = shift @lines;
+            next if $line =~ /^\s*[Uu][Ss][Aa][Gg][Ee]/; # skip " usage "
 
-	    $line =~ s/^\s*\w+\s*://;             # chop " blah : "
-	    print "strip blah: $line\n" if $trace;
-	    $line =~ s/^\s*[Ff]unction\s+//;      # chop " function "
-	    print "strip function $line\n" if $trace;
-	    $line =~ s/^\s*\[.*\]\s*=\s*//;       # chop " [a,b] = "
-	    print "strip []= $line\n" if $trace;
-	    $line =~ s/^\s*\w+\s*=\s*//;          # chop " a = "
-	    print "strip a= $line\n" if $trace;
-	    $line =~ s/^\s*\w+\s*\([^\)]*\)\s*//; # chop " f(x) "
-	    print "strip f(x) $line\n" if $trace;
-	    $line =~ s/^\s*[;:]\s*//;                # chop " ; "
-	    print "strip ; $line\n" if $trace;
+            $line =~ s/^\s*\w+\s*://;                           # chop " blah : "
+            print "strip blah: $line\n" if $trace;
+            $line =~ s/^\s*[Ff]unction\s+//;            # chop " function "
+            print "strip function $line\n" if $trace;
+            $line =~ s/^\s*\[.*\]\s*=\s*//;             # chop " [a,b] = "
+            print "strip []= $line\n" if $trace;
+            $line =~ s/^\s*\w+\s*=\s*//;                    # chop " a = "
+            print "strip a= $line\n" if $trace;
+            $line =~ s/^\s*\w+\s*\([^\)]*\)\s*//; # chop " f(x) "
+            print "strip f(x) $line\n" if $trace;
+            $line =~ s/^\s*[;:]\s*//;                                # chop " ; "
+            print "strip ; $line\n" if $trace;
 
-	    $line =~ s/^\s*[[:upper:]][[:upper:]0-9_]+//; # chop " BLAH"
-	    print "strip BLAH $line\n" if $trace;
-	    $line =~ s/^\s*\w*\s*[-]+\s+//;        # chop " blah --- "
-	    print "strip blah --- $line\n" if $trace;
-	    $line =~ s/^\s*\w+ *\t\s*//;          # chop " blah <TAB> "
-	    print "strip blah <TAB> $line\n" if $trace;
-	    $line =~ s/^\s*\w+\s\s+//;            # chop " blah  "
-	    print "strip blah <NL> $line\n" if $trace;
+            $line =~ s/^\s*[[:upper:]][[:upper:]0-9_]+//; # chop " BLAH"
+            print "strip BLAH $line\n" if $trace;
+            $line =~ s/^\s*\w*\s*[-]+\s+//;              # chop " blah --- "
+            print "strip blah --- $line\n" if $trace;
+            $line =~ s/^\s*\w+ *\t\s*//;                    # chop " blah <TAB> "
+            print "strip blah <TAB> $line\n" if $trace;
+            $line =~ s/^\s*\w+\s\s+//;                      # chop " blah    "
+            print "strip blah <NL> $line\n" if $trace;
 
-#	    next if $line =~ /^\s*\[/;           # skip  [a,b] = f(x)
-#	    next if $line =~ /^\s*\w+\s*(=|\()/; # skip a = f(x) OR f(x)
-	    next if $line =~ /^\s*or\s*$/;      # skip blah \n or \n blah
-	    next if $line =~ /^\s*$/;            # skip blank line
-	    next if $line =~ /^\s?!\//;          # skip # !/usr/bin/octave
-	    # XXX FIXME XXX should be testing for unmatched () in proto
-	    # before going to the next line!
-	    last;
-	}
+            # next if $line =~ /^\s*\[/;                   # skip  [a,b] = f(x)
+            # next if $line =~ /^\s*\w+\s*(=|\()/; # skip a = f(x) OR f(x)
+            next if $line =~ /^\s*or\s*$/;          # skip blah \n or \n blah
+            next if $line =~ /^\s*$/;                        # skip blank line
+            next if $line =~ /^\s?!\//;                  # skip # !/usr/bin/octave
+            # XXX FIXME XXX should be testing for unmatched () in proto
+            # before going to the next line!
+            last;
+        }
     }
 
     # Try to make a complete sentence, including the '.'
     if ( "$line " !~ /[^.][.]\s/ && $#lines >= 0) {
-	my $next = $lines[0];
-	$line =~ s/\s*$//;  # trim trailing blanks on last
-	$next =~ s/^\s*//;    # trim leading blanks on next
-	$line .= " $next" if "$next " =~ /[^.][.]\s/; # ends the sentence
+        my $next = $lines[0];
+        $line =~ s/\s*$//;  # trim trailing blanks on last
+        $next =~ s/^\s*//;      # trim leading blanks on next
+        $line .= " $next" if "$next " =~ /[^.][.]\s/; # ends the sentence
     }
 
     # Tidy up the sentence.
-    chomp $line;          # trim trailing newline, if there is one
-    $line =~ s/^\s*//;    # trim leading blanks on line
+    chomp $line;                    # trim trailing newline, if there is one
+    $line =~ s/^\s*//;      # trim leading blanks on line
     $line =~ s/([^.][.])\s.*$/$1/; # trim everything after the sentence
     print "Skipping:\n$desc---\n" if $line eq "";
 
@@ -439,7 +447,7 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
 GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, see <http://www.gnu.org/licenses/>.
