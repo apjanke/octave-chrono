@@ -16,4 +16,5 @@ before_install:
 
 script:
   - make local
+  - cd doc && make all
   - dev-tools/runtests.sh inst
