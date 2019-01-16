@@ -15,6 +15,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install octave octave-pkg-dev texlive; fi
 
 script:
+  - cat Makefile
   - make local
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd doc && make all; fi
   - ./dev-tools/runtests.sh inst
