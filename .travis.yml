@@ -16,7 +16,9 @@ before_install:
 
 script:
   - cat Makefile
+  - find .
+  - cat ./dev-tools/runtests.sh
   - make local
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd doc && make all; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make all); fi
   - ./dev-tools/runtests.sh inst
   - make dist
