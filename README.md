@@ -35,6 +35,14 @@ On Windows 7 and earlier, Java is required to detect the system default time zon
 Building Chrono requires a compiler. That means you need to [install Visual Studio
 Community](https://visualstudio.microsoft.com/downloads/) on Windows.
 
+## Documentation
+
+The user documentation is in the `doc/` directory. See `doc/chrono.html` or `doc/html/index.html` for
+the manual.
+
+The developer documentation (for people hacking on Chrono itself) is in `doc-project/`. Also see 
+[CONTRIBUTING](CONTRIBUTING.md) if you would like to contribute to this project.
+
 ## License
 
 Chrono contains material licensed under the GPL, the Unicode license, and Public Domain.
@@ -46,12 +54,6 @@ Chrono contains material licensed under the GPL, the Unicode license, and Public
 ## Naming conventions
 
 Anything in a namespace with `internal` in its name is for the internal use of this package, and is not intended for use by user code.
-
-## Documentation
-
-See the `doc-project/` directory for notes on this project, especially for [Developer Notes](doc-project/Developer-Notes.md). Also see [CONTRIBUTING](CONTRIBUTING.md) if you would like to contribute to this project.
-
-Real user documentation is hopefully coming soon.
 
 ## Author
 

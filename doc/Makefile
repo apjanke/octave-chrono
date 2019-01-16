@@ -36,11 +36,16 @@ ifeq ($(BREW),)
 	TEXI2HTML = makeinfo --html
 	TEXI2PDF = texi2pdf
 	# Ubuntu: qtchooser seems broken for qhelpgenerator, so /usr/bin/qhelpgenerator
-	# doesn't work. Locate it directly.
-	ifeq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator),)
-		QHELPGENERATOR = qhelpgenerator
-	else
+	# doesn't work. Locate it directly. Prefer qcollectiongenerator because that separate
+	# program is needed on Qt prior to Qt 5.12.
+	ifneq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qcollectiongenerator),)
+		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qcollectiongenerator
+	else ifneq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator),)
 		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator
+	else ifneq ($(shell which qcollectiongenerator 2>/dev/null))
+		QHELPGENERATOR = qcollectiongenerator
+    else
+		QHELPGENERATOR = qhelpgenerator
 	endif
 else
 	BREW_TEXINFO = $(shell brew --prefix texinfo)
