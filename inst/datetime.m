@@ -26,10 +26,26 @@
 ##
 ## @end deftp
 ##
-## @deftypefn {Constructor} {@var{out} =} datetime ()
+## @deftypefn {Constructor} {@var{obj} =} datetime ()
 ##
 ## Constructs a new scalar @code{datetime} containing the current local time, with
 ## no time zone attached.
+##
+## @end deftypefn
+##
+## @deftypefn {Constructor} {@var{obj} =} datetime (@var{datevec})
+## @deftypefnx {Constructor} {@var{obj} =} datetime (@var{datestrs})
+## @deftypefnx {Constructor} {@var{obj} =} datetime (@var{in}, @code{'ConvertFrom'}, @var{inType})
+## @deftypefnx {Constructor} {@var{obj} =} datetime @
+##   (@var{Y}, @var{M}, @var{D}, @var{H}, @var{MI}, @var{S})
+## @deftypefnx {Constructor} {@var{obj} =} datetime @
+##   (@var{Y}, @var{M}, @var{D}, @var{H}, @var{MI}, @var{MS})
+## @deftypefnx {Constructor} {@var{obj} =} datetime @
+##   (@dots{}, @code{'Format'}, @var{Format}, @code{'InputFormat'}, @var{InputFormat}, @
+##    @code{'Locale'}, @var{InputLocale}, @code{'PivotYear'}, @var{PivotYear}, @
+##    @code{'TimeZone'}, @var{TimeZone})
+##
+## Constructs a new @code{datetime} array based on input values.
 ##
 ## @end deftypefn
 
@@ -137,6 +153,7 @@ classdef datetime
       timeZone = '';
       switch numel (args)
         case 0
+          keyboard
           dnums = now;
         case 1
           x = varargin{1};
@@ -742,6 +759,7 @@ classdef datetime
       switch s(1).type
         case '()'
           this = subsasgnParensPlanar (this, s(1), rhs);
+          %TODO: Correct value of vivified indexes to NaN; right now it's zero.
         case '{}'
           error ('{}-subscripting is not supported for class %s', class (this));
         case '.'

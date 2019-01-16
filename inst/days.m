@@ -16,6 +16,21 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function} {@var{out} =} days (@var{x})
+##
+## Duration in days.
+##
+## If @var{x} is numeric, then @var{out} is a @code{duration} array in units 
+## of fixed-length 24-hour days, with the same size as @var{x}.
+##
+## If @var{x} is a @code{duration}, then returns a @code{double} array the same
+## size as @var{x} indicating the number of fixed-length days that each duration
+## is.
+##
+## @end deftypefn
+
+
 function out = days (x)
   %DAYS duration in days
   %

@@ -5,6 +5,20 @@
 # 
 # Extracts the help in texinfo format from *.cc and *.m files for use
 # in documentation. Based on make_index script from octave_forge.
+#
+# The texinfo help is located as the first comment block following
+# an optional initial Copyright block in each file.
+# It should start with the string "## -*- texinfo -*-" to indicate that it
+# is in Texinfo format; otherwise a warning is issued. Leading comments
+# and whitespace and trailing whitespace are stripped.
+#
+# The entire texinfo help must be in a single comment block. Subsequent texinfo
+# comment blocks are ignored.
+#
+# The found texinfo help blocks are all concatenated, with "\037%s\n" 
+# separating each entry.
+#
+# Output is written to stdout. Diagnostics are written to stderr.
 
 use strict;
 use File::Find;
@@ -60,13 +74,13 @@ foreach my $f ( @C_files ) {
         # C compilers allow implicitly concatenated string constants
         # "A" "B" ==> "AB".
         while ($desc !~ /[^\\]\"\s*\S/ && $desc !~ /^\"/) {
-        # if line ends in '\', chop it and the following '\n'
-        $desc =~ s/\\\s*\n//;
-        # join with the next line
-        $desc .= <IN>;
-        # eliminate consecutive quotes, being careful to ignore
-        # preceding slashes. XXX FIXME XXX what about \\" ?
-        $desc =~ s/([^\\])\"\s*\"/$1/;
+            # if line ends in '\', chop it and the following '\n'
+            $desc =~ s/\\\s*\n//;
+            # join with the next line
+            $desc .= <IN>;
+            # eliminate consecutive quotes, being careful to ignore
+            # preceding slashes. XXX FIXME XXX what about \\" ?
+            $desc =~ s/([^\\])\"\s*\"/$1/;
         }
         $desc = "" if $desc =~ /^\"/; # chop everything if it was ""
         $desc =~ s/\\n/\n/g;          # insert fake line ends
@@ -91,7 +105,7 @@ foreach my $f ( @m_files ) {
     my $function = basename($f, ('.m'));
     die "Null function?? [$f]\n" unless $function;
     if (!($desc =~ /^\s*-[*]- texinfo -[*]-/)) {
-        my $err = sprintf("Function %s does not contain texinfo help\n",
+        my $err = sprintf("File %s does not contain texinfo help\n",
                     $function);
         print STDERR "$err";
     }
@@ -111,7 +125,7 @@ sub extract_description { # {{{1
     while (<IN>) {
         last if /\S/;
     }
-    # Next block is copyright statement; skip it
+    # First block is copyright statement; skip it
     if( m/\s*[%\#][\s\#%]* Copyright/) {
         while (<IN>) {
             last unless /^\s*[%\#]/;
@@ -126,7 +140,6 @@ sub extract_description { # {{{1
     while (/^\s*[\#%]+\s/) {
         s/^\s*[%\#]+\s//; # strip leading comment characters
         s/[\cM\s]*$//;    # strip trailing spaces.
-        s/[\.*]$//;
         $retval .= "$_\n";
         $_ = <IN>;
         last if not defined $_;

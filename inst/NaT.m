@@ -16,6 +16,16 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function} {@var{out} =} NAT ()
+## @deftypefnx {Function} {@var{out} =} NAT (@var{sz})
+##
+## Not-a-Time. Constructs a new @code{datetime} array of all @code{NaT} values of
+## the given size. If no input @var{sz} is given, the result is a scalar @code{NaT}.
+##
+## @code{NaT} is the @code{datetime} equivalent of @code{NaN}.
+##
+## @end deftypefn
 
 function out = NaT (sz)
   %NAT Not-a-Time

@@ -16,6 +16,15 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function} {@var{out} =} calyears (@var{x})
+##
+## Construct a @code{calendarDuration} a given number of years long.
+##
+## This is a shorthand for calling @code{calendarDuration(@var{x}, 0, 0)}.
+##
+## @end deftypefn
+
 function out = calyears (x)
   %CALYEARS Calendar duration in years
   if ~isnumeric (x)

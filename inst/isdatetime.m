@@ -16,6 +16,14 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function} {@var{tf} =} isdatetime (@var{x})
+##
+## True if input is a @code{datetime} array, false otherwise.
+##
+## Returns a logical array the same size as @var{x}.
+## @end deftypefn
+
 function out = isdatetime (x)
   %ISDATETIME True if input is a datetime array.
   out = isa (x, 'datetime');

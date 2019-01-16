@@ -3,6 +3,8 @@
 # This setup uses the convention that "*.txi" files are the human-editable
 # input files, and corresponding "*.texi" files are processed intermediate
 # files.
+#
+# TODO: Replace chrono-single.html with pattern-based definition.
 
 DVIPS = dvips
 LN_S = ln -s
@@ -37,7 +39,7 @@ default: all
 all: info html pdf
 info: $(INFODOC)
 dvi: $(DVIDOC)
-html: $(HTMLDOC)
+html: $(HTMLDOC) chrono-single.html
 pdf: $(PDFDOC)
 ps: $(PSDOC)
 
@@ -52,6 +54,10 @@ ps: $(PSDOC)
 
 %.ps: %.dvi
 	$(DVIPS) -o $@ $<
+
+chrono-single.html: chrono.texi
+	rm -f chrono-single.html
+	$(TEXI2HTML) --no-split -o chrono-single.html $<
 
 %.html: %.texi
 	rm -rf $(@:.html=.htp)

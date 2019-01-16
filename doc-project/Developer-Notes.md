@@ -18,6 +18,7 @@ Chrono Developer Notes
 * `datetime`
   * Fix expansion filling
     * e.g. `d = datetime; d(5) = d` produces bad `d(2:4)`
+    * It's in the expansion of doubles: their default value is 0, not NaN.
   * Leap second conversion
   * `Format` support
     * Needs LDML format support, not datestr() format placeholders
@@ -44,9 +45,15 @@ Chrono Developer Notes
   * `Format` support
 * Miscellaneous
   * Reproduce crash - double setter/getters cause it? (Had duplicates for datetime.Month.)
+* Documentation
+  * Get `mkdoc.pl` to ignore files in `+internal` namespaces.
+  * Get `mkdoc.pl` to include namespaces in class/function definition items.
+
 ## Wishlist and maybes
 
 * MAT-file representation compatibility with Matlab?
+* Documentation
+  * A new Texinfo `@deftypemfn` for Matlab's idiosyncratic function signatures
 
 # References
 

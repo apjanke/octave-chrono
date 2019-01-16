@@ -16,6 +16,33 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftp {Class} duration
+##
+## Represents points in time using the Gregorian calendar.
+##
+## This is an attempt to reproduce the functionality of Matlab's @code{duration}. It
+## also contains some Octave-specific extensions.
+##
+## @end deftp
+##
+## @deftypefn {Constructor} {@var{obj} =} duration ()
+##
+## Constructs a new scalar @code{duration} of zero elapsed time.
+##
+## @end deftypefn
+##
+## @deftypefn {Constructor} {@var{obj} =} duration (@var{durationstrs})
+## @deftypefnx {Constructor} {@var{obj} =} duration (@var{durationstrs}, @code{'InputFormat'}, @var{InputFormat})
+## @deftypefnx {Constructor} {@var{obj} =} duration (@var{H}, @var{MI}, @var{S})
+## @deftypefnx {Constructor} {@var{obj} =} duration (@var{H}, @var{MI}, @var{S}, @
+##   @var{MS})
+##
+## Constructs a new @code{duration} array based on input values.
+##
+## @end deftypefn
+
+
 classdef duration
   %DURATION Lengths of time in fixed-length units
   %

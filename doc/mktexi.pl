@@ -14,6 +14,9 @@
 #   <docfile> is the output of mkdoc.pl.
 #   <index> is the main INDEX file at the root of the package repo.
 #
+# Munges the texi output of mktexi.pl, producing a function index, among
+# other things.
+#
 # Emits output to stdout.
 
 use strict;
@@ -34,9 +37,8 @@ unless ( open(IN,$file) ) {
     exit 1;
 }
 
-$line = <IN>;
 my $tex = 0;
-while ($line) {
+while ($line = <IN>) {
     if ($line =~ /^\@DOCSTRING/) {
         my $found = 0;
         my $func = $line;
@@ -280,7 +282,6 @@ while ($line) {
             $tex = 0;
         }
     }
-    $line = <IN>;
 }
 
 

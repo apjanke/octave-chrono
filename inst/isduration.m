@@ -16,6 +16,14 @@
 ## along with Octave; see the file COPYING.  If not, see
 ## <https://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function} {@var{tf} =} isduration (@var{x})
+##
+## True if input is a @code{duration} array, false otherwise.
+##
+## Returns a logical array the same size as @var{x}.
+## @end deftypefn
+
 function out = isduration (x)
   %ISDURATION True if input is a duration array
   out = isa (x, 'duration');
