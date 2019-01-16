@@ -10,15 +10,13 @@ Chrono Developer Notes
 * Add more BISTs
 * Remove planar-gen boilerplate and isnan2()s once I'm sure class structure is set
 * Consider using GNU FDL for the documentation license
+* Propagate NaN-filling fix for planargen back to Janklab
 
 * Report crash: giving duration a days method while it has a days property results in a crash.
 
 ## Sections
 
 * `datetime`
-  * Fix expansion filling
-    * e.g. `d = datetime; d(5) = d` produces bad `d(2:4)`
-    * It's in the expansion of doubles: their default value is 0, not NaN.
   * Leap second conversion
   * `Format` support
     * Needs LDML format support, not datestr() format placeholders
@@ -38,6 +36,9 @@ Chrono Developer Notes
   * Can different fields be mixed positive/negative, in addition to the overall Sign? Current
     arithmetic implementation can result in this. Should that be normalized? Maybe. Not sure it can be fully normalized.
   * proxykeys: pull isnan up to front of precedence? Maybe invert so NaNs sort to end?
+  * Fix expansion filling?
+    * e.g. `d = datetime; d(5) = d` produces bad `d(2:4)`
+    * It's in the expansion of doubles: their default value is 0, not NaN.
 * Plotting support
   * Maybe with just shims and conversion to datenums
 * `duration`
@@ -48,6 +49,18 @@ Chrono Developer Notes
 * Documentation
   * Get `mkdoc.pl` to ignore files in `+internal` namespaces.
   * Get `mkdoc.pl` to include namespaces in class/function definition items.
+  * Fix this:
+```
+warning: doc_cache_create: unusable help text found in file 'datetime'
+```
+  * Make my Texinfo documentation work with Octave's `doc` command
+  * Get `help datetime` to recognize my datetime
+```
+>> which datetime
+'datetime' is a built-in function
+>> help datetime
+error: help: 'datetime' is not documented
+```
 
 ## Wishlist and maybes
 

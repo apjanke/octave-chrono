@@ -743,12 +743,14 @@ classdef duration
   
   methods (Access=private)
   
-    function this = subsasgnParensPlanar (this, s, rhs)
+    function out = subsasgnParensPlanar (this, s, rhs)
       %SUBSASGNPARENSPLANAR ()-assignment for planar object
       if ~isa (rhs, 'duration')
         rhs = duration (rhs);
       endif
-      this.days(s.subs{:}) = rhs.days;
+      out = this;
+      out.days = octave.time.internal.prefillNewSizeForSubsasgn(this.days, s.subs, NaN);
+      out.days(s.subs{:}) = rhs.days;
     endfunction
     
     function out = subsrefParensPlanar (this, s)

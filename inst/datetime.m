@@ -56,8 +56,6 @@ classdef datetime
   %
   % This is an attempt to reproduce the functionality of Matlab's @datetime. It
   % also contains some Octave-specific extensions.
-  %
-  % TODO: Time zone support
   
   % @planarprecedence(dnums)
   % @planarsetops
@@ -138,6 +136,17 @@ classdef datetime
     
     function this = datetime (varargin)
       %DATETIME Construct a new datetime array.
+      %
+      % datetime ()
+      % datetime (datevec)
+      % datetime (datestrs)
+      % datetime (in, 'ConvertFrom', ConvertFrom)
+      % datetime (Y, M, D)
+      % datetime (Y, M, D, H, MI, S)
+      % datetime (..., 'Format', Format, 'InputFormat', InputFormat, ...
+      %    'PivotYear', PivotYear, 'TimeZone', TimeZone)
+      %
+      % datetime constructs a new datetime array.
       
       % Peel off options
       args = varargin;
@@ -153,7 +162,6 @@ classdef datetime
       timeZone = '';
       switch numel (args)
         case 0
-          keyboard
           dnums = now;
         case 1
           x = varargin{1};
@@ -437,7 +445,7 @@ classdef datetime
       out = cell (size (this));
       tfNaN = isnan (this.dnums);
       out(tfNaN) = {'NaT'};
-      if any(~tfNaN)
+      if any(~tfNaN(:))
         out(~tfNaN) = cellstr (datestr (this.dnums(~tfNaN)));
       endif
     endfunction
@@ -930,12 +938,14 @@ classdef datetime
   
   methods (Access=private)
   
-    function this = subsasgnParensPlanar (this, s, rhs)
+    function out = subsasgnParensPlanar (this, s, rhs)
       %SUBSASGNPARENSPLANAR ()-assignment for planar object
       if ~isa (rhs, 'datetime')
         rhs = datetime (rhs);
       endif
-      this.dnums(s.subs{:}) = rhs.dnums;
+      out = this;
+      out.dnums = octave.time.internal.prefillNewSizeForSubsasgn(this.dnums, s.subs, NaN);
+      out.dnums(s.subs{:}) = rhs.dnums;
     endfunction
     
     function out = subsrefParensPlanar (this, s)
