@@ -572,6 +572,23 @@ File: chrono.info,  Node: Copying,  Prev: Function Reference,  Up: Top
 8 Copying
 *********
 
+8.1 Package Copyright
+=====================
+
+Chrono for Octave is covered by the GNU GPLv3, the Unicode License, and
+Public Domain.
+
+   All the code in the package is GNU GPLv3.
+
+   The IANA Time Zone Database redistributed with the package is Public
+Domain.
+
+   The Windows Zones file redistributed with the package is covered by
+the Unicode License (http://www.unicode.org/copyright.html).
+
+8.2 Manual Copyright
+====================
+
 This manual is for Chrono, version 0.1.0-SNAPSHOT.
 
    Copyright © 2019 Andrew Janke

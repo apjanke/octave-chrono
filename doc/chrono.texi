@@ -635,6 +635,19 @@ use @code{calyears}.
 @node Copying
 @chapter Copying
 
+
+@section Package Copyright
+
+Chrono for Octave is covered by the GNU GPLv3, the Unicode License, and Public Domain.
+
+All the code in the package is GNU GPLv3.
+
+The IANA Time Zone Database redistributed with the package is Public Domain.
+
+The Windows Zones file redistributed with the package is covered by the @url{http://www.unicode.org/copyright.html, Unicode License}.
+
+@section Manual Copyright
+
 @insertcopying
 
 @bye
