@@ -4,11 +4,8 @@
 # input files, and corresponding "*.texi" files are processed intermediate
 # files.
 
-default: all
-
 DVIPS = dvips
 LN_S = ln -s
-MAKEINFO = makeinfo
 OCTAVE = octave
 PERL = perl
 # On Mac, prefer Homebrew-installed Texinfo, because the system one is
@@ -16,10 +13,12 @@ PERL = perl
 # put it on the path by default.
 # TODO: Replace "/usr/local" with a "brew --prefix" test.
 ifeq ($(wildcard /usr/local/opt/texinfo/bin/makeinfo),)
+	MAKEINFO = makeinfo
 	TEXI2DVI = texi2dvi
 	TEXI2HTML = makeinfo --html
 	TEXI2PDF = texi2pdf
 else
+	MAKEINFO = /usr/local/opt/texinfo/bin/makeinfo
 	TEXI2DVI = /usr/local/opt/texinfo/bin/texi2dvi
 	TEXI2HTML = /usr/local/opt/texinfo/bin/makeinfo --html
 	TEXI2PDF = /usr/local/opt/texinfo/bin/texi2pdf
@@ -34,6 +33,7 @@ TEXIDOC = $(patsubst %.info,%.texi,$(INFODOC))
 DOCSTRINGS = DOCSTRINGS
 INDEX = ../INDEX
 
+default: all
 all: info html pdf
 info: $(INFODOC)
 dvi: $(DVIDOC)
