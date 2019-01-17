@@ -33,7 +33,6 @@ matrix:
       osx_image: xcode10.1
 
 script:
-  - make --version
   - make local
   # We only build the docs on Linux because it requires TeX and the macOS TeX install is a monster
   # We only need the doc build for verifying doc changes anyway; we don't need multi-platform

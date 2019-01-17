@@ -42,6 +42,7 @@ ifeq ($(BREW),)
 		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qcollectiongenerator
 	else ifneq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator),)
 		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator
+	# The trailing space here is significant on Ubuntu Xenial! (GNU Make 4.1)
 	else ifneq ($(shell which qcollectiongenerator 2>/dev/null ))
 		QHELPGENERATOR = qcollectiongenerator
     else
