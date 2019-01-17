@@ -122,7 +122,7 @@ Unintentional, and should be fixed:
 # Release checklist
 
 * Run all the tests: `make test`
-* Update the version number and date in `DESCRIPTION` and `doc/chrono.txi` and rebuild the documentation.
+* Update the version number and date in `DESCRIPTION` and `doc/chrono.texi.in` and rebuild the documentation.
 * Update the installation instructions in README to use the upcoming release tarball URL.
 * Create a git tag.
 * `make dist`
