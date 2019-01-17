@@ -17,6 +17,12 @@ addons:
       - qttools5-dev-tools
       - libqt5sql5-sqlite
 
+addons:
+  homebrew:
+    packages:
+      - octave
+      - qt
+
 matrix:
   include:
     - os: linux
@@ -27,19 +33,6 @@ matrix:
       osx_image: xcode10
     - os: osx
       osx_image: xcode10.1
-
-before_install:
-  # Don't do brew update; it takes forever (like five minutes)
-  # Ugh; maybe we have to do this to get a fresh enough texinfo
-  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade texinfo; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install octave; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install qt; fi
-  #- |
-  #  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
-  #    sudo apt-get update
-  #    sudo apt-get install octave octave-pkg-dev texlive qttools5-dev-tools libqt5sql5-sqlite
-  #  fi
 
 script:
   - make local
