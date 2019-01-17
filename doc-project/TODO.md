@@ -3,6 +3,8 @@ Chrono TODO
 
 # Overall
 
+* Convert internal dnums representation to UTC
+  * Math goes bad around DST and other zone transitions if you don't do that
 * Documentation
 * Add more BISTs
 * Consider using GNU FDL for the documentation license
@@ -13,6 +15,8 @@ Chrono TODO
 # Areas
 
 * `datetime`
+  * Convert internal dnums representation to UTC
+    * Math goes bad around DST and other zone transitions if you don't do that
   * Time zone support
     * Normalization of "nonexistent" times like between 02:00 and 03:00 on DST leap ahead days
   * Leap second conversion
