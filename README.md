@@ -63,10 +63,10 @@ Community](https://visualstudio.microsoft.com/downloads/) on Windows.
 The user documentation is in the `doc/` directory. See `doc/chrono.html` or `doc/html/index.html` for
 the manual.
 
-The developer documentation (for people hacking on Chrono itself) is in `doc-project/`. Also see 
+The developer documentation (for people hacking on Chrono itself) is in `doc-project/`. Also see
 [CONTRIBUTING](CONTRIBUTING.md) if you would like to contribute to this project.
 
-## "Internal" code
+## “Internal” code
 
 Anything in a namespace with `internal` in its name is for the internal use of this package, and is not intended for use by user code. Don't use those! Resist the urge! If you really have a use case for them, post an Issue and we'll see about making some public API for them.
 
