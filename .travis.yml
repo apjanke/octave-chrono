@@ -8,9 +8,18 @@ notifications:
   webhooks: https://www.travisbuddy.com/
   on_success: never
 
-os:
-  - linux
-  - osx
+#os:
+#  - linux
+#  - osx
+
+addons:
+  apt:
+    packages:
+      - texlive
+      - octave
+      - octave-pkg-dev
+      - qttools5-dev-tools
+      - libqt5sql5-sqlite
 
 matrix:
   include:
@@ -27,14 +36,16 @@ matrix:
 
 before_install:
   # Don't do brew update; it takes forever (like five minutes)
-  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  # Ugh; maybe we have to do this to get a fresh enough texinfo
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade texinfo; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install octave; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install qt; fi
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
-      sudo apt-get update
-      sudo apt-get install octave octave-pkg-dev texlive qttools5-dev-tools libqt5sql5-sqlite
-    fi
+  #- |
+  #  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
+  #    sudo apt-get update
+  #    sudo apt-get install octave octave-pkg-dev texlive qttools5-dev-tools libqt5sql5-sqlite
+  #  fi
 
 script:
   - make local
