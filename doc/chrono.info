@@ -212,11 +212,8 @@ time zone of the left-hand input.
 
      d_ny = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/New_York')
      d_la = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/Los_Angeles')
+     d_la - d_ny
          ⇒ 03:00:00
-
-     Warning: This is currently broken, at least for subtraction!  It
-     currently produces the wrong result.  Hopefully this will be fixed
-     soon.
 
    You cannot combine a zoned and an unzoned ‘datetime’.  This results
 in an error being raised.
@@ -246,7 +243,7 @@ Chrono.  These will be all the time zones in the IANA database on your
 system (for Linux and macOS) or in the IANA time zone database
 redistributed with Chrono (for Windows).
 
-     Note: The IANA time zone database only covers dates from about the
+     Note: The IANA Time Zone Database only covers dates from about the
      year 1880 to 2038.  Converting time zones for ‘datetime’s outside
      that range is currently unimplemented.  (Chrono needs to add
      support for proleptic POSIX time zone rules, which are used to
@@ -722,29 +719,29 @@ Node: Date Representation3139
 Node: datetime Class3390
 Node: datenum Compatibility4219
 Node: Time Zones5621
-Node: Defined Time Zones8591
-Node: Durations9562
-Node: duration Class9741
-Node: calendarDuration Class10492
-Node: Missing Functionality11393
-Node: Function Reference12362
-Node: Functions Alphabetically12548
-Node: NaT13929
-Node: calendarDuration14584
-Node: calmonths15276
-Node: calyears15867
-Node: datetime16210
-Node: days17779
-Node: duration18243
-Node: hours19149
-Node: isdatetime19630
-Node: isduration19918
-Node: milliseconds20215
-Node: minutes20753
-Node: seconds21013
-Node: timezones21510
-Node: years22543
-Node: Copying23225
+Node: Defined Time Zones8454
+Node: Durations9425
+Node: duration Class9604
+Node: calendarDuration Class10355
+Node: Missing Functionality11256
+Node: Function Reference12225
+Node: Functions Alphabetically12411
+Node: NaT13792
+Node: calendarDuration14447
+Node: calmonths15139
+Node: calyears15730
+Node: datetime16073
+Node: days17642
+Node: duration18106
+Node: hours19012
+Node: isdatetime19493
+Node: isduration19781
+Node: milliseconds20078
+Node: minutes20616
+Node: seconds20876
+Node: timezones21373
+Node: years22406
+Node: Copying23088
 
 End Tag Table
 

@@ -226,13 +226,9 @@ the left-hand input.
 @example
 d_ny = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/New_York')
 d_la = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/Los_Angeles')
+d_la - d_ny
     @result{} 03:00:00
 @end example
-
-@quotation Warning
-This is currently broken, at least for subtraction! It currently produces the
-wrong result. Hopefully this will be fixed soon.
-@end quotation
 
 You cannot combine a zoned and an unzoned @code{datetime}. This results in an error
 being raised.
@@ -256,7 +252,7 @@ all the time zones in the IANA database on your system (for Linux and macOS) or 
 time zone database redistributed with Chrono (for Windows).
 
 @quotation Note
-The IANA time zone database only covers dates from about the year 1880 to 2038. Converting
+The IANA Time Zone Database only covers dates from about the year 1880 to 2038. Converting
 time zones for @code{datetime}s outside that range is currently unimplemented. (Chrono 
 needs to add support for proleptic POSIX time zone rules, which are used to govern
 behavior outside that date range.)

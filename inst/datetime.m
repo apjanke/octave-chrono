@@ -584,6 +584,7 @@ classdef datetime
     function out = minus (A, B)
       %MINUS Subtraction.
       if isa (A, 'datetime') && isa (B, 'datetime')
+        [A, B] = promote(A, B);
         out = duration.ofDays (A.dnums - B.dnums);
       else
         out = A + -B;
@@ -746,12 +747,7 @@ classdef datetime
     
     function out = cat (dim, varargin)
       %CAT Concatenate arrays.
-      args = varargin;
-      for i = 1:numel (args)
-        if ~isa (args{i}, 'datetime')
-          args{i} = datetime (args{i});
-        endif
-      endfor
+      args = promotec (varargin);
       out = args{1};
       fieldArgs = cellfun (@(obj) obj.dnums, args, 'UniformOutput', false);
       out.dnums = cat (dim, fieldArgs{:});
@@ -1034,6 +1030,12 @@ endfunction
 
 
 %%%%% END PLANAR-CLASS BOILERPLATE LOCAL FUNCTIONS %%%%%
+
+function out = promotec (args)
+  %PROMOTEC Promote inputs to be compatible, cell version
+  out = cell(size(args));
+  [out{:}] = promote(args{:});
+end
 
 function varargout = promote (varargin)
   %PROMOTE Promote inputs to be compatible
