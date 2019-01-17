@@ -42,7 +42,7 @@ ifeq ($(BREW),)
 		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qcollectiongenerator
 	else ifneq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator),)
 		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator
-	else ifneq ($(shell which qcollectiongenerator 2>/dev/null))
+	else ifneq ($(shell which qcollectiongenerator 2>/dev/null ))
 		QHELPGENERATOR = qcollectiongenerator
     else
 		QHELPGENERATOR = qhelpgenerator
