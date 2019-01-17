@@ -17,7 +17,7 @@
 ## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} make_local
+## @deftypefn {Function File} octave_chrono_make_local
 ##
 ## Build all the octfiles in Chrono.
 ##
@@ -27,11 +27,19 @@
 ##
 ## @end deftypefn
 
-function make_local
-  %MAKE_LOCAL Build the octfiles for this repo
+function octave_chrono_make_local
+  %OCTAVE_CHRONO_MAKE_LOCAL Build the octfiles for this repo
   %
   % Call this function if you are working with a local copy of this repo instead
   % of installing it as a package.
+  d = dir;
+  if ~ismember('octave_chrono_make_local.m', {d.name})
+    [my_dir,me] = fileparts(mfilename('fullpath'));
+    error(['You are calling this function from the wrong directory.\n' ...
+      '%s needs to be run from the directory it lives in.\n' ...
+      'cd to %s and try again.'], ...
+      me, my_dir);
+  endif
   octfcns = {
     '__oct_time_binsearch__'
     };

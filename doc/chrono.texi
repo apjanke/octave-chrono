@@ -114,7 +114,8 @@ available, and you should use those instead.
 
 For development, you can obtain the source code for Chrono from the project repo on GitHub at 
 @url{https://github.com/apjanke/octave-addons-chrono}. Upon first installation, run
-the @file{make_local} script to build the octfiles so Chrono will work. Then add the @file{inst} directory in the repo to your Octave path.
+the @file{octave_chrono_make_local} script to build the octfiles so Chrono 
+will work. Then add the @file{inst} directory in the repo to your Octave path.
 
 
 

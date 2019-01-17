@@ -86,9 +86,9 @@ Chrono will be available, and you should use those instead.
    For development, you can obtain the source code for Chrono from the
 project repo on GitHub at
 <https://github.com/apjanke/octave-addons-chrono>.  Upon first
-installation, run the ‘make_local’ script to build the octfiles so
-Chrono will work.  Then add the ‘inst’ directory in the repo to your
-Octave path.
+installation, run the ‘octave_chrono_make_local’ script to build the
+octfiles so Chrono will work.  Then add the ‘inst’ directory in the repo
+to your Octave path.
 
 
 File: chrono.info,  Node: Date Representation,  Next: Time Zones,  Prev: Getting Started,  Up: Top
@@ -715,33 +715,33 @@ Tag Table:
 Node: Top769
 Node: Introduction1073
 Node: Getting Started2299
-Node: Date Representation3139
-Node: datetime Class3390
-Node: datenum Compatibility4219
-Node: Time Zones5621
-Node: Defined Time Zones8454
-Node: Durations9425
-Node: duration Class9604
-Node: calendarDuration Class10355
-Node: Missing Functionality11256
-Node: Function Reference12225
-Node: Functions Alphabetically12411
-Node: NaT13792
-Node: calendarDuration14447
-Node: calmonths15139
-Node: calyears15730
-Node: datetime16073
-Node: days17642
-Node: duration18106
-Node: hours19012
-Node: isdatetime19493
-Node: isduration19781
-Node: milliseconds20078
-Node: minutes20616
-Node: seconds20876
-Node: timezones21373
-Node: years22406
-Node: Copying23088
+Node: Date Representation3153
+Node: datetime Class3404
+Node: datenum Compatibility4233
+Node: Time Zones5635
+Node: Defined Time Zones8468
+Node: Durations9439
+Node: duration Class9618
+Node: calendarDuration Class10369
+Node: Missing Functionality11270
+Node: Function Reference12239
+Node: Functions Alphabetically12425
+Node: NaT13806
+Node: calendarDuration14461
+Node: calmonths15153
+Node: calyears15744
+Node: datetime16087
+Node: days17656
+Node: duration18120
+Node: hours19026
+Node: isdatetime19507
+Node: isduration19795
+Node: milliseconds20092
+Node: minutes20630
+Node: seconds20890
+Node: timezones21387
+Node: years22420
+Node: Copying23102
 
 End Tag Table
 

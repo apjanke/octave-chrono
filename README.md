@@ -45,7 +45,7 @@ pkg load chrono
   * `git clone https://github.com/apjanke/octave-addons-chrono`
 * Add the `inst/` directory from the repo to your Octave path.
 * Build the octfiles.
-  * `make_local` will do this.
+  * `octave_chrono_make_local.m` will do this. Just run `octave_chrono_make_local` in Octave while your cwd is the `octave-addons-chrono` repo.
 
 ## Requirements
 

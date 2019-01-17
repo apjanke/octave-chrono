@@ -198,8 +198,8 @@ check: $(install_stamp)
 
 .PHONY: local doc clean-local
 
-local: src/__oct_time_binsearch__.cc make_local.m
-	$(OCTAVE) --eval="make_local"
+local: src/__oct_time_binsearch__.cc octave_chrono_make_local.m
+	$(OCTAVE) --eval="octave_chrono_make_local"
 
 doc:
 	cd doc && make all
@@ -217,30 +217,3 @@ clean-local:
 
 clean: clean-tarballs clean-unpacked-release clean-install clean-local
 	$(RM) -rf $(target_dir)
-
-
-## To make a release, build the distribution and html tarballs.
-# release: dist html
-# 	md5sum $(release_tarball) $(html_tarball)
-
-# DISTFILES = dev-tools doc doc-project inst src CODE_OF_CONDUCT.md \
-#    CONTRIBUTING.md CONTRIBUTORS.md COPYING DESCRIPTION INDEX LICENSE \
-#    LICENSE-UNICODE make_local.m Makefile README.md VERSION
-
-# all: local
-
-# doc:
-# 	cd doc && make all
-
-# test: local
-# 	devtools/runtests.sh inst 
-
-# dist: local test
-# 	mkdir -p dist/$(PACKAGE)-$(VERSION)
-# 	cp -R $(DISTFILES) dist/$(PACKAGE)-$(VERSION)
-# 	cd dist && tar czf $(PACKAGE)-$(VERSION).tar.gz $(PACKAGE)-$(VERSION)
-
-# clean:
-# 	rm -f *.oct *.o src/*.oct src/*.o inst/*.oct
-
-# .PHONY: all local test clean dist doc
