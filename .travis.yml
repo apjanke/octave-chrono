@@ -11,8 +11,19 @@ notifications:
 os:
   - linux
   - osx
-dist: xenial
-group: travis_latest
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+    - os: linux
+      dist: xenial
+    - os: osx
+      osx_image: xcode9.4
+    - os: osx
+      osx_image: xcode10
+    - os: osx
+      osx_image: xcode10.1
 
 before_install:
   # Don't do brew update; it takes forever (like five minutes)
@@ -28,7 +39,8 @@ before_install:
 script:
   - make local
   # We only build the docs on Linux because it requires TeX and the macOS TeX install is a monster
-  #- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make all); fi
-  - (cd doc && make maintainer-clean && make all)
+  # We only need the doc build for verifying doc changes anyway; we don't need multi-platform
+  # artifacts, or even the new artifacts at all.
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make maintainer-clean && make all); fi
   - ./dev-tools/runtests.sh inst
   - make dist
