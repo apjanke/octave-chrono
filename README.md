@@ -85,3 +85,5 @@ Chrono is created by [Andrew Janke](https://apjanke.net).
 Shout out to [Mike Miller](https://mtmxr.com/) for showing me how to properly structure an Octave package repo, and encouraging me to contribute.
 
 Thanks to [Sebastian Schöps](https://github.com/schoeps) for getting me more involved in Octave development in the first place, via his [Octave.app](https://octave-app.org) project.
+
+Thanks to David Bateman and the creators of the [Octave-Forge communications package](https://octave.sourceforge.io/communications/index.html) for providing an example of what a good Octave pkg doco generation setup looks like.
