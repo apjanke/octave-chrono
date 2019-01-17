@@ -52,6 +52,7 @@ Chrono Developer Notes
   * Reproduce crash - double setter/getters cause it? (Had duplicates for datetime.Month.)
 * Documentation
   * Fix Travis CI doco build
+  * Figure out how to get `doc/chrono.texi.in` to draw its version number from `DESCRIPTION`
   * Correct asciibetical ordering in Functions Alphabetically
   * Fix this:
 ```
@@ -121,20 +122,32 @@ Unintentional, and should be fixed:
 
 # Release checklist
 
-* Run all the tests: `make test`
+* Run all the tests.
+  * `make test`, duh.
+  * Wouldn't hurt to do `make test`/`make clean`/`git status`/manual-cleanup a few times, just to be sure.
 * Update the version number and date in `DESCRIPTION` and `doc/chrono.texi.in` and rebuild the documentation.
+  * `(cd doc; make maintainer-clean; make all)`
 * Update the installation instructions in README to use the upcoming release tarball URL.
+  * Format is: `https://github.com/apjanke/octave-addons-chrono/releases/download/v<version>/chrono-<version>.tar.gz`
+* Commit all the files changed by the above steps.
+  * Use form: `git commit -a -m "Cut release v<version>"`
 * Create a git tag.
+  * `git tag v<version>`
+* Push the changes and tag to GitHub.
+  * `git push`
+  * `git push --tags`
+* Make sure your repo is clean: `git status` should show no local changes
 * `make dist`
-* Push the tag to GitHub.
 * Create a new GitHub release from the tag.
   * Upload the dist tarball as a file for the release.
-* Test installing the release using `pkg install` against the new release URL
+* Test installing the release using `pkg install` against the new release URL.
   * On macOS
   * On Ubuntu
-* Post an announcement comment on the "Updates" issue
-* Post an announcement on the Savannah bug for datetime: https://savannah.gnu.org/bugs/index.php?47032
+* Post an announcement comment on the "Updates" issue.
+* Post an announcement on the [Savannah bug for datetime support](https://savannah.gnu.org/bugs/index.php?47032).
+* Update version number in `DESCRIPTION` and `doc/chrono.texi.in` to SNAPSHOT of next minor version.
 
+* If there were any problems following these instructions exactly as written, report it as a bug.
 
 
 

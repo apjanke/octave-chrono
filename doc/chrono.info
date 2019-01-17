@@ -1,6 +1,6 @@
 This is chrono.info, produced by makeinfo version 6.5 from chrono.texi.
 
-This manual is for Chrono, version 0.1.0-SNAPSHOT.
+This manual is for Chrono, version 0.1.0.
 
    Copyright © 2019 Andrew Janke
 
@@ -23,7 +23,7 @@ File: chrono.info,  Node: Top,  Next: Introduction
 Chrono for Octave
 *****************
 
-This manual is for Chrono, version 0.1.0-SNAPSHOT.
+This manual is for Chrono, version 0.1.0.
 
 * Menu:
 
@@ -46,8 +46,8 @@ File: chrono.info,  Node: Introduction,  Next: Getting Started,  Up: Top
 
                            — _Douglas Adams_
 
-   This is the manual for the Chrono package version 0.1.0-SNAPSHOT for
-GNU Octave.
+   This is the manual for the Chrono package version 0.1.0 for GNU
+Octave.
 
    This document is a work in progress.  You are invited to help improve
 it and submit patches.
@@ -692,7 +692,7 @@ the Unicode License (http://www.unicode.org/copyright.html).
 8.2 Manual Copyright
 ====================
 
-This manual is for Chrono, version 0.1.0-SNAPSHOT.
+This manual is for Chrono, version 0.1.0.
 
    Copyright © 2019 Andrew Janke
 
@@ -712,36 +712,36 @@ This manual is for Chrono, version 0.1.0-SNAPSHOT.
 
 
 Tag Table:
-Node: Top769
-Node: Introduction1073
-Node: Getting Started2299
-Node: Date Representation3153
-Node: datetime Class3404
-Node: datenum Compatibility4233
-Node: Time Zones5635
-Node: Defined Time Zones8468
-Node: Durations9439
-Node: duration Class9618
-Node: calendarDuration Class10369
-Node: Missing Functionality11270
-Node: Function Reference12239
-Node: Functions Alphabetically12425
-Node: NaT13806
-Node: calendarDuration14461
-Node: calmonths15153
-Node: calyears15744
-Node: datetime16087
-Node: days17656
-Node: duration18120
-Node: hours19026
-Node: isdatetime19507
-Node: isduration19795
-Node: milliseconds20092
-Node: minutes20630
-Node: seconds20890
-Node: timezones21387
-Node: years22420
-Node: Copying23102
+Node: Top760
+Node: Introduction1055
+Node: Getting Started2272
+Node: Date Representation3126
+Node: datetime Class3377
+Node: datenum Compatibility4206
+Node: Time Zones5608
+Node: Defined Time Zones8441
+Node: Durations9412
+Node: duration Class9591
+Node: calendarDuration Class10342
+Node: Missing Functionality11243
+Node: Function Reference12212
+Node: Functions Alphabetically12398
+Node: NaT13779
+Node: calendarDuration14434
+Node: calmonths15126
+Node: calyears15717
+Node: datetime16060
+Node: days17629
+Node: duration18093
+Node: hours18999
+Node: isdatetime19480
+Node: isduration19768
+Node: milliseconds20065
+Node: minutes20603
+Node: seconds20863
+Node: timezones21360
+Node: years22393
+Node: Copying23075
 
 End Tag Table
 
