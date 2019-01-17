@@ -19,6 +19,12 @@
 classdef TzInfo
   %TZINFO Zone definition for a single time zone
   
+  properties (Constant)
+    utcZoneAliases = {'Etc/GMT' 'Etc/GMT+0' 'Etc/GMT-0' 'Etc/Greenwich' ...
+      'Etc/UCT' 'Etc/UTC' 'Etc/Universal' 'GMT' 'GMT+0' 'GMT-0' 'GMT0' ...
+      'Greenwich' 'UCT' 'UTC' 'Universal' 'Zulu'};
+  endproperties
+  
   properties
     id
     formatId
@@ -144,33 +150,45 @@ classdef TzInfo
     endfunction
 
     function out = localtimeToGmt (this, dnum)
-      [tf,loc] = octave.time.internal.algo.binsearch (dnum, this.transitionsLocalDatenum);
-      ix = loc;
-      ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
-      tfOutOfRange = ix == 0 | ix == numel (this.transitions);
-      % In-range dates take their period's gmt offset
-      offsets = NaN (size (dnum));
-      offsets(~tfOutOfRange) = this.ttinfos.gmtoffDatenum(this.timeTypes(ix(~tfOutOfRange)));
-      % Out-of-range dates are handled by the POSIX look-ehead zone
-      if any (tfOutOfRange(:))
-        % TODO: Implement this
-        error ('POSIX zone rules are unimplemented');
+      if ismember(this.id, octave.time.internal.tzinfo.TzInfo.utcZoneAliases)
+        % Have to special-case this because it relies on POSIX zone rules, which
+        % are not implemented yet
+        offsets = zeros( size (dnum));
+      else
+        [tf,loc] = octave.time.internal.algo.binsearch (dnum, this.transitionsLocalDatenum);
+        ix = loc;
+        ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
+        tfOutOfRange = ix == 0 | ix == numel (this.transitions);
+        % In-range dates take their period's gmt offset
+        offsets = NaN (size (dnum));
+        offsets(~tfOutOfRange) = this.ttinfos.gmtoffDatenum(this.timeTypes(ix(~tfOutOfRange)));
+        % Out-of-range dates are handled by the POSIX look-ehead zone
+        if any (tfOutOfRange(:))
+          % TODO: Implement this
+          error ('POSIX zone rules are unimplemented');
+        endif
       endif
       out = dnum - offsets;
     endfunction
     
     function out = gmtToLocaltime (this, dnum)
-      [tf,loc] = octave.time.internal.algo.binsearch (dnum, this.transitionsDatenum);
-      ix = loc;
-      ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
-      tfOutOfRange = ix == 0 | ix == numel(this.transitions);
-      % In-range dates take their period's gmt offset
-      offsets = NaN (size (dnum));
-      offsets(~tfOutOfRange) = this.ttinfos.gmtoffDatenum(this.timeTypes(ix(~tfOutOfRange)));
-      % Out-of-range dates are handled by the POSIX look-ehead zone
-      if any (tfOutOfRange(:))
-        % TODO: Implement this
-        error ('POSIX zone rules are unimplemented');
+      if ismember(this.id, octave.time.internal.tzinfo.TzInfo.utcZoneAliases)
+        % Have to special-case this because it relies on POSIX zone rules, which
+        % are not implemented yet
+        offsets = zeros( size (dnum));
+      else
+        [tf,loc] = octave.time.internal.algo.binsearch (dnum, this.transitionsDatenum);
+        ix = loc;
+        ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
+        tfOutOfRange = ix == 0 | ix == numel(this.transitions);
+        % In-range dates take their period's gmt offset
+        offsets = NaN (size (dnum));
+        offsets(~tfOutOfRange) = this.ttinfos.gmtoffDatenum(this.timeTypes(ix(~tfOutOfRange)));
+        % Out-of-range dates are handled by the POSIX look-ehead zone
+        if any (tfOutOfRange(:))
+          % TODO: Implement this
+          error ('POSIX zone rules are unimplemented');
+        endif
       endif
       out = dnum + offsets;
     endfunction

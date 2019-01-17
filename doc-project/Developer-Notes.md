@@ -30,7 +30,6 @@ Chrono Developer Notes
   * SystemTimeZone detection on pre-Vista Windows without using Java
   * POSIX zone rule support for dates outside range of Olson database
     * This affects dates before around 1880 and after around 2038
-  * Test conversion to explicit GMT zone - does it hit POSIX zone rule logic?
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
 * `calendarDuration` and its associated functions
