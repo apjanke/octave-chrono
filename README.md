@@ -55,6 +55,10 @@ Chrono contains material licensed under the GPL, the Unicode license, and Public
 
 Anything in a namespace with `internal` in its name is for the internal use of this package, and is not intended for use by user code.
 
-## Author
+## Author and Acknowledgments
 
 Chrono is created by [Andrew Janke](https://apjanke.net).
+
+Shout out to [Mike Miller](https://mtmxr.com/) for showing me how to properly structure an Octave package repo, and encouraging me to contribute.
+
+Thanks to [Sebastian Schöps](https://github.com/schoeps) for getting me more involved in Octave development in the first place, via his [Octave.app](https://octave-app.org) project.
