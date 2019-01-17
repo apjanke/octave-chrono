@@ -167,7 +167,10 @@ clean-install:
 ## Recipes for testing purposes
 ##
 
-.PHONY: run doctest check
+.PHONY: run doctest test
+
+test: local
+	./dev-tools/runtests.sh inst
 
 ## Start an Octave session with the package directories on the path for
 ## interactice test of development sources.

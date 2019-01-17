@@ -40,5 +40,5 @@ script:
   # We only need the doc build for verifying doc changes anyway; we don't need multi-platform
   # artifacts, or even the new artifacts at all.
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make maintainer-clean && make all); fi
-  - ./dev-tools/runtests.sh inst
+  - make test
   - make dist
