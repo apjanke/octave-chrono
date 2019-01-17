@@ -16,6 +16,8 @@
                     </section>
                 </section>
                 <section title="Time Zones" ref="html/Time-Zones.html">
+                    <section title="Defined Time Zones" ref="html/Defined-Time-Zones.html">
+                    </section>
                 </section>
                 <section title="Durations" ref="html/Durations.html">
                     <section title="duration Class" ref="html/duration-Class.html">
@@ -90,6 +92,7 @@
             <file>html/calendarDuration-Class.html</file>
             <file>html/duration-Class.html</file>
             <file>html/Durations.html</file>
+            <file>html/Defined-Time-Zones.html</file>
             <file>html/Time-Zones.html</file>
             <file>html/datenum-Compatibility.html</file>
             <file>html/datetime-Class.html</file>

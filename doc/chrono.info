@@ -165,12 +165,92 @@ File: chrono.info,  Node: Time Zones,  Next: Durations,  Prev: Date Representati
 4 Time Zones
 ************
 
-This section will describe Chrono’s time zone support.
+Chrono has support for representing dates in time zones and for
+converting between time zones.
 
-   Chrono’s time zone data is drawn from the IANA Time Zone Database
+   A ‘datetime’ may be "zoned" or "zoneless".  A zoneless ‘datetime’
+does not have a time zone associated with it.  This is represented by an
+empty ‘TimeZone’ property on the ‘datetime’ object.  A zoneless
+‘datetime’ represents the local time in some unknown time zone, and
+assumes a continuous time scale (no DST shifts).
+
+   A zoned ‘datetime’ is associated with a time zone.  It is represented
+by having the time zone’s IANA zone identifier (e.g.  ‘'UTC'’ or
+‘'America/New_York'’) in its ‘TimeZone’ property.  A zoned ‘datetime’
+represents the local time in that time zone.
+
+   By default, the ‘datetime’ constructor creates unzoned ‘datetime’s.
+To make a zoned ‘datetime’, either pass the ‘'TimeZone'’ option to the
+constructor, or set the ‘TimeZone’ property after object creation.
+Setting the ‘TimeZone’ property on a zoneless ‘datetime’ declares that
+it’s a local time in that time zone.  Setting the ‘TimeZone’ property on
+a zoned ‘datetime’ turns it back into a zoneless ‘datetime’ without
+changing the local time it represents.
+
+   You can tell a zoned from a zoneless time zone in the object display
+because the time zone is included for zoned ‘datetime’s.
+
+     % Create an unzoned datetime
+     d = datetime('2011-03-04 06:00:00')
+         ⇒  04-Mar-2011 06:00:00
+
+     % Create a zoned datetime
+     d_ny = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/New_York')
+         ⇒  04-Mar-2011 06:00:00 America/New_York
+     % This is equivalent
+     d_ny = datetime('2011-03-04 06:00:00');
+     d_ny.TimeZone = 'America/New_York'
+         ⇒  04-Mar-2011 06:00:00 America/New_York
+
+     % Convert it to Chicago time
+     d_chi.TimeZone = 'America/Chicago'
+         ⇒  04-Mar-2011 05:00:00 America/Chicago
+
+   When you combine two zoned ‘datetime’s via concatenation, assignment,
+or arithmetic, if their time zones differ, they are converted to the
+time zone of the left-hand input.
+
+     d_ny = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/New_York')
+     d_la = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/Los_Angeles')
+         ⇒ 03:00:00
+
+     Warning: This is currently broken, at least for subtraction!  It
+     currently produces the wrong result.  Hopefully this will be fixed
+     soon.
+
+   You cannot combine a zoned and an unzoned ‘datetime’.  This results
+in an error being raised.
+
+     Warning: Normalization of "nonexistent" times (like between 02:00
+     and 03:00 on a "spring forward" DST change day) is not implemented
+     yet.  The results of converting a zoneless local time into a time
+     zone where that local time did not exist are currently undefined.
+
+* Menu:
+
+* Defined Time Zones::
+
+
+File: chrono.info,  Node: Defined Time Zones,  Up: Time Zones
+
+4.1 Defined Time Zones
+======================
+
+Chrono’s time zone data is drawn from the IANA Time Zone Database
 (https://www.iana.org/time-zones), also known as the “Olson Database”.
 Chrono includes a copy of this database in its distribution so it can
 work on Windows, which does not supply it like Unix systems do.
+
+   You can use the ‘timezones’ function to list the time zones known to
+Chrono.  These will be all the time zones in the IANA database on your
+system (for Linux and macOS) or in the IANA time zone database
+redistributed with Chrono (for Windows).
+
+     Note: The IANA time zone database only covers dates from about the
+     year 1880 to 2038.  Converting time zones for ‘datetime’s outside
+     that range is currently unimplemented.  (Chrono needs to add
+     support for proleptic POSIX time zone rules, which are used to
+     govern behavior outside that date range.)
 
 
 File: chrono.info,  Node: Durations,  Next: Missing Functionality,  Prev: Time Zones,  Up: Top
@@ -189,7 +269,17 @@ File: chrono.info,  Node: duration Class,  Next: calendarDuration Class,  Up: Du
 5.1 ‘duration’ Class
 ====================
 
-This section will describe ‘duration’.
+A ‘duration’ represents a period of time in fixed-length seconds (or
+minutes, hours, or whatever you want to measure it in.)
+
+   A ‘duration’ has a resolution of about a nanosecond for typical
+dates.  The underlying representation is a ‘double’ representing the
+number of days elapsed, similar to a datenum, except it’s interpreted as
+relative to some other reference point you provide, instead of being
+relative to the Matlab/Octave epoch.
+
+   You can add or subtract a ‘duration’ to a ‘datetime’ to get another
+‘datetime’.  You can also add or subtract ‘durations’ to each other.
 
 
 File: chrono.info,  Node: calendarDuration Class,  Prev: duration Class,  Up: Durations
@@ -197,7 +287,23 @@ File: chrono.info,  Node: calendarDuration Class,  Prev: duration Class,  Up: Du
 5.2 ‘calendarDuration’ Class
 ============================
 
-This section will describe ‘calendarDuration’.
+A ‘calendarDuration’ represents a period of time in variable-length
+calendar components.  For example, years and months can have varying
+numbers of days, and days in time zones with Daylight Saving Time have
+varying numbers of hours.  A ‘calendarDuration’ does arithmetic with
+"whole" calendar periods.
+
+   ‘calendarDuration’s and ‘duration’s cannot be directly combined,
+because they are not semantically equivalent.  (This may be relaxed in
+the future to allow ‘duration’s to be interpreted as numbers of days
+when combined with ‘calendarDuration’s.)
+
+     d = datetime('2011-03-04 00:00:00')
+         ⇒ 04-Mar-2011
+     cdur = calendarDuration(1, 3, 0)
+         ⇒ 1y 3mo
+     d2 = d + cdur
+         ⇒ 04-Jun-2012
 
 
 File: chrono.info,  Node: Missing Functionality,  Next: Function Reference,  Prev: Durations,  Up: Top
@@ -616,28 +722,29 @@ Node: Date Representation3139
 Node: datetime Class3390
 Node: datenum Compatibility4219
 Node: Time Zones5621
-Node: Durations6083
-Node: duration Class6262
-Node: calendarDuration Class6444
-Node: Missing Functionality6650
-Node: Function Reference7619
-Node: Functions Alphabetically7805
-Node: NaT9186
-Node: calendarDuration9841
-Node: calmonths10533
-Node: calyears11124
-Node: datetime11467
-Node: days13036
-Node: duration13500
-Node: hours14406
-Node: isdatetime14887
-Node: isduration15175
-Node: milliseconds15472
-Node: minutes16010
-Node: seconds16270
-Node: timezones16767
-Node: years17800
-Node: Copying18482
+Node: Defined Time Zones8591
+Node: Durations9562
+Node: duration Class9741
+Node: calendarDuration Class10492
+Node: Missing Functionality11393
+Node: Function Reference12362
+Node: Functions Alphabetically12548
+Node: NaT13929
+Node: calendarDuration14584
+Node: calmonths15276
+Node: calyears15867
+Node: datetime16210
+Node: days17779
+Node: duration18243
+Node: hours19149
+Node: isdatetime19630
+Node: isduration19918
+Node: milliseconds20215
+Node: minutes20753
+Node: seconds21013
+Node: timezones21510
+Node: years22543
+Node: Copying23225
 
 End Tag Table
 

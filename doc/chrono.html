@@ -81,7 +81,10 @@ ul.no-bullet {list-style: none}
       <li><a name="toc-datenum-Compatibility-1" href="#datenum-Compatibility">3.1.1 <code>datenum</code> Compatibility</a></li>
     </ul></li>
   </ul></li>
-  <li><a name="toc-Time-Zones-1" href="#Time-Zones">4 Time Zones</a></li>
+  <li><a name="toc-Time-Zones-1" href="#Time-Zones">4 Time Zones</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Defined-Time-Zones-1" href="#Defined-Time-Zones">4.1 Defined Time Zones</a></li>
+  </ul></li>
   <li><a name="toc-Durations-1" href="#Durations">5 Durations</a>
   <ul class="no-bullet">
     <li><a name="toc-duration-Class-1" href="#duration-Class">5.1 <code>duration</code> Class</a></li>
@@ -305,13 +308,97 @@ Next: <a href="#Durations" accesskey="n" rel="next">Durations</a>, Previous: <a 
 <a name="Time-Zones-1"></a>
 <h2 class="chapter">4 Time Zones</h2>
 
-<p>This section will describe Chrono&rsquo;s time zone support.
+<p>Chrono has support for representing dates in time zones and for converting between time zones.
 </p>
+<p>A <code>datetime</code> may be &quot;zoned&quot; or &quot;zoneless&quot;. A zoneless <code>datetime</code> does not have a time zone
+associated with it. This is represented by an empty <code>TimeZone</code> property on the <code>datetime</code>
+object. A zoneless <code>datetime</code> represents the local time in some unknown time zone, and assumes a
+continuous time scale (no DST shifts).
+</p>
+<p>A zoned <code>datetime</code> is associated with a time zone. It is represented by having the time zone&rsquo;s
+IANA zone identifier (e.g. <code>'UTC'</code> or <code>'America/New_York'</code>) in its <code>TimeZone</code> 
+property. A zoned <code>datetime</code> represents the local time in that time zone.
+</p>
+<p>By default, the <code>datetime</code> constructor creates unzoned <code>datetime</code>s. To 
+make a zoned <code>datetime</code>, either pass the <code>'TimeZone'</code> option to the constructor, 
+or set the <code>TimeZone</code> property after object creation. Setting the <code>TimeZone</code>
+property on a zoneless <code>datetime</code> declares that it&rsquo;s a local time in that time zone.
+Setting the <code>TimeZone</code> property on a zoned <code>datetime</code> turns it back into a 
+zoneless <code>datetime</code> without changing the local time it represents.
+</p>
+<p>You can tell a zoned from a zoneless time zone in the object display because the time zone
+is included for zoned <code>datetime</code>s.
+</p>
+<div class="example">
+<pre class="example">% Create an unzoned datetime
+d = datetime('2011-03-04 06:00:00')
+    &rArr;  04-Mar-2011 06:00:00
+
+% Create a zoned datetime
+d_ny = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/New_York')
+    &rArr;  04-Mar-2011 06:00:00 America/New_York
+% This is equivalent
+d_ny = datetime('2011-03-04 06:00:00');
+d_ny.TimeZone = 'America/New_York'
+    &rArr;  04-Mar-2011 06:00:00 America/New_York
+
+% Convert it to Chicago time
+d_chi.TimeZone = 'America/Chicago'
+    &rArr;  04-Mar-2011 05:00:00 America/Chicago
+</pre></div>
+
+<p>When you combine two zoned <code>datetime</code>s via concatenation, assignment, or 
+arithmetic, if their time zones differ, they are converted to the time zone of
+the left-hand input.
+</p>
+<div class="example">
+<pre class="example">d_ny = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/New_York')
+d_la = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/Los_Angeles')
+    &rArr; 03:00:00
+</pre></div>
+
+<blockquote>
+<p><b>Warning:</b> This is currently broken, at least for subtraction! It currently produces the
+wrong result. Hopefully this will be fixed soon.
+</p></blockquote>
+
+<p>You cannot combine a zoned and an unzoned <code>datetime</code>. This results in an error
+being raised.
+</p>
+<blockquote>
+<p><b>Warning:</b> Normalization of &quot;nonexistent&quot; times (like between 02:00 and 03:00 on a &quot;spring forward&quot;
+DST change day) is not implemented yet. The results of converting a zoneless local time
+into a time zone where that local time did not exist are currently undefined.
+</p></blockquote>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#Defined-Time-Zones" accesskey="1">Defined Time Zones</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="Defined-Time-Zones"></a>
+<div class="header">
+<p>
+Up: <a href="#Time-Zones" accesskey="u" rel="up">Time Zones</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Defined-Time-Zones-1"></a>
+<h3 class="section">4.1 Defined Time Zones</h3>
+
 <p>Chrono&rsquo;s time zone data is drawn from the <a href="https://www.iana.org/time-zones">IANA Time Zone Database</a>, also known as the “Olson Database”. Chrono includes a
 copy of this database in its distribution so it can work on Windows, which does
 not supply it like Unix systems do.
 </p>
-
+<p>You can use the <code>timezones</code> function to list the time zones known to Chrono. These will be
+all the time zones in the IANA database on your system (for Linux and macOS) or in the IANA
+time zone database redistributed with Chrono (for Windows).
+</p>
+<blockquote>
+<p><b>Note:</b> The IANA time zone database only covers dates from about the year 1880 to 2038. Converting
+time zones for <code>datetime</code>s outside that range is currently unimplemented. (Chrono 
+needs to add support for proleptic POSIX time zone rules, which are used to govern
+behavior outside that date range.)
+</p></blockquote>
 
 <hr>
 <a name="Durations"></a>
@@ -338,7 +425,16 @@ Next: <a href="#calendarDuration-Class" accesskey="n" rel="next">calendarDuratio
 <a name="duration-Class-1"></a>
 <h3 class="section">5.1 <code>duration</code> Class</h3>
 
-<p>This section will describe <code>duration</code>.
+<p>A <code>duration</code> represents a period of time in fixed-length seconds (or minutes, hours,
+or whatever you want to measure it in.)
+</p>
+<p>A <code>duration</code> has a resolution of about a nanosecond for typical dates. The underlying
+representation is a <code>double</code> representing the number of days elapsed, similar to a 
+datenum, except it&rsquo;s interpreted as relative to some other reference point you provide,
+instead of being relative to the Matlab/Octave epoch.
+</p>
+<p>You can add or subtract a <code>duration</code> to a <code>datetime</code> to get another <code>datetime</code>.
+You can also add or subtract <code>durations</code> to each other.
 </p>
 <hr>
 <a name="calendarDuration-Class"></a>
@@ -349,9 +445,24 @@ Previous: <a href="#duration-Class" accesskey="p" rel="prev">duration Class</a>,
 <a name="calendarDuration-Class-1"></a>
 <h3 class="section">5.2 <code>calendarDuration</code> Class</h3>
 
-<p>This section will describe <code>calendarDuration</code>.
+<p>A <code>calendarDuration</code> represents a period of time in variable-length calendar 
+components. For example, years and months can have varying numbers of days, and days
+in time zones with Daylight Saving Time have varying numbers of hours. A 
+<code>calendarDuration</code> does arithmetic with &quot;whole&quot; calendar periods.
 </p>
-
+<p><code>calendarDuration</code>s and <code>duration</code>s cannot be directly combined, because
+they are not semantically equivalent. (This may be relaxed in the future to allow
+<code>duration</code>s to be interpreted as numbers of days when combined with
+<code>calendarDuration</code>s.)
+</p>
+<div class="example">
+<pre class="example">d = datetime('2011-03-04 00:00:00')
+    &rArr; 04-Mar-2011
+cdur = calendarDuration(1, 3, 0)
+    &rArr; 1y 3mo
+d2 = d + cdur
+    &rArr; 04-Jun-2012
+</pre></div>
 
 <hr>
 <a name="Missing-Functionality"></a>

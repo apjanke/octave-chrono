@@ -16,6 +16,8 @@ Chrono Developer Notes
 ## Sections
 
 * `datetime`
+  * Time zone support
+    * Normalization of "nonexistent" times like between 02:00 and 03:00 on DST leap ahead days
   * Leap second conversion
   * `Format` support
     * Needs LDML format support, not datestr() format placeholders
@@ -27,6 +29,7 @@ Chrono Developer Notes
   * Additional `ConvertFrom` types
   * SystemTimeZone detection on pre-Vista Windows without using Java
   * POSIX zone rule support for dates outside range of Olson database
+    * This affects dates before around 1880 and after around 2038
   * Test conversion to explicit GMT zone - does it hit POSIX zone rule logic?
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset

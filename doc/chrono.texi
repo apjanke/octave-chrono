@@ -180,14 +180,87 @@ dn = datenum('2017-01-01')
 @node Time Zones
 @chapter Time Zones
 
-This section will describe Chrono's time zone support.
+Chrono has support for representing dates in time zones and for converting between time zones.
+
+A @code{datetime} may be "zoned" or "zoneless". A zoneless @code{datetime} does not have a time zone
+associated with it. This is represented by an empty @code{TimeZone} property on the @code{datetime}
+object. A zoneless @code{datetime} represents the local time in some unknown time zone, and assumes a
+continuous time scale (no DST shifts).
+
+A zoned @code{datetime} is associated with a time zone. It is represented by having the time zone's
+IANA zone identifier (e.g. @code{'UTC'} or @code{'America/New_York'}) in its @code{TimeZone} 
+property. A zoned @code{datetime} represents the local time in that time zone.
+
+By default, the @code{datetime} constructor creates unzoned @code{datetime}s. To 
+make a zoned @code{datetime}, either pass the @code{'TimeZone'} option to the constructor, 
+or set the @code{TimeZone} property after object creation. Setting the @code{TimeZone}
+property on a zoneless @code{datetime} declares that it's a local time in that time zone.
+Setting the @code{TimeZone} property on a zoned @code{datetime} turns it back into a 
+zoneless @code{datetime} without changing the local time it represents.
+
+You can tell a zoned from a zoneless time zone in the object display because the time zone
+is included for zoned @code{datetime}s.
+
+@example
+% Create an unzoned datetime
+d = datetime('2011-03-04 06:00:00')
+    @result{}  04-Mar-2011 06:00:00
+
+% Create a zoned datetime
+d_ny = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/New_York')
+    @result{}  04-Mar-2011 06:00:00 America/New_York
+% This is equivalent
+d_ny = datetime('2011-03-04 06:00:00');
+d_ny.TimeZone = 'America/New_York'
+    @result{}  04-Mar-2011 06:00:00 America/New_York
+
+% Convert it to Chicago time
+d_chi.TimeZone = 'America/Chicago'
+    @result{}  04-Mar-2011 05:00:00 America/Chicago
+@end example
+
+When you combine two zoned @code{datetime}s via concatenation, assignment, or 
+arithmetic, if their time zones differ, they are converted to the time zone of
+the left-hand input.
+
+@example
+d_ny = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/New_York')
+d_la = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/Los_Angeles')
+    @result{} 03:00:00
+@end example
+
+@quotation Warning
+This is currently broken, at least for subtraction! It currently produces the
+wrong result. Hopefully this will be fixed soon.
+@end quotation
+
+You cannot combine a zoned and an unzoned @code{datetime}. This results in an error
+being raised.
+
+@quotation Warning
+Normalization of "nonexistent" times (like between 02:00 and 03:00 on a "spring forward"
+DST change day) is not implemented yet. The results of converting a zoneless local time
+into a time zone where that local time did not exist are currently undefined.
+@end quotation
+
+@node Defined Time Zones
+@section Defined Time Zones
 
 Chrono's time zone data is drawn from the @uref{https://www.iana.org/time-zones, 
 IANA Time Zone Database}, also known as the “Olson Database”. Chrono includes a
 copy of this database in its distribution so it can work on Windows, which does
 not supply it like Unix systems do.
 
+You can use the @code{timezones} function to list the time zones known to Chrono. These will be
+all the time zones in the IANA database on your system (for Linux and macOS) or in the IANA
+time zone database redistributed with Chrono (for Windows).
 
+@quotation Note
+The IANA time zone database only covers dates from about the year 1880 to 2038. Converting
+time zones for @code{datetime}s outside that range is currently unimplemented. (Chrono 
+needs to add support for proleptic POSIX time zone rules, which are used to govern
+behavior outside that date range.)
+@end quotation
 
 @node Durations
 @chapter Durations
@@ -200,14 +273,38 @@ not supply it like Unix systems do.
 @node duration Class
 @section @code{duration} Class
 
-This section will describe @code{duration}.
+A @code{duration} represents a period of time in fixed-length seconds (or minutes, hours,
+or whatever you want to measure it in.)
+
+A @code{duration} has a resolution of about a nanosecond for typical dates. The underlying
+representation is a @code{double} representing the number of days elapsed, similar to a 
+datenum, except it's interpreted as relative to some other reference point you provide,
+instead of being relative to the Matlab/Octave epoch.
+
+You can add or subtract a @code{duration} to a @code{datetime} to get another @code{datetime}.
+You can also add or subtract @code{durations} to each other.
 
 @node calendarDuration Class
 @section @code{calendarDuration} Class
 
-This section will describe @code{calendarDuration}.
+A @code{calendarDuration} represents a period of time in variable-length calendar 
+components. For example, years and months can have varying numbers of days, and days
+in time zones with Daylight Saving Time have varying numbers of hours. A 
+@code{calendarDuration} does arithmetic with "whole" calendar periods.
 
+@code{calendarDuration}s and @code{duration}s cannot be directly combined, because
+they are not semantically equivalent. (This may be relaxed in the future to allow
+@code{duration}s to be interpreted as numbers of days when combined with
+@code{calendarDuration}s.)
 
+@example
+d = datetime('2011-03-04 00:00:00')
+    @result{} 04-Mar-2011
+cdur = calendarDuration(1, 3, 0)
+    @result{} 1y 3mo
+d2 = d + cdur
+    @result{} 04-Jun-2012
+@end example
 
 @node Missing Functionality
 @chapter Missing Functionality

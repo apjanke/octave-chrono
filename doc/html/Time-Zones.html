@@ -28,7 +28,7 @@ into another language, under the same conditions as for modified versions. -->
 <link href="index.html#Top" rel="start" title="Top">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
-<link href="Durations.html#Durations" rel="next" title="Durations">
+<link href="Defined-Time-Zones.html#Defined-Time-Zones" rel="next" title="Defined Time Zones">
 <link href="datenum-Compatibility.html#datenum-Compatibility" rel="prev" title="datenum Compatibility">
 <style type="text/css">
 <!--
@@ -71,14 +71,79 @@ Next: <a href="Durations.html#Durations" accesskey="n" rel="next">Durations</a>,
 <a name="Time-Zones-1"></a>
 <h2 class="chapter">4 Time Zones</h2>
 
-<p>This section will describe Chrono&rsquo;s time zone support.
+<p>Chrono has support for representing dates in time zones and for converting between time zones.
 </p>
-<p>Chrono&rsquo;s time zone data is drawn from the <a href="https://www.iana.org/time-zones">IANA Time Zone Database</a>, also known as the “Olson Database”. Chrono includes a
-copy of this database in its distribution so it can work on Windows, which does
-not supply it like Unix systems do.
+<p>A <code>datetime</code> may be &quot;zoned&quot; or &quot;zoneless&quot;. A zoneless <code>datetime</code> does not have a time zone
+associated with it. This is represented by an empty <code>TimeZone</code> property on the <code>datetime</code>
+object. A zoneless <code>datetime</code> represents the local time in some unknown time zone, and assumes a
+continuous time scale (no DST shifts).
 </p>
+<p>A zoned <code>datetime</code> is associated with a time zone. It is represented by having the time zone&rsquo;s
+IANA zone identifier (e.g. <code>'UTC'</code> or <code>'America/New_York'</code>) in its <code>TimeZone</code> 
+property. A zoned <code>datetime</code> represents the local time in that time zone.
+</p>
+<p>By default, the <code>datetime</code> constructor creates unzoned <code>datetime</code>s. To 
+make a zoned <code>datetime</code>, either pass the <code>'TimeZone'</code> option to the constructor, 
+or set the <code>TimeZone</code> property after object creation. Setting the <code>TimeZone</code>
+property on a zoneless <code>datetime</code> declares that it&rsquo;s a local time in that time zone.
+Setting the <code>TimeZone</code> property on a zoned <code>datetime</code> turns it back into a 
+zoneless <code>datetime</code> without changing the local time it represents.
+</p>
+<p>You can tell a zoned from a zoneless time zone in the object display because the time zone
+is included for zoned <code>datetime</code>s.
+</p>
+<div class="example">
+<pre class="example">% Create an unzoned datetime
+d = datetime('2011-03-04 06:00:00')
+    &rArr;  04-Mar-2011 06:00:00
 
+% Create a zoned datetime
+d_ny = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/New_York')
+    &rArr;  04-Mar-2011 06:00:00 America/New_York
+% This is equivalent
+d_ny = datetime('2011-03-04 06:00:00');
+d_ny.TimeZone = 'America/New_York'
+    &rArr;  04-Mar-2011 06:00:00 America/New_York
 
+% Convert it to Chicago time
+d_chi.TimeZone = 'America/Chicago'
+    &rArr;  04-Mar-2011 05:00:00 America/Chicago
+</pre></div>
+
+<p>When you combine two zoned <code>datetime</code>s via concatenation, assignment, or 
+arithmetic, if their time zones differ, they are converted to the time zone of
+the left-hand input.
+</p>
+<div class="example">
+<pre class="example">d_ny = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/New_York')
+d_la = datetime('2011-03-04 06:00:00', 'TimeZone', 'America/Los_Angeles')
+    &rArr; 03:00:00
+</pre></div>
+
+<blockquote>
+<p><b>Warning:</b> This is currently broken, at least for subtraction! It currently produces the
+wrong result. Hopefully this will be fixed soon.
+</p></blockquote>
+
+<p>You cannot combine a zoned and an unzoned <code>datetime</code>. This results in an error
+being raised.
+</p>
+<blockquote>
+<p><b>Warning:</b> Normalization of &quot;nonexistent&quot; times (like between 02:00 and 03:00 on a &quot;spring forward&quot;
+DST change day) is not implemented yet. The results of converting a zoneless local time
+into a time zone where that local time did not exist are currently undefined.
+</p></blockquote>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Defined-Time-Zones.html#Defined-Time-Zones" accesskey="1">Defined Time Zones</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Durations.html#Durations" accesskey="n" rel="next">Durations</a>, Previous: <a href="Date-Representation.html#Date-Representation" accesskey="p" rel="prev">Date Representation</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
 
 
 
