@@ -8,7 +8,7 @@
 #
 # Usage:
 #
-#   mktexi.pl <file> <docfile> <indexfile>
+#   mktexi.pl <file> <docfile> <indexfile> > <outfile>
 #
 #   <file> is the input .txi template file.
 #   <docfile> is the output of mkdoc.pl.
@@ -32,7 +32,7 @@ my $docfile = shift @ARGV;
 my $indexfile = shift @ARGV;
 my $line;
 
-unless ( open(IN,$file) ) {
+unless (open (IN, $file) ) {
     print STDERR "Could not open file $file\n";
     exit 1;
 }
@@ -156,6 +156,7 @@ while ($line = <IN>) {
                         print "\@end table\n";
                     }
                     print "\@end iftex\n\n";
+                    print "\n\@node Functions Alphabetically";
                     print "\n\@section Functions Alphabetically\n";
                 } else {
                     # Get the list of functions to index
@@ -225,7 +226,7 @@ while ($line = <IN>) {
                 $next = @listfunc2[$mfunc];
                 $mfunc = $mfunc + 1;
             }
-            print "\n\@node $func, $next, $prev, $up\n";
+            print "\n\@node $func\n";
             if ($seccat) {
                 print "\@subsection $func\n\n";
             } else {

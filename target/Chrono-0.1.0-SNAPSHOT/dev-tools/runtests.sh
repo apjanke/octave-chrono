@@ -7,6 +7,8 @@
 #
 # This must be run from the root of the repo.
 
+set -e
+
 test_dir="$1"
 
 tempfile=$(mktemp /tmp/octave-chrono-tests-XXXXXXXX)

@@ -1,47 +1,84 @@
 # Makefile for Chrono documentation
 #
-# This setup uses the convention that "*.txi" files are the human-editable
+# This setup uses the convention that "*.texi.in" files are the human-editable
 # input files, and corresponding "*.texi" files are processed intermediate
 # files.
 #
-# TODO: Replace chrono-single.html with pattern-based definition.
+# This Makefile is generic enough that it could be dropped without modification
+# in the doc/ directory of any package that follows Octave Forge conventions.
+# Just include its dependencies: mkdoc.pl, mkqhp.pl, mktexi.pl
+# And make sure that your texinfo doc strings follow this' conventions:
+#   - each @node must be followed immediately by a @chapter/@section/@subsection/@subsubsection
+
+## Some basic tools (can be overriden using environment variables)
+SED ?= sed
+TAR ?= tar
+GREP ?= grep
+CUT ?= cut
+
+## Note the use of ':=' (immediate set) and not just '=' (lazy set).
+## http://stackoverflow.com/a/448939/1609556
+package := $(shell $(GREP) "^Name: " ../DESCRIPTION | $(CUT) -f2 -d" ")
+version := $(shell $(GREP) "^Version: " ../DESCRIPTION | $(CUT) -f2 -d" ")
 
 DVIPS = dvips
 LN_S = ln -s
 OCTAVE = octave
 PERL = perl
+
 # On Mac, prefer Homebrew-installed Texinfo, because the system one is
 # outdated. We need to explicitly pull it in because Homebrew does not 
 # put it on the path by default.
-# TODO: Replace "/usr/local" with a "brew --prefix" test.
-ifeq ($(wildcard /usr/local/opt/texinfo/bin/makeinfo),)
+BREW=$(shell which brew 2>/dev/null)
+ifeq ($(BREW),)
 	MAKEINFO = makeinfo
 	TEXI2DVI = texi2dvi
 	TEXI2HTML = makeinfo --html
 	TEXI2PDF = texi2pdf
+	# Ubuntu: qtchooser seems broken for qhelpgenerator, so /usr/bin/qhelpgenerator
+	# doesn't work. Locate it directly. Prefer qcollectiongenerator because that separate
+	# program is needed on Qt prior to Qt 5.12.
+	ifneq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qcollectiongenerator),)
+		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qcollectiongenerator
+	else ifneq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator),)
+		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator
+	# The trailing space here is significant on Ubuntu Xenial! (GNU Make 4.1)
+	else ifneq ($(shell which qcollectiongenerator 2>/dev/null ))
+		QHELPGENERATOR = qcollectiongenerator
+    else
+		QHELPGENERATOR = qhelpgenerator
+	endif
 else
-	MAKEINFO = /usr/local/opt/texinfo/bin/makeinfo
-	TEXI2DVI = /usr/local/opt/texinfo/bin/texi2dvi
-	TEXI2HTML = /usr/local/opt/texinfo/bin/makeinfo --html
-	TEXI2PDF = /usr/local/opt/texinfo/bin/texi2pdf
+	BREW_TEXINFO = $(shell brew --prefix texinfo)
+	MAKEINFO = $(BREW_TEXINFO)/bin/makeinfo
+	TEXI2DVI = $(BREW_TEXINFO)/bin/texi2dvi
+	TEXI2HTML = $(BREW_TEXINFO)/bin/makeinfo --html
+	TEXI2PDF = $(BREW_TEXINFO)/bin/texi2pdf
+	BREW_QT = $(shell brew --prefix qt)
+	ifeq ($(wildcard $(BREW_QT)/bin/qhelpgenerator),)
+		QHELPGENERATOR = $(BREW_QT)/bin/qcollectiongenerator
+	else
+		QHELPGENERATOR = $(BREW_QT)/bin/qhelpgenerator
+	endif
 endif
 
-INFODOC = chrono.info
+INFODOC = $(package).info
 DVIDOC = $(patsubst %.info,%.dvi,$(INFODOC))
 PSDOC = $(patsubst %.info,%.ps,$(INFODOC))
 PDFDOC = $(patsubst %.info,%.pdf,$(INFODOC))
-HTMLDOC = $(patsubst %.info,%.html,$(INFODOC))
+#HTMLDOC = $(patsubst %.info,%.html,$(INFODOC))
 TEXIDOC = $(patsubst %.info,%.texi,$(INFODOC))
-DOCSTRINGS = DOCSTRINGS
+DOCSTRINGS = DOCSTRINGS.texi.tmp
 INDEX = ../INDEX
 
 default: all
-all: info html pdf
+all: info html pdf qhelp
 info: $(INFODOC)
 dvi: $(DVIDOC)
-html: $(HTMLDOC) chrono-single.html
+#html: $(HTMLDOC) $(package)-single.html
 pdf: $(PDFDOC)
 ps: $(PSDOC)
+qhelp: $(package).qhc
 
 %.dvi: %.texi
 	$(TEXI2DVI) --clean -o $@ $<
@@ -55,21 +92,22 @@ ps: $(PSDOC)
 %.ps: %.dvi
 	$(DVIPS) -o $@ $<
 
-chrono-single.html: chrono.texi
-	rm -f chrono-single.html
-	$(TEXI2HTML) --no-split -o chrono-single.html $<
+$(package).qhp: $(package).texi mkqhp.pl
+	$(PERL) mkqhp.pl $(package).texi $(package).qhp
 
-%.html: %.texi
-	rm -rf $(@:.html=.htp)
-	if $(TEXI2HTML) -o $(@:.html=.htp) $<; then \
-	  rm -rf $@ && mv $(@:.html=.htp) $@; \
-	else \
-	  rm -rf $(@:.html=.htp); exit 1; \
-	fi
+$(package).qhc: $(package).qhcp $(package).qhp
+	$(QHELPGENERATOR) $(package).qhcp -o $(package).qhc
+
+$(package).html: $(package).texi
+	rm -f $(package).html
+	$(TEXI2HTML) --no-split -o $(package).html $<
+
+html: $(package).texi $(package).html
+	rm -rf html
+	$(TEXI2HTML) -o html $<
 
 .PRECIOUS: %.texi
-%.texi : %.txi
-	@echo "Making texinfo $@"; \
+%.texi : %.texi.in mkdoc.pl mktexi.pl
 	$(RM) -f $(DOCSTRINGS); \
 	$(PERL) ./mkdoc.pl ../ > $(DOCSTRINGS); \
 	$(PERL) ./mktexi.pl $< $(DOCSTRINGS) $(INDEX) > $@ ; \
@@ -99,6 +137,9 @@ $(HTMLDOC): $(IMAGES_PNG)
 $(PDFDOC): $(DVIDOC)
 
 clean:
-	rm -rf *.bak *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi images.mk
+	rm -rf *.tmp 
 
-.PHONY: default all clean dvi html info pdf ps
+maintainer-clean: clean
+	rm -rf *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi *.qhp *.qch *.qhc images.mk
+
+.PHONY: default all clean maintainer-clean dvi html info pdf ps qhelp

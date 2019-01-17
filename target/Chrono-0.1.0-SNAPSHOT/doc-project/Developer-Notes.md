@@ -16,6 +16,8 @@ Chrono Developer Notes
 ## Sections
 
 * `datetime`
+  * Time zone support
+    * Normalization of "nonexistent" times like between 02:00 and 03:00 on DST leap ahead days
   * Leap second conversion
   * `Format` support
     * Needs LDML format support, not datestr() format placeholders
@@ -27,6 +29,7 @@ Chrono Developer Notes
   * Additional `ConvertFrom` types
   * SystemTimeZone detection on pre-Vista Windows without using Java
   * POSIX zone rule support for dates outside range of Olson database
+    * This affects dates before around 1880 and after around 2038
   * Test conversion to explicit GMT zone - does it hit POSIX zone rule logic?
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
@@ -36,8 +39,8 @@ Chrono Developer Notes
     arithmetic implementation can result in this. Should that be normalized? Maybe. Not sure it can be fully normalized.
   * proxykeys: pull isnan up to front of precedence? Maybe invert so NaNs sort to end?
   * Fix expansion filling?
-    * e.g. `d = datetime; d(5) = d` produces bad `d(2:4)`
-    * It's in the expansion of doubles: their default value is 0, not NaN.
+    * e.g. `d = datetime; d(5) = d` produced bad `d(2:4)`
+    * It's in the expansion of numerics: their default value is 0, not NaN.
 * Plotting support
   * Maybe with just shims and conversion to datenums
 * `duration`
@@ -46,13 +49,14 @@ Chrono Developer Notes
 * Miscellaneous
   * Reproduce crash - double setter/getters cause it? (Had duplicates for datetime.Month.)
 * Documentation
-  * Get `mkdoc.pl` to ignore files in `+internal` namespaces.
-  * Get `mkdoc.pl` to include namespaces in class/function definition items.
+  * Fix Travis CI doco build
+  * Correct asciibetical ordering in Functions Alphabetically
   * Fix this:
 ```
 warning: doc_cache_create: unusable help text found in file 'datetime'
 ```
   * Make my Texinfo documentation work with Octave's `doc` command
+    * Expose it as QHelpEngine file?
   * Get `help datetime` to recognize my datetime
 ```
 >> which datetime
@@ -60,6 +64,8 @@ warning: doc_cache_create: unusable help text found in file 'datetime'
 >> help datetime
 error: help: 'datetime' is not documented
 ```
+  * Get `mkdoc.pl` to ignore files in `+internal` namespaces.
+  * Get `mkdoc.pl` to include namespaces in class/function definition items.
 
 ## Wishlist and maybes
 
@@ -77,6 +83,7 @@ Matlab doco: [Dates and Time](https://www.mathworks.com/help/matlab/date-and-tim
 # Release checklist
 
 * Run all the tests: `make test`
-* Update the version number and date in `doc/chrono.txi` and rebuild the documentation.
+* Update the version number and date in `DESCRIPTION` and `doc/chrono.txi` and rebuild the documentation.
 * Create a git tag.
+* `make dist`
 * Push the tag to GitHub.
