@@ -33,7 +33,8 @@ Chrono Release Checklist
     * Sigh. Manually download the release tarball (with `wget`, using the URL copy-and-pasted from the live project README page) and install from there.
       * In Octave, you need to use `system('wget ...')`, not `!wget ...`.
     * This affects both Ubuntu 16.x Xenial and Ubuntu 18.04 Bionic (Octave 4.2.2).
-  * ANY failure borks the release!
+  * ANY failure borks the release once we get near 1.0!
+    * Let ‘em go for now so we can get code out for review.
     * TODO: Decide on policy on what to do then. Can git tags/GitHub Releases be removed?
 * Post an announcement comment on the "Updates" issue.
 * Post an announcement on the [Savannah bug for datetime support](https://savannah.gnu.org/bugs/index.php?47032).
