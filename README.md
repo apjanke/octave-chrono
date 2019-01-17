@@ -49,7 +49,8 @@ pkg load chrono
 
 ## Requirements
 
-Chrono runs on Octave 4.0.0 and later.
+Chrono runs on Octave 4.4.0 and later. It would be nice to have it work on Octave 4.0.0
+and later (since Ubuntu 16 Xenial has Octave 4.0 and Ubuntu 18 Bionic has Octave 4.2); maybe we'll do that.
 
 It should run on any OS supported by Octave. It's only tested on Linux, Mac, and Windows.
 
