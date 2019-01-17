@@ -61,7 +61,7 @@ function out = timezones (area)
   % Compatibility note: Matlab also includes UTCOffset and DSTOffset fields in
   % the output; these are currently unimplemented here.
   
-  tzdb = octave.time.internal.tzinfo.TzDb;
+  tzdb = octave.chrono.internal.tzinfo.TzDb;
   ids = tzdb.definedZones;
   ids = ids(:);
   areas = cell (size (ids));

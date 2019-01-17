@@ -17,5 +17,5 @@
 ## <https://www.gnu.org/licenses/>.
 
 function out = size2str(sz)
-  out = octave.time.internal.size2str(sz);
+  out = octave.chrono.internal.size2str(sz);
 endfunction

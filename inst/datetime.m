@@ -74,7 +74,7 @@ classdef datetime
   
   properties (Constant)
     PosixEpochDatenum = datenum (1970, 1, 1);
-    SystemTimeZone = octave.time.internal.detect_system_timezone;
+    SystemTimeZone = octave.chrono.internal.detect_system_timezone;
   endproperties
 
   properties (Access = private)
@@ -276,7 +276,7 @@ classdef datetime
         error ('TimeZone must be a char row vector; got a %s %s', ...
           size2str (size (x)), class (x));
       endif
-      tzdb = octave.time.internal.tzinfo.TzDb.instance;
+      tzdb = octave.chrono.internal.tzinfo.TzDb.instance;
       if ~ismember (x, tzdb.definedZones)
         error ('Undefined TimeZone: %s', x);
       endif
@@ -443,7 +443,7 @@ classdef datetime
         endif
         fprintf (' %s\n', str);
       else
-        txt = octave.time.internal.format_dispstr_array (dispstrs (this));
+        txt = octave.chrono.internal.format_dispstr_array (dispstrs (this));
         fprintf ('%s\n', txt);
         if ~isempty (this.TimeZone)
           fprintf ('  %s\n', this.TimeZone);
@@ -946,7 +946,7 @@ classdef datetime
         rhs = datetime (rhs);
       endif
       out = this;
-      out.dnums = octave.time.internal.prefillNewSizeForSubsasgn(this.dnums, s.subs, NaN);
+      out.dnums = octave.chrono.internal.prefillNewSizeForSubsasgn(this.dnums, s.subs, NaN);
       out.dnums(s.subs{:}) = rhs.dnums;
     endfunction
     
@@ -987,7 +987,7 @@ classdef datetime
   methods (Static)
     function out = convertDatenumTimeZone (dnum, fromZoneId, toZoneId)
       %CONVERTDATENUMTIMEZONE Convert time zone on datenums
-      tzdb = octave.time.internal.tzinfo.TzDb;
+      tzdb = octave.chrono.internal.tzinfo.TzDb;
       fromZone = tzdb.zoneDefinition (fromZoneId);
       toZone = tzdb.zoneDefinition (toZoneId);
       dnumGmt = fromZone.localtimeToGmt (dnum);

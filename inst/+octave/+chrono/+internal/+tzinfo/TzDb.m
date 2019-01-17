@@ -31,7 +31,7 @@ classdef TzDb
       %INSTANCE Shared global instance of TzDb
       persistent value
       if isempty (value)
-        value = octave.time.internal.tzinfo.TzDb;
+        value = octave.chrono.internal.tzinfo.TzDb;
       endif
       out = value;
     endfunction
@@ -48,7 +48,7 @@ classdef TzDb
       % and an error on Windows).
       if nargin < 1;  path = [];  endif
       if isempty (path)
-        this.path = octave.time.internal.tzinfo.TzDb.defaultPath;
+        this.path = octave.chrono.internal.tzinfo.TzDb.defaultPath;
       else
         this.path = path;
       endif
@@ -61,7 +61,7 @@ classdef TzDb
       %
       % Returns the zoneinfo database version as a string.
       versionFile = [this.path '/+VERSION'];
-      txt = octave.time.internal.slurpTextFile (versionFile);
+      txt = octave.chrono.internal.slurpTextFile (versionFile);
       out = strtrim (txt);
     endfunction
         
@@ -113,7 +113,7 @@ classdef TzDb
       s = this.readZoneFile (zoneId);
 
       % We prefer the version 2 stuff
-      out = octave.time.internal.tzinfo.TzInfo;
+      out = octave.chrono.internal.tzinfo.TzInfo;
       if isfield (s, 'section2')
         defn_s = s.section2;
         defn_s.goingForwardPosixZone = s.goingForwardPosixZone;
@@ -121,7 +121,7 @@ classdef TzDb
         defn_s = s.section1;
       endif
       defn_s.zoneId = zoneId;
-      out = octave.time.internal.tzinfo.TzInfo (defn_s);
+      out = octave.chrono.internal.tzinfo.TzInfo (defn_s);
       out = calculateDerivedData (out);
     endfunction
   endmethods
@@ -134,7 +134,7 @@ classdef TzDb
       % on all systems.
       zoneTabFile = [this.path '/zone.tab'];
       
-      txt = octave.time.internal.slurpTextFile (zoneTabFile);
+      txt = octave.chrono.internal.slurpTextFile (zoneTabFile);
       lines = strsplit (txt, sprintf('\n'));
       starts = regexp (lines, '^\s*#|^\s*$', 'start', 'once');
       tfComment = ~cellfun ('isempty', starts);

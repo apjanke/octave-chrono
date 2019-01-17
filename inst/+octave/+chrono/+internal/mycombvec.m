@@ -43,7 +43,7 @@ function out = mycombvec (vecs)
       out = [];
       a = vecs{1}(:);
       rest = vecs(2:end);
-      rest_combs = octave.time.internal.mycombvec (rest);
+      rest_combs = octave.chrono.internal.mycombvec (rest);
       for i = 1:numel (a)
         out = [out; [repmat (a(i), [size (rest_combs,1) 1]) rest_combs]];
       endfor

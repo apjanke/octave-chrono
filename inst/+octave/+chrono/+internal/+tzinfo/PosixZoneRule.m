@@ -12,7 +12,7 @@ classdef PosixZoneRule
   
   methods (Static)
     function out = parseZoneRule (str)
-      out = octave.time.internal.algo.PosixZoneRule;
+      out = octave.chrono.internal.algo.PosixZoneRule;
       if ~isrow (in)
         error ('in must be charvec; got non-row char');
       endif
@@ -40,7 +40,7 @@ classdef PosixZoneRule
         return
       endif
       if ischar (in)
-        this = octave.time.internal.tzinfo.PosixZoneRule.parseZoneRule(in);
+        this = octave.chrono.internal.tzinfo.PosixZoneRule.parseZoneRule(in);
       endif
     endfunction
     

@@ -62,7 +62,7 @@ classdef TzInfo
         this.isGmt = s.is_gmt;
         if isfield (s, 'goingForwardPosixZone')
           this.goingForwardPosixZone = s.goingForwardPosixZone;
-          %this.goingForwardPosixZoneRule = octave.time.internal.tzinfo.PosixZoneRule(...
+          %this.goingForwardPosixZoneRule = octave.chrono.internal.tzinfo.PosixZoneRule(...
           %  this.goingForwardPosixZone);
         endif
         this = calculateDerivedData (this);
@@ -150,12 +150,12 @@ classdef TzInfo
     endfunction
 
     function out = localtimeToGmt (this, dnum)
-      if ismember(this.id, octave.time.internal.tzinfo.TzInfo.utcZoneAliases)
+      if ismember(this.id, octave.chrono.internal.tzinfo.TzInfo.utcZoneAliases)
         % Have to special-case this because it relies on POSIX zone rules, which
         % are not implemented yet
         offsets = zeros( size (dnum));
       else
-        [tf,loc] = octave.time.internal.algo.binsearch (dnum, this.transitionsLocalDatenum);
+        [tf,loc] = octave.chrono.internal.algo.binsearch (dnum, this.transitionsLocalDatenum);
         ix = loc;
         ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
         tfOutOfRange = ix == 0 | ix == numel (this.transitions);
@@ -172,12 +172,12 @@ classdef TzInfo
     endfunction
     
     function out = gmtToLocaltime (this, dnum)
-      if ismember(this.id, octave.time.internal.tzinfo.TzInfo.utcZoneAliases)
+      if ismember(this.id, octave.chrono.internal.tzinfo.TzInfo.utcZoneAliases)
         % Have to special-case this because it relies on POSIX zone rules, which
         % are not implemented yet
         offsets = zeros( size (dnum));
       else
-        [tf,loc] = octave.time.internal.algo.binsearch (dnum, this.transitionsDatenum);
+        [tf,loc] = octave.chrono.internal.algo.binsearch (dnum, this.transitionsDatenum);
         ix = loc;
         ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
         tfOutOfRange = ix == 0 | ix == numel(this.transitions);

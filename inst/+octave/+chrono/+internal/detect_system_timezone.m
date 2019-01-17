@@ -19,7 +19,7 @@
 function out = detect_system_timezone
   try
     out = do_detection ();
-    tzdb = octave.time.internal.tzinfo.TzDb;
+    tzdb = octave.chrono.internal.tzinfo.TzDb;
     if ~ismember (out, tzdb.definedZones)
       warning ('System time zone ''%s'' is not defined in the tzinfo database.', ...
         out);
@@ -52,13 +52,13 @@ function out = do_detection ()
       out = regexprep (target, '.*/zoneinfo/', '');
     elseif exist ('/etc/timezone')
       % This exists on Debian
-      out = strtrim (octave.time.internal.slurpTextFile ('/etc/timezone'));
+      out = strtrim (octave.chrono.internal.slurpTextFile ('/etc/timezone'));
     endif
     if isempty (out) && ispc
       % Newer Windows can do it with PowerShell
       win_zone = detect_timezone_using_powershell;
       if ~isempty (win_zone)
-        converter = octave.time.internal.tzinfo.WindowsIanaZoneConverter;
+        converter = octave.chrono.internal.tzinfo.WindowsIanaZoneConverter;
         out = converter.windows2iana (win_zone);
       endif
     endif

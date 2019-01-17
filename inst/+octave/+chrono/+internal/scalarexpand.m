@@ -28,7 +28,7 @@ function varargout = scalarexpand (varargin)
       else
         if ~isequal (sz, sz_i)
           error ('Matrix dimensions must agree (%s vs %s)',...
-            octave.time.internal.size2str (sz), octave.time.internal.size2str (sz_i))
+            octave.chrono.internal.size2str (sz), octave.chrono.internal.size2str (sz_i))
         endif
       endif
     endif

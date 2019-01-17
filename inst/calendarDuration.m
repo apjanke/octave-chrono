@@ -112,7 +112,7 @@ classdef calendarDuration
       M = double (M);
       D = double (D);
       T = double (T);
-      [Y, M, D, T] = octave.time.internal.scalarexpand (Y, M, D, T);
+      [Y, M, D, T] = octave.chrono.internal.scalarexpand (Y, M, D, T);
       % Construction
       this.Years = Y;
       this.Months = M;
@@ -260,7 +260,7 @@ classdef calendarDuration
         fprintf ('Empty %s %s\n', size2str (size (this)), class (this));
         return
       endif
-      fprintf ('%s\n', octave.time.internal.format_dispstr_array (dispstrs (this)));
+      fprintf ('%s\n', octave.chrono.internal.format_dispstr_array (dispstrs (this)));
     endfunction
     
     function out = dispstrs (this)

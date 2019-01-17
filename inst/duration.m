@@ -184,7 +184,7 @@ classdef duration
         fprintf ('Empty %s %s\n', size2str (size (this)), class (this));
         return;
       endif
-      out = octave.time.internal.format_dispstr_array (dispstrs (this));
+      out = octave.chrono.internal.format_dispstr_array (dispstrs (this));
       fprintf ('%s\n', out);
     endfunction
     
@@ -745,7 +745,7 @@ classdef duration
         rhs = duration (rhs);
       endif
       out = this;
-      out.days = octave.time.internal.prefillNewSizeForSubsasgn(this.days, s.subs, NaN);
+      out.days = octave.chrono.internal.prefillNewSizeForSubsasgn(this.days, s.subs, NaN);
       out.days(s.subs{:}) = rhs.days;
     endfunction
     
