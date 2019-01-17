@@ -8,10 +8,6 @@ notifications:
   webhooks: https://www.travisbuddy.com/
   on_success: never
 
-#os:
-#  - linux
-#  - osx
-
 addons:
   apt:
     packages:
