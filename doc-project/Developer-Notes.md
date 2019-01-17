@@ -7,7 +7,6 @@ Chrono Developer Notes
 
 * Documentation
 * Add more BISTs
-* Remove planar-gen boilerplate and isnan2()s once I'm sure class structure is set
 * Consider using GNU FDL for the documentation license
 * Propagate NaN-filling fix for planargen back to Janklab
 
@@ -24,7 +23,7 @@ Chrono Developer Notes
   * between() - calendarDuration diffs between datetimes
   * caldiff
   * dateshift
-  * week()
+  * week() - ISO calendar week-of-year calculation
   * isdst/isweekend
   * Additional `ConvertFrom` types
   * SystemTimeZone detection on pre-Vista Windows without using Java
@@ -40,6 +39,7 @@ Chrono Developer Notes
   * Fix expansion filling?
     * e.g. `d = datetime; d(5) = d` produced bad `d(2:4)`
     * It's in the expansion of numerics: their default value is 0, not NaN.
+  * Refactor out promote()
 * Plotting support
   * Maybe with just shims and conversion to datenums
 * `duration`
