@@ -139,10 +139,21 @@ Unintentional, and should be fixed:
 * Make sure your repo is clean: `git status` should show no local changes
 * `make dist`
 * Create a new GitHub release from the tag.
+  * Just use `<version>` as the name for the release.
   * Upload the dist tarball as a file for the release.
 * Test installing the release using `pkg install` against the new release URL.
   * On macOS
   * On Ubuntu
+  * Sigh. I suppose, on Windows.
+  * Try this by copy-and-pasting the `pkg install` example from the README on the live GitHub repo README page. This makes sure the current install instructions are correct.
+    * Don't fuckin' short-circuit this and just edit an entry from your Octave command history! Open GitHub in a browser and actually copy-and-paste it!
+    * I wish there there was a `pkg test <package>` command to run all the BISTs from a package.
+    * Barring that, do a manual `pkg ls`, copy and paste the Chrono package path into a `cd('<package_path>')`, and then do `runtests .`
+  * Aw crap, looks like Octave 4.2 and earlier don't support URLs as arguments to `pkg install`; only filenames?
+    * Sigh. Manually download the release tarball (with `wget`, using the URL copy-and-pasted from the live project README page) and install from there.
+      * In Octave, you need to use `system('wget ...')`, not `!wget ...`.
+  * ANY failure borks the release!
+    * TODO: Decide on policy on what to do then. Can git tags/GitHub Releases be removed?
 * Post an announcement comment on the "Updates" issue.
 * Post an announcement on the [Savannah bug for datetime support](https://savannah.gnu.org/bugs/index.php?47032).
 * Update version number in `DESCRIPTION` and `doc/chrono.texi.in` to SNAPSHOT of next minor version.
