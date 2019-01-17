@@ -27,3 +27,9 @@ that at some point in the future, this project's components will be merged into 
 Octave and cease to be developed in an independent project.
 
 The GitHub home for this project is https://github.com/apjanke/octave-addons-chrono.
+
+Advanced
+--------
+
+* Use standard GNU Octave code style in all code.
+  * This is important because I'd like to see this code integrated into core Octave some day.

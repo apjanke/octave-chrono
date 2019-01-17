@@ -12,7 +12,7 @@ Chrono Developer Notes
 
 * Report crash: giving duration a days method while it has a days property results in a crash.
 
-## Sections
+## Areas
 
 * `datetime`
   * Time zone support
@@ -29,6 +29,9 @@ Chrono Developer Notes
   * SystemTimeZone detection on pre-Vista Windows without using Java
   * POSIX zone rule support for dates outside range of Olson database
     * This affects dates before around 1880 and after around 2038
+    * It also affects current dates for time zones that don't use DST!
+    * TODO: First, implement simplified no-DST POSIX time zones. That'll at least get us
+      Tokyo time support. Sheesh.
 * `TzDb`
   * timezones() function: add UTCOffset/DSTOffset
 * `calendarDuration` and its associated functions
@@ -37,7 +40,7 @@ Chrono Developer Notes
     arithmetic implementation can result in this. Should that be normalized? Maybe. Not sure it can be fully normalized.
   * proxykeys: pull isnan up to front of precedence? Maybe invert so NaNs sort to end?
   * Fix expansion filling?
-    * e.g. `d = datetime; d(5) = d` produced bad `d(2:4)`
+    * e.g. `d = datetime; d(5) = d` produced bad `d(2:4)` before patch; this probably does similar now
     * It's in the expansion of numerics: their default value is 0, not NaN.
   * Refactor out promote()
 * Plotting support
@@ -70,19 +73,68 @@ error: help: 'datetime' is not documented
 
 * MAT-file representation compatibility with Matlab?
 * Documentation
-  * A new Texinfo `@deftypemfn` for Matlab's idiosyncratic function signatures
+  * A new Texinfo `@defmfcn` macro for Matlab's idiosyncratic function signatures
 
 # References
 
-See `man tzfile` or [here](http://man7.org/linux/man-pages/man5/tzfile.5.html) for the time zone file format definition.
+See `man 5 tzfile` or [the online man page](http://man7.org/linux/man-pages/man5/tzfile.5.html) for the time zone file format definition.
 
-Matlab doco: [Dates and Time](https://www.mathworks.com/help/matlab/date-and-time-operations.html).
+Matlab documentation: 
+  * [Dates and Time](https://www.mathworks.com/help/matlab/date-and-time-operations.html).
 
+# Developer guidelines
+
+## Code Style
+
+GNU Octave standard code style.
+
+That is:
+  * space between function name and opening paren
+  * space between elements in comma-separated lists in any context (except maybe array indexing?)
+
+GNU copyright notice as header in every source file.
+
+# Goals
+
+Chrono's goal is to provide a full-ish implementation of Matlab's new object-oriented (*ahem* that is, decent)
+date/time support embodied by the `datetime` family of classes and functions. My hope is to have this
+eventually be incorporated into Octave Forge and then core GNU Octave to bring Octave up to parity with
+Matlab in this regard.
+
+Chrono will not include support for functionality beyond Matlab-equivalence (beyond some little type-conversion
+and display things that I couldn't help including). That should go in a separate 
+package built on top of Chrono.
+
+# Known differences from Matlab
+
+Intentional:
+
+* `datetime` `disp` output includes the time zone for zoned `datetime`s.
+
+I think these differences are important, and Chrono's way is superior to Matlab's, and will not cause significant compatibility problems with M-code applications migrated from Matlab.
+
+Unintentional, and should be fixed:
+
+* ???, aside from all the TODOs listed above
+* `timezones()` returns struct, not `table`
+  * This depends on having a `table` in the first place, which is beyond the scope of Chrono. The current `struct` return format is largely signature-compatible with `table`, so we can probably get away with it.
 
 # Release checklist
 
 * Run all the tests: `make test`
 * Update the version number and date in `DESCRIPTION` and `doc/chrono.txi` and rebuild the documentation.
+* Update the installation instructions in README to use the upcoming release tarball URL.
 * Create a git tag.
 * `make dist`
 * Push the tag to GitHub.
+* Create a new GitHub release from the tag.
+  * Upload the dist tarball as a file for the release.
+* Test installing the release using `pkg install` against the new release URL
+  * On macOS
+  * On Ubuntu
+* Post an announcement comment on the "Updates" issue
+* Post an announcement on the Savannah bug for datetime: https://savannah.gnu.org/bugs/index.php?47032
+
+
+
+
