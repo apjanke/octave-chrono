@@ -26,7 +26,7 @@ Chrono Release Checklist
   * Try this by copy-and-pasting the `pkg install` example from the 
     [live README page](https://github.com/apjanke/octave-addons-chrono/blob/master/README.md) 
     on the GitHub repo. This makes sure the current install instructions are correct.
-    * Don't fuckin' short-circuit this and just edit an entry from your Octave command history! Open GitHub in a browser and actually copy-and-paste it!
+    * Don't short-circuit this and just edit an entry from your Octave command history! Open GitHub in a browser and actually copy-and-paste it!
     * I wish there there was a `pkg test <package>` command to run all the BISTs from a package.
     * Barring that, do a manual `pkg ls`, copy and paste the Chrono package path into a `cd('<package_path>')`, and then do `runtests .`
   * Aw crap, looks like Octave 4.2 and earlier don't support URLs as arguments to `pkg install`; only filenames?
