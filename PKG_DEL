@@ -1,6 +1,40 @@
-disp('Unloading package chrono')
-fprintf('pwd = %s\n', pwd)
-disp('pkg list:')
-pkg list
-disp('Path:')
-path
+% Unregister chrono's QHelp with the doc browser
+
+% Now, PKG_DEL is called during the pkg('install') step. But at this point,
+% the package is not listed as installed any more, so we can't detect our metadata.
+% And we shouldn't bother regestering help during the install step. So, as
+% a hack, look up the call stack and see if we're being called inside
+% pkg('uninstall'), and if so abort the rest of package loading.
+
+stack = dbstack;
+for i = 1:numel (stack)
+  frame = stack(i);
+  if ismember (frame.name, {'uninstall', 'install'})
+    % disp('PKG_DEL being called inside "pkg install/uninstall"; skipping.');
+    return;
+  endif
+endfor
+
+
+% When PKG_DEL is called, the package directory is not on the path
+% any more. And it's not passed any data indicating what package is being
+% loaded. So we just have to look ourselves up in the package directory
+% to find our paths.
+
+my_pkg_name = 'chrono';
+all_pkgs = pkg ('list');
+my_pkg = [];
+for i = 1:numel (all_pkgs)
+  if isequal (all_pkgs{i}.name, my_pkg_name);
+    my_pkg = all_pkgs{i};
+    break;
+  end
+endfor
+
+if isempty (my_pkg)
+  error ('Unable to find pkg metadata for %s in pkg(''list'')');
+endif
+
+my_path = my_pkg.dir;
+my_qhelp_file = fullfile (my_path, 'doc', [my_pkg_name '.qch']);
+__octave_link_unregister_doc__ (my_qhelp_file);
