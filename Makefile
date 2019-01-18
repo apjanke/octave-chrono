@@ -7,6 +7,10 @@
 # 'make' invocation. For example:
 #
 # MKOCTFILE=/Applications/Octave-4.4.1.app/Contents/Resources/usr/bin/mkoctfile make
+#
+# Note: the 'make dist' command generates the dist tarball from the last
+# git in source control, not the current directory contents. So make sure to
+# check in your changes if you're testing something out.
 
 ## Some basic tools (can be overriden using environment variables)
 SED ?= sed
