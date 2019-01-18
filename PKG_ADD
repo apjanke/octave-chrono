@@ -1,4 +1,6 @@
 disp('Adding chrono package');
 fprintf('pwd = %s\n', pwd);
+disp('pkg list:')
+pkg list
 disp('Path:')
 path
