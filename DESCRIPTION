@@ -1,5 +1,5 @@
 Name: chrono
-Version: 0.1.0
+Version: 0.1.1
 Date: 2019-01-13
 Title: Chrono - Date/Time Classes
 Author: Andrew Janke <floss@apjanke.net>
@@ -8,6 +8,6 @@ Description: Matlab-compatible Octave datetime functions, including
  datetime, duration, and calendarDuration.
 License: GPLv3+ and Public Domain
 Categories: datetime
-Problems: Not fully implemented. Missing calendarDuration and time zone conversion.
+Problems: Not fully implemented. Time zone support is buggy.
 Url: https://github.com/apjanke/octave-addons-chrono
 
