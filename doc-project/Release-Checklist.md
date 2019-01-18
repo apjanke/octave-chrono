@@ -39,6 +39,10 @@ Chrono Release Checklist
 * Post an announcement comment on the "Updates" issue.
 * Post an announcement on the [Savannah bug for datetime support](https://savannah.gnu.org/bugs/index.php?47032).
 * Update version number in `DESCRIPTION` and `doc/chrono.texi.in` to SNAPSHOT of next minor version.
+* Rebuild the doco.
+  * `(cd doc; make maintainer-clean; make all)`
+* Commit for next version
+  * `git commit -a -m 'Open development for <version>'`
 
 * If there were any problems following these instructions exactly as written, report it as a bug.
 
