@@ -39,6 +39,6 @@ script:
   # We only build the docs on Linux because it requires TeX and the macOS TeX install is a monster
   # We only need the doc build for verifying doc changes anyway; we don't need multi-platform
   # artifacts, or even the new artifacts at all.
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make maintainer-clean && make all); fi
+  - travis_fold start make.command && if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make maintainer-clean && make all); fi && travis_fold end make.command
   - make test
   - make dist
