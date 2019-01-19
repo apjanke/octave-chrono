@@ -67,6 +67,21 @@
         </section>
         </toc>
         <keywords>
+            <keyword name="datetime" ref="html/datetime.html"/>
+            <keyword name="isdatetime" ref="html/isdatetime.html"/>
+            <keyword name="NaT" ref="html/NaT.html"/>
+            <keyword name="calendarDuration" ref="html/calendarDuration.html"/>
+            <keyword name="calmonths" ref="html/calmonths.html"/>
+            <keyword name="calyears" ref="html/calyears.html"/>
+            <keyword name="days" ref="html/days.html"/>
+            <keyword name="duration" ref="html/duration.html"/>
+            <keyword name="hours" ref="html/hours.html"/>
+            <keyword name="isduration" ref="html/isduration.html"/>
+            <keyword name="milliseconds" ref="html/milliseconds.html"/>
+            <keyword name="minutes" ref="html/minutes.html"/>
+            <keyword name="seconds" ref="html/seconds.html"/>
+            <keyword name="timezones" ref="html/timezones.html"/>
+            <keyword name="years" ref="html/years.html"/>
         </keywords>
         <files>
             <file>chrono.html</file>

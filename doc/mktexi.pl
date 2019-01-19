@@ -19,6 +19,33 @@
 #
 # Emits output to stdout.
 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, see <http://www.gnu.org/licenses/>.
+# This program is granted to the public domain.
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+
+BEGIN {
+    push @INC, ".";
+}
+
 use strict;
 use File::Find;
 use File::Basename;
@@ -27,13 +54,15 @@ use FileHandle;
 use IPC::Open3;
 use POSIX ":sys_wait_h";
 
+use DocStuff;
+
 my $file = shift @ARGV;
 my $docfile = shift @ARGV;
 my $indexfile = shift @ARGV;
 my $line;
 
 unless (open (IN, $file) ) {
-    print STDERR "Could not open file $file\n";
+    print STDERR "Could not open file $file: $!\n";
     exit 1;
 }
 
@@ -48,8 +77,8 @@ while ($line = <IN>) {
         my $func1 = $func;
         $func0 =~ s/,.*$//;
         $func1 =~ s/^.*,//;
-        unless ( open(DOC, $docfile) ) {
-            print STDERR "Could not open file $docfile\n";
+        unless ( open (DOC, $docfile) ) {
+            print STDERR "Could not open file $docfile: $!\n";
             exit 1;
         }
         while (<DOC>) {
@@ -94,8 +123,8 @@ while ($line = <IN>) {
         my $nfunc = 0;
         my $seccat = 0;
 
-        unless ( open(IND,$indexfile) ) {
-            print STDERR "Could not open file $indexfile\n";
+        unless ( open (IND, $indexfile) ) {
+            print STDERR "Could not open file $indexfile: $!\n";
             exit 1;
         }
         while (<IND>) {
@@ -135,7 +164,7 @@ while ($line = <IN>) {
                             print "\n";
                         } else {
                             if ($firstcat) {
-                                print STDERR "Error parsing index file\n";
+                                print STDERR "Error parsing index file: found unexpected string before first category: \"$_\"\n";
                                 exit 1;
                             }
                             s/^\s+//;
@@ -191,7 +220,7 @@ while ($line = <IN>) {
         print "\@menu\n";
         foreach my $func (@listfunc) {
             unless ( open(DOC,$docfile) ) {
-                print STDERR "Could not open file $indexfile\n";
+                print STDERR "Could not open file $indexfile: $!\n";
                 exit 1;
             }
             my $found = 0;
@@ -236,7 +265,7 @@ while ($line = <IN>) {
             my $found = 0;
             my $desc = "";
             unless ( open(DOC,$docfile) ) {
-                print STDERR "Could not open file $docfile\n";
+                print STDERR "Could not open file $docfile: $!\n";
                 exit 1;
             }
             while (<DOC>) {
@@ -293,39 +322,38 @@ sub func_summary { # {{{1
 
     my $desc = "";
     my $found = 0;
-    if ( open(DOC,$docfile) ) {
-        while (<DOC>) {
-            next unless /\037/;
-            my $function = $_;
-            $function =~ s/\037//;
-            $function =~ s/[\n\r]+//;
-            if ($function =~ /^$func$/) {
-                my $docline;
-                my $doctex = 0;
-                while (($docline = <DOC>) && ($docline !~ /^\037/)) {
-                    if ($docline =~ /\@tex/) {
-                        $doctex = 1;
-                    }
-                    if ($doctex) {
-                        $docline =~ s/\\\\/\\/g;
-                    }
-                    if ($docline =~ /\@end tex/) {
-                        $doctex = 0;
-                    }
-                    $desc .= $docline;
-                }
-                $desc =~ s/\@seealso\{(.*[^}])\}/See also: \1/g;
-                            $found = 1;
-                            last;
-            }
-        }
-        close (DOC);
-        if (! $found) {
-            $desc = "\@emph{Not implemented}";
-        }
-    } else {
-        print STDERR "Could not open file $docfile\n";
+    unless ( open(DOC,$docfile) ) {
+        print STDERR "Could not open file $docfile: $!\n";
         exit 1;
+    }
+    while (<DOC>) {
+        next unless /\037/;
+        my $function = $_;
+        $function =~ s/\037//;
+        $function =~ s/[\n\r]+//;
+        if ($function =~ /^$func$/) {
+            my $docline;
+            my $doctex = 0;
+            while (($docline = <DOC>) && ($docline !~ /^\037/)) {
+                if ($docline =~ /\@tex/) {
+                    $doctex = 1;
+                }
+                if ($doctex) {
+                    $docline =~ s/\\\\/\\/g;
+                }
+                if ($docline =~ /\@end tex/) {
+                    $doctex = 0;
+                }
+                $desc .= $docline;
+            }
+            $desc =~ s/\@seealso\{(.*[^}])\}/See also: \1/g;
+                        $found = 1;
+                        last;
+        }
+    }
+    close (DOC);
+    if (! $found) {
+        $desc = "\@emph{Not implemented}";
     }
     return first_sentence($desc);
 }       # 1}}}
@@ -349,18 +377,21 @@ sub first_sentence { # {{{1
         my $cmd = "makeinfo --fill-column 1600 --no-warn --no-validate --no-headers --force --ifinfo";
         open3(*Writer, *Reader, *Errer, $cmd) or die "Could not run info";
         print Writer "\@macro seealso {args}\n\n\@noindent\nSee also: \\args\\.\n\@end macro\n";
-        print Writer "$desc"; close(Writer);
-        @lines = <Reader>; close(Reader);
-        my @err = <Errer>; close(Errer);
-        waitpid(-1,&WNOHANG);
+        print Writer "$desc";
+        close (Writer);
+        @lines = <Reader>;
+        close (Reader);
+        my @err = <Errer>;
+        close (Errer);
+        waitpid (-1, &WNOHANG);
 
         # Display source and errors, if any
         if (@err) {
-                my $n = 1;
-                foreach $line ( split(/\n/,$desc) ) {
-                    printf "%2d: %s\n",$n++,$line;
-                }
-                print ">>> @err";
+            my $n = 1;
+            foreach $line ( split(/\n/,$desc) ) {
+                printf "%2d: %s\n",$n++,$line;
+            }
+            print ">>> @err";
         }
 
         # Print trace showing formatted output
@@ -370,11 +401,11 @@ sub first_sentence { # {{{1
 
         # Skip prototype and blank lines
         while (1) {
-                return "" unless @lines;
-                $line = shift @lines;
-                next if $line =~ /^\s*-/;
-                next if $line =~ /^\s*$/;
-                last;
+            return "" unless @lines;
+            $line = shift @lines;
+            next if $line =~ /^\s*-/;
+            next if $line =~ /^\s*$/;
+            last;
         }
 
     } else {
@@ -442,26 +473,3 @@ sub first_sentence { # {{{1
 
 } # 1}}}
 
-__END__
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program; if not, see <http://www.gnu.org/licenses/>.
-This program is granted to the public domain.
-THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-SUCH DAMAGE.

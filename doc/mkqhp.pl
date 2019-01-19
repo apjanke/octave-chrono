@@ -10,10 +10,37 @@
 #   mkqhp.pl <texifile> <outfile>
 #
 #   <texifile> is the input .texi file
-#   <outfile> is the file to write to
+#   <outfile> is the output .qhp file
 #
 # Maps each node in the Texinfo document to its corresponding node
 # HTML file. Builds a QHelp index for them matching that hierarchy.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, see <http://www.gnu.org/licenses/>.
+# This program is granted to the public domain.
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+
+BEGIN {
+    push @INC, ".";
+}
 
 use strict;
 use File::Basename;
@@ -21,6 +48,8 @@ use Text::Wrap;
 use FileHandle;
 use IPC::Open3;
 use POSIX ":sys_wait_h";
+
+use DocStuff;
 
 my $package = "chrono";
 my $debug = 0;
@@ -59,6 +88,9 @@ print OUT $preamble;
 # TOC section
 
 my @files;
+my @classes;
+my @functions;
+
 my $level = 0;
 my $indent = "        ";
 while (my $line = <IN>) {
@@ -116,22 +148,33 @@ print OUT $indent . ("    " x $level)
     . $indent . "</section>\n";
 print OUT <<EOS;
         </toc>
-        <keywords>
-        </keywords>
-        <files>
 EOS
+
+# Keyword index
+my $fcn_index = DocStuff::read_index_file ("../INDEX");
+print OUT "        <keywords>\n";
+my $fcn_list = $$fcn_index{"functions"};
+for my $fcn (@$fcn_list) {
+	print OUT "            <keyword name=\"$fcn\" ref=\"html/$fcn.html\"/>\n";
+}
+print OUT "        </keywords>\n";
+
 
 # Files section
 
+print OUT "        <files>\n";
 print OUT "            <file>$package.html</file>\n";
 foreach my $file (@files) {
 	print OUT "            <file>html/$file</file>\n";
 }
+print OUT "        </files>\n";
 
 # Closing
 print OUT <<EOS;
-        </files>
     </filterSection>
 </QtHelpProject>
 
 EOS
+
+
+
