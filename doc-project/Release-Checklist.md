@@ -5,7 +5,7 @@ Chrono Release Checklist
   * `make test`, duh.
   * Wouldn't hurt to do `make test`/`make clean`/`git status`/manual-cleanup a few times, just to be sure.
 * Double-check the version number and date in `DESCRIPTION` and `doc/chrono.texi.in`
-  * `(cd doc; make maintainer-clean; make all)` and commit it if you had to change them
+  * `(cd doc; make maintainer-clean; make all)` and commit it if you had to change them.
 * Update the installation instructions in README to use the upcoming release tarball URL.
   * Format is: `https://github.com/apjanke/octave-addons-chrono/releases/download/v<version>/chrono-<version>.tar.gz`
 * Commit all the files changed by the above steps.
@@ -13,7 +13,7 @@ Chrono Release Checklist
 * Create a git tag amd push it and the changes to GitHub.
   * `git tag v<version>`
   * `git push; git push --tags`
-* Make sure your repo is clean: `git status` should show no local changes
+* Make sure your repo is clean: `git status` should show no local changes.
 * `make dist`
 * Create a new GitHub release from the tag.
   * Just use `<version>` as the name for the release.
