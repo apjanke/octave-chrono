@@ -42,3 +42,4 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make maintainer-clean && make all); fi
   - make test
   - make dist
+
