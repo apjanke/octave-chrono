@@ -33,33 +33,33 @@ LN_S = ln -s
 OCTAVE = octave
 PERL = perl
 
-BREW=$(shell which brew 2>/dev/null)
 MAKEINFO = makeinfo
 TEXI2DVI = texi2dvi
 TEXI2HTML = makeinfo --html
 TEXI2PDF = texi2pdf
-ifeq ($(BREW),)
-	# Ubuntu: qtchooser seems broken for qhelpgenerator, so /usr/bin/qhelpgenerator
-	# doesn't work. Locate it directly. Prefer qcollectiongenerator because that separate
-	# program is needed on Qt prior to Qt 5.12.
-	# TODO: Actually, this was just broken because I wasn't installing qt5-defaults
-	# on the build box. Remove this.
-	ifneq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qcollectiongenerator),)
-		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qcollectiongenerator
-	else ifneq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator),)
-		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator
-	# The trailing space here is significant on Ubuntu Xenial! (GNU Make 4.1)
-	else ifneq ($(shell which qcollectiongenerator 2>/dev/null ))
-		QHELPGENERATOR = qcollectiongenerator
-    else
-		QHELPGENERATOR = qhelpgenerator
-	endif
-else
+
+BREW=$(shell which brew 2>/dev/null)
+ifneq ($(BREW),)
 	BREW_QT = $(shell brew --prefix qt)
 	ifeq ($(wildcard $(BREW_QT)/bin/qhelpgenerator),)
 		QHELPGENERATOR = $(BREW_QT)/bin/qcollectiongenerator
 	else
 		QHELPGENERATOR = $(BREW_QT)/bin/qhelpgenerator
+	endif
+else ifneq ($(wildcard /usr/bin/qtchooser),)
+	# Probe for actual qhelpgenerator implementation existence
+	# Gotta do this because the /usr/bin/qt{help,collection}generator shim always
+	# exists regardless of whether the installed Qts provide them
+	ifneq ($(shell qhelpgenerator -qt5 2>/dev/null),)
+		QHELPGENERATOR = qhelpgenerator -qt5
+	else
+		QHELPGENERATOR = qcollectiongenerator -qt5
+	endif
+else
+	ifneq ($(shell which qcollectiongenerator 2>/dev/null),)
+		QHELPGENERATOR = qcollectiongenerator
+    else
+		QHELPGENERATOR = qhelpgenerator
 	endif
 endif
 
