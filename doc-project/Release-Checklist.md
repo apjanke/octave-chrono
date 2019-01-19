@@ -37,8 +37,8 @@ Chrono Release Checklist
     * Let ‘em go for now so we can get code out for review.
     * TODO: Decide on policy on what to do then. Can git tags/GitHub Releases be removed?
 * Post an announcement comment on the "Updates" issue.
-* Post an announcement on the [Savannah bug for datetime support](https://savannah.gnu.org/bugs/index.php?47032).
-* Update version number in `DESCRIPTION` and `doc/chrono.texi.in` to SNAPSHOT of next minor version.
+* Post an announcement on the [Savannah bug for datetime support](https://savannah.gnu.org/bugs/index.php?47032) if this is a significant release.
+* Update version number in `DESCRIPTION` and `doc/chrono.texi.in` to next patch or minor version, as appropriate.
 * Rebuild the doco.
   * `(cd doc; make maintainer-clean; make all)`
 * Commit for next version

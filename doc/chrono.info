@@ -1,6 +1,6 @@
 This is chrono.info, produced by makeinfo version 6.5 from chrono.texi.
 
-This manual is for Chrono, version 0.1.1.
+This manual is for Chrono, version 0.1.2.
 
    Copyright © 2019 Andrew Janke
 
@@ -23,7 +23,7 @@ File: chrono.info,  Node: Top,  Next: Introduction
 Chrono for Octave
 *****************
 
-This manual is for Chrono, version 0.1.1.
+This manual is for Chrono, version 0.1.2.
 
 * Menu:
 
@@ -46,7 +46,7 @@ File: chrono.info,  Node: Introduction,  Next: Getting Started,  Up: Top
 
                            — _Douglas Adams_
 
-   This is the manual for the Chrono package version 0.1.1 for GNU
+   This is the manual for the Chrono package version 0.1.2 for GNU
 Octave.
 
    This document is a work in progress.  You are invited to help improve
@@ -692,7 +692,7 @@ the Unicode License (http://www.unicode.org/copyright.html).
 8.2 Manual Copyright
 ====================
 
-This manual is for Chrono, version 0.1.1.
+This manual is for Chrono, version 0.1.2.
 
    Copyright © 2019 Andrew Janke
 
