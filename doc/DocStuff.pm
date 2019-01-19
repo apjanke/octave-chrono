@@ -96,7 +96,7 @@ sub extract_description_from_mfile { # {{{1
     my ($mfile) = @_;
     my $retval = '';
 
-    unless (open ( IN, $mfile)) {
+    unless (open (IN, $mfile)) {
         die "Error: Could not open file $mfile: $!\n";
     }
     # Skip leading blank lines
@@ -126,5 +126,31 @@ sub extract_description_from_mfile { # {{{1
     return $retval;
 } # 1}}}
 
+sub get_package_metadata_from_description_file {
+    my $description_file = "../DESCRIPTION";
+    unless (open (IN, $description_file)) {
+        die "Error: Could not open file $description_file: $!\n";
+    }
+    my ($key, $value, %defn);
+    while (<IN>) {
+        chomp;
+        next if /^\s*(#.*)?$/; # skip comments
+        if (/^ /) {
+            die "Error: Failed parsing $description_file: found continuation line before any key line: \"$_\""
+                unless $key;
+            # continuation line
+            my $txt = $_;
+            $txt =~ s/^\s+//;
+            $value += $txt;
+        } elsif (/^(\S+)\s*:\s*(\S.*?)\s*$/) {
+            $defn{$key} = $value if $key;
+            ($key, $value) = ($1, $2);
+        } else {
+            die "Error: Failed parsing $description_file: Unparseable line: \"$_\"";
+        }
+    }
+    $defn{$key} = $value if $key;
+    return \%defn;
+}
 
 1;

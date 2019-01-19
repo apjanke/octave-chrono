@@ -72,9 +72,13 @@ sub emit { # {{{1
     print OUT @_;
 } # 1}}}
 
+# Get metadata from DESCRIPTION file
+my $pkg_meta = DocStuff::get_package_metadata_from_description_file();
+my $pkg_version = $$pkg_meta{"Version"};
 
 my $in_tex = 0;
 while (my $line = <IN>) {
+    $line =~ s/%%%%PACKAGE_VERSION%%%%/$pkg_version/g;
     if ($line =~ /^\@DOCSTRING/) {
         $line =~ /^\@DOCSTRING\((.*)\)/;
         my $fcn_name = $1;
