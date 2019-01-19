@@ -66,6 +66,9 @@ else
 	endif
 endif
 
+# We depend on all files in the input source directories
+SRCFILES := $(shell find ../inst ../src -type f)
+
 INFODOC = $(package).info
 DVIDOC = $(patsubst %.info,%.dvi,$(INFODOC))
 PSDOC = $(patsubst %.info,%.ps,$(INFODOC))
@@ -81,6 +84,13 @@ dvi: $(DVIDOC)
 pdf: $(PDFDOC)
 ps: $(PSDOC)
 qhelp: $(package).qhc
+
+$(DOCSTRINGS): mkdoc.pl $(SRCFILES)
+	$(PERL) ./mkdoc.pl $(DOCSTRINGS) ../inst ../src 
+
+.PRECIOUS: %.texi
+%.texi : %.texi.in mkdoc.pl mktexi.pl $(DOCSTRINGS) $(SRCFILES)
+	$(PERL) ./mktexi.pl $< $(DOCSTRINGS) $(INDEX) $@
 
 %.dvi: %.texi
 	$(TEXI2DVI) --quiet --clean -o $@ $<
@@ -107,14 +117,6 @@ $(package).html: $(package).texi
 html: $(package).texi $(package).html
 	rm -rf html
 	$(TEXI2HTML) -o html $<
-
-# TODO: DOCSTRINGS should depend on all source files under inst/ and src/
-$(DOCSTRINGS): mkdoc.pl
-	$(PERL) ./mkdoc.pl $(DOCSTRINGS) ../inst ../src 
-
-.PRECIOUS: %.texi
-%.texi : %.texi.in mkdoc.pl mktexi.pl $(DOCSTRINGS)
-	$(PERL) ./mktexi.pl $< $(DOCSTRINGS) $(INDEX) $@
 
 # Auxiliary make file defines build rules for generated images for the manual
 -include images.mk
