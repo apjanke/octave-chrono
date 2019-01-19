@@ -85,7 +85,8 @@ function out = detect_timezone_using_powershell ()
 end
 
 function out = parse_powershell_get_timezone_output (str)
-  [match,tok] = regexp (str, 'Id\s+:\s(.*)$', 'match', 'tokens');
+  str = strrep (str, "\r\n", "\n");
+  [match,tok] = regexp (str, 'Id\s*:\s*(\S.*?)(\n|$)', 'match', 'tokens', 'lineanchors');
   if isempty (match)
     out = [];
   else
