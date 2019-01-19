@@ -81,15 +81,22 @@ function out = detect_timezone_using_powershell ()
     out = [];
     return
   endif
-  out = parse_powershell_get_timezone_output (txt);
+  info = parse_powershell_get_timezone_output (txt);
+  if isempty (info)
+    out = [];
+    return
+  endif
+  out = info.Id;
 end
 
 function out = parse_powershell_get_timezone_output (str)
   str = strrep (str, "\r\n", "\n");
-  [match,tok] = regexp (str, 'Id\s*:\s*(\S.*?)(\n|$)', 'match', 'tokens', 'lineanchors');
+  [match,tok] = regexp (str, '^(\w+)\s*:\s*(\S.*?)(?=\n|$)', ...
+    'match', 'tokens', 'lineanchors');
   if isempty (match)
     out = [];
   else
-    out = tok{1}{1};
+    tok = cat(1, tok{:});
+    out = cell2struct(tok(:,2), tok(:,1));
   endif
 endfunction
