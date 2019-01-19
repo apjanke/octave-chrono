@@ -10,12 +10,11 @@ Chrono Release Checklist
   * Format is: `https://github.com/apjanke/octave-addons-chrono/releases/download/v<version>/chrono-<version>.tar.gz`
 * Commit all the files changed by the above steps.
   * Use form: `git commit -a -m "Cut release v<version>"`
-* Run `make dist` to make sure it works.
-* Create a git tag amd push it and the changes to GitHub.
+* Make sure your repo is clean: `git status` should show no local changes.
+* Run `make dist` first to make sure it works.
+* Create a git tag and push it and the changes to GitHub.
   * `git tag v<version>`
   * `git push; git push --tags`
-* Make sure your repo is clean: `git status` should show no local changes.
-* `make dist`
 * Create a new GitHub release from the tag.
   * Just use `<version>` as the name for the release.
   * Upload the dist tarball as a file for the release.
@@ -36,7 +35,7 @@ Chrono Release Checklist
   * ANY failure borks the release once we get near 1.0!
     * Let ‘em go for now so we can get code out for review.
     * TODO: Decide on policy on what to do then. Can git tags/GitHub Releases be removed?
-* Post an announcement comment on the "Updates" issue.
+* Post an announcement comment on the ["Updates" issue](https://github.com/apjanke/octave-addons-chrono/issues/2).
 * Post an announcement on the [Savannah bug for datetime support](https://savannah.gnu.org/bugs/index.php?47032) if this is a significant release.
 * Open development for next version
   * Update version number in `DESCRIPTION` and `doc/chrono.texi.in` to next patch or minor version, as appropriate.
