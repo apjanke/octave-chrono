@@ -10,6 +10,7 @@ Chrono Release Checklist
   * Format is: `https://github.com/apjanke/octave-addons-chrono/releases/download/v<version>/chrono-<version>.tar.gz`
 * Commit all the files changed by the above steps.
   * Use form: `git commit -a -m "Cut release v<version>"`
+* Run `make dist` to make sure it works.
 * Create a git tag amd push it and the changes to GitHub.
   * `git tag v<version>`
   * `git push; git push --tags`
