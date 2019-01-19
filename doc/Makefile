@@ -38,6 +38,8 @@ ifeq ($(BREW),)
 	# Ubuntu: qtchooser seems broken for qhelpgenerator, so /usr/bin/qhelpgenerator
 	# doesn't work. Locate it directly. Prefer qcollectiongenerator because that separate
 	# program is needed on Qt prior to Qt 5.12.
+	# TODO: Actually, this was just broken because I wasn't installing qt5-defaults
+	# on the build box. Remove this.
 	ifneq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qcollectiongenerator),)
 		QHELPGENERATOR = /usr/lib/x86_64-linux-gnu/qt5/bin/qcollectiongenerator
 	else ifneq ($(wildcard /usr/lib/x86_64-linux-gnu/qt5/bin/qhelpgenerator),)
