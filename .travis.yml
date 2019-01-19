@@ -1,8 +1,9 @@
 language: c
 
-branches:
-  only:
-    - master 
+# Let's build everything for now; comment this out.
+#branches:
+#  only:
+#    - master 
 
 notifications:
   webhooks: https://www.travisbuddy.com/
@@ -35,10 +36,11 @@ matrix:
 script:
   - which octave
   - octave --version
-  - make local
+  - travis_fold start make.local; make local; travis_fold end make.local
+  - travis_fold start make.bogus; make bogus; travis_fold end make.bogus
   # We only build the docs on Linux because it requires TeX and the macOS TeX install is a monster
   # We only need the doc build for verifying doc changes anyway; we don't need multi-platform
   # artifacts, or even the new artifacts at all.
-  - travis_fold start make.command && if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make maintainer-clean && make all); fi && travis_fold end make.command
-  - make test
-  - make dist
+  - travis_fold start make.doc && if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make maintainer-clean && make all); fi && travis_fold end make.doc
+  - travis_fold start make.test; make test; travis_fold end make.test
+  - travis_fold start make.dist; make dist; travis_fold end make.dist
