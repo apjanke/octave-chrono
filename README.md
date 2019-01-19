@@ -35,7 +35,7 @@ date =
 To get started using or testing this project, install it using Octave's `pkg` function:
 
 ```
-pkg install https://github.com/apjanke/octave-addons-chrono/releases/download/v0.1.2/chrono-0.1.2.tar.gz
+pkg install https://github.com/apjanke/octave-addons-chrono/releases/download/v0.1.3/chrono-0.1.3.tar.gz
 pkg load chrono
 ```
 
