@@ -5,18 +5,12 @@ my_pkg_name = 'chrono';
 
 % We only want this to happen when we're called by 'pkg unload', not when
 % this code is just removed from the path.
-% Note: This detection is a hack and is brittle wrt changes in Octave's
+% Note: This detection is a hack and is brittle WRT changes in Octave's
 % internal implementation.
 
 is_loading = false;
 stack = dbstack;
-for i = 1:numel (stack)
-  frame = stack(i);
-  if ismember (frame.name, {'unload_packages'})
-    is_loading = true;
-    break;
-  endif
-endfor
+is_loading = any (ismember ({stack.name}, {'unload_packages','uninstall'}));
 if ~is_loading
   return;
 end
