@@ -41,7 +41,7 @@ Chrono Release Checklist
   * Update version number in `DESCRIPTION` and `doc/chrono.texi.in` to next patch or minor version, as appropriate.
   * Rebuild the doco.
     * `(cd doc; make maintainer-clean; make all)`
-  * `git commit -a -m 'Open development for <version>'; git push`
+  * `git commit -a -m 'Open development for v<version>'; git push`
 
 * If there were any problems following these instructions exactly as written, report it as a bug.
 
