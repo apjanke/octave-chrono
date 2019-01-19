@@ -16,9 +16,7 @@
 # $PATH before using this Makefile. I do this with 
 # `PATH="/usr/local/opt/texinfo/bin:$PATH" make doc` in the parent directory.
 # - On Ubuntu, don't forget to `apt-get install qt5-defaults`!
-
-# Force Texinfo output timestamp for reproducible builds
-export SOURCE_DATE_EPOCH=-112046400
+# - On macOS, `brew install findutils`
 
 ## Some basic tools (can be overriden using environment variables)
 SED ?= sed
@@ -26,7 +24,7 @@ TAR ?= tar
 GREP ?= grep
 CUT ?= cut
 
-## Note the use of ':=' (immediate set) and not just '=' (lazy set).
+## Note the use of ':=' (immediate set) and not '=' (lazy set).
 ## http://stackoverflow.com/a/448939/1609556
 package := $(shell $(GREP) "^Name: " ../DESCRIPTION | $(CUT) -f2 -d" ")
 version := $(shell $(GREP) "^Version: " ../DESCRIPTION | $(CUT) -f2 -d" ")
@@ -35,6 +33,13 @@ DVIPS = dvips
 LN_S = ln -s
 OCTAVE = octave
 PERL = perl
+
+UNAME=$(shell uname)
+ifeq ($(UNAME),Darwin)
+	FIND = gfind
+else
+	FIND = find
+endif
 
 MAKEINFO = makeinfo
 TEXI2DVI = texi2dvi
@@ -67,7 +72,8 @@ else
 endif
 
 # We depend on all files in the input source directories
-SRCFILES := $(shell find ../inst ../src -type f)
+SRCDIRS := ../inst ../src
+SRCFILES := $(shell find $(SRCDIRS) -type f)
 
 INFODOC = $(package).info
 DVIDOC = $(patsubst %.info,%.dvi,$(INFODOC))
@@ -85,11 +91,16 @@ pdf: $(PDFDOC)
 ps: $(PSDOC)
 qhelp: $(package).qhc
 
+# TIMESTAMP holds the POSIX time of the last mtime of any source file
+TIMESTAMP: $(SRCFILES)
+	$(FIND) $(SRCDIRS) -type f -printf '%T@\n' | cut -d '.' -f 1 | sort -n | tail -1 > TIMESTAMP
+
 $(DOCSTRINGS): mkdoc.pl $(SRCFILES)
 	$(PERL) ./mkdoc.pl $(DOCSTRINGS) ../inst ../src 
 
 .PRECIOUS: %.texi
-%.texi : %.texi.in mkdoc.pl mktexi.pl $(DOCSTRINGS) $(SRCFILES)
+%.texi : %.texi.in mkdoc.pl mktexi.pl $(DOCSTRINGS) $(SRCFILES) TIMESTAMP
+	export SOURCE_DATE_EPOCH=`cat TIMESTAMP`; \
 	$(PERL) ./mktexi.pl $< $(DOCSTRINGS) $(INDEX) $@
 
 %.dvi: %.texi
@@ -98,7 +109,8 @@ $(DOCSTRINGS): mkdoc.pl $(SRCFILES)
 %.info: %.texi
 	$(MAKEINFO) --no-split -o $@ $<
 
-%.pdf: %.texi
+%.pdf: %.texi TIMESTAMP
+	export SOURCE_DATE_EPOCH=`cat TIMESTAMP`; \
 	$(TEXI2PDF) --quiet --clean -o $@ $<
 
 %.ps: %.dvi
@@ -107,7 +119,7 @@ $(DOCSTRINGS): mkdoc.pl $(SRCFILES)
 $(package).qhp: $(package).texi mkqhp.pl
 	$(PERL) mkqhp.pl $(package).texi $(package).qhp
 
-$(package).qhc: $(package).qhcp $(package).qhp
+$(package).qhc: $(package).qhcp $(package).qhp TIMESTAMP
 	$(QHELPGENERATOR) $(package).qhcp -o $(package).qhc
 
 $(package).html: $(package).texi

@@ -21,6 +21,7 @@ addons:
     packages:
       - octave
       - qt
+      - findutils
 
 matrix:
   include:
