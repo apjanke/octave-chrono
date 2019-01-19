@@ -87,7 +87,7 @@ qhelp: $(package).qhc
 	$(MAKEINFO) --no-split -o $@ $<
 
 %.pdf: %.texi
-	$(TEXI2PDF) --clean -o $@ $<
+	$(TEXI2PDF) --quiet --clean -o $@ $<
 
 %.ps: %.dvi
 	$(DVIPS) -o $@ $<
