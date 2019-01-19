@@ -332,52 +332,64 @@ It is the author's hope that all these will be implemented some day.
 @node Function Reference
 @chapter Function Reference
 
-@iftex
+@node Funtions by Category
 @section Functions by Category
 @subsection Date Representation
 @table @asis
-@item datetime
+@item @ref{datetime}
 Represents points in time using the Gregorian calendar.
-@item isdatetime
+
+@item @ref{isdatetime}
 True if input is a `datetime' array, false otherwise.
-@item NaT
+
+@item @ref{NaT}
 “Not-a-Time”.
+
 @end table
 @subsection Durations
 @table @asis
-@item calendarDuration
+@item @ref{calendarDuration}
 Durations in time using variable-length calendar periods, such as days, months, and years, which may vary in length over time.
-@item calmonths
-Create a `calendarDuration' that is a given number of calendar months long.
-@item calyears
-Construct a `calendarDuration' a given number of years long.
-@item days
-Duration in days.
-@item duration
-Represents durations or periods of time as an amount of fixed-length time (i.e.
-@item hours
-Create a `duration' X hours long, or get the hours in a `duration' X.
-@item isduration
-True if input is a `duration' array, false otherwise.
-@item milliseconds
-Create a `duration' X milliseconds long, or get the milliseconds in a `duration' X.
-@item minutes
-Create a `duration' X hours long, or get the hours in a `duration' X.
-@item seconds
-Create a `duration' X seconds long, or get the seconds in a `duration' X.
-@item timezones
-List all the time zones defined on this system.
-@item years
-Create a `duration' X years long, or get the years in a `duration' X.
-@end table
-@end iftex
 
+@item @ref{calmonths}
+Create a `calendarDuration' that is a given number of calendar months long.
+
+@item @ref{calyears}
+Construct a `calendarDuration' a given number of years long.
+
+@item @ref{days}
+Duration in days.
+
+@item @ref{duration}
+Represents durations or periods of time as an amount of fixed-length time (i.e.
+
+@item @ref{hours}
+Create a `duration' X hours long, or get the hours in a `duration' X.
+
+@item @ref{isduration}
+True if input is a `duration' array, false otherwise.
+
+@item @ref{milliseconds}
+Create a `duration' X milliseconds long, or get the milliseconds in a `duration' X.
+
+@item @ref{minutes}
+Create a `duration' X hours long, or get the hours in a `duration' X.
+
+@item @ref{seconds}
+Create a `duration' X seconds long, or get the seconds in a `duration' X.
+
+@item @ref{timezones}
+List all the time zones defined on this system.
+
+@item @ref{years}
+Create a `duration' X years long, or get the years in a `duration' X.
+
+@end table
 
 @node Functions Alphabetically
 @section Functions Alphabetically
 @menu
-* NaT:: 	“Not-a-Time”.
-* calendarDuration:: Durations in time using variable-length calendar
+* calendarDuration::	Durations in time using variable-length calendar
 		periods, such as days, months, and years, which may vary in
 		length over time.
 * calmonths::	Create a `calendarDuration' that is a given number of
@@ -392,10 +404,11 @@ Create a `duration' X years long, or get the years in a `duration' X.
 		`duration' X.
 * isdatetime::	True if input is a `datetime' array, false otherwise.
 * isduration::	True if input is a `duration' array, false otherwise.
-* milliseconds:: Create a `duration' X milliseconds long, or get the
+* milliseconds::	Create a `duration' X milliseconds long, or get the
 		milliseconds in a `duration' X.
 * minutes::	Create a `duration' X hours long, or get the hours in a
 		`duration' X.
+* NaT:: “Not-a-Time”.
 * seconds::	Create a `duration' X seconds long, or get the seconds in a
 		`duration' X.
 * timezones::	List all the time zones defined on this system.
@@ -403,27 +416,8 @@ Create a `duration' X years long, or get the years in a `duration' X.
 		`duration' X.
 @end menu
 
-@node NaT
-@subsection NaT
-
-@deftypefn {Function} {@var{out} =} NaT ()
-@deftypefnx {Function} {@var{out} =} NaT (@var{sz})
-
-“Not-a-Time”. Constructs a new @code{datetime} array of all @code{NaT} values of
-the given size. If no input @var{sz} is given, the result is a scalar @code{NaT}.
-
-@code{NaT} is the @code{datetime} equivalent of @code{NaN}. It represents a missing
-or invalid value. @code{NaT} values never compare equal to, greater than, or less
-than any value, including other @code{NaT}s. Doing arithmetic with a @code{NaT} and
-any other value results in a @code{NaT}.
-
-@end deftypefn
-
-
-
 @node calendarDuration
 @subsection calendarDuration
-
 @deftp {Class} calendarDuration
 
 Durations in time using variable-length calendar periods, such as days,
@@ -447,10 +441,8 @@ Constructs new @code{calendarDuration} arrays based on input values.
 @end deftypefn
 
 
-
 @node calmonths
 @subsection calmonths
-
 @deftypefn {Function File} {@var{out} =} calmonths (@var{x})
 Create a @code{calendarDuration} that is a given number of calendar months
 long.
@@ -467,10 +459,8 @@ Returns a new @code{calendarDuration} object of the same size as @var{x}.
 @end deftypefn
 
 
-
 @node calyears
 @subsection calyears
-
 @deftypefn {Function} {@var{out} =} calyears (@var{x})
 
 Construct a @code{calendarDuration} a given number of years long.
@@ -482,10 +472,8 @@ This is a shorthand for calling @code{calendarDuration(@var{x}, 0, 0)}.
 @end deftypefn
 
 
-
 @node datetime
 @subsection datetime
-
 @deftp {Class} datetime
 
 Represents points in time using the Gregorian calendar.
@@ -534,10 +522,8 @@ Constructs a new @code{datetime} array based on input values.
 @end deftypefn
 
 
-
 @node days
 @subsection days
-
 @deftypefn {Function} {@var{out} =} days (@var{x})
 
 Duration in days.
@@ -552,10 +538,8 @@ is.
 @end deftypefn
 
 
-
 @node duration
 @subsection duration
-
 @deftp {Class} duration
 
 Represents durations or periods of time as an amount of fixed-length
@@ -584,10 +568,8 @@ Constructs a new @code{duration} array based on input values.
 @end deftypefn
 
 
-
 @node hours
 @subsection hours
-
 @deftypefn {Function File} {@var{out} =} hours (@var{x})
 Create a @code{duration} @var{x} hours long, or get the hours in a @code{duration}
 @var{x}.
@@ -601,10 +583,8 @@ Returns an array the same size as @var{x}.
 @end deftypefn
 
 
-
 @node isdatetime
 @subsection isdatetime
-
 @deftypefn {Function} {@var{tf} =} isdatetime (@var{x})
 
 True if input is a @code{datetime} array, false otherwise.
@@ -613,10 +593,8 @@ Returns a logical array the same size as @var{x}.
 @end deftypefn
 
 
-
 @node isduration
 @subsection isduration
-
 @deftypefn {Function} {@var{tf} =} isduration (@var{x})
 
 True if input is a @code{duration} array, false otherwise.
@@ -625,10 +603,8 @@ Returns a logical array the same size as @var{x}.
 @end deftypefn
 
 
-
 @node milliseconds
 @subsection milliseconds
-
 @deftypefn {Function File} {@var{out} =} milliseconds (@var{x})
 Create a @code{duration} @var{x} milliseconds long, or get the milliseconds in a @code{duration}
 @var{x}.
@@ -642,10 +618,8 @@ Returns an array the same size as @var{x}.
 @end deftypefn
 
 
-
 @node minutes
 @subsection minutes
-
 @deftypefn {Function File} {@var{out} =} hours (@var{x})
 Create a @code{duration} @var{x} hours long, or get the hours in a @code{duration}
 @var{x}.
@@ -653,10 +627,24 @@ Create a @code{duration} @var{x} hours long, or get the hours in a @code{duratio
 @end deftypefn
 
 
+@node NaT
+@subsection NaT
+@deftypefn {Function} {@var{out} =} NaT ()
+@deftypefnx {Function} {@var{out} =} NaT (@var{sz})
+
+“Not-a-Time”. Constructs a new @code{datetime} array of all @code{NaT} values of
+the given size. If no input @var{sz} is given, the result is a scalar @code{NaT}.
+
+@code{NaT} is the @code{datetime} equivalent of @code{NaN}. It represents a missing
+or invalid value. @code{NaT} values never compare equal to, greater than, or less
+than any value, including other @code{NaT}s. Doing arithmetic with a @code{NaT} and
+any other value results in a @code{NaT}.
+
+@end deftypefn
+
 
 @node seconds
 @subsection seconds
-
 @deftypefn {Function File} {@var{out} =} seconds (@var{x})
 Create a @code{duration} @var{x} seconds long, or get the seconds in a @code{duration}
 @var{x}.
@@ -670,10 +658,8 @@ Returns an array the same size as @var{x}.
 @end deftypefn
 
 
-
 @node timezones
 @subsection timezones
-
 @deftypefn {Function} {@var{out} =} timezones ()
 @deftypefnx {Function} {@var{out} =} timezones (@var{area})
 
@@ -701,10 +687,8 @@ the output; these are currently unimplemented.
 @end deftypefn
 
 
-
 @node years
 @subsection years
-
 @deftypefn {Function File} {@var{out} =} years (@var{x})
 Create a @code{duration} @var{x} years long, or get the years in a @code{duration}
 @var{x}.

@@ -68,7 +68,6 @@ INFODOC = $(package).info
 DVIDOC = $(patsubst %.info,%.dvi,$(INFODOC))
 PSDOC = $(patsubst %.info,%.ps,$(INFODOC))
 PDFDOC = $(patsubst %.info,%.pdf,$(INFODOC))
-#HTMLDOC = $(patsubst %.info,%.html,$(INFODOC))
 TEXIDOC = $(patsubst %.info,%.texi,$(INFODOC))
 DOCSTRINGS = DOCSTRINGS.texi.tmp
 INDEX = ../INDEX
@@ -77,7 +76,6 @@ default: all
 all: info html pdf qhelp
 info: $(INFODOC)
 dvi: $(DVIDOC)
-#html: $(HTMLDOC) $(package)-single.html
 pdf: $(PDFDOC)
 ps: $(PSDOC)
 qhelp: $(package).qhc
@@ -101,19 +99,20 @@ $(package).qhc: $(package).qhcp $(package).qhp
 	$(QHELPGENERATOR) $(package).qhcp -o $(package).qhc
 
 $(package).html: $(package).texi
-	rm -f $(package).html
 	$(TEXI2HTML) --no-split -o $(package).html $<
 
+# "html" is a phony target, not the actual html/ directory
 html: $(package).texi $(package).html
 	rm -rf html
 	$(TEXI2HTML) -o html $<
 
+# TODO: DOCSTRINGS should depend on all source files under inst/ and src/
+$(DOCSTRINGS): mkdoc.pl
+	$(PERL) ./mkdoc.pl $(DOCSTRINGS) ../inst ../src 
+
 .PRECIOUS: %.texi
-%.texi : %.texi.in mkdoc.pl mktexi.pl
-	$(RM) -f $(DOCSTRINGS); \
-	$(PERL) ./mkdoc.pl ../ > $(DOCSTRINGS); \
-	$(PERL) ./mktexi.pl $< $(DOCSTRINGS) $(INDEX) > $@ ; \
-	$(RM) -f $(DOCSTRINGS);
+%.texi : %.texi.in mkdoc.pl mktexi.pl $(DOCSTRINGS)
+	$(PERL) ./mktexi.pl $< $(DOCSTRINGS) $(INDEX) $@
 
 # Auxiliary make file defines build rules for generated images for the manual
 -include images.mk

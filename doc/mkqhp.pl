@@ -67,13 +67,14 @@ my $file = shift @ARGV;
 my $outfile = shift @ARGV;
 
 unless (open (IN, $file)) {
-    print STDERR "Error: Could not open input file $file\n";
-    exit 1;
+    die "Error: Could not open input file $file: $!\n";
 }
 unless (open (OUT, ">", $outfile)) {
-	print STDERR "Error: Could not open output file $file\n";
-	exit 1;
+	die "Error: Could not open output file $outfile: $!\n";
 }
+sub emit { # {{{1
+    print OUT @_;
+} # 1}}}
 
 my $preamble = <<EOS;
 <?xml version="1.0" encoding="UTF-8"?>
@@ -83,7 +84,7 @@ my $preamble = <<EOS;
     <filterSection>
         <toc>
 EOS
-print OUT $preamble;
+emit $preamble;
 
 # TOC section
 
@@ -118,59 +119,59 @@ while (my $line = <IN>) {
 	die "Error: Unrecognized section type: $section_type\n" unless $section_level;
 	if ($section_level == $level) {
 		# close last node as sibling
-		print OUT $indent . ("    " x $level) . "</section>\n";
+		emit $indent . ("    " x $level) . "</section>\n";
 	} elsif ($section_level > $level) {
 		# leave last node open as parent
 		if ($section_level > $level + 1) {
-			die "Skip in section levels at node $node_name ($level to $section_level)";
+			die "Error: Discontinuity in section levels at node $node_name ($level to $section_level)";
 		}
 	} elsif ($section_level < $level) {
 		# close last two nodes
 		my $levels_up = $level - $section_level;
 		while ($level > $section_level) {
-			print OUT $indent . ("    " x $level--) . "</section>\n";
+			emit $indent . ("    " x $level--) . "</section>\n";
 		}
-		print OUT $indent . ("    " x $level) . "</section>\n";
+		emit $indent . ("    " x $level) . "</section>\n";
 	}
-	print OUT $indent . ("    " x $section_level) 
+	emit $indent . ("    " x $section_level) 
 	    . "<section title=\"$section_qhelp_title\" ref=\"html/$html_file\">\n";
-	print OUT $indent . ("    " x $section_level) 
+	emit $indent . ("    " x $section_level) 
 	    . "    <!-- orig_title=\"$section_title\" node_name=\"$node_name\" -->\n"
 	    if $debug;
 	$level = $section_level;
 }
 while ($level > 1) {
-	print OUT $indent . ("    " x $level--) . "</section>\n";
+	emit $indent . ("    " x $level--) . "</section>\n";
 }
 # Include the all-on-one-page version
-print OUT $indent . ("    " x $level) 
+emit $indent . ("    " x $level) 
     . "<section title=\"Entire Manual in One Page\" ref=\"$package.html\"/>\n"
     . $indent . "</section>\n";
-print OUT <<EOS;
+emit <<EOS;
         </toc>
 EOS
 
 # Keyword index
 my $fcn_index = DocStuff::read_index_file ("../INDEX");
-print OUT "        <keywords>\n";
+emit "        <keywords>\n";
 my $fcn_list = $$fcn_index{"functions"};
 for my $fcn (@$fcn_list) {
-	print OUT "            <keyword name=\"$fcn\" ref=\"html/$fcn.html\"/>\n";
+	emit "            <keyword name=\"$fcn\" ref=\"html/$fcn.html\"/>\n";
 }
-print OUT "        </keywords>\n";
+emit "        </keywords>\n";
 
 
 # Files section
 
-print OUT "        <files>\n";
-print OUT "            <file>$package.html</file>\n";
+emit "        <files>\n";
+emit "            <file>$package.html</file>\n";
 foreach my $file (@files) {
-	print OUT "            <file>html/$file</file>\n";
+	emit "            <file>html/$file</file>\n";
 }
-print OUT "        </files>\n";
+emit "        </files>\n";
 
 # Closing
-print OUT <<EOS;
+emit <<EOS;
     </filterSection>
 </QtHelpProject>
 

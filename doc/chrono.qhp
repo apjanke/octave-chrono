@@ -28,9 +28,9 @@
                 <section title="Missing Functionality" ref="html/Missing-Functionality.html">
                 </section>
                 <section title="Function Reference" ref="html/Function-Reference.html">
+                    <section title="Functions by Category" ref="html/Funtions-by-Category.html">
+                    </section>
                     <section title="Functions Alphabetically" ref="html/Functions-Alphabetically.html">
-                        <section title="NaT" ref="html/NaT.html">
-                        </section>
                         <section title="calendarDuration" ref="html/calendarDuration.html">
                         </section>
                         <section title="calmonths" ref="html/calmonths.html">
@@ -52,6 +52,8 @@
                         <section title="milliseconds" ref="html/milliseconds.html">
                         </section>
                         <section title="minutes" ref="html/minutes.html">
+                        </section>
+                        <section title="NaT" ref="html/NaT.html">
                         </section>
                         <section title="seconds" ref="html/seconds.html">
                         </section>
@@ -89,6 +91,7 @@
             <file>html/years.html</file>
             <file>html/timezones.html</file>
             <file>html/seconds.html</file>
+            <file>html/NaT.html</file>
             <file>html/minutes.html</file>
             <file>html/milliseconds.html</file>
             <file>html/isduration.html</file>
@@ -100,8 +103,8 @@
             <file>html/calyears.html</file>
             <file>html/calmonths.html</file>
             <file>html/calendarDuration.html</file>
-            <file>html/NaT.html</file>
             <file>html/Functions-Alphabetically.html</file>
+            <file>html/Funtions-by-Category.html</file>
             <file>html/Function-Reference.html</file>
             <file>html/Missing-Functionality.html</file>
             <file>html/calendarDuration-Class.html</file>

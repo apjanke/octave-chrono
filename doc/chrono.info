@@ -334,18 +334,83 @@ File: chrono.info,  Node: Function Reference,  Next: Copying,  Prev: Missing Fun
 
 * Menu:
 
+* Funtions by Category::
 * Functions Alphabetically::
 
 
-File: chrono.info,  Node: Functions Alphabetically,  Up: Function Reference
+File: chrono.info,  Node: Funtions by Category,  Next: Functions Alphabetically,  Up: Function Reference
 
-7.1 Functions Alphabetically
+7.1 Functions by Category
+=========================
+
+7.1.1 Date Representation
+-------------------------
+
+*note datetime::
+     Represents points in time using the Gregorian calendar.
+
+*note isdatetime::
+     True if input is a ‘datetime’ array, false otherwise.
+
+*note NaT::
+     “Not-a-Time”.
+
+7.1.2 Durations
+---------------
+
+*note calendarDuration::
+     Durations in time using variable-length calendar periods, such as
+     days, months, and years, which may vary in length over time.
+
+*note calmonths::
+     Create a ‘calendarDuration’ that is a given number of calendar
+     months long.
+
+*note calyears::
+     Construct a ‘calendarDuration’ a given number of years long.
+
+*note days::
+     Duration in days.
+
+*note duration::
+     Represents durations or periods of time as an amount of
+     fixed-length time (i.e.
+
+*note hours::
+     Create a ‘duration’ X hours long, or get the hours in a ‘duration’
+     X.
+
+*note isduration::
+     True if input is a ‘duration’ array, false otherwise.
+
+*note milliseconds::
+     Create a ‘duration’ X milliseconds long, or get the milliseconds in
+     a ‘duration’ X.
+
+*note minutes::
+     Create a ‘duration’ X hours long, or get the hours in a ‘duration’
+     X.
+
+*note seconds::
+     Create a ‘duration’ X seconds long, or get the seconds in a
+     ‘duration’ X.
+
+*note timezones::
+     List all the time zones defined on this system.
+
+*note years::
+     Create a ‘duration’ X years long, or get the years in a ‘duration’
+     X.
+
+
+File: chrono.info,  Node: Functions Alphabetically,  Prev: Funtions by Category,  Up: Function Reference
+
+7.2 Functions Alphabetically
 ============================
 
 * Menu:
 
-* NaT:: 	“Not-a-Time”.
-* calendarDuration:: Durations in time using variable-length calendar
+* calendarDuration::	Durations in time using variable-length calendar
 		periods, such as days, months, and years, which may vary in
 		length over time.
 * calmonths::	Create a ‘calendarDuration’ that is a given number of
@@ -360,10 +425,11 @@ File: chrono.info,  Node: Functions Alphabetically,  Up: Function Reference
 		‘duration’ X.
 * isdatetime::	True if input is a ‘datetime’ array, false otherwise.
 * isduration::	True if input is a ‘duration’ array, false otherwise.
-* milliseconds:: Create a ‘duration’ X milliseconds long, or get the
+* milliseconds::	Create a ‘duration’ X milliseconds long, or get the
 		milliseconds in a ‘duration’ X.
 * minutes::	Create a ‘duration’ X hours long, or get the hours in a
 		‘duration’ X.
+* NaT:: “Not-a-Time”.
 * seconds::	Create a ‘duration’ X seconds long, or get the seconds in a
 		‘duration’ X.
 * timezones::	List all the time zones defined on this system.
@@ -371,28 +437,9 @@ File: chrono.info,  Node: Functions Alphabetically,  Up: Function Reference
 		‘duration’ X.
 
 
-File: chrono.info,  Node: NaT,  Next: calendarDuration,  Up: Functions Alphabetically
+File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Up: Functions Alphabetically
 
-7.1.1 NaT
----------
-
- -- Function: OUT = NaT ()
- -- Function: OUT = NaT (SZ)
-
-     “Not-a-Time”.  Constructs a new ‘datetime’ array of all ‘NaT’
-     values of the given size.  If no input SZ is given, the result is a
-     scalar ‘NaT’.
-
-     ‘NaT’ is the ‘datetime’ equivalent of ‘NaN’.  It represents a
-     missing or invalid value.  ‘NaT’ values never compare equal to,
-     greater than, or less than any value, including other ‘NaT’s.
-     Doing arithmetic with a ‘NaT’ and any other value results in a
-     ‘NaT’.
-
-
-File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Prev: NaT,  Up: Functions Alphabetically
-
-7.1.2 calendarDuration
+7.2.1 calendarDuration
 ----------------------
 
  -- Class: calendarDuration
@@ -413,7 +460,7 @@ File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Prev: NaT,  Up: F
 
 File: chrono.info,  Node: calmonths,  Next: calyears,  Prev: calendarDuration,  Up: Functions Alphabetically
 
-7.1.3 calmonths
+7.2.2 calmonths
 ---------------
 
  -- Function File: OUT = calmonths (X)
@@ -433,7 +480,7 @@ File: chrono.info,  Node: calmonths,  Next: calyears,  Prev: calendarDuration,  
 
 File: chrono.info,  Node: calyears,  Next: datetime,  Prev: calmonths,  Up: Functions Alphabetically
 
-7.1.4 calyears
+7.2.3 calyears
 --------------
 
  -- Function: OUT = calyears (X)
@@ -447,7 +494,7 @@ File: chrono.info,  Node: calyears,  Next: datetime,  Prev: calmonths,  Up: Func
 
 File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: Functions Alphabetically
 
-7.1.5 datetime
+7.2.4 datetime
 --------------
 
  -- Class: datetime
@@ -488,7 +535,7 @@ File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: Functions
 
 File: chrono.info,  Node: days,  Next: duration,  Prev: datetime,  Up: Functions Alphabetically
 
-7.1.6 days
+7.2.5 days
 ----------
 
  -- Function: OUT = days (X)
@@ -505,7 +552,7 @@ File: chrono.info,  Node: days,  Next: duration,  Prev: datetime,  Up: Functions
 
 File: chrono.info,  Node: duration,  Next: hours,  Prev: days,  Up: Functions Alphabetically
 
-7.1.7 duration
+7.2.6 duration
 --------------
 
  -- Class: duration
@@ -533,7 +580,7 @@ File: chrono.info,  Node: duration,  Next: hours,  Prev: days,  Up: Functions Al
 
 File: chrono.info,  Node: hours,  Next: isdatetime,  Prev: duration,  Up: Functions Alphabetically
 
-7.1.8 hours
+7.2.7 hours
 -----------
 
  -- Function File: OUT = hours (X)
@@ -551,7 +598,7 @@ File: chrono.info,  Node: hours,  Next: isdatetime,  Prev: duration,  Up: Functi
 
 File: chrono.info,  Node: isdatetime,  Next: isduration,  Prev: hours,  Up: Functions Alphabetically
 
-7.1.9 isdatetime
+7.2.8 isdatetime
 ----------------
 
  -- Function: TF = isdatetime (X)
@@ -563,8 +610,8 @@ File: chrono.info,  Node: isdatetime,  Next: isduration,  Prev: hours,  Up: Func
 
 File: chrono.info,  Node: isduration,  Next: milliseconds,  Prev: isdatetime,  Up: Functions Alphabetically
 
-7.1.10 isduration
------------------
+7.2.9 isduration
+----------------
 
  -- Function: TF = isduration (X)
 
@@ -575,7 +622,7 @@ File: chrono.info,  Node: isduration,  Next: milliseconds,  Prev: isdatetime,  U
 
 File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: isduration,  Up: Functions Alphabetically
 
-7.1.11 milliseconds
+7.2.10 milliseconds
 -------------------
 
  -- Function File: OUT = milliseconds (X)
@@ -591,9 +638,9 @@ File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: isduration,  Up: 
      Returns an array the same size as X.
 
 
-File: chrono.info,  Node: minutes,  Next: seconds,  Prev: milliseconds,  Up: Functions Alphabetically
+File: chrono.info,  Node: minutes,  Next: NaT,  Prev: milliseconds,  Up: Functions Alphabetically
 
-7.1.12 minutes
+7.2.11 minutes
 --------------
 
  -- Function File: OUT = hours (X)
@@ -601,9 +648,28 @@ File: chrono.info,  Node: minutes,  Next: seconds,  Prev: milliseconds,  Up: Fun
      X.
 
 
-File: chrono.info,  Node: seconds,  Next: timezones,  Prev: minutes,  Up: Functions Alphabetically
+File: chrono.info,  Node: NaT,  Next: seconds,  Prev: minutes,  Up: Functions Alphabetically
 
-7.1.13 seconds
+7.2.12 NaT
+----------
+
+ -- Function: OUT = NaT ()
+ -- Function: OUT = NaT (SZ)
+
+     “Not-a-Time”.  Constructs a new ‘datetime’ array of all ‘NaT’
+     values of the given size.  If no input SZ is given, the result is a
+     scalar ‘NaT’.
+
+     ‘NaT’ is the ‘datetime’ equivalent of ‘NaN’.  It represents a
+     missing or invalid value.  ‘NaT’ values never compare equal to,
+     greater than, or less than any value, including other ‘NaT’s.
+     Doing arithmetic with a ‘NaT’ and any other value results in a
+     ‘NaT’.
+
+
+File: chrono.info,  Node: seconds,  Next: timezones,  Prev: NaT,  Up: Functions Alphabetically
+
+7.2.13 seconds
 --------------
 
  -- Function File: OUT = seconds (X)
@@ -621,7 +687,7 @@ File: chrono.info,  Node: seconds,  Next: timezones,  Prev: minutes,  Up: Functi
 
 File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: Functions Alphabetically
 
-7.1.14 timezones
+7.2.14 timezones
 ----------------
 
  -- Function: OUT = timezones ()
@@ -650,7 +716,7 @@ File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: Function
 
 File: chrono.info,  Node: years,  Prev: timezones,  Up: Functions Alphabetically
 
-7.1.15 years
+7.2.15 years
 ------------
 
  -- Function File: OUT = years (X)
@@ -725,23 +791,24 @@ Node: duration Class9591
 Node: calendarDuration Class10342
 Node: Missing Functionality11243
 Node: Function Reference12212
-Node: Functions Alphabetically12398
-Node: NaT13779
-Node: calendarDuration14434
-Node: calmonths15126
-Node: calyears15717
-Node: datetime16060
-Node: days17629
-Node: duration18093
-Node: hours18999
-Node: isdatetime19480
-Node: isduration19768
-Node: milliseconds20065
-Node: minutes20603
-Node: seconds20863
-Node: timezones21360
-Node: years22393
-Node: Copying23075
+Node: Funtions by Category12423
+Node: Functions Alphabetically14072
+Node: calendarDuration15481
+Node: calmonths16161
+Node: calyears16752
+Node: datetime17095
+Node: days18664
+Node: duration19128
+Node: hours20034
+Node: isdatetime20515
+Node: isduration20803
+Node: milliseconds21098
+Node: minutes21636
+Node: NaT21892
+Node: seconds22556
+Node: timezones23049
+Node: years24082
+Node: Copying24764
 
 End Tag Table
 

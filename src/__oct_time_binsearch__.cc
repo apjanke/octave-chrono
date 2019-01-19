@@ -27,12 +27,6 @@ along with Octave; see the file COPYING.  If not, see
 // Returns:
 //  1: Indexes: positive if found, negative if not found. 1-based.
 
-// -*- texinfo -*-
-// @deftypefn {Function File} {@var{out} =} __oct_time_binsearch__ (@var{needles}, @var{haystack})
-// This function is for Chrono's internal use.
-//
-// @end deftypefn
-
 template <class T>
 octave_idx_type *binsearch (const T vals[], octave_idx_type vals_len, const T arr[], octave_idx_type len) {
   octave_idx_type *out = new octave_idx_type[vals_len];
@@ -66,7 +60,13 @@ octave_idx_type *binsearch (const T vals[], octave_idx_type vals_len, const T ar
 }
 
 DEFUN_DLD (__oct_time_binsearch__, args, nargout,
-           "Vectorized binary search")
+  "Vectorized binary search\n"
+  "\n"
+  "-*- texinfo -*-\n"
+  "@deftypefn {Function File} {@var{out} =} __oct_time_binsearch__ (@var{needles}, @var{haystack})\n"
+  "This function is for Chrono's internal use.\n"
+  "\n"
+  "@end deftypefn\n")
 {
   int nargin = args.length ();
   if (nargin != 2) {

@@ -6,11 +6,26 @@
 # Extracts the help in texinfo format from *.cc and *.m files for use
 # in documentation. Based on make_index script from octave_forge.
 #
-# The texinfo help is located as the first comment block following
+# Usage:
+#
+#   mkdoc.pl <outfile> <sourcedir> [<sourcedir> ...]
+#
+#   <sourcedir> is the the path to a source directory
+#
+# The dir <sourcedir> is searched recursively for Octave function
+# source code files.
+#
+# In M-files, the texinfo doco is located as the first comment block following
 # an optional initial Copyright block in each file.
 # It should start with the string "## -*- texinfo -*-" to indicate that it
 # is in Texinfo format; otherwise a warning is issued. Leading comments
 # and whitespace and trailing whitespace are stripped.
+#
+# In C++ files, the doco blocks are the string arguments to each DEFUN_DLD
+# macro.
+#
+# Comment blocks must be prefixed on each line with "#", "%", or "//". C-style
+# "/* ... */" comment blocks do not count and are ignored.
 #
 # The entire texinfo help must be in a single comment block. Subsequent texinfo
 # comment blocks are ignored.
@@ -18,7 +33,8 @@
 # The found texinfo help blocks are all concatenated, with "\037%s\n" 
 # separating each entry.
 #
-# Output is written to stdout. Diagnostics are written to stderr.
+# Progress messages are written to stdout. Warnings and diagnostics are
+# written to stderr.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,59 +59,65 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+BEGIN {
+    push @INC, ".";
+}
+
 use strict;
 use File::Find;
 use File::Basename;
 use FileHandle;
 
-my $docdir = ".";
-if (@ARGV) {
-    $docdir = @ARGV[0];
+use DocStuff;
+
+my $outfile = shift @ARGV;
+my @srcdirs = @ARGV;
+
+unless (open (OUT, ">", $outfile)) {
+    die "Error: Could not open output file $outfile: $!\n";
 }
+sub emit { # {{{1
+    print OUT @_;
+} # 1}}}
 
 # Locate all C++ and m-files in current directory
 my @m_files = ();
-my @C_files = ();
-find(\&cc_and_m_files, $docdir);
+my @cxx_files = ();
+find(\&cc_and_m_files, @srcdirs);
 
 sub cc_and_m_files { # {{{1 populates global array @files
+    if ($_ eq "+internal" or $_ eq "private") {
+        $File::Find::prune = 1;
+    }
     return unless -f and /\.(m|cc)$/;  # .m and .cc files
     my $path = "$File::Find::dir/$_";
     $path =~ s|^[.]/||;
     if (/\.m$/) {
         push @m_files, $path;
     } else {
-        push @C_files, $path;
+        push @cxx_files, $path;
     }
 } # 1}}}
 
 # Grab help from C++ files
-foreach my $f ( @C_files ) {
+foreach my $file ( @cxx_files ) {
     # XXX FIXME XXX. Should run the preprocessor over the file first, since 
     # the help might include defines that are compile dependent.
-    unless ( open(IN,$f) ) {
-        print STDERR "Could not open file ($f): $!\n";
-        next;  
+    unless ( open(IN, $file) ) {
+        die "Error: Could not open file ($file): $!\n";
     }
     while (<IN>) {
-        # skip to the next function
+        # skip to the first defined Octave function
         next unless /^DEFUN_DLD/;
-
-        # extract function name to pattern space
-        /\((\w*)\s*,/;
-        # remember function name
+        # extract function name
+        /\DEFUN_DLD\s*\(\s*(\w+)\s*,/;
         my $function = $1;
-        # skip to next line if comment doesn't start on this line
-        # XXX FIXME XXX maybe we want a loop here?
-        $_ = <IN> unless /\"/;
-        # skip to the beginning of the comment string by
-        # chopping everything up to opening "
+        # Advance to the comment string in the DEFUN_DLD
+        # The comment string in the DEFUN_DLD is the first line with "..."
+        $_ = <IN> until /\"/;
         my $desc = $_;
-            $desc =~ s/^[^\"]*\"//;
-        # join lines until you get the end of the comment string
-        # plus a bit more.  You need the "plus a bit more" because
-        # C compilers allow implicitly concatenated string constants
-        # "A" "B" ==> "AB".
+        $desc =~ s/^[^\"]*\"//;
+        # Slurp in C-style implicitly-concatenated strings
         while ($desc !~ /[^\\]\"\s*\S/ && $desc !~ /^\"/) {
             # if line ends in '\', chop it and the following '\n'
             $desc =~ s/\\\s*\n//;
@@ -109,65 +131,27 @@ foreach my $f ( @C_files ) {
         $desc =~ s/\\n/\n/g;          # insert fake line ends
         $desc =~ s/([^\"])\".*$/$1/;  # chop everything after final '"'
         $desc =~ s/\\\"/\"/;          # convert \"; XXX FIXME XXX \\"
-        $desc =~ s/$//g;          # chop trailing ...
+        $desc =~ s/$//g;              # chop trailing ...
 
-        if (!($desc =~ /^\s*-[*]- texinfo -[*]-/)) {
-            my $err = sprintf("Function %s does not contain texinfo help\n",
-                    $function);
-            print STDERR "$err";
+        if (!($desc =~ /^\s*-\*- texinfo -\*-/m)) {
+            printf STDERR ("Function %s (file %s) does not contain texinfo help:%s\n",
+                    $function, $file);
         }
-        my $entry = sprintf("\037%s\n%s", $function, $desc);
-        print "$entry", "\n";
+        emit sprintf("\037%s\n%s\n", $function, $desc);
     }
     close (IN);
 }
 
 # Grab help from m-files
-foreach my $f ( @m_files ) {
-    my $desc     = extract_description($f);
-    my $function = basename($f, ('.m'));
-    die "Null function?? [$f]\n" unless $function;
+foreach my $file (@m_files) {
+    my $desc     = DocStuff::extract_description_from_mfile($file);
+    my $function = basename($file, ('.m'));
+    die "Error: Null function name (file $file)\n" unless $function;
     if (!($desc =~ /^\s*-[*]- texinfo -[*]-/)) {
-        my $err = sprintf("File %s does not contain texinfo help\n",
-                    $function);
-        print STDERR "$err";
+        printf STDERR "Function %s (file %s) does not contain texinfo help\n",
+                    $function, $file;
     }
-    my $entry = sprintf("\037%s\n%s", $function, $desc);
-    print "$entry", "\n";
+    emit sprintf("\037%s\n%s\n", $function, $desc);
 }
 
-# Grab the entire documentation comment from an m-file
-sub extract_description { # {{{1
-    my ($file) = @_;
-    my $retval = '';
-
-    unless( open( IN, "$file")) {
-        print STDERR "Could not open file ($file): $!\n";
-    }
-    # Skip leading blank lines
-    while (<IN>) {
-        last if /\S/;
-    }
-    # First block is copyright statement; skip it
-    if( m/\s*[%\#][\s\#%]* Copyright/) {
-        while (<IN>) {
-            last unless /^\s*[%\#]/;
-        }
-    }
-    # Skip everything until the next comment block
-    while ( !/^\s*[\#%]+\s/ ) {
-        $_ = <IN>;
-        last if not defined $_;
-    }
-    # Return the next comment block as the documentation
-    while (/^\s*[\#%]+\s/) {
-        s/^\s*[%\#]+\s//; # strip leading comment characters
-        s/[\cM\s]*$//;    # strip trailing spaces.
-        $retval .= "$_\n";
-        $_ = <IN>;
-        last if not defined $_;
-    }
-    close(IN);
-    return $retval;
-} # 1}}}
 
