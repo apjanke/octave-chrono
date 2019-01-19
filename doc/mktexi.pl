@@ -10,11 +10,11 @@
 #
 #   mktexi.pl <file> <docfile> <indexfile> > <outfile>
 #
-#   <file> is the input .txi template file.
+#   <file> is the input .texi.in template file.
 #   <docfile> is the output of mkdoc.pl.
 #   <index> is the main INDEX file at the root of the package repo.
 #
-# Munges the texi output of mktexi.pl, producing a function index, among
+# Munges the texi output of mkdoc.pl, producing a function index, among
 # other things.
 #
 # Emits output to stdout.
