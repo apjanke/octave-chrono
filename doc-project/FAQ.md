@@ -1,9 +1,15 @@
 Chrono FAQ
 ==========
 
-# Build issues
+## General
 
-## I'm getting weird `sed: ...@documenten...` warnings in the `make doc` step
+### Is this code ready for production use?
+
+*NO!* This is alpha code, not even in a beta release yet. Do *NOT* use this for your business or production code needs yet!
+
+## Build issues
+
+### I'm getting weird `sed: ...@documenten...` warnings in the `make doc` step?
 
 Like this?
 
@@ -14,10 +20,10 @@ $ make doc
 sed: 2: "s/\(^\|.* \)@documenten ...": whitespace after branch
 sed: 4: "s/\(^\|.* \)@documenten ...": whitespace after label
 sed: 6: "s/\(^\|.* \)@documenten ...": undefined label 'found
+[...]
 ```
 
-Those warnings are produced by older Texinfo programs, like Texinfo 4.8, which is the default on
-macOS 10.13 and 10.14. Install a newer Texinfo using Homebrew and pull that in explicitly for your build.
+Those warnings are produced by older Texinfo programs, like Texinfo 4.8, which is the default on macOS 10.13 and 10.14. [Install a newer Texinfo using Homebrew](https://github.com/apjanke/octave-addons-chrono/issues/17) and pull that in explicitly for your build.
 
 ```
 brew install texinfo
