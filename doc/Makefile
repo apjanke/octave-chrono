@@ -141,10 +141,7 @@ $(HTMLDOC): $(IMAGES_PNG)
 # the DVI and PDF builds are forced to run serially through a Makefile rule.
 $(PDFDOC): $(DVIDOC)
 
-clean:
-	rm -rf *.tmp 
+maintainer-clean: 
+	rm -rf *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi *.qhp *.qch *.qhc *.tmp images.mk
 
-maintainer-clean: clean
-	rm -rf *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi *.qhp *.qch *.qhc images.mk
-
-.PHONY: default all clean maintainer-clean dvi html info pdf ps qhelp
+.PHONY: default all maintainer-clean dvi html info pdf ps qhelp

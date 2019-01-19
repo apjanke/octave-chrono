@@ -72,8 +72,6 @@ help:
 ## Recipes for release tarballs (package + html)
 ##
 
-.PHONY: release dist html clean-tarballs clean-unpacked-release
-
 ## dist and html targets are only PHONY/alias targets to the release
 ## and html tarballs.
 dist: $(release_tarball)
@@ -129,9 +127,6 @@ $(html_dir): $(install_stamp)
 	$(html_options)                    \
         --eval ' generate_package_html ("$(package)", "$@", options); ';
 	$(FIX_PERMISSIONS) "$@";
-
-clean-unpacked-release:
-	-$(RM) -r $(release_dir) $(html_dir)
 
 
 ##
@@ -210,16 +205,18 @@ local: src/__oct_time_binsearch__.cc octave_chrono_make_local.m
 doc:
 	cd doc && make maintainer-clean && make all
 
-clean-local:
-	rm -f inst/__oct_time_binsearch__.oct
-	cd doc && make clean
-
 
 ##
 ## CLEAN
 ##
 
-.PHONY: clean
+clean-local:
+	rm -f inst/__oct_time_binsearch__.oct
 
-clean: clean-tarballs clean-unpacked-release clean-install clean-local
+clean-unpacked-release:
+	-$(RM) -r $(release_dir) $(html_dir)
+
+clean: clean-local
 	$(RM) -rf $(target_dir)
+
+.PHONY: release dist html clean clean-tarballs clean-unpacked-release
