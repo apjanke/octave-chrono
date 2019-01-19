@@ -1,8 +1,9 @@
 language: c
 
-branches:
-  only:
-    - master 
+# Let's build everything for now; comment this out
+#branches:
+#  only:
+#    - master 
 
 notifications:
   webhooks: https://www.travisbuddy.com/
