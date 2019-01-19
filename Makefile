@@ -164,7 +164,6 @@ $(install_stamp): $(release_tarball)
 	touch $(install_stamp)
 
 clean-install:
-	@echo "## Cleaning installation under $(installation_dir) ..."
 	-$(RM) -r $(installation_dir)
 
 ##
