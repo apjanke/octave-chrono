@@ -1,0 +1,35 @@
+% Unregister package's QHelp with the doc browser
+
+% Have to hardcode this since it's not available from context
+my_pkg_name = 'chrono';
+
+% We only want this to happen when we're called by 'pkg unload', not when
+% this code is just removed from the path.
+% Note: This detection is a hack and is brittle wrt changes in Octave's
+% internal implementation.
+
+is_loading = false;
+stack = dbstack;
+for i = 1:numel (stack)
+  frame = stack(i);
+  if ismember (frame.name, {'unload_packages'})
+    is_loading = true;
+    break;
+  endif
+endfor
+if ~is_loading
+  return;
+end
+
+% When a package is installed, the doc/ directory is added as a subdir
+% of the main installation dir, which contains the inst/ files
+
+this_dir = fileparts (mfilename ('fullpath'));
+my_doc_dir = fullfile (this_dir, 'doc');
+my_qhelp_file = fullfile (my_doc_dir, [my_pkg_name '.qch']);
+if ~exist (my_qhelp_file, 'file')
+  % Don't bother warning on unloads
+  return;
+end
+
+__octave_link_unregister_doc__ (my_qhelp_file);

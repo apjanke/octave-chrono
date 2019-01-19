@@ -53,6 +53,7 @@ Chrono TODO
 * Miscellaneous
   * Reproduce crash - double setter/getters cause it? (Had duplicates for datetime.Month.)
 * Documentation
+  * Keyword index, including all function and class names
   * Fix Travis CI doco build
   * Figure out how to get `doc/chrono.texi.in` to draw its version number from `DESCRIPTION`
   * Correct asciibetical ordering in Functions Alphabetically
