@@ -17,6 +17,9 @@
 # `PATH="/usr/local/opt/texinfo/bin:$PATH" make doc` in the parent directory.
 # - On Ubuntu, don't forget to `apt-get install qt5-defaults`!
 
+# Force Texinfo output timestamp for reproducible builds
+export SOURCE_DATE_EPOCH=-112046400
+
 ## Some basic tools (can be overriden using environment variables)
 SED ?= sed
 TAR ?= tar
