@@ -203,7 +203,7 @@ local: src/__oct_time_binsearch__.cc octave_chrono_make_local.m
 	$(OCTAVE) --eval="octave_chrono_make_local"
 
 doc:
-	cd doc && make maintainer-clean && make all
+	cd doc && make all
 
 
 ##
