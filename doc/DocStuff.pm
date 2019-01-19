@@ -28,11 +28,12 @@ package DocStuff;
 
 # Read an INDEX file. Returns hashref:
 # {
-#   'name' => $toolbox_name,
+#   "name" => $toolbox_name,
 #   "long_name" => $long_toolbox_name,
-#   'by_category' => { $category_name => \@category_fcn_names }, 
-#   'functions' => \@all_fcn_names,
-#   'descriptions' => { $function_name => $description }
+#   "categories" => \@category_names,
+#   "by_category" => { $category_name => \@category_fcn_names }, 
+#   "functions" => \@all_fcn_names,
+#   "descriptions" => { $function_name => $description }
 # }
 #
 # This is based on a really simple understanding of the INDEX file
@@ -48,7 +49,7 @@ sub read_index_file { # {{{1
     unless ( open(IND, $index_file) ) {
         die "Error: Could not open INDEX file $index_file: $!\n";
     }
-    my ($current_category, @all_functions, %categories, %fcn_descrs);
+    my ($current_category, @all_functions, @categories, %by_category, %fcn_descrs);
     my $line = <IND>;
     $line = <IND> while ($line =~ /^\s*(#.*)?$/);
     # First line is header
@@ -62,23 +63,25 @@ sub read_index_file { # {{{1
     	next if $line =~ /^\s*(#.*)?$/;
     	if ($line =~ /^\S/) {
     		$current_category = $line;
-    		$categories{$current_category} ||= [];
+            push @categories, $current_category unless grep (/^$current_category$/, @categories);
+    		$by_category{$current_category} ||= [];
         } elsif ($line =~ /^(\S+)\s*=\s*(\S.*?)\s*$/) {
             my ($fcn, $descr) = ($1, $2);
             $fcn_descrs{$fcn} = $descr;
-            push (@{$categories{$current_category}}, $fcn);
+            push (@{$by_category{$current_category}}, $fcn);
             push @all_functions, $fcn;
     	} else {
     		my $txt = substr ($line, 1);
     		my @functions = split /\s+/, $txt;
-    		push (@{$categories{$current_category}}, @functions);
+    		push (@{$by_category{$current_category}}, @functions);
     		push @all_functions, @functions;
     	}
     }
     return {
         "name" => $toolbox,
         "long_name" => $toolbox_long_name,
-    	"by_category" => \%categories,
+        "categories" => \@categories,
+    	"by_category" => \%by_category,
     	"functions" => \@all_functions,
         "descriptions" => \%fcn_descrs
     };
