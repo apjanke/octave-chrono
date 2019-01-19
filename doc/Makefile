@@ -81,7 +81,7 @@ ps: $(PSDOC)
 qhelp: $(package).qhc
 
 %.dvi: %.texi
-	$(TEXI2DVI) --clean -o $@ $<
+	$(TEXI2DVI) --quiet --clean -o $@ $<
 
 %.info: %.texi
 	$(MAKEINFO) --no-split -o $@ $<
