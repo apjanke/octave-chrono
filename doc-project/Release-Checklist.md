@@ -38,7 +38,7 @@ Chrono Release Checklist
 * Post an announcement comment on the ["Updates" issue](https://github.com/apjanke/octave-addons-chrono/issues/2).
 * Post an announcement on the [Savannah bug for datetime support](https://savannah.gnu.org/bugs/index.php?47032) if this is a significant release.
 * Open development for next version
-  * Update version number in `DESCRIPTION` and `doc/chrono.texi.in` to next patch or minor version, as appropriate.
+  * Update version number in `DESCRIPTION` to next patch or minor version, as appropriate.
   * Rebuild the doco.
     * `(cd doc; make maintainer-clean; make all)`
   * `git commit -a -m 'Open development for v<version>'; git push`
