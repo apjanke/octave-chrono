@@ -3,7 +3,7 @@ Chrono Release Checklist
 
 * Run all the tests.
   * `make test`, duh.
-  * Wouldn't hurt to do `make test`/`make clean`/`git status`/manual-cleanup a few times, just to be sure.
+  * Wouldn't hurt to do `make clean && git status && make test`/manual-cleanup, just to be sure.
 * Double-check the version number and date in `DESCRIPTION` and `doc/chrono.texi.in`
   * `(cd doc; make maintainer-clean; make all)` and commit it if you had to change them.
 * Update the installation instructions in README to use the upcoming release tarball URL.
