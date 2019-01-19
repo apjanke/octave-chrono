@@ -9,6 +9,13 @@
 # Just include its dependencies: mkdoc.pl, mkqhp.pl, mktexi.pl
 # And make sure that your texinfo doc strings follow this' conventions:
 #   - each @node must be followed immediately by a @chapter/@section/@subsection/@subsubsection
+#
+# Notes:
+# - This requires a newer version of Texinfo that ships with macOS. You must
+# `brew install texinfo` and manually add `$(brew --prefix texinfo)/bin` to your
+# $PATH before using this Makefile. I do this with 
+# `PATH="/usr/local/opt/texinfo/bin:$PATH" make doc` in the parent directory.
+# - On Ubuntu, don't forget to `apt-get install qt5-defaults`!
 
 ## Some basic tools (can be overriden using environment variables)
 SED ?= sed
@@ -26,15 +33,12 @@ LN_S = ln -s
 OCTAVE = octave
 PERL = perl
 
-# On Mac, prefer Homebrew-installed Texinfo, because the system one is
-# outdated. We need to explicitly pull it in because Homebrew does not 
-# put it on the path by default.
 BREW=$(shell which brew 2>/dev/null)
+MAKEINFO = makeinfo
+TEXI2DVI = texi2dvi
+TEXI2HTML = makeinfo --html
+TEXI2PDF = texi2pdf
 ifeq ($(BREW),)
-	MAKEINFO = makeinfo
-	TEXI2DVI = texi2dvi
-	TEXI2HTML = makeinfo --html
-	TEXI2PDF = texi2pdf
 	# Ubuntu: qtchooser seems broken for qhelpgenerator, so /usr/bin/qhelpgenerator
 	# doesn't work. Locate it directly. Prefer qcollectiongenerator because that separate
 	# program is needed on Qt prior to Qt 5.12.
@@ -51,11 +55,6 @@ ifeq ($(BREW),)
 		QHELPGENERATOR = qhelpgenerator
 	endif
 else
-	BREW_TEXINFO = $(shell brew --prefix texinfo)
-	MAKEINFO = $(BREW_TEXINFO)/bin/makeinfo
-	TEXI2DVI = $(BREW_TEXINFO)/bin/texi2dvi
-	TEXI2HTML = $(BREW_TEXINFO)/bin/makeinfo --html
-	TEXI2PDF = $(BREW_TEXINFO)/bin/texi2pdf
 	BREW_QT = $(shell brew --prefix qt)
 	ifeq ($(wildcard $(BREW_QT)/bin/qhelpgenerator),)
 		QHELPGENERATOR = $(BREW_QT)/bin/qcollectiongenerator
