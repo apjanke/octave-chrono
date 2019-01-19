@@ -4,7 +4,7 @@
     <virtualFolder>doc</virtualFolder>
     <filterSection>
         <toc>
-            <section title="Chrono for Octave" ref="html/index.html">
+            <section title="Chrono for GNU Octave" ref="html/index.html">
                 <section title="Introduction" ref="html/Introduction.html">
                 </section>
                 <section title="Getting Started" ref="html/Getting-Started.html">

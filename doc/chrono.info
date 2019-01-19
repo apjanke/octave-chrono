@@ -20,8 +20,8 @@ This manual is for Chrono, version 0.1.3.
 
 File: chrono.info,  Node: Top,  Next: Introduction
 
-Chrono for Octave
-*****************
+Chrono for GNU Octave
+*********************
 
 This manual is for Chrono, version 0.1.3.
 
@@ -779,36 +779,36 @@ This manual is for Chrono, version 0.1.3.
 
 Tag Table:
 Node: Top760
-Node: Introduction1055
-Node: Getting Started2272
-Node: Date Representation3126
-Node: datetime Class3377
-Node: datenum Compatibility4206
-Node: Time Zones5608
-Node: Defined Time Zones8441
-Node: Durations9412
-Node: duration Class9591
-Node: calendarDuration Class10342
-Node: Missing Functionality11243
-Node: Function Reference12212
-Node: Funtions by Category12423
-Node: Functions Alphabetically14072
-Node: calendarDuration15481
-Node: calmonths16161
-Node: calyears16752
-Node: datetime17095
-Node: days18664
-Node: duration19128
-Node: hours20034
-Node: isdatetime20515
-Node: isduration20803
-Node: milliseconds21098
-Node: minutes21636
-Node: NaT21892
-Node: seconds22556
-Node: timezones23049
-Node: years24082
-Node: Copying24764
+Node: Introduction1063
+Node: Getting Started2280
+Node: Date Representation3134
+Node: datetime Class3385
+Node: datenum Compatibility4214
+Node: Time Zones5616
+Node: Defined Time Zones8449
+Node: Durations9420
+Node: duration Class9599
+Node: calendarDuration Class10350
+Node: Missing Functionality11251
+Node: Function Reference12220
+Node: Funtions by Category12431
+Node: Functions Alphabetically14080
+Node: calendarDuration15489
+Node: calmonths16169
+Node: calyears16760
+Node: datetime17103
+Node: days18672
+Node: duration19136
+Node: hours20042
+Node: isdatetime20523
+Node: isduration20811
+Node: milliseconds21106
+Node: minutes21644
+Node: NaT21900
+Node: seconds22564
+Node: timezones23057
+Node: years24090
+Node: Copying24772
 
 End Tag Table
 
