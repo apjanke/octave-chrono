@@ -2,4 +2,5 @@
 *.oct
 /target
 /doc/DOCSTRINGS.texi.tmp
+/doc/*.dvi
 
