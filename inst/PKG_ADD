@@ -1,31 +1,36 @@
 % Register package's QHelp with the doc browser
 
+% PKG_ADD is run in the base workspace, not in a function. So use "__" variable
+% names to reduce risk of collision with user variables, and clear them all 
+% at the end.
+
 % Have to hardcode this since it's not available from context
-my_pkg_name = 'chrono';
+__my_pkg_name = 'chrono';
 
 % We only want this to happen when we're called by 'pkg load', not when
 % this code is just added to the path.
 % Note: This detection is a hack and is brittle WRT changes in Octave's
 % internal implementation.
 
-is_loading = false;
-stack = dbstack;
-is_loading = any (ismember ({stack.name}, {'load_packages'}));
-if ~is_loading
+__stack = dbstack;
+__is_loading = any (ismember ({__stack.name}, {'load_packages'}));
+if ~__is_loading
   return;
 end
 
 % When a package is installed, the doc/ directory is added as a subdir
 % of the main installation dir, which contains the inst/ files
 
-my_pkg_name = 'chrono';
-this_dir = fileparts (mfilename ('fullpath'));
-my_doc_dir = fullfile (this_dir, 'doc');
-my_qhelp_file = fullfile (my_doc_dir, [my_pkg_name '.qch']);
-if ~exist (my_qhelp_file, 'file')
+__my_pkg_name = 'chrono';
+__this_dir = fileparts (mfilename ('fullpath'));
+__my_doc_dir = fullfile (__this_dir, 'doc');
+__my_qhelp_file = fullfile (__my_doc_dir, [__my_pkg_name '.qch']);
+if ~exist (__my_qhelp_file, 'file')
   warning('QHelp file for package %s is missing: %s', ...
-    my_pkg_name, my_qhelp_file);
+    __my_pkg_name, __my_qhelp_file);
   return;
 end
 
-__octave_link_register_doc__ (my_qhelp_file);
+__octave_link_register_doc__ (__my_qhelp_file);
+
+clear __my_pkg_name __is_loading __stack __this_dir __my_doc_dir __my_qhelp_file
