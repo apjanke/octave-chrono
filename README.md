@@ -35,17 +35,17 @@ date =
 To get started using or testing this project, install it using Octave's `pkg` function:
 
 ```
-pkg install https://github.com/apjanke/octave-addons-chrono/releases/download/v0.1.3/chrono-0.1.3.tar.gz
+pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.1.3/chrono-0.1.3.tar.gz
 pkg load chrono
 ```
 
 ### Installation for development
 
 * Clone the repo.
-  * `git clone https://github.com/apjanke/octave-addons-chrono`
+  * `git clone https://github.com/apjanke/octave-chrono`
 * Add the `inst/` directory from the repo to your Octave path.
 * Build the octfiles.
-  * `octave_chrono_make_local.m` will do this. Just run `octave_chrono_make_local` in Octave while your cwd is the `octave-addons-chrono` repo.
+  * `octave_chrono_make_local.m` will do this. Just run `octave_chrono_make_local` in Octave while your cwd is the `octave-chrono` repo.
 
 ## Requirements
 

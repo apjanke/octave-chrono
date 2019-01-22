@@ -7,7 +7,7 @@ Chrono Release Checklist
 * Double-check the version number and date in `DESCRIPTION`
   * `(cd doc; make maintainer-clean; make all) && git commit -a` if you had to change it.
 * Update the installation instructions in README to use the upcoming release tarball URL.
-  * Format is: `https://github.com/apjanke/octave-addons-chrono/releases/download/v<version>/chrono-<version>.tar.gz`
+  * Format is: `https://github.com/apjanke/octave-chrono/releases/download/v<version>/chrono-<version>.tar.gz`
 * Commit all the files changed by the above steps.
   * Use form: `git commit -a -m "Cut release v<version>"`
 * Make sure your repo is clean: `git status` should show no local changes.
@@ -23,7 +23,7 @@ Chrono Release Checklist
   * On Ubuntu.
   * *sigh* I suppose, on Windows.
   * Try this by copy-and-pasting the `pkg install` example from the 
-    [live README page](https://github.com/apjanke/octave-addons-chrono/blob/master/README.md) 
+    [live README page](https://github.com/apjanke/octave-chrono/blob/master/README.md) 
     on the GitHub repo. This makes sure the current install instructions are correct.
     * Don't short-circuit this and just edit an entry from your Octave command history! Open GitHub in a browser and actually copy-and-paste it!
     * I wish there there was a `pkg test <package>` command to run all the BISTs from a package.
@@ -35,7 +35,7 @@ Chrono Release Checklist
   * ANY failure borks the release once we get near 1.0!
     * Let ‘em go for now so we can get code out for review.
     * TODO: Decide on policy on what to do then. Can git tags/GitHub Releases be removed?
-* Post an announcement comment on the ["Updates" issue](https://github.com/apjanke/octave-addons-chrono/issues/2).
+* Post an announcement comment on the ["Updates" issue](https://github.com/apjanke/octave-chrono/issues/2).
 * Post an announcement on the [Savannah bug for datetime support](https://savannah.gnu.org/bugs/index.php?47032) if this is a significant release.
 * Open development for next version
   * Update version number in `DESCRIPTION` to next patch or minor version, as appropriate.

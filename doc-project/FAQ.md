@@ -26,13 +26,13 @@ chrono.texi:31: warning: undefined flag: VERSION.
 chrono.texi:53: warning: undefined flag: VERSION.
 chrono.texi:79: warning: undefined flag: VERSION.
 chrono.texi:729: warning: undefined flag: VERSION.
-/Users/janke/local/repos/octave-addons-chrono/doc//chrono.texi:389: `Functions Alphabetically' has no Up field (perhaps incorrect sectioning?).
-/Users/janke/local/repos/octave-addons-chrono/doc//chrono.texi:335: `Funtions by Category' has no Up field (perhaps incorrect sectioning?).
-/Users/janke/local/repos/octave-addons-chrono/doc//chrono.texi:243: `Defined Time Zones' has no Up field (perhaps incorrect sectioning?).
-/Users/janke/local/repos/octave-addons-chrono/doc//chrono.texi:148: `datenum Compatibility' has no Up field (perhaps incorrect sectioning?).
-/Users/janke/local/repos/octave-addons-chrono/doc//chrono.texi:335: warning: unreferenced node `Funtions by Category'.
-/Users/janke/local/repos/octave-addons-chrono/doc//chrono.texi:243: warning: unreferenced node `Defined Time Zones'.
-/Users/janke/local/repos/octave-addons-chrono/doc//chrono.texi:148: warning: unreferenced node `datenum Compatibility'.
+/Users/janke/local/repos/octave-chrono/doc//chrono.texi:389: `Functions Alphabetically' has no Up field (perhaps incorrect sectioning?).
+/Users/janke/local/repos/octave-chrono/doc//chrono.texi:335: `Funtions by Category' has no Up field (perhaps incorrect sectioning?).
+/Users/janke/local/repos/octave-chrono/doc//chrono.texi:243: `Defined Time Zones' has no Up field (perhaps incorrect sectioning?).
+/Users/janke/local/repos/octave-chrono/doc//chrono.texi:148: `datenum Compatibility' has no Up field (perhaps incorrect sectioning?).
+/Users/janke/local/repos/octave-chrono/doc//chrono.texi:335: warning: unreferenced node `Funtions by Category'.
+/Users/janke/local/repos/octave-chrono/doc//chrono.texi:243: warning: unreferenced node `Defined Time Zones'.
+/Users/janke/local/repos/octave-chrono/doc//chrono.texi:148: warning: unreferenced node `datenum Compatibility'.
 makeinfo: Removing output file `chrono.info' due to errors; use --force to preserve.
 make[1]: *** [chrono.info] Error 1
 make: *** [doc] Error 2
@@ -62,7 +62,7 @@ sed: 6: "s/\(^\|.* \)@documenten ...": undefined label 'found
 [...]
 ```
 
-Those warnings are produced by older Texinfo programs, like Texinfo 4.8, which is the default on macOS 10.13 and 10.14. [Install a newer Texinfo using Homebrew](https://github.com/apjanke/octave-addons-chrono/issues/17) and pull that in explicitly for your build.
+Those warnings are produced by older Texinfo programs, like Texinfo 4.8, which is the default on macOS 10.13 and 10.14. [Install a newer Texinfo using Homebrew](https://github.com/apjanke/octave-chrono/issues/17) and pull that in explicitly for your build.
 
 ```
 brew install texinfo

@@ -66,7 +66,7 @@ primitive Octave data types.
 
    Chrono was written by Andrew Janke <<floss@apjanke.net>>.  Support
 can be found on the Chrono project GitHub page
-(https://github.com/apjanke/octave-addons-chrono).
+(https://github.com/apjanke/octave-chrono).
 
 
 File: chrono.info,  Node: Getting Started,  Next: Date Representation,  Prev: Introduction,  Up: Top
@@ -78,17 +78,16 @@ The easiest way to obtain Chrono is by using Octave’s ‘pkg’ package
 manager.  To install the latest development (unstable) head of Chrono,
 run this in Octave:
 
-     pkg install https://github.com/apjanke/octave-addons-chrono/archive/master.zip
+     pkg install https://github.com/apjanke/octave-chrono/archive/master.zip
 
    Soon, once the code gets a bit more stable, numbered releases for
 Chrono will be available, and you should use those instead.
 
    For development, you can obtain the source code for Chrono from the
-project repo on GitHub at
-<https://github.com/apjanke/octave-addons-chrono>.  Upon first
-installation, run the ‘octave_chrono_make_local’ script to build the
-octfiles so Chrono will work.  Then add the ‘inst’ directory in the repo
-to your Octave path.
+project repo on GitHub at <https://github.com/apjanke/octave-chrono>.
+Upon first installation, run the ‘octave_chrono_make_local’ script to
+build the octfiles so Chrono will work.  Then add the ‘inst’ directory
+in the repo to your Octave path.
 
 
 File: chrono.info,  Node: Date Representation,  Next: Time Zones,  Prev: Getting Started,  Up: Top
@@ -780,35 +779,35 @@ This manual is for Chrono, version 0.1.4.
 Tag Table:
 Node: Top760
 Node: Introduction1063
-Node: Getting Started2280
-Node: Date Representation3134
-Node: datetime Class3385
-Node: datenum Compatibility4214
-Node: Time Zones5616
-Node: Defined Time Zones8449
-Node: Durations9420
-Node: duration Class9599
-Node: calendarDuration Class10350
-Node: Missing Functionality11251
-Node: Function Reference12220
-Node: Funtions by Category12431
-Node: Functions Alphabetically14080
-Node: calendarDuration15489
-Node: calmonths16169
-Node: calyears16760
-Node: datetime17103
-Node: days18672
-Node: duration19136
-Node: hours20042
-Node: isdatetime20523
-Node: isduration20811
-Node: milliseconds21106
-Node: minutes21644
-Node: NaT21900
-Node: seconds22564
-Node: timezones23057
-Node: years24090
-Node: Copying24772
+Node: Getting Started2273
+Node: Date Representation3112
+Node: datetime Class3363
+Node: datenum Compatibility4192
+Node: Time Zones5594
+Node: Defined Time Zones8427
+Node: Durations9398
+Node: duration Class9577
+Node: calendarDuration Class10328
+Node: Missing Functionality11229
+Node: Function Reference12198
+Node: Funtions by Category12409
+Node: Functions Alphabetically14058
+Node: calendarDuration15467
+Node: calmonths16147
+Node: calyears16738
+Node: datetime17081
+Node: days18650
+Node: duration19114
+Node: hours20020
+Node: isdatetime20501
+Node: isduration20789
+Node: milliseconds21084
+Node: minutes21622
+Node: NaT21878
+Node: seconds22542
+Node: timezones23035
+Node: years24068
+Node: Copying24750
 
 End Tag Table
 
