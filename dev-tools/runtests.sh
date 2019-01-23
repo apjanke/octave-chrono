@@ -34,5 +34,11 @@ else
   status=0
 fi
 
+echo "runtests.sh: running additional tests so we can get output"
+echo "runtests.sh: testing datetime"
+${OCTAVE} --path="$PWD/inst" --eval="addpath('$test_dir'); test datetime" 2>&1 | tee "$tempfile"
+echo "runtests.sh: testing duration"
+${OCTAVE} --path="$PWD/inst" --eval="addpath('$test_dir'); test duration" 2>&1 | tee "$tempfile"
+
 rm "$tempfile"
 exit $status
