@@ -162,6 +162,6 @@ $(HTMLDOC): $(IMAGES_PNG)
 $(PDFDOC): $(DVIDOC)
 
 maintainer-clean: 
-	rm -rf *.dvi *.eps *.html *.info *.pdf *.ps *.png *.texi *.qhp *.qch *.qhc *.tmp images.mk
+	rm -rf *.dvi *.eps html *.html *.info *.pdf *.ps *.png *.texi *.qhp *.qch *.qhc *.tmp images.mk
 
 .PHONY: default all maintainer-clean dvi html info pdf ps qhelp
