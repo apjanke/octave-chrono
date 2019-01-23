@@ -64,7 +64,8 @@ DEFUN_DLD (__oct_time_binsearch__, args, nargout,
   "\n"
   "-*- texinfo -*-\n"
   "@deftypefn {Function File} {@var{out} =} __oct_time_binsearch__ (@var{needles}, @var{haystack})\n"
-  "This function is for Chrono's internal use.\n"
+  "\n"
+  "Undocumented internal function for chrono package.\n"
   "\n"
   "@end deftypefn\n")
 {
@@ -123,7 +124,7 @@ DEFUN_DLD (__oct_time_binsearch__, args, nargout,
         arr.uint64_array_value ().fortran_vec (), arr.numel ());
       break;
     default:
-      std:: cout << "Error: unsupported data type: " << vals_type << "\n";
+      std::cout << "Error: unsupported data type: " << vals_type << "\n";
       return octave_value_list (); // TODO: raise Octave error
   }
 
