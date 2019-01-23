@@ -1,12 +1,13 @@
 # This Makefile is just for when you're hacking on chrono inside
 # its repo. It'll build the octfiles and install them into inst/.
 #
-# This only works if the mkoctfile on your path is the mkoctfile from
+# This only works if the octave and mkoctfile on your path are the ones from
 # the Octave that you will be using! Otherwise your octfile may crash
-# Octave. To make this work, pass MKOCTFILE=... as an option to your
-# 'make' invocation. For example:
+# Octave. To make this work, set PATH=...:$PATH before your 'make' invocation
+# to pick up the right commands. Example:
 #
-# MKOCTFILE=/Applications/Octave-4.4.1.app/Contents/Resources/usr/bin/mkoctfile make
+#     PATH="/Applications/Octave-4.4.1.app/Contents/Resources/usr/bin:$PATH"
+#     make
 #
 # Note: the 'make dist' command generates the dist tarball from the last
 # git in source control, not the current directory contents. So make sure to
@@ -60,6 +61,8 @@ help:
 	@echo "Targets:"
 	@echo "   dist    - Create $(release_tarball) for release."
 	@echo "   html    - Create $(html_tarball) for release."
+	@echo "   doc     - Create the documentation files in doc/."
+	@echo "   local   - Build the oct files locally."
 	@echo "   release - Create both of the above and show md5sums."
 	@echo "   install - Install the package in $(installation_dir), where it is not visible in a normal Octave session."
 	@echo "   check   - Execute package tests."
