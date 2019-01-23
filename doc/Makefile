@@ -1,4 +1,4 @@
-# Makefile for Chrono documentation
+# Makefile for Octave package documentation
 #
 # This setup uses the convention that "*.texi.in" files are the human-editable
 # input files, and corresponding "*.texi" files are processed intermediate
@@ -13,10 +13,14 @@
 # Notes:
 # - This requires a newer version of Texinfo that ships with macOS. You must
 # `brew install texinfo` and manually add `$(brew --prefix texinfo)/bin` to your
-# $PATH before using this Makefile. I do this with 
-# `PATH="/usr/local/opt/texinfo/bin:$PATH" make doc` in the parent directory.
+# $PATH before using this Makefile. I do this by running
+# `PATH="$(brew --prefix texinfo)/bin:$PATH" when I start working with this code.
 # - On Ubuntu, don't forget to `apt-get install qt5-defaults`!
 # - On macOS, `brew install findutils`
+#
+# This Makefile originates from the Chrono package (https://github.com/apjanke/octave-chrono)
+# and is based on the one from the Octave Forge communications package
+# (https://octave.sourceforge.io/communications/index.html).
 
 ## Some basic tools (can be overriden using environment variables)
 SED ?= sed

@@ -51,6 +51,7 @@ use POSIX ":sys_wait_h";
 
 use DocStuff;
 
+#TODO: Grab this dynamically from ../DESCRIPTION
 my $package = "chrono";
 my $debug = 0;
 my $verbose = 0;
