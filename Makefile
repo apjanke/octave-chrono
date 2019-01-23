@@ -19,6 +19,9 @@ TAR ?= tar
 GREP ?= grep
 CUT ?= cut
 
+# Hack to make Octave shut up about X11 warnings
+export DISPLAY = "bogus"
+
 ## Note the use of ':=' (immediate set) and not just '=' (lazy set).
 ## http://stackoverflow.com/a/448939/1609556
 package := $(shell $(GREP) "^Name: " DESCRIPTION | $(CUT) -f2 -d" ")
