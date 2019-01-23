@@ -95,7 +95,7 @@ while (my $line = <IN>) {
         my %categories = %{$$fcn_index{"by_category"}};
         my %descriptions = %{$$fcn_index{"descriptions"}};
 
-        emit "\@node Funtions by Category\n";
+        emit "\@node Functions by Category\n";
         emit "\@section Functions by Category\n";
         for my $category (@{$$fcn_index{"categories"}}) {
             my @ctg_fcns = @{$categories{$category}};
