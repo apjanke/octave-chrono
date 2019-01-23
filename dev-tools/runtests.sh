@@ -18,17 +18,15 @@ test_dir="$1"
 
 tempfile=$(mktemp /tmp/octave-${package}-tests-XXXXXXXX)
 if [[ "$test_dir" == "" ]]; then
-  $(OCTAVE) --path="$PWD/inst" --eval="runtests" &>$tempfile
+  $(OCTAVE) --path="$PWD/inst" --eval="runtests" 2>&1 | tee "$tempfile"
 else
-  $(OCTAVE) --path="$PWD/inst" --eval="addpath('$test_dir'); runtests $test_dir" &>$tempfile
+  $(OCTAVE) --path="$PWD/inst" --eval="addpath('$test_dir'); runtests $test_dir" 2>&1 | tee "$tempfile"
 fi
 
-cat $tempfile
-
-if grep -i '!!!!! test failed' $tempfile &>/dev/null; then
-  echo Some tests FAILED!
+if grep FAIL "$tempfile" &>/dev/null; then
+  echo runtests.sh: Some tests FAILED!
   exit 1
 else
-  echo All tests passed.
+  echo runtests.sh: All tests passed.
   exit 0
 fi
