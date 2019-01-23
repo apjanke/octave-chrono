@@ -35,8 +35,12 @@ version := $(shell $(GREP) "^Version: " ../DESCRIPTION | $(CUT) -f2 -d" ")
 
 DVIPS = dvips
 LN_S = ln -s
-OCTAVE = octave
 PERL = perl
+
+ifndef OCTAVE
+OCTAVE := octave
+endif
+OCTAVE := $(OCTAVE) --no-gui --silent --norc
 
 UNAME=$(shell uname)
 ifeq ($(UNAME),Darwin)
