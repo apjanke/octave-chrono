@@ -12,6 +12,7 @@
 set -e
 
 OCTAVE="octave --no-gui --norc"
+#TODO: Read package name from ../DESCRIPTION
 package="chrono"
 
 test_dir="$1"
@@ -25,8 +26,11 @@ fi
 
 if grep FAIL "$tempfile" &>/dev/null; then
   echo runtests.sh: Some tests FAILED!
-  exit 1
+  status=1
 else
   echo runtests.sh: All tests passed.
-  exit 0
+  status=0
 fi
+
+rm "$tempfile"
+exit $status
