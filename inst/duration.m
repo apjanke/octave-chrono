@@ -240,37 +240,37 @@ classdef duration
 
     function out = lt (A, B)
       %LT Less than.
-      [A, B] = promote (A, B);
+      [A, B] = duration.promote (A, B);
       out = A.days < B.days;
     endfunction
 
     function out = le (A, B)
       %LE Less than or equal.
-      [A, B] = promote (A, B);
+      [A, B] = duration.promote (A, B);
       out = A.days <= B.days;
     endfunction
 
     function out = ne (A, B)
       %NE Not equal.
-      [A, B] = promote (A, B);
+      [A, B] = duration.promote (A, B);
       out = A.days ~= B.days;
     endfunction
 
     function out = eq (A, B)
       %EQ Equals.
-      [A, B] = promote (A, B);
+      [A, B] = duration.promote (A, B);
       out = A.days == B.days;
     endfunction
 
     function out = ge (A, B)
       %GE Greater than or equal.
-      [A, B] = promote (A, B);
+      [A, B] = duration.promote (A, B);
       out = A.days >= B.days;
     endfunction
 
     function out = gt (A, B)
       %GT Greater than.
-      [A, B] = promote (A, B);
+      [A, B] = duration.promote (A, B);
       out = A.days > B.days;
     endfunction
 
@@ -375,7 +375,7 @@ classdef duration
       else
         [from, increment, to] = varargin{:};
       endif
-      [from, increment, to] = promote (from, increment, to);
+      [from, increment, to] = duration.promote (from, increment, to);
       out = from;
       out.days = from.days:increment.days:to.days;
     endfunction
@@ -384,7 +384,7 @@ classdef duration
       %LINSPACE Linearly spaced elements between two values
       narginchk (2, 3);
       if nargin < 3; n = 100; end
-      [A, B] = promote (A, B);
+      [A, B] = duration.promote (A, B);
       out = A;
       out.days = linspace (A.days, B.days, n);
     endfunction
@@ -783,25 +783,25 @@ classdef duration
   
   endmethods
   
+  methods (Static)
+    function varargout = promote (varargin)
+      %PROMOTE Promote inputs to be compatible
+      args = varargin;
+      for i = 1:numel(args)
+        if ~isa (args{i}, 'duration')
+          % Sigh. We can't use a simple constructor call because of its weird
+          % signature.
+          if isnumeric (args{i})
+            args{i} = duration.ofDays (args{i});
+          else
+            args{i} = duration (args{i});
+          endif
+        endif
+      endfor
+      varargout = args;
+    endfunction
+  endmethods
 endclassdef
-
-
-function varargout = promote (varargin)
-  %PROMOTE Promote inputs to be compatible
-  args = varargin;
-  for i = 1:numel(args)
-    if ~isa (args{i}, 'duration')
-      % Sigh. We can't use a simple constructor call because of its weird
-      % signature.
-      if isnumeric (args{i})
-        args{i} = duration.ofDays (args{i});
-      else
-        args{i} = duration (args{i});
-      endif
-    endif
-  endfor
-  varargout = args;
-endfunction
 
 
 %!test duration;

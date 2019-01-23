@@ -505,37 +505,37 @@ classdef datetime
 
     function out = lt (A, B)
       %LT Less than.
-      [A, B] = promote (A, B);
+      [A, B] = datetime.promote (A, B);
       out = A.dnums < B.dnums;
     endfunction
 
     function out = le (A, B)
       %LE Less than or equal.
-      [A, B] = promote (A, B);
+      [A, B] = datetime.promote (A, B);
       out = A.dnums <= B.dnums;
     endfunction
 
     function out = ne (A, B)
       %NE Not equal.
-      [A, B] = promote (A, B);
+      [A, B] = datetime.promote (A, B);
       out = A.dnums ~= B.dnums;
     endfunction
 
     function out = eq (A, B)
       %EQ Equals.
-      [A, B] = promote (A, B);
+      [A, B] = datetime.promote (A, B);
       out = A.dnums == B.dnums;
     endfunction
 
     function out = ge (A, B)
       %GE Greater than or equal.
-      [A, B] = promote (A, B);
+      [A, B] = datetime.promote (A, B);
       out = A.dnums >= B.dnums;
     endfunction
 
     function out = gt (A, B)
       %GT Greater than.
-      [A, B] = promote (A, B);
+      [A, B] = datetime.promote (A, B);
       out = A.dnums > B.dnums;
     endfunction
 
@@ -581,7 +581,7 @@ classdef datetime
     function out = minus (A, B)
       %MINUS Subtraction.
       if isa (A, 'datetime') && isa (B, 'datetime')
-        [A, B] = promote(A, B);
+        [A, B] = datetime.promote(A, B);
         out = duration.ofDays (A.dnums - B.dnums);
       else
         out = A + -B;
@@ -595,7 +595,7 @@ classdef datetime
     
     function out = isbetween (this, lower, upper)
       %ISBETWEEN Whether elements are within a time interval
-      [this, lower, upper] = promote (this, lower, upper);
+      [this, lower, upper] = datetime.promote (this, lower, upper);
       out = lower.dnums <= this.dnums && this.dnums <= upper.dnums;
     endfunction
     
@@ -629,7 +629,7 @@ classdef datetime
       if isnumeric (from)
         from = datetime.ofDatenum (from);
       endif
-      [from, to] = promote (from, to);
+      [from, to] = datetime.promote (from, to);
       if ~isscalar (from) || ~isscalar (to)
         error ('Inputs must be scalar');
       endif
@@ -738,7 +738,7 @@ classdef datetime
     
     function out = cat (dim, varargin)
       %CAT Concatenate arrays.
-      args = promotec (varargin);
+      args = datetime.promotec (varargin);
       out = args{1};
       fieldArgs = cellfun (@(obj) obj.dnums, args, 'UniformOutput', false);
       out.dnums = cat (dim, fieldArgs{:});
@@ -984,7 +984,7 @@ classdef datetime
   
   endmethods
   
-  methods (Static)
+  methods (Static = true)
     function out = convertDatenumTimeZone (dnum, fromZoneId, toZoneId)
       %CONVERTDATENUMTIMEZONE Convert time zone on datenums
       tzdb = octave.chrono.internal.tzinfo.TzDb;
@@ -993,35 +993,36 @@ classdef datetime
       dnumGmt = fromZone.localtimeToGmt (dnum);
       out = toZone.gmtToLocaltime (dnumGmt);
     endfunction
+    
+    function out = promotec (args)
+      %PROMOTEC Promote inputs to be compatible, cell version
+      out = cell(size(args));
+      [out{:}] = promote(args{:});
+    endfunction
+
+    function varargout = promote (varargin)
+      %PROMOTE Promote inputs to be compatible
+      args = varargin;
+      for i = 1:numel (args)
+        if ~isa (args{i}, 'datetime')
+          args{i} = datetime (args{i});
+        endif
+      endfor
+      tz0 = args{1}.TimeZone;
+      for i = 2:numel (args)
+        if ~isequal (args{i}.TimeZone, tz0)
+          if isempty (tz0) || isempty (args{i}.TimeZone)
+            error('Cannot mix zoned and zoneless datetimes.');
+          else
+            args{i}.TimeZone = tz0;
+          endif
+        endif
+      endfor
+      varargout = args;
+    endfunction
+
   endmethods
 endclassdef
-
-function out = promotec (args)
-  %PROMOTEC Promote inputs to be compatible, cell version
-  out = cell(size(args));
-  [out{:}] = promote(args{:});
-end
-
-function varargout = promote (varargin)
-  %PROMOTE Promote inputs to be compatible
-  args = varargin;
-  for i = 1:numel (args)
-    if ~isa (args{i}, 'datetime')
-      args{i} = datetime (args{i});
-    endif
-  endfor
-  tz0 = args{1}.TimeZone;
-  for i = 2:numel (args)
-    if ~isequal (args{i}.TimeZone, tz0)
-      if isempty (tz0) || isempty (args{i}.TimeZone)
-        error('Cannot mix zoned and zoneless datetimes.');
-      else
-        args{i}.TimeZone = tz0;
-      endif
-    endif
-  endfor
-  varargout = args;
-endfunction
 
 %!test datetime;
 %!test datetime ('2011-03-07');

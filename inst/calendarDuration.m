@@ -147,19 +147,19 @@ classdef calendarDuration
     endfunction
     
     function this = set.Years (this, Years)
-      mustBeIntVal (Years);
+      octave.chrono.internal.mustBeIntVal (Years);
       this.Years = Years;
       this = normalizeNaNs (this);
     endfunction
     
     function this = set.Months (this, Months)
-      mustBeIntVal (Months);
+      octave.chrono.internal.mustBeIntVal (Months);
       this.Months = Months;
       this = normalizeNaNs (this);
     endfunction
     
     function this = set.Days (this, Days)
-      mustBeIntVal (Days);
+      octave.chrono.internal.mustBeIntVal (Days);
       this.Days = Days;
       this = normalizeNaNs (this);
     endfunction
@@ -274,7 +274,7 @@ classdef calendarDuration
   
   methods (Access = private)
     function out = dispstrScalar (this)
-      mustBeScalar (this);
+      octave.chrono.internal.mustBeScalar (this);
       if isnat (this)
         out = 'NaT';
         return

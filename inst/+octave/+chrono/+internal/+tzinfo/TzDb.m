@@ -91,7 +91,7 @@ classdef TzDb
       persistent value
       if isempty (value)
         specialFiles = {'+VERSION', 'iso3166.tab', 'zone.tab', 'posixrules'};
-        files = findFiles (this.path);
+        files = octave.chrono.internal.findFiles (this.path);
         if ispc
           files = strrep(files, '\', '/');
         endif
@@ -169,7 +169,7 @@ classdef TzDb
           'This is probably an error in the tzinfo database files.'], ...
             zoneId, zoneFile);
       endif
-      data = slurpBinaryFile (zoneFile);
+      data = octave.chrono.internal.slurpBinaryFile (zoneFile);
       
       % Parse tzinfo format file
       ix = 1;
@@ -336,40 +336,3 @@ classdef TzDb
   endmethods
 endclassdef
 
-function out = slurpBinaryFile (file)
-  [fid,msg] = fopen (file, 'r');
-  if fid == -1
-    error ('Could not open file %s: %s', file, msg);
-  end
-  cleanup.fid = onCleanup (@() fclose (fid));
-  out = fread (fid, Inf, 'uint8=>uint8');
-  out = out';  
-endfunction
-
-function out = findFiles (dirPath)
-  %FINDFILES Recursively find files under a directory
-  out = findFilesStep (dirPath, '');
-endfunction
-
-function out = findFilesStep (dirPath, pathPrefix)
-  found = {};
-  d = mydir (dirPath);
-  for i = 1:numel (d)
-    f = d(i);
-    if f.isdir
-      % Can't use spaces here or syntax error happens
-      found = [found findFilesStep(fullfile (dirPath, f.name), ...
-        fullfile(pathPrefix, f.name))];
-    else
-      found{end+1} = fullfile (pathPrefix, f.name);
-    endif
-  endfor
-  out = found;
-endfunction
-
-function out = mydir (folder)
-  d = dir (folder);
-  names = {d.name};
-  out = d;
-  out(ismember (names, {'.','..'})) = [];
-endfunction
