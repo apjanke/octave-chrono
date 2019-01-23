@@ -13,8 +13,6 @@ addons:
   apt:
     packages:
       - texlive
-      - octave
-      - octave-pkg-dev
       - qttools5-dev-tools
       - libqt5sql5-sqlite
   homebrew:
@@ -27,6 +25,7 @@ matrix:
   include:
     - os: linux
       dist: xenial
+      env: dist="Xenial 16.x"
     - os: osx
       osx_image: xcode9.4
     - os: osx
@@ -34,9 +33,13 @@ matrix:
     - os: osx
       osx_image: xcode10.1
 
-script:
+install:
+  # Install Octave 4.2, even if it's not the default
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./dev-tools/install-octave-4.2-ubuntu.sh; fi
   - which octave
   - octave --version
+
+script:
   - make local
   # We only build the docs on Linux because it requires TeX and the macOS TeX install is a monster
   # We only need the doc build for verifying doc changes anyway; we don't need multi-platform
