@@ -214,7 +214,7 @@ doc:
 ##
 
 clean-local:
-	rm -f inst/__oct_time_binsearch__.oct
+	rm -f inst/*.oct
 
 clean-unpacked-release:
 	-$(RM) -r $(release_dir) $(html_dir)
