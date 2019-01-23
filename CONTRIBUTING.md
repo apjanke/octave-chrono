@@ -31,5 +31,5 @@ The GitHub home for this project is https://github.com/apjanke/octave-chrono.
 Advanced
 --------
 
-* Use standard GNU Octave code style in all code.
+* Use standard [GNU Octave code style](https://wiki.octave.org/Octave_style_guide) in all code.
   * This is important because I'd like to see this code integrated into core Octave some day.
