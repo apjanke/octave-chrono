@@ -9,9 +9,10 @@
 
 set -e
 
+package="chrono"
 test_dir="$1"
 
-tempfile=$(mktemp /tmp/octave-chrono-tests-XXXXXXXX)
+tempfile=$(mktemp /tmp/octave-${package}-tests-XXXXXXXX)
 if [[ "$test_dir" == "" ]]; then
   octave --path="$PWD/inst" --eval="runtests" &>$tempfile
 else
