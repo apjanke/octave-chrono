@@ -21,7 +21,7 @@ tempfile=$(mktemp /tmp/octave-${package}-tests-XXXXXXXX)
 if [[ "$test_dir" == "" ]]; then
   ${OCTAVE} --path="$PWD/inst" --eval="runtests" 2>&1 | tee "$tempfile"
 else
-  ${OCTAVE} --path="$PWD/inst" --eval="runtests('$test_dir')" 2>&1 | tee "$tempfile"
+  ${OCTAVE} --path="$PWD/inst" --eval="addpath('$test_dir'); runtests('$test_dir')" 2>&1 | tee "$tempfile"
 fi
 
 if grep FAIL "$tempfile" &>/dev/null; then
