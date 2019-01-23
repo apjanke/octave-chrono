@@ -6,17 +6,21 @@
 # you can't detect within octave whether your tests have failed.
 #
 # This must be run from the root of the repo.
+#
+# Prerequisite: "make local"
 
 set -e
 
+OCTAVE="octave --no-gui --norc"
 package="chrono"
+
 test_dir="$1"
 
 tempfile=$(mktemp /tmp/octave-${package}-tests-XXXXXXXX)
 if [[ "$test_dir" == "" ]]; then
-  octave --path="$PWD/inst" --eval="runtests" &>$tempfile
+  $(OCTAVE) --path="$PWD/inst" --eval="runtests" &>$tempfile
 else
-  octave --path="$PWD/inst" --eval="addpath('$test_dir'); runtests $test_dir" &>$tempfile
+  $(OCTAVE) --path="$PWD/inst" --eval="addpath('$test_dir'); runtests $test_dir" &>$tempfile
 fi
 
 cat $tempfile
