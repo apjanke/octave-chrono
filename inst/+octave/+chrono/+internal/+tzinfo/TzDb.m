@@ -173,7 +173,8 @@ classdef TzDb
       
       % Parse tzinfo format file
       ix = 1;
-      [section1, n_bytes_read] = this.parseZoneSection (data(ix:end), 1);
+      section_data = data(ix:end);
+      [section1, n_bytes_read] = this.parseZoneSection (section_data, 1);
       out.section1 = section1;
       
       % Version 2 stuff
@@ -191,7 +192,8 @@ classdef TzDb
               'Possible bug in chrono''s parsing code.'], zoneId);
           endif
           ix = ix + magic_ixs(1) - 1;
-          [out.section2, n_bytes_read_2] = this.parseZoneSection (data(ix:end), 2);
+          section_data = data(ix:end);
+          [out.section2, n_bytes_read_2] = this.parseZoneSection (section_data, 2);
           ix = ix + n_bytes_read_2;
           % And then there's the going-forward zone at the end.
           % The first LF should be the very next byte.
@@ -203,123 +205,14 @@ classdef TzDb
         endif
       endif
     endfunction
-
-    function [out, nBytesRead] = parseZoneSection (this, data, sectionFormat)
-      %PARSEZONESECTION Parse one section of a tzinfo file
-      
-      % "cursor" index pointing to current point of parsing
-      ix = 1; 
-      % "get" functions read/convert data; "take" functions read/convert and
-      % advance the cursor
-      function out = get_int (my_bytes)
-        out = swapbytes (typecast (my_bytes, 'int32'));
-      endfunction
-      function out = get_int64 (my_bytes)
-        out = swapbytes (typecast (my_bytes, 'int64'));
-      endfunction
-      function out = get_null_terminated_string (my_bytes)
-        my_ix = 1;
-        while my_bytes(my_ix) ~= 0
-          my_ix = my_ix + 1;
-        end
-        out = char (my_bytes(1:my_ix - 1));
-      endfunction
-      function out = take_byte (n)
-        if nargin < 1; n = 1; end
-        n = double (n);
-        out = data(ix:ix + n - 1);
-        ix = ix + n;
-      endfunction
-      function out = take_int (n)
-        if nargin < 1; n = 1; end
-        n = double (n);
-        out = get_int (data(ix:ix + (4*n) - 1));
-        ix = ix + 4*n;
-      endfunction
-      function out = take_int64 (n)
-        if nargin < 1; n = 1; end
-        n = double (n);
-        out = get_int64 (data(ix:ix+(8*n)-1));
-        ix = ix + 8*n;
-      endfunction
-      function out = take_timeval (n)
-        if sectionFormat == 1
-          out = take_int (n);
-        else
-          out = take_int64 (n);
-        endif
-      endfunction
-
-      % Header
-      h.magic = data(ix:ix+4-1);
-      h.magic_char = char (h.magic);
-      ix = ix + 4;
-      format_id_byte = take_byte;
-      h.format_id = char (format_id_byte);
-      h.reserved = data(ix:ix+15-1);
-      ix = ix + 15;
-      h.counts_vals = take_int (6);
-      counts_vals = h.counts_vals;
-      h.n_ttisgmt = counts_vals(1);
-      h.n_ttisstd = counts_vals(2);
-      h.n_leap = counts_vals(3);
-      h.n_time = counts_vals(4);
-      h.n_type = counts_vals(5);
-      h.n_char = counts_vals(6);
-      
-      % Body
-      transitions = take_timeval (h.n_time);
-      time_types = take_byte (h.n_time);
-      ttinfos = struct ('gmtoff', int32 ([]), 'isdst', uint8 ([]), 'abbrind', uint8 ([]));
-      function out = take_ttinfo ()
-        ttinfos.gmtoff(end+1) = take_int;
-        ttinfos.isdst(end+1) = take_byte;
-        ttinfos.abbrind(end+1) = take_byte;
-      endfunction
-      for i = 1:h.n_type
-        take_ttinfo;
-      endfor
-      % It's not clearly documented, but following the ttinfo section are a
-      % series of null-terminated strings which hold the abbreviations. There's 
-      % no length indicator for them, so we have to scan for the null after the 
-      % last string.
-      abbrs = {};
-      if ~isempty (ttinfos.abbrind)
-        last_abbrind = max (ttinfos.abbrind);
-        ix_end = ix + double (last_abbrind);
-        while data(ix_end) ~= 0
-          ix_end = ix_end + 1;
-        endwhile
-        abbr_section = data(ix:ix_end);
-        for i = 1:numel (ttinfos.abbrind)
-          abbrs{i} = get_null_terminated_string (abbr_section(ttinfos.abbrind(i)+1:end));
-        endfor
-        ix = ix_end + 1;
-      endif
-      ttinfos.abbr = abbrs;
-      if sectionFormat == 1
-        leap_times = repmat (uint32 (0), [h.n_leap 1]);
-      else
-        leap_times = repmat (uint64 (0), [h.n_leap 1]);
-      endif
-      leap_second_totals = repmat (uint32 (0), [h.n_leap 1]);
-      for i = 1:h.n_leap
-        leap_times(i) = take_timeval (1);
-        leap_second_totals(i) = take_int (1);
-      endfor
-      is_std = take_byte (h.n_ttisstd);
-      is_gmt = take_byte (h.n_ttisgmt);
-
-      out.header = h;
-      out.transitions = transitions;
-      out.time_types = time_types;
-      out.ttinfos = ttinfos;
-      out.leap_times = leap_times;
-      out.leap_second_totals = leap_second_totals;
-      out.is_std = is_std;
-      out.is_gmt = is_gmt;      
-      nBytesRead = ix - 1;
+    
+    function [out, n_bytes_read] = parseZoneSection(this, data, sectionFormat)
+      parser = octave.chrono.internal.tzinfo.ZoneFileSectionParser;
+      parser.data = data;
+      parser.sectionFormat = sectionFormat;
+      [out, n_bytes_read] = parser.parseZoneSection;
     endfunction
+
   endmethods
 
   methods (Static)

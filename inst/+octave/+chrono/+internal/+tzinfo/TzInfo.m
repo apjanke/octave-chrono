@@ -74,7 +74,7 @@ classdef TzInfo
     function this = calculateDerivedData (this)
       %CALCULATEDERIVEDDATA Calculate this' derived data fields.
       this.ttinfos.gmtoff = double (this.ttinfos.gmtoff);
-      this.ttinfos.gmtoffDatenum = secondsToDatenum (this.ttinfos.gmtoff);
+      this.ttinfos.gmtoffDatenum = octave.chrono.internal.tzinfo.TzInfo.secondsToDatenum (this.ttinfos.gmtoff);
       gmtoffsAtTransitions = this.ttinfos.gmtoff(this.timeTypes);
       this.transitionsLocal = this.transitions + gmtoffsAtTransitions;
       this.transitionsDatenum = datetime.posix2datenum (this.transitions);
@@ -95,19 +95,19 @@ classdef TzInfo
     function disp (this)
       %DISP Custom display.
       if isempty (this)
-        fprintf ('Empty %s %s\n', size2str (size (this)), class (this));
+        fprintf ('Empty %s %s\n', octave.chrono.internal.size2str (size (this)), class (this));
       elseif isscalar (this)
         fprintf ('TzInfo: %s\n', this.id);
         displayCommonInfo (this);
       else
-        fprintf ('%s: %s\n', class (this), size2str (size (this)));
+        fprintf ('%s: %s\n', class (this), octave.chrono.internal.size2str (size (this)));
       endif
     endfunction
     
     function prettyprint (this)
       %PRETTYPRINT Display this' data in human-readable format.
       if ~isscalar (this)
-        fprintf ('%s: %s\n', class (this), size2str (size (this)));
+        fprintf ('%s: %s\n', class (this), octave.chrono.internal.size2str (size (this)));
         return;
       endif
       fprintf ('TzInfo: %s\n', this.id);
@@ -123,7 +123,7 @@ classdef TzInfo
       fprintf ('  %12s %10s %5s %8s %-8s\n', 'gmtoff', 'gmtoffdn', 'isdst', 'abbrind', 'abbr');
       tti = this.ttinfos;
       for i = 1:numel (this.ttinfos.gmtoff)
-        gmtoffDur = duration.ofDays (secondsToDatenum (this.ttinfos.gmtoff(i)));
+        gmtoffDur = duration.ofDays (octave.chrono.internal.tzinfo.TzInfo.secondsToDatenum (this.ttinfos.gmtoff(i)));
         fprintf ('  %12d %10s %5d %8d %-8s\n', ...
           tti.gmtoff(i), char (gmtoffDur), tti.isdst(i), tti.abbrind(i), tti.abbr{i});
       endfor
@@ -217,27 +217,11 @@ classdef TzInfo
       endif
     endfunction
   endmethods
+  
+  methods (Static)
+    function out = secondsToDatenum (secs)
+      out = double (secs) / (60 * 60 * 24);
+    endfunction
+  endmethods
 endclassdef
 
-function out = size2str (sz)
-%SIZE2STR Format an array size for display
-%
-% out = size2str (sz)
-%
-% Sz is an array of dimension sizes, in the format returned by SIZE.
-%
-% Examples:
-%
-% size2str (magic (3))
-
-strs = cell (size (sz));
-for i = 1:numel (sz)
-	strs{i} = sprintf ('%d', sz(i));
-endfor
-
-out = strjoin (strs, '-by-');
-endfunction
-
-function out = secondsToDatenum (secs)
-  out = double (secs) / (60 * 60 * 24);
-endfunction
