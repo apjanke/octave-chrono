@@ -44,4 +44,8 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then (cd doc && make maintainer-clean && make all); fi
   - make test
   - make dist
+  - octave --no-gui --eval "pkg install ./target/chrono-0.1.4.tar.gz"
+  - octave --no-gui --eval "pkg load chrono; pkg unload chrono"
+  - octave --no-gui --eval "pkg load chrono; runtests ./inst"
+  - octave --no-gui --eval "pkg uninstall chrono"
 
