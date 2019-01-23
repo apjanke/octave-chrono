@@ -18,19 +18,24 @@ if ~__is_loading
   return;
 end
 
-% When a package is installed, the doc/ directory is added as a subdir
-% of the main installation dir, which contains the inst/ files
+% And we can only do this on Octave 4.4 and newer, because 4.2 has no
+% __octave_link_register_doc___
+if compare_versions (version, '4.4.0', '>=')
 
-__my_pkg_name = 'chrono';
-__this_dir = fileparts (mfilename ('fullpath'));
-__my_doc_dir = fullfile (__this_dir, 'doc');
-__my_qhelp_file = fullfile (__my_doc_dir, [__my_pkg_name '.qch']);
-if ~exist (__my_qhelp_file, 'file')
-  warning('QHelp file for package %s is missing: %s', ...
-    __my_pkg_name, __my_qhelp_file);
-  return;
-end
+  % When a package is installed, the doc/ directory is added as a subdir
+  % of the main installation dir, which contains the inst/ files
 
-__octave_link_register_doc__ (__my_qhelp_file);
+  __this_dir = fileparts (mfilename ('fullpath'));
+  __my_doc_dir = fullfile (__this_dir, 'doc');
+  __my_qhelp_file = fullfile (__my_doc_dir, [__my_pkg_name '.qch']);
+  if ~exist (__my_qhelp_file, 'file')
+    warning('QHelp file for package %s is missing: %s', ...
+      __my_pkg_name, __my_qhelp_file);
+    return;
+  end
+
+  __octave_link_register_doc__ (__my_qhelp_file);
+
+endif
 
 clear __my_pkg_name __is_loading __stack __this_dir __my_doc_dir __my_qhelp_file
