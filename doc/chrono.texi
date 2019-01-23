@@ -332,7 +332,7 @@ It is the author's hope that all these will be implemented some day.
 @node Function Reference
 @chapter Function Reference
 
-@node Funtions by Category
+@node Functions by Category
 @section Functions by Category
 @subsection Date Representation
 @table @asis
@@ -340,7 +340,7 @@ It is the author's hope that all these will be implemented some day.
 Represents points in time using the Gregorian calendar.
 
 @item @ref{isdatetime}
-True if input is a 'datetime' array, false otherwise.
+True if input is a `datetime' array, false otherwise.
 
 @item @ref{NaT}
 “Not-a-Time”.
@@ -352,10 +352,10 @@ True if input is a 'datetime' array, false otherwise.
 Durations in time using variable-length calendar periods, such as days, months, and years, which may vary in length over time.
 
 @item @ref{calmonths}
-Create a 'calendarDuration' that is a given number of calendar months long.
+Create a `calendarDuration' that is a given number of calendar months long.
 
 @item @ref{calyears}
-Construct a 'calendarDuration' a given number of years long.
+Construct a `calendarDuration' a given number of years long.
 
 @item @ref{days}
 Duration in days.
@@ -364,25 +364,25 @@ Duration in days.
 Represents durations or periods of time as an amount of fixed-length time (i.e.
 
 @item @ref{hours}
-Create a 'duration' X hours long, or get the hours in a 'duration' X.
+Create a `duration' X hours long, or get the hours in a `duration' X.
 
 @item @ref{isduration}
-True if input is a 'duration' array, false otherwise.
+True if input is a `duration' array, false otherwise.
 
 @item @ref{milliseconds}
-Create a 'duration' X milliseconds long, or get the milliseconds in a 'duration' X.
+Create a `duration' X milliseconds long, or get the milliseconds in a `duration' X.
 
 @item @ref{minutes}
-Create a 'duration' X hours long, or get the hours in a 'duration' X.
+Create a `duration' X hours long, or get the hours in a `duration' X.
 
 @item @ref{seconds}
-Create a 'duration' X seconds long, or get the seconds in a 'duration' X.
+Create a `duration' X seconds long, or get the seconds in a `duration' X.
 
 @item @ref{timezones}
 List all the time zones defined on this system.
 
 @item @ref{years}
-Create a 'duration' X years long, or get the years in a 'duration' X.
+Create a `duration' X years long, or get the years in a `duration' X.
 
 @end table
 
@@ -392,28 +392,28 @@ Create a 'duration' X years long, or get the years in a 'duration' X.
 * calendarDuration::	Durations in time using variable-length calendar
 		periods, such as days, months, and years, which may vary in
 		length over time.
-* calmonths::	Create a 'calendarDuration' that is a given number of
+* calmonths::	Create a `calendarDuration' that is a given number of
 		calendar months long.
-* calyears::	Construct a 'calendarDuration' a given number of years
+* calyears::	Construct a `calendarDuration' a given number of years
 		long.
 * datetime::	Represents points in time using the Gregorian calendar.
 * days::	Duration in days.
 * duration::	Represents durations or periods of time as an amount of
 		fixed-length time (i.e.
-* hours::	Create a 'duration' X hours long, or get the hours in a
-		'duration' X.
-* isdatetime::	True if input is a 'datetime' array, false otherwise.
-* isduration::	True if input is a 'duration' array, false otherwise.
-* milliseconds::	Create a 'duration' X milliseconds long, or get the
-		milliseconds in a 'duration' X.
-* minutes::	Create a 'duration' X hours long, or get the hours in a
-		'duration' X.
+* hours::	Create a `duration' X hours long, or get the hours in a
+		`duration' X.
+* isdatetime::	True if input is a `datetime' array, false otherwise.
+* isduration::	True if input is a `duration' array, false otherwise.
+* milliseconds::	Create a `duration' X milliseconds long, or get the
+		milliseconds in a `duration' X.
+* minutes::	Create a `duration' X hours long, or get the hours in a
+		`duration' X.
 * NaT:: “Not-a-Time”.
-* seconds::	Create a 'duration' X seconds long, or get the seconds in a
-		'duration' X.
+* seconds::	Create a `duration' X seconds long, or get the seconds in a
+		`duration' X.
 * timezones::	List all the time zones defined on this system.
-* years::	Create a 'duration' X years long, or get the years in a
-		'duration' X.
+* years::	Create a `duration' X years long, or get the years in a
+		`duration' X.
 @end menu
 
 @node calendarDuration

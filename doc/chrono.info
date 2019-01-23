@@ -333,11 +333,11 @@ File: chrono.info,  Node: Function Reference,  Next: Copying,  Prev: Missing Fun
 
 * Menu:
 
-* Funtions by Category::
+* Functions by Category::
 * Functions Alphabetically::
 
 
-File: chrono.info,  Node: Funtions by Category,  Next: Functions Alphabetically,  Up: Function Reference
+File: chrono.info,  Node: Functions by Category,  Next: Functions Alphabetically,  Up: Function Reference
 
 7.1 Functions by Category
 =========================
@@ -349,7 +349,7 @@ File: chrono.info,  Node: Funtions by Category,  Next: Functions Alphabetically,
      Represents points in time using the Gregorian calendar.
 
 *note isdatetime::
-     True if input is a ’datetime’ array, false otherwise.
+     True if input is a ‘datetime’ array, false otherwise.
 
 *note NaT::
      “Not-a-Time”.
@@ -362,11 +362,11 @@ File: chrono.info,  Node: Funtions by Category,  Next: Functions Alphabetically,
      days, months, and years, which may vary in length over time.
 
 *note calmonths::
-     Create a ’calendarDuration’ that is a given number of calendar
+     Create a ‘calendarDuration’ that is a given number of calendar
      months long.
 
 *note calyears::
-     Construct a ’calendarDuration’ a given number of years long.
+     Construct a ‘calendarDuration’ a given number of years long.
 
 *note days::
      Duration in days.
@@ -376,33 +376,33 @@ File: chrono.info,  Node: Funtions by Category,  Next: Functions Alphabetically,
      fixed-length time (i.e.
 
 *note hours::
-     Create a ’duration’ X hours long, or get the hours in a ’duration’
+     Create a ‘duration’ X hours long, or get the hours in a ‘duration’
      X.
 
 *note isduration::
-     True if input is a ’duration’ array, false otherwise.
+     True if input is a ‘duration’ array, false otherwise.
 
 *note milliseconds::
-     Create a ’duration’ X milliseconds long, or get the milliseconds in
-     a ’duration’ X.
+     Create a ‘duration’ X milliseconds long, or get the milliseconds in
+     a ‘duration’ X.
 
 *note minutes::
-     Create a ’duration’ X hours long, or get the hours in a ’duration’
+     Create a ‘duration’ X hours long, or get the hours in a ‘duration’
      X.
 
 *note seconds::
-     Create a ’duration’ X seconds long, or get the seconds in a
-     ’duration’ X.
+     Create a ‘duration’ X seconds long, or get the seconds in a
+     ‘duration’ X.
 
 *note timezones::
      List all the time zones defined on this system.
 
 *note years::
-     Create a ’duration’ X years long, or get the years in a ’duration’
+     Create a ‘duration’ X years long, or get the years in a ‘duration’
      X.
 
 
-File: chrono.info,  Node: Functions Alphabetically,  Prev: Funtions by Category,  Up: Function Reference
+File: chrono.info,  Node: Functions Alphabetically,  Prev: Functions by Category,  Up: Function Reference
 
 7.2 Functions Alphabetically
 ============================
@@ -412,28 +412,28 @@ File: chrono.info,  Node: Functions Alphabetically,  Prev: Funtions by Category,
 * calendarDuration::	Durations in time using variable-length calendar
 		periods, such as days, months, and years, which may vary in
 		length over time.
-* calmonths::	Create a ’calendarDuration’ that is a given number of
+* calmonths::	Create a ‘calendarDuration’ that is a given number of
 		calendar months long.
-* calyears::	Construct a ’calendarDuration’ a given number of years
+* calyears::	Construct a ‘calendarDuration’ a given number of years
 		long.
 * datetime::	Represents points in time using the Gregorian calendar.
 * days::	Duration in days.
 * duration::	Represents durations or periods of time as an amount of
 		fixed-length time (i.e.
-* hours::	Create a ’duration’ X hours long, or get the hours in a
-		’duration’ X.
-* isdatetime::	True if input is a ’datetime’ array, false otherwise.
-* isduration::	True if input is a ’duration’ array, false otherwise.
-* milliseconds::	Create a ’duration’ X milliseconds long, or get the
-		milliseconds in a ’duration’ X.
-* minutes::	Create a ’duration’ X hours long, or get the hours in a
-		’duration’ X.
+* hours::	Create a ‘duration’ X hours long, or get the hours in a
+		‘duration’ X.
+* isdatetime::	True if input is a ‘datetime’ array, false otherwise.
+* isduration::	True if input is a ‘duration’ array, false otherwise.
+* milliseconds::	Create a ‘duration’ X milliseconds long, or get the
+		milliseconds in a ‘duration’ X.
+* minutes::	Create a ‘duration’ X hours long, or get the hours in a
+		‘duration’ X.
 * NaT:: “Not-a-Time”.
-* seconds::	Create a ’duration’ X seconds long, or get the seconds in a
-		’duration’ X.
+* seconds::	Create a ‘duration’ X seconds long, or get the seconds in a
+		‘duration’ X.
 * timezones::	List all the time zones defined on this system.
-* years::	Create a ’duration’ X years long, or get the years in a
-		’duration’ X.
+* years::	Create a ‘duration’ X years long, or get the years in a
+		‘duration’ X.
 
 
 File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Up: Functions Alphabetically
@@ -790,24 +790,24 @@ Node: duration Class9577
 Node: calendarDuration Class10328
 Node: Missing Functionality11229
 Node: Function Reference12198
-Node: Funtions by Category12409
-Node: Functions Alphabetically14058
-Node: calendarDuration15467
-Node: calmonths16147
-Node: calyears16738
-Node: datetime17081
-Node: days18650
-Node: duration19114
-Node: hours20020
-Node: isdatetime20501
-Node: isduration20789
-Node: milliseconds21084
-Node: minutes21622
-Node: NaT21878
-Node: seconds22542
-Node: timezones23035
-Node: years24068
-Node: Copying24750
+Node: Functions by Category12410
+Node: Functions Alphabetically14060
+Node: calendarDuration15470
+Node: calmonths16150
+Node: calyears16741
+Node: datetime17084
+Node: days18653
+Node: duration19117
+Node: hours20023
+Node: isdatetime20504
+Node: isduration20792
+Node: milliseconds21087
+Node: minutes21625
+Node: NaT21881
+Node: seconds22545
+Node: timezones23038
+Node: years24071
+Node: Copying24753
 
 End Tag Table
 

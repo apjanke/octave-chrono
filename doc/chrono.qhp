@@ -28,7 +28,7 @@
                 <section title="Missing Functionality" ref="html/Missing-Functionality.html">
                 </section>
                 <section title="Function Reference" ref="html/Function-Reference.html">
-                    <section title="Functions by Category" ref="html/Funtions-by-Category.html">
+                    <section title="Functions by Category" ref="html/Functions-by-Category.html">
                     </section>
                     <section title="Functions Alphabetically" ref="html/Functions-Alphabetically.html">
                         <section title="calendarDuration" ref="html/calendarDuration.html">
@@ -104,7 +104,7 @@
             <file>html/calmonths.html</file>
             <file>html/calendarDuration.html</file>
             <file>html/Functions-Alphabetically.html</file>
-            <file>html/Funtions-by-Category.html</file>
+            <file>html/Functions-by-Category.html</file>
             <file>html/Function-Reference.html</file>
             <file>html/Missing-Functionality.html</file>
             <file>html/calendarDuration-Class.html</file>
