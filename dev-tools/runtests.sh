@@ -13,7 +13,9 @@ set -e
 
 package=$(grep "^Name: " DESCRIPTION | cut -f2 -d' ')
 
-OCTAVE="octave --no-gui --norc"
+#OCTAVE="octave --no-gui --norc"
+# --no-gui might be causing build failures on Linux???
+OCTAVE="octave --norc"
 
 test_dir="$1"
 
