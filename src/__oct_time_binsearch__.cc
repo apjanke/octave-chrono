@@ -29,7 +29,7 @@ along with Octave; see the file COPYING.  If not, see
 
 template <class T>
 octave_idx_type *binsearch (const T vals[], octave_idx_type vals_len, const T arr[], octave_idx_type len) {
-  octave_idx_type *out = new octave_idx_type[vals_len];
+  auto *out = new octave_idx_type[vals_len];
   for (octave_idx_type i = 0; i < vals_len; i++) {
     T val = vals[i];
     octave_idx_type low = 0;
@@ -46,11 +46,10 @@ octave_idx_type *binsearch (const T vals[], octave_idx_type vals_len, const T ar
         out[i] = mid + 1; // found
         break;
       } else {
-        std::cout << "Total ordering violation: neither <, >, nor == was true. "
-          << "vals[" << i << "] = " << val << ", arr[" << mid << "] = " << arr[mid]
-          << "\n";
-        // TODO: Raise Octave error.
-        break;
+        //std::string msg = std::string ("Total ordering violation: neither <, >, nor == was true. ")
+        //        + "vals[" + i + "] = " + val + ", arr[" + mid + "] = " + arr[mid];
+        error ("Total ordering violation: neither <, >, nor == was true. i=%ld, mid=%ld",
+          i, mid);
       }
     }
     if (!found)
@@ -69,11 +68,9 @@ DEFUN_DLD (__oct_time_binsearch__, args, nargout,
   "\n"
   "@end deftypefn\n")
 {
-  int nargin = args.length ();
+  octave_idx_type nargin = args.length ();
   if (nargin != 2) {
-    std::cout << "Error: Invalid number of arguments. Expected 2; got "
-      << nargin << "\n";
-    return octave_value_list ();  // TODO: raise Octave error
+    error ("Invalid number of arguments: expected 2; got %ld", (long) nargin);
   }
   
   octave_value vals = args(0);
@@ -81,9 +78,10 @@ DEFUN_DLD (__oct_time_binsearch__, args, nargout,
   builtin_type_t vals_type = vals.builtin_type ();
   builtin_type_t arr_type = vals.builtin_type ();
   if (vals_type != arr_type) {
-    std::cout << "Error: inputs must be same type; got types " << vals_type <<
-      " and " << arr_type << "\n";
-    return octave_value_list ();
+    error ("Inputs must be the same type");
+    // This results in a compiler error
+    //std::string msg = std::string("Error: inputs must be same type; got types ") + vals_type
+    //  + " and " + arr_type + "\n";
   }
   octave_idx_type *indexes;
   switch (vals_type) {
@@ -124,8 +122,7 @@ DEFUN_DLD (__oct_time_binsearch__, args, nargout,
         arr.uint64_array_value ().fortran_vec (), arr.numel ());
       break;
     default:
-      std::cout << "Error: unsupported data type: " << vals_type << "\n";
-      return octave_value_list (); // TODO: raise Octave error
+      error ("Unsupported input data type");
   }
 
   NDArray out (vals.dims ());
