@@ -33,3 +33,7 @@ Advanced
 
 * Use standard [GNU Octave code style](https://wiki.octave.org/Octave_style_guide) in all code.
   * This is important because I'd like to see this code integrated into core Octave some day.
+
+While all contributions are welcome, the _most_ welcome type of contribution is unit tests!
+Especially challenging ones that break my code.
+
