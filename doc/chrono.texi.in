@@ -102,8 +102,8 @@ GitHub page}.
 @node Getting Started
 @chapter Getting Started
 
-The easiest way to obtain Chrono is by using Octave's @code{pkg} package manager. To
-install the latest development (unstable) head of Chrono, run this in Octave:
+The easiest way to obtain Chrono is by using Octave's @code{pkg} package manager. 
+To install the latest development (unstable) head of Chrono, run this in Octave:
 
 @example
 pkg install https://github.com/apjanke/octave-chrono/archive/master.zip
