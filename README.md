@@ -14,17 +14,17 @@ A quick example:
 
 ```
 % Old and busted:
->> date = now
-date =  737442.0260426451
->> convertTimeZone(date, 'America/New_York', 'Europe/Berlin')
+>> dt = now
+dt =  737442.0260426451
+>> convertTimeZone(dt, 'America/New_York', 'Europe/Berlin')
 error: 'convertTimeZone' undefined near line 1 column 1
 
 % New hotness:
->> date = datetime
-date =
+>> dt = datetime
+dt =
  17-Jan-2019 00:37:40
->> date.TimeZone = 'America/New_York'; date.TimeZone = 'Europe/Berlin'
-date =
+>> dt.TimeZone = 'America/New_York'; dt.TimeZone = 'Europe/Berlin'
+dt =
  17-Jan-2019 06:37:40 Europe/Berlin
 ```
 
@@ -32,7 +32,7 @@ date =
 
 ### Quick start
 
-To get started using or testing this project, install it using Octave's `pkg` function:
+To get started using or testing this project, install it using Octave’s `pkg` function:
 
 ```
 pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.1.3/chrono-0.1.3.tar.gz
@@ -50,14 +50,14 @@ pkg load chrono
 ## Requirements
 
 Chrono runs on Octave 4.4.0 and later. It would be nice to have it work on Octave 4.0.0
-and later (since Ubuntu 16 Xenial has Octave 4.0 and Ubuntu 18 Bionic has Octave 4.2); maybe we'll do that.
+and later (since Ubuntu 16 Xenial has Octave 4.0 and Ubuntu 18 Bionic has Octave 4.2); maybe we’ll do that.
 
-It should run on any OS supported by Octave. It's only tested on Linux, Mac, and Windows.
+It should run on any OS supported by Octave. It’s only tested on Linux, Mac, and Windows.
 
 On Windows 7 and earlier, Java is required to detect the system default time zone.
 
 Building Chrono requires a compiler. That means you need to [install Visual Studio
-Community](https://visualstudio.microsoft.com/downloads/) on Windows.
+Community](https://visualstudio.microsoft.com/downloads/) on Windows, or Xcode on macOS.
 
 ## Documentation
 
@@ -69,7 +69,7 @@ The developer documentation (for people hacking on Chrono itself) is in `doc-pro
 
 ## “Internal” code
 
-Anything in a namespace with `internal` in its name is for the internal use of this package, and is not intended for use by user code. Don't use those! Resist the urge! If you really have a use case for them, post an Issue and we'll see about making some public API for them.
+Anything in a namespace with `internal` in its name is for the internal use of this package, and is not intended for use by user code. Don’t use those! Resist the urge! If you really have a use case for them, post an [Issue](https://github.com/apjanke/octave-chrono/issues) and we’ll see about making some public API for them.
 
 ## License
 
