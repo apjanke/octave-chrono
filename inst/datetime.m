@@ -226,7 +226,10 @@ classdef datetime
               dnums = reshape (dnums, size(x));
             endif
           elseif isstruct (x)
-            error ('struct to datetime conversion has not been spec''ed or implemented yet');
+            error ('datetime: struct to datetime conversion has not been spec''ed or implemented yet');
+          elseif ismember (class (x), {'java.util.Date', 'java.util.Date[]', 'java.time.TemporalAccessor', ...
+                                       'java.time.TemporalAccessor[]'})
+            error ('datetime: Java date conversion is not implemented yet. Sorry.');
           else
             error ('datetime: Invalid input type: %s', class (x));
           endif
