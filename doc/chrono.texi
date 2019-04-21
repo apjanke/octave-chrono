@@ -2,7 +2,7 @@
 
 @c %**start of header
 
-@set VERSION 0.2.0
+@set VERSION 0.2.1
 
 @setfilename chrono.info
 @settitle Chrono for GNU Octave v@value{VERSION}
