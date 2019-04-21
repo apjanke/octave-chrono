@@ -134,15 +134,18 @@ classdef datetime
       % out = posix2datenum(pdates)
       %
       % Pdates (numeric) is an array of POSIX dates. A POSIX date is the number
-      % of seconds since January 1, 1970 UTC, excluding leap seconds.
+      % of seconds since January 1, 1970 UTC, excluding leap seconds. The output
+      % is implicitly in UTC.
       out = (double (pdates) / (24 * 60 * 60)) + datetime.PosixEpochDatenum;
     endfunction
     
     function out = datenum2posix (dnums)
       %DATENUM2POSIX Convert datenums to POSIX times
       %
-      % Returns int64.
-      out = int64 ((dnums - datetime.PosixEpochDatenum) * (24 * 60 * 60));
+      % The input is assumed to be in UTC.
+      %
+      % Returns double, which may have fractional seconds.
+      out = (dnums - datetime.PosixEpochDatenum) * (24 * 60 * 60);
     endfunction
   endmethods
 
@@ -510,6 +513,32 @@ classdef datetime
       out.Hour = reshape (dvec(:,4), sz);
       out.Minute = reshape (dvec(:,5), sz);
       out.Second = reshape (dvec(:,6), sz);
+    endfunction
+    
+    function out = posixtime (this)
+      %POSIXTIME Convert this to POSIX time values (seconds since the Unix epoch)
+      %
+      % Converts this to POSIX time values that represent the same time. The
+      % returned values will be doubles that may include fractional second values.
+      % POSIX times are, by definition, in UTC.
+      %
+      % Returns double array of same size as this.
+      %
+      % This is an Octave extension.
+      out = datetime.datenum2posix (this.dnums);
+    endfunction
+    
+    function out = datenum (this)
+      %DATENUM Convert this to datenums that represent the same local time
+      %
+      % Returns double array of same size as this.
+      %
+      % This is an Octave extension.
+      dnums = this.dnums;
+      if !isempty (this.TimeZone) && !isequal (this.TimeZone, 'UTC')
+        dnums = datetime.convertDatenumTimeZone (dnums, 'UTC', this.TimeZone);
+      endif
+      out = dnums;
     endfunction
 
     function out = isnat (this)
