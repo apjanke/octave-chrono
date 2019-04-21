@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- This manual is for Chrono, version 0.1.4.
+<!-- This manual is for Chrono, version 0.2.0.
 
 Copyright (C) 2019 Andrew Janke
 
@@ -15,13 +15,13 @@ notice identical to this one.
 
 Permission is granted to copy and distribute translations of this manual
 into another language, under the same conditions as for modified versions. -->
-<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.6, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>calendarDuration (Chrono for GNU Octave v0.1.4)</title>
+<title>calendarDuration (Chrono for GNU Octave v0.2.0)</title>
 
 <meta name="description" content="User manual for Chrono for Octave.">
-<meta name="keywords" content="calendarDuration (Chrono for GNU Octave v0.1.4)">
+<meta name="keywords" content="calendarDuration (Chrono for GNU Octave v0.2.0)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -34,23 +34,14 @@ into another language, under the same conditions as for modified versions. -->
 <!--
 a.summary-letter {text-decoration: none}
 blockquote.indentedblock {margin-right: 0em}
-blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
-blockquote.smallquotation {font-size: smaller}
 div.display {margin-left: 3.2em}
 div.example {margin-left: 3.2em}
 div.lisp {margin-left: 3.2em}
-div.smalldisplay {margin-left: 3.2em}
-div.smallexample {margin-left: 3.2em}
-div.smalllisp {margin-left: 3.2em}
 kbd {font-style: oblique}
 pre.display {font-family: inherit}
 pre.format {font-family: inherit}
 pre.menu-comment {font-family: serif}
 pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: inherit; font-size: smaller}
-pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: inherit; font-size: smaller}
-pre.smalllisp {font-size: smaller}
 span.nolinebreak {white-space: nowrap}
 span.roman {font-family: initial; font-weight: normal}
 span.sansserif {font-family: sans-serif; font-weight: normal}
@@ -62,16 +53,14 @@ ul.no-bullet {list-style: none}
 </head>
 
 <body lang="en">
-<a name="calendarDuration"></a>
-<div class="header">
+<span id="calendarDuration"></span><div class="header">
 <p>
 Next: <a href="calmonths.html#calmonths" accesskey="n" rel="next">calmonths</a>, Up: <a href="Functions-Alphabetically.html#Functions-Alphabetically" accesskey="u" rel="up">Functions Alphabetically</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <hr>
-<a name="calendarDuration-1"></a>
-<h4 class="subsection">7.2.1 calendarDuration</h4>
+<span id="calendarDuration-1"></span><h4 class="subsection">7.2.1 calendarDuration</h4>
 <dl>
-<dt><a name="index-calendarDuration-3"></a>Class: <strong>calendarDuration</strong></dt>
+<dt id="index-calendarDuration-3">Class: <strong>calendarDuration</strong></dt>
 <dd>
 <p>Durations in time using variable-length calendar periods, such as days,
 months, and years, which may vary in length over time. (For example, a
@@ -80,15 +69,15 @@ calendar month may have 28, 30, or 31 days.)
 </dd></dl>
 
 <dl>
-<dt><a name="index-calendarDuration"></a>Constructor: <em><var>obj</var> =</em> <strong>calendarDuration</strong> <em>()</em></dt>
+<dt id="index-calendarDuration">Constructor: <em><var>obj</var> =</em> <strong>calendarDuration</strong> <em>()</em></dt>
 <dd>
 <p>Constructs a new scalar <code>calendarDuration</code> of zero elapsed time.
 </p>
 </dd></dl>
 
 <dl>
-<dt><a name="index-calendarDuration-1"></a>Constructor: <em><var>obj</var> =</em> <strong>calendarDuration</strong> <em>(<var>Y</var>, <var>M</var>, <var>D</var>)</em></dt>
-<dt><a name="index-calendarDuration-2"></a>Constructor: <em><var>obj</var> =</em> <strong>calendarDuration</strong> <em>(<var>Y</var>, <var>M</var>,   <var>D</var>, <var>H</var>, <var>MI</var>, <var>S</var>)</em></dt>
+<dt id="index-calendarDuration-1">Constructor: <em><var>obj</var> =</em> <strong>calendarDuration</strong> <em>(<var>Y</var>, <var>M</var>, <var>D</var>)</em></dt>
+<dt id="index-calendarDuration-2">Constructor: <em><var>obj</var> =</em> <strong>calendarDuration</strong> <em>(<var>Y</var>, <var>M</var>,   <var>D</var>, <var>H</var>, <var>MI</var>, <var>S</var>)</em></dt>
 <dd>
 <p>Constructs new <code>calendarDuration</code> arrays based on input values.
 </p>

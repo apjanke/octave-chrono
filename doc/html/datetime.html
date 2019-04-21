@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- This manual is for Chrono, version 0.1.4.
+<!-- This manual is for Chrono, version 0.2.0.
 
 Copyright (C) 2019 Andrew Janke
 
@@ -15,13 +15,13 @@ notice identical to this one.
 
 Permission is granted to copy and distribute translations of this manual
 into another language, under the same conditions as for modified versions. -->
-<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.6, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>datetime (Chrono for GNU Octave v0.1.4)</title>
+<title>datetime (Chrono for GNU Octave v0.2.0)</title>
 
 <meta name="description" content="User manual for Chrono for Octave.">
-<meta name="keywords" content="datetime (Chrono for GNU Octave v0.1.4)">
+<meta name="keywords" content="datetime (Chrono for GNU Octave v0.2.0)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -34,23 +34,14 @@ into another language, under the same conditions as for modified versions. -->
 <!--
 a.summary-letter {text-decoration: none}
 blockquote.indentedblock {margin-right: 0em}
-blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
-blockquote.smallquotation {font-size: smaller}
 div.display {margin-left: 3.2em}
 div.example {margin-left: 3.2em}
 div.lisp {margin-left: 3.2em}
-div.smalldisplay {margin-left: 3.2em}
-div.smallexample {margin-left: 3.2em}
-div.smalllisp {margin-left: 3.2em}
 kbd {font-style: oblique}
 pre.display {font-family: inherit}
 pre.format {font-family: inherit}
 pre.menu-comment {font-family: serif}
 pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: inherit; font-size: smaller}
-pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: inherit; font-size: smaller}
-pre.smalllisp {font-size: smaller}
 span.nolinebreak {white-space: nowrap}
 span.roman {font-family: initial; font-weight: normal}
 span.sansserif {font-family: sans-serif; font-weight: normal}
@@ -62,16 +53,14 @@ ul.no-bullet {list-style: none}
 </head>
 
 <body lang="en">
-<a name="datetime"></a>
-<div class="header">
+<span id="datetime"></span><div class="header">
 <p>
 Next: <a href="days.html#days" accesskey="n" rel="next">days</a>, Previous: <a href="calyears.html#calyears" accesskey="p" rel="prev">calyears</a>, Up: <a href="Functions-Alphabetically.html#Functions-Alphabetically" accesskey="u" rel="up">Functions Alphabetically</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <hr>
-<a name="datetime-1"></a>
-<h4 class="subsection">7.2.4 datetime</h4>
+<span id="datetime-1"></span><h4 class="subsection">7.2.4 datetime</h4>
 <dl>
-<dt><a name="index-datetime-7"></a>Class: <strong>datetime</strong></dt>
+<dt id="index-datetime-7">Class: <strong>datetime</strong></dt>
 <dd>
 <p>Represents points in time using the Gregorian calendar.
 </p>
@@ -82,24 +71,24 @@ for typical times.
 </dd></dl>
 
 <dl>
-<dt><a name="index-dnums-of-datetime"></a>Instance Variable of datetime: <em><code>double</code></em> <strong>dnums</strong></dt>
+<dt id="index-dnums-of-datetime">Instance Variable of datetime: <em><code>double</code></em> <strong>dnums</strong></dt>
 <dd><p>The underlying datenums that represent the points in time.
 </p></dd></dl>
 
 <dl>
-<dt><a name="index-TimeZone-of-datetime"></a>Instance Variable of datetime: <em><code>char</code></em> <strong>TimeZone</strong></dt>
+<dt id="index-TimeZone-of-datetime">Instance Variable of datetime: <em><code>char</code></em> <strong>TimeZone</strong></dt>
 <dd><p>The time zone this <code>datetime</code> array is in. Empty if this does not have a
 time zone associated with it (“unzoned”). The name of an IANA time zone if
 this does.
 </p></dd></dl>
 
 <dl>
-<dt><a name="index-Format-of-datetime"></a>Instance Variable of datetime: <em><code>char</code></em> <strong>Format</strong></dt>
+<dt id="index-Format-of-datetime">Instance Variable of datetime: <em><code>char</code></em> <strong>Format</strong></dt>
 <dd><p>The format to display this <code>datetime</code> in. Currently unsupported.
 </p></dd></dl>
 
 <dl>
-<dt><a name="index-datetime"></a>Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>()</em></dt>
+<dt id="index-datetime">Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>()</em></dt>
 <dd>
 <p>Constructs a new scalar <code>datetime</code> containing the current local time, with
 no time zone attached.
@@ -107,12 +96,12 @@ no time zone attached.
 </dd></dl>
 
 <dl>
-<dt><a name="index-datetime-1"></a>Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(<var>datevec</var>)</em></dt>
-<dt><a name="index-datetime-2"></a>Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(<var>datestrs</var>)</em></dt>
-<dt><a name="index-datetime-3"></a>Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(<var>in</var>, <code>'ConvertFrom'</code>, <var>inType</var>)</em></dt>
-<dt><a name="index-datetime-4"></a>Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(<var>Y</var>, <var>M</var>, <var>D</var>, <var>H</var>, <var>MI</var>, <var>S</var>)</em></dt>
-<dt><a name="index-datetime-5"></a>Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(<var>Y</var>, <var>M</var>, <var>D</var>, <var>H</var>, <var>MI</var>, <var>MS</var>)</em></dt>
-<dt><a name="index-datetime-6"></a>Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(&hellip;, <code>'Format'</code>, <var>Format</var>, <code>'InputFormat'</code>, <var>InputFormat</var>,    <code>'Locale'</code>, <var>InputLocale</var>, <code>'PivotYear'</code>, <var>PivotYear</var>,    <code>'TimeZone'</code>, <var>TimeZone</var>)</em></dt>
+<dt id="index-datetime-1">Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(<var>datevec</var>)</em></dt>
+<dt id="index-datetime-2">Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(<var>datestrs</var>)</em></dt>
+<dt id="index-datetime-3">Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(<var>in</var>, <code>'ConvertFrom'</code>, <var>inType</var>)</em></dt>
+<dt id="index-datetime-4">Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(<var>Y</var>, <var>M</var>, <var>D</var>, <var>H</var>, <var>MI</var>, <var>S</var>)</em></dt>
+<dt id="index-datetime-5">Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(<var>Y</var>, <var>M</var>, <var>D</var>, <var>H</var>, <var>MI</var>, <var>MS</var>)</em></dt>
+<dt id="index-datetime-6">Constructor: <em><var>obj</var> =</em> <strong>datetime</strong> <em>(&hellip;, <code>'Format'</code>, <var>Format</var>, <code>'InputFormat'</code>, <var>InputFormat</var>,    <code>'Locale'</code>, <var>InputLocale</var>, <code>'PivotYear'</code>, <var>PivotYear</var>,    <code>'TimeZone'</code>, <var>TimeZone</var>)</em></dt>
 <dd>
 <p>Constructs a new <code>datetime</code> array based on input values.
 </p>
