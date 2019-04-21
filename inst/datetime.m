@@ -78,10 +78,12 @@ classdef datetime
   endproperties
 
   properties (Access = private)
+    % The underlying datenum values, always in UTC
     dnums = NaN % planar
   endproperties
   properties
-    % Time zone code as charvec. Assigning a new TimeZone performs time zone conversion.
+    % Time zone code as charvec. This governs how display strings and broken-down
+    % times are calculated.
     TimeZone = ''
     % Format to display these dates in. Changing the format is currently unimplemented.
     Format = 'default'
@@ -172,6 +174,9 @@ classdef datetime
       
       % Handle inputs
       timeZone = '';
+      if isfield (opts, 'TimeZone')
+        timeZone = opts.TimeZone;
+      endif
       switch numel (args)
         case 0
           dnums = now;
@@ -256,12 +261,15 @@ classdef datetime
       endswitch
       
       % Construct
+      if ~isempty (timeZone)
+        this.TimeZone = timeZone;
+        if ~isequal (timeZone, 'UTC')
+          dnums = datetime.convertDatenumTimeZone(dnums, timeZone, 'UTC');
+        endif
+      endif
       this.dnums = dnums;
       if isfield (opts, 'Format')
         this.Format = opts.Format;
-      endif
-      if ~isempty (timeZone)
-        this.TimeZone = timeZone;
       endif
     endfunction
     
@@ -279,9 +287,6 @@ classdef datetime
       tzdb = octave.chrono.internal.tzinfo.TzDb.instance;
       if ~ismember (x, tzdb.definedZones)
         error ('Undefined TimeZone: %s', x);
-      endif
-      if ~isempty (this.TimeZone) && ~isempty (x)
-        this.dnums = datetime.convertDatenumTimeZone (this.dnums, this.TimeZone, x);
       endif
       this.TimeZone = x;
     endfunction
@@ -454,11 +459,16 @@ classdef datetime
     function out = dispstrs (this)
       %DISPSTRS Custom display strings.
       % This is an Octave extension.
+      if isempty (this.TimeZone)
+        local_dnums = this.dnums;
+      else
+        local_dnums = datetime.convertDatenumTimeZone (this.dnums, 'UTC', this.TimeZone);
+      endif
       out = cell (size (this));
-      tfNaN = isnan (this.dnums);
+      tfNaN = isnan (local_dnums);
       out(tfNaN) = {'NaT'};
       if any(~tfNaN(:))
-        out(~tfNaN) = cellstr (datestr (this.dnums(~tfNaN)));
+        out(~tfNaN) = cellstr (datestr (local_dnums(~tfNaN)));
       endif
     endfunction
     
@@ -479,8 +489,15 @@ classdef datetime
     function out = datestruct (this)
       %DATESTRUCT Convert to a "datestruct" broken-down time
       %
+      % The values in the returned broken-down time are those of the local time
+      % in this' defined time zone, if it has one.
+      %
+      % Returns a struct with fields Year, Month, Day, Hour, Minute, and Second.
+      % Each field contains a double array of the same size as this.
+      %
       % This is an Octave extension.
-      dvec = datevec (this.dnums);
+      local_dnums = datetime.convertDatenumTimeZone (this.dnums, 'UTC', this.TimeZone);
+      dvec = datevec (local_dnums);
       sz = size (this);
       out.Year = reshape (dvec(:,1), sz);
       out.Month = reshape (dvec(:,2), sz);
@@ -987,11 +1004,12 @@ classdef datetime
   methods (Static = true)
     function out = convertDatenumTimeZone (dnum, fromZoneId, toZoneId)
       %CONVERTDATENUMTIMEZONE Convert time zone on datenums
+      narginchk (3, 3);
       tzdb = octave.chrono.internal.tzinfo.TzDb;
       fromZone = tzdb.zoneDefinition (fromZoneId);
       toZone = tzdb.zoneDefinition (toZoneId);
-      dnumGmt = fromZone.localtimeToGmt (dnum);
-      out = toZone.gmtToLocaltime (dnumGmt);
+      dnumUtc = fromZone.localtimeToGmt (dnum);
+      out = toZone.gmtToLocaltime (dnumUtc);
     endfunction
     
     function out = promotec (args)

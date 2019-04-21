@@ -19,7 +19,8 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} octave_chrono_make_local
 ##
-## Build all the octfiles in Chrono.
+## Build all the octfiles in Chrono, using mkoctfile from the Octave you are
+## running it from.
 ##
 ## This is for use when you are building Chrono from the source in the repo. It
 ## is not needed when you are using Chrono after it is installed. You do not need

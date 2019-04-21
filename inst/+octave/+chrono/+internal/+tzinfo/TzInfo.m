@@ -150,19 +150,35 @@ classdef TzInfo
     endfunction
 
     function out = localtimeToGmt (this, dnum)
-      if ismember(this.id, octave.chrono.internal.tzinfo.TzInfo.utcZoneAliases)
+      if ismember (this.id, octave.chrono.internal.tzinfo.TzInfo.utcZoneAliases)
         % Have to special-case this because it relies on POSIX zone rules, which
         % are not implemented yet
-        offsets = zeros( size (dnum));
+        offsets = zeros (size (dnum));
       else
-        [tf,loc] = octave.chrono.internal.algo.binsearch (dnum, this.transitionsLocalDatenum);
+        % The time zone record is identified by finding the last record whose start
+        % time is less than or equal to the local time.
+        % This is a slow implementation. Once proved correct, this should be
+        % replaced by an oct-file that does a modified binary search to find
+        % the right transition point. (It has to be a *modified* bin search
+        % because the local times for transitions are not necessarily monotonic increasing.
+        % I think.)
+        tf = false (size (dnum));
+        loc = NaN (size (dnum));
+        for i_dnum = 1:numel(dnum)
+          d = dnum(i_dnum);
+          ix = find(this.transitionsLocalDatenum <= d, 1, "last");
+          if ~isempty(ix)
+            tf(i_dnum) = true;
+            loc(i_dnum) = ix;
+          endif
+        endfor
+        %[tf,loc] = octave.chrono.internal.algo.binsearch (dnum, this.transitionsLocalDatenum);
         ix = loc;
-        ix(~tf) = (-loc(~tf)) - 1; % ix is now index of the transition each dnum is after
-        tfOutOfRange = ix == 0 | ix == numel (this.transitions);
+        tfOutOfRange = isnan(ix) | ix == numel (this.transitions);
         % In-range dates take their period's gmt offset
         offsets = NaN (size (dnum));
         offsets(~tfOutOfRange) = this.ttinfos.gmtoffDatenum(this.timeTypes(ix(~tfOutOfRange)));
-        % Out-of-range dates are handled by the POSIX look-ehead zone
+        % Out-of-range dates are handled by the POSIX look-ahead zone
         if any (tfOutOfRange(:))
           % TODO: Implement this
           error ('POSIX zone rules are unimplemented');
