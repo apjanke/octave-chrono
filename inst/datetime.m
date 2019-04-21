@@ -280,13 +280,18 @@ classdef datetime
     endfunction
 
     function this = set.TimeZone (this, x)
-      if ~ischar (x) || ~isrow (x)
+      if !ischar (x) || ! (isrow (x) || isempty (x))
         error ('TimeZone must be a char row vector; got a %s %s', ...
           size2str (size (x)), class (x));
       endif
       tzdb = octave.chrono.internal.tzinfo.TzDb.instance;
-      if ~ismember (x, tzdb.definedZones)
+      if ! isempty (x) && ! ismember (x, tzdb.definedZones)
         error ('Undefined TimeZone: %s', x);
+      endif
+      if isempty (this.TimeZone) && ! isempty (x)
+        this.dnums = datetime.convertDatenumTimeZone (this.dnums, x, 'UTC');
+      elseif ! isempty (this.TimeZone) && isempty (x)
+        this.dnums = datetime.convertDatenumTimeZone (this.dnums, 'UTC', this.TimeZone);
       endif
       this.TimeZone = x;
     endfunction
