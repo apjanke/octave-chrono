@@ -225,6 +225,10 @@ classdef datetime
               endif
               dnums = reshape (dnums, size(x));
             endif
+          elseif isstruct (x)
+            error ('struct to datetime conversion has not been spec''ed or implemented yet');
+          else
+            error ('datetime: Invalid input type: %s', class (x));
           endif
         case 2
           % Undocumented calling form for Octave's internal use
