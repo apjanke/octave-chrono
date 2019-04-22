@@ -874,7 +874,6 @@ classdef datetime
         ixNonNan = find (~tfNan);
         proxy = proxyKeys (nonnans);
         [~, ix] = sortrows (proxy);
-        % Can't use space after "subset" or syntax error happens
         out = [subset(nonnans, ix); nans]; 
         Indx = [ixNonNan(ix); find (tfNan)];
         if isRow
@@ -941,7 +940,6 @@ classdef datetime
         else
           [~,ix] = unique (keys, 'rows', flags{:});
         endif
-        % Can't use space after "subset" or syntax error happens
         out = [subset(nonnans, ix); nans];
         Indx = [ixNonnan(ix); find (tfNaN)];
         if isRow
@@ -998,7 +996,6 @@ classdef datetime
       [~,ia,ib] = union (proxyA, proxyB, 'rows');
       aOut = parensRef (a, ia);
       bOut = parensRef (b, ib);
-      % Can't use space after "parensRef" or syntax error happens
       out = [parensRef(aOut, ':'); parensRef(bOut, ':')];
     endfunction
     
