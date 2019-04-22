@@ -255,6 +255,8 @@ classdef datetime
           elseif isnumeric (in2)
             [Y, M, D] = varargin{:};
             dnums = datenum (Y, M, D);
+          else
+            error ('Invalid inputs: 3 non-option inputs, but arg 2 is not numeric');
           endif
         case 4
           error ('Invalid number of inputs: %d', nargin);
