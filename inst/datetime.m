@@ -473,7 +473,10 @@ classdef datetime
     
     function out = dispstrs (this)
       %DISPSTRS Custom display strings.
+      %
       % This is an Octave extension.
+
+      % TODO: Uh oh; TimeZone isn't included in the output here!
       if isempty (this.TimeZone)
         local_dnums = this.dnums;
       else
