@@ -494,7 +494,9 @@ classdef datetime
     
     function out = datestrs (this, varargin)
       %DATESTSRS Format as date strings.
+      %
       % Returns cellstr.
+      %
       % This is an Octave extension.
       s = datestr (this);
       c = cellstr (s);
@@ -555,6 +557,7 @@ classdef datetime
     
     function out = isnan (this)
       %ISNAN Alias for isnat.
+      %
       % This is an Octave extension
       out = isnat (this);
     endfunction
@@ -1043,6 +1046,7 @@ classdef datetime
   endmethods
   
   methods (Static = true)
+
     function out = convertDatenumTimeZone (dnum, fromZoneId, toZoneId)
       %CONVERTDATENUMTIMEZONE Convert time zone on datenums
       narginchk (3, 3);
@@ -1081,6 +1085,7 @@ classdef datetime
     endfunction
 
   endmethods
+
 endclassdef
 
 %!test datetime;
