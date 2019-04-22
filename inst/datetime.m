@@ -184,7 +184,7 @@ classdef datetime
         case 0
           dnums = now;
         case 1
-          x = varargin{1};
+          x = args{1};
           if isnumeric (x)
             % Convert date vectors
             dnums = datenum (x);
@@ -234,13 +234,13 @@ classdef datetime
             error ('datetime: Invalid input type: %s', class (x));
           endif
         case 2
-          % Undocumented calling form for Octave's internal use
-          if ~isequal (varargin{2}, 'Backdoor')
-            error ('Invalid number of inputs: %d', nargin);
+          % Undocumented calling form for Chrono's internal use
+          if ~isequal (args{2}, 'Backdoor')
+            error ('Invalid number of inputs (excluding options): %d', numel (args));
           endif
-          dnums = varargin{1};
+          dnums = args{1};
         case 3
-          [in1, in2, in3] = varargin{:};
+          [in1, in2, in3] = args{:};
           if isequal (in2, 'ConvertFrom')
             switch in3
               case 'datenum'
