@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- This manual is for Chrono, version 0.2.1+.
+<!-- This manual is for Chrono, version 0.3.0.
 
 Copyright (C) 2019 Andrew Janke
 
@@ -18,10 +18,10 @@ into another language, under the same conditions as for modified versions. -->
 <!-- Created by GNU Texinfo 6.6, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Getting Started (Chrono for GNU Octave v0.2.1+)</title>
+<title>Getting Started (Chrono for GNU Octave v0.3.0)</title>
 
 <meta name="description" content="User manual for Chrono for Octave.">
-<meta name="keywords" content="Getting Started (Chrono for GNU Octave v0.2.1+)">
+<meta name="keywords" content="Getting Started (Chrono for GNU Octave v0.3.0)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -61,21 +61,20 @@ Next: <a href="Date-Representation.html#Date-Representation" accesskey="n" rel="
 <span id="Getting-Started-1"></span><h2 class="chapter">2 Getting Started</h2>
 
 <p>The easiest way to obtain Chrono is by using Octave&rsquo;s <code>pkg</code> package manager. 
-To install the latest development (unstable) head of Chrono, run this in Octave:
+To install the a development prerelease of Chrono, run this in Octave:
 </p>
 <div class="example">
-<pre class="example">pkg install https://github.com/apjanke/octave-chrono/archive/master.zip
+<pre class="example">pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.3.0/chrono-0.3.0.tar.gz
 </pre></div>
 
-<p>Soon, once the code gets a bit more stable, numbered releases for Chrono will be
-available, and you should use those instead.
+<p>(Check the releases page at <a href="https://github.com/apjanke/octave-chrono/releases">https://github.com/apjanke/octave-chrono/releases</a> to
+find out what the actual latest release number is.)
 </p>
 <p>For development, you can obtain the source code for Chrono from the project repo on GitHub at 
 <a href="https://github.com/apjanke/octave-chrono">https://github.com/apjanke/octave-chrono</a>. Upon first installation, run
 the <samp>octave_chrono_make_local</samp> script to build the octfiles so Chrono 
 will work. Then add the <samp>inst</samp> directory in the repo to your Octave path.
 </p>
-
 
 
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- This manual is for Chrono, version 0.2.1+.
+<!-- This manual is for Chrono, version 0.3.0.
 
 Copyright (C) 2019 Andrew Janke
 
@@ -18,10 +18,10 @@ into another language, under the same conditions as for modified versions. -->
 <!-- Created by GNU Texinfo 6.6, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Chrono for GNU Octave v0.2.1+</title>
+<title>Chrono for GNU Octave v0.3.0</title>
 
 <meta name="description" content="User manual for Chrono for Octave.">
-<meta name="keywords" content="Chrono for GNU Octave v0.2.1+">
+<meta name="keywords" content="Chrono for GNU Octave v0.3.0">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -50,12 +50,27 @@ ul.no-bullet {list-style: none}
 </head>
 
 <body lang="en">
-<h1 class="settitle" align="center">Chrono for GNU Octave v0.2.1+</h1>
+<h1 class="settitle" align="center">Chrono for GNU Octave v0.3.0</h1>
 
 
 
 
 
+<span id="SEC_Overview"></span>
+<h2 class="shortcontents-heading">Short Table of Contents</h2>
+
+<div class="shortcontents">
+<ul class="no-bullet">
+<li><a id="stoc-Introduction-1" href="#toc-Introduction-1">1 Introduction</a></li>
+<li><a id="stoc-Getting-Started-1" href="#toc-Getting-Started-1">2 Getting Started</a></li>
+<li><a id="stoc-Date-Representation-1" href="#toc-Date-Representation-1">3 Date Representation</a></li>
+<li><a id="stoc-Time-Zones-1" href="#toc-Time-Zones-1">4 Time Zones</a></li>
+<li><a id="stoc-Durations-1" href="#toc-Durations-1">5 Durations</a></li>
+<li><a id="stoc-Missing-Functionality-1" href="#toc-Missing-Functionality-1">6 Missing Functionality</a></li>
+<li><a id="stoc-Function-Reference-1" href="#toc-Function-Reference-1">7 Function Reference</a></li>
+<li><a id="stoc-Copying-1" href="#toc-Copying-1">8 Copying</a></li>
+</ul>
+</div>
 
 <span id="SEC_Contents"></span>
 <h2 class="contents-heading">Table of Contents</h2>
@@ -91,7 +106,17 @@ ul.no-bullet {list-style: none}
     </ul></li>
     <li><a id="toc-Functions-Alphabetically-1" href="#Functions-Alphabetically">7.2 Functions Alphabetically</a>
     <ul class="no-bullet">
-      <li><a id="toc-calendarDuration-1" href="#calendarDuration">7.2.1 calendarDuration</a></li>
+      <li><a id="toc-calendarDuration-1" href="#calendarDuration">7.2.1 calendarDuration</a>
+      <ul class="no-bullet">
+        <li><a id="toc-calendarDuration_002ecalendarDuration-1" href="#calendarDuration_002ecalendarDuration">7.2.1.1 calendarDuration.calendarDuration</a></li>
+        <li><a id="toc-calendarDuration_002eisnat-1" href="#calendarDuration_002eisnat">7.2.1.2 calendarDuration.isnat</a></li>
+        <li><a id="toc-calendarDuration_002euminus-1" href="#calendarDuration_002euminus">7.2.1.3 calendarDuration.uminus</a></li>
+        <li><a id="toc-calendarDuration_002eplus-1" href="#calendarDuration_002eplus">7.2.1.4 calendarDuration.plus</a></li>
+        <li><a id="toc-calendarDuration_002etimes-1" href="#calendarDuration_002etimes">7.2.1.5 calendarDuration.times</a></li>
+        <li><a id="toc-calendarDuration_002eminus-1" href="#calendarDuration_002eminus">7.2.1.6 calendarDuration.minus</a></li>
+        <li><a id="toc-calendarDuration_002edispstrs-1" href="#calendarDuration_002edispstrs">7.2.1.7 calendarDuration.dispstrs</a></li>
+        <li><a id="toc-calendarDuration_002eisnan-1" href="#calendarDuration_002eisnan">7.2.1.8 calendarDuration.isnan</a></li>
+      </ul></li>
       <li><a id="toc-calmonths-1" href="#calmonths">7.2.2 calmonths</a></li>
       <li><a id="toc-calyears-1" href="#calyears">7.2.3 calyears</a></li>
       <li><a id="toc-datetime-1" href="#datetime">7.2.4 datetime</a>
@@ -129,7 +154,19 @@ ul.no-bullet {list-style: none}
         <li><a id="toc-datetime_002econvertDatenumTimeZone-1" href="#datetime_002econvertDatenumTimeZone">7.2.4.31 datetime.convertDatenumTimeZone</a></li>
       </ul></li>
       <li><a id="toc-days-1" href="#days">7.2.5 days</a></li>
-      <li><a id="toc-duration-1" href="#duration">7.2.6 duration</a></li>
+      <li><a id="toc-duration-1" href="#duration">7.2.6 duration</a>
+      <ul class="no-bullet">
+        <li><a id="toc-duration_002eduration-1" href="#duration_002eduration">7.2.6.1 duration.duration</a></li>
+        <li><a id="toc-duration_002eofDays-1" href="#duration_002eofDays">7.2.6.2 duration.ofDays</a></li>
+        <li><a id="toc-duration_002eyears-1" href="#duration_002eyears">7.2.6.3 duration.years</a></li>
+        <li><a id="toc-duration_002ehours-1" href="#duration_002ehours">7.2.6.4 duration.hours</a></li>
+        <li><a id="toc-duration_002eminutes-1" href="#duration_002eminutes">7.2.6.5 duration.minutes</a></li>
+        <li><a id="toc-duration_002eseconds-1" href="#duration_002eseconds">7.2.6.6 duration.seconds</a></li>
+        <li><a id="toc-duration_002emilliseconds-1" href="#duration_002emilliseconds">7.2.6.7 duration.milliseconds</a></li>
+        <li><a id="toc-duration_002edispstrs-1" href="#duration_002edispstrs">7.2.6.8 duration.dispstrs</a></li>
+        <li><a id="toc-datetime_002echar-1" href="#datetime_002echar">7.2.6.9 datetime.char</a></li>
+        <li><a id="toc-duration_002elinspace-1" href="#duration_002elinspace">7.2.6.10 duration.linspace</a></li>
+      </ul></li>
       <li><a id="toc-hours-1" href="#hours">7.2.7 hours</a></li>
       <li><a id="toc-isdatetime-1" href="#isdatetime">7.2.8 isdatetime</a></li>
       <li><a id="toc-isduration-1" href="#isduration">7.2.9 isduration</a></li>
@@ -156,7 +193,7 @@ Next: <a href="#Introduction" accesskey="n" rel="next">Introduction</a> &nbsp; [
 </div>
 <span id="Chrono-for-GNU-Octave"></span><h1 class="top">Chrono for GNU Octave</h1>
 
-<p>This manual is for Chrono, version 0.2.1+.
+<p>This manual is for Chrono, version 0.3.0.
 </p>
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top">&bull; <a href="#Introduction" accesskey="1">Introduction</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
@@ -193,7 +230,7 @@ Next: <a href="#Getting-Started" accesskey="n" rel="next">Getting Started</a>, U
 </blockquote>
 <div align="center">&mdash; <em>Douglas Adams</em>
 </div>
-<p>This is the manual for the Chrono package version 0.2.1+ for GNU Octave.
+<p>This is the manual for the Chrono package version 0.3.0 for GNU Octave.
 </p>
 <p>This document is a work in progress. You are invited to help improve it and
 submit patches.
@@ -224,21 +261,20 @@ Next: <a href="#Date-Representation" accesskey="n" rel="next">Date Representatio
 <span id="Getting-Started-1"></span><h2 class="chapter">2 Getting Started</h2>
 
 <p>The easiest way to obtain Chrono is by using Octave&rsquo;s <code>pkg</code> package manager. 
-To install the latest development (unstable) head of Chrono, run this in Octave:
+To install the a development prerelease of Chrono, run this in Octave:
 </p>
 <div class="example">
-<pre class="example">pkg install https://github.com/apjanke/octave-chrono/archive/master.zip
+<pre class="example">pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.3.0/chrono-0.3.0.tar.gz
 </pre></div>
 
-<p>Soon, once the code gets a bit more stable, numbered releases for Chrono will be
-available, and you should use those instead.
+<p>(Check the releases page at <a href="https://github.com/apjanke/octave-chrono/releases">https://github.com/apjanke/octave-chrono/releases</a> to
+find out what the actual latest release number is.)
 </p>
 <p>For development, you can obtain the source code for Chrono from the project repo on GitHub at 
 <a href="https://github.com/apjanke/octave-chrono">https://github.com/apjanke/octave-chrono</a>. Upon first installation, run
 the <samp>octave_chrono_make_local</samp> script to build the octfiles so Chrono 
 will work. Then add the <samp>inst</samp> directory in the repo to your Octave path.
 </p>
-
 
 
 <hr>
@@ -248,7 +284,7 @@ Next: <a href="#Time-Zones" accesskey="n" rel="next">Time Zones</a>, Previous: <
 </div>
 <span id="Date-Representation-1"></span><h2 class="chapter">3 Date Representation</h2>
 
-<p>Chrono provides the &lsquo;datetime&lsquo; class for representing points in time.
+<p>Chrono provides the <code>datetime</code> class for representing points in time.
 </p>
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top">&bull; <a href="#datetime-Class" accesskey="1">datetime Class</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
@@ -314,8 +350,9 @@ dn = datenum('2017-01-01')
     &rArr; 04-Mar-2011   01-Jan-2017
 </pre></div>
 
-
-
+<p>Also, if you have a zoned <code>datetime</code>, you can’t combine it with a datenum, because datenums
+do not carry time zone information.
+</p>
 
 <hr>
 <span id="Time-Zones"></span><div class="header">
@@ -536,7 +573,7 @@ Next: <a href="#Functions-Alphabetically" accesskey="n" rel="next">Functions Alp
 <span id="Durations-2"></span><h4 class="subsection">7.1.2 Durations</h4>
 <dl compact="compact">
 <dt><a href="#calendarDuration">calendarDuration</a></dt>
-<dd><p>Durations in time using variable-length calendar periods, such as days, months, and years, which may vary in length over time.
+<dd><p>Durations of time using variable-length calendar periods, such as days, months, and years, which may vary in length over time.
 </p>
 </dd>
 <dt><a href="#calmonths">calmonths</a></dt>
@@ -592,7 +629,7 @@ Previous: <a href="#Functions-by-Category" accesskey="p" rel="prev">Functions by
 </div>
 <span id="Functions-Alphabetically-1"></span><h3 class="section">7.2 Functions Alphabetically</h3>
 <table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#calendarDuration" accesskey="1">calendarDuration</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Durations in time using variable-length calendar
+<tr><td align="left" valign="top">&bull; <a href="#calendarDuration" accesskey="1">calendarDuration</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Durations of time using variable-length calendar
 		periods, such as days, months, and years, which may vary in
 		length over time.
 </td></tr>
@@ -644,12 +681,96 @@ Next: <a href="#calmonths" accesskey="n" rel="next">calmonths</a>, Up: <a href="
 <dl>
 <dt id="index-calendarDuration-3">Class: <strong>calendarDuration</strong></dt>
 <dd>
-<p>Durations in time using variable-length calendar periods, such as days,
+<p>Durations of time using variable-length calendar periods, such as days,
 months, and years, which may vary in length over time. (For example, a
 calendar month may have 28, 30, or 31 days.)
 </p>
 </dd></dl>
 
+<dl>
+<dt id="index-Sign-of-calendarDuration">Instance Variable of calendarDuration: <em><code>char</code></em> <strong>Sign</strong></dt>
+<dd>
+<p>The sign (1 or -1) of this duration, which indicates whether it is a
+positive or negative span of time.
+</p>
+</dd></dl>
+
+<dl>
+<dt id="index-Years-of-calendarDuration">Instance Variable of calendarDuration: <em><code>char</code></em> <strong>Years</strong></dt>
+<dd>
+<p>The number of whole calendar years in this duration. Must be integer-valued.
+</p>
+</dd></dl>
+
+<dl>
+<dt id="index-Months-of-calendarDuration">Instance Variable of calendarDuration: <em><code>char</code></em> <strong>Months</strong></dt>
+<dd>
+<p>The number of whole calendar months in this duration. Must be integer-valued.
+</p>
+</dd></dl>
+
+<dl>
+<dt id="index-Days-of-calendarDuration">Instance Variable of calendarDuration: <em><code>char</code></em> <strong>Days</strong></dt>
+<dd>
+<p>The number of whole calendar days in this duration. Must be integer-valued.
+</p>
+</dd></dl>
+
+<dl>
+<dt id="index-Hours-of-calendarDuration">Instance Variable of calendarDuration: <em><code>char</code></em> <strong>Hours</strong></dt>
+<dd>
+<p>The number of whole hours in this duration. Must be integer-valued.
+</p>
+</dd></dl>
+
+<dl>
+<dt id="index-Minutes-of-calendarDuration">Instance Variable of calendarDuration: <em><code>char</code></em> <strong>Minutes</strong></dt>
+<dd>
+<p>The number of whole minutes in this duration. Must be integer-valued.
+</p>
+</dd></dl>
+
+<dl>
+<dt id="index-Seconds-of-calendarDuration">Instance Variable of calendarDuration: <em><code>char</code></em> <strong>Seconds</strong></dt>
+<dd>
+<p>The number of seconds in this duration. May contain fractional values.
+</p>
+</dd></dl>
+
+<dl>
+<dt id="index-Format-of-calendarDuration">Instance Variable of calendarDuration: <em><code>char</code></em> <strong>Format</strong></dt>
+<dd>
+<p>The format to display this <code>calendarDuration</code> in. Currently unsupported.
+</p>
+<p>This is a single value that applies to the whole array.
+</p>
+</dd></dl>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#calendarDuration_002ecalendarDuration" accesskey="1">calendarDuration.calendarDuration</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#calendarDuration_002eisnat" accesskey="2">calendarDuration.isnat</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#calendarDuration_002euminus" accesskey="3">calendarDuration.uminus</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#calendarDuration_002eplus" accesskey="4">calendarDuration.plus</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#calendarDuration_002etimes" accesskey="5">calendarDuration.times</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#calendarDuration_002eminus" accesskey="6">calendarDuration.minus</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#calendarDuration_002edispstrs" accesskey="7">calendarDuration.dispstrs</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#calendarDuration_002eisnan" accesskey="8">calendarDuration.isnan</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<span id="calendarDuration_002ecalendarDuration"></span><div class="header">
+<p>
+Next: <a href="#calendarDuration_002eisnat" accesskey="n" rel="next">calendarDuration.isnat</a>, Up: <a href="#calendarDuration" accesskey="u" rel="up">calendarDuration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="calendarDuration_002ecalendarDuration-1"></span><h4 class="subsubsection">7.2.1.1 calendarDuration.calendarDuration</h4>
 <dl>
 <dt id="index-calendarDuration">Constructor: <em><var>obj</var> =</em> <strong>calendarDuration</strong> <em>()</em></dt>
 <dd>
@@ -662,6 +783,124 @@ calendar month may have 28, 30, or 31 days.)
 <dt id="index-calendarDuration-2">Constructor: <em><var>obj</var> =</em> <strong>calendarDuration</strong> <em>(<var>Y</var>, <var>M</var>,   <var>D</var>, <var>H</var>, <var>MI</var>, <var>S</var>)</em></dt>
 <dd>
 <p>Constructs new <code>calendarDuration</code> arrays based on input values.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="calendarDuration_002eisnat"></span><div class="header">
+<p>
+Next: <a href="#calendarDuration_002euminus" accesskey="n" rel="next">calendarDuration.uminus</a>, Previous: <a href="#calendarDuration_002ecalendarDuration" accesskey="p" rel="prev">calendarDuration.calendarDuration</a>, Up: <a href="#calendarDuration" accesskey="u" rel="up">calendarDuration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="calendarDuration_002eisnat-1"></span><h4 class="subsubsection">7.2.1.2 calendarDuration.isnat</h4>
+<dl>
+<dt id="index-isnat">Method: <em><var>out</var> =</em> <strong>isnat</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>True if input elements are NaT.
+</p>
+<p>Returns logical array the same size as <var>obj</var>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="calendarDuration_002euminus"></span><div class="header">
+<p>
+Next: <a href="#calendarDuration_002eplus" accesskey="n" rel="next">calendarDuration.plus</a>, Previous: <a href="#calendarDuration_002eisnat" accesskey="p" rel="prev">calendarDuration.isnat</a>, Up: <a href="#calendarDuration" accesskey="u" rel="up">calendarDuration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="calendarDuration_002euminus-1"></span><h4 class="subsubsection">7.2.1.3 calendarDuration.uminus</h4>
+<dl>
+<dt id="index-uminus">Method: <em><var>out</var> =</em> <strong>uminus</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Unary minus. Negates the sign of <var>obj</var>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="calendarDuration_002eplus"></span><div class="header">
+<p>
+Next: <a href="#calendarDuration_002etimes" accesskey="n" rel="next">calendarDuration.times</a>, Previous: <a href="#calendarDuration_002euminus" accesskey="p" rel="prev">calendarDuration.uminus</a>, Up: <a href="#calendarDuration" accesskey="u" rel="up">calendarDuration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="calendarDuration_002eplus-1"></span><h4 class="subsubsection">7.2.1.4 calendarDuration.plus</h4>
+<dl>
+<dt id="index-plus">Method: <em><var>out</var> =</em> <strong>plus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Addition: add two <code>calendarDuration</code>s.
+</p>
+<p>All the calendar elements (properties) of the two inputs are added
+together. No normalization is done across the elements, aside from
+the normalization of NaNs.
+</p>
+<p>If <var>B</var> is numeric, it is converted to a <code>calendarDuration</code>
+using <code>calendarDuration.ofDays</code>.
+</p>
+<p>Returns a <code>calendarDuration</code>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="calendarDuration_002etimes"></span><div class="header">
+<p>
+Next: <a href="#calendarDuration_002eminus" accesskey="n" rel="next">calendarDuration.minus</a>, Previous: <a href="#calendarDuration_002eplus" accesskey="p" rel="prev">calendarDuration.plus</a>, Up: <a href="#calendarDuration" accesskey="u" rel="up">calendarDuration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="calendarDuration_002etimes-1"></span><h4 class="subsubsection">7.2.1.5 calendarDuration.times</h4>
+<dl>
+<dt id="index-times">Method: <em><var>out</var> =</em> <strong>times</strong> <em>(<var>obj</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Multiplication: Multiplies a <code>calendarDuration</code> by a numeric factor.
+</p>
+<p>Returns a <code>calendarDuration</code>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="calendarDuration_002eminus"></span><div class="header">
+<p>
+Next: <a href="#calendarDuration_002edispstrs" accesskey="n" rel="next">calendarDuration.dispstrs</a>, Previous: <a href="#calendarDuration_002etimes" accesskey="p" rel="prev">calendarDuration.times</a>, Up: <a href="#calendarDuration" accesskey="u" rel="up">calendarDuration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="calendarDuration_002eminus-1"></span><h4 class="subsubsection">7.2.1.6 calendarDuration.minus</h4>
+<dl>
+<dt id="index-times-1">Method: <em><var>out</var> =</em> <strong>times</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd>
+<p>Subtraction: Subtracts one <code>calendarDuration</code> from another.
+</p>
+<p>Returns a <code>calendarDuration</code>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="calendarDuration_002edispstrs"></span><div class="header">
+<p>
+Next: <a href="#calendarDuration_002eisnan" accesskey="n" rel="next">calendarDuration.isnan</a>, Previous: <a href="#calendarDuration_002eminus" accesskey="p" rel="prev">calendarDuration.minus</a>, Up: <a href="#calendarDuration" accesskey="u" rel="up">calendarDuration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="calendarDuration_002edispstrs-1"></span><h4 class="subsubsection">7.2.1.7 calendarDuration.dispstrs</h4>
+<dl>
+<dt id="index-dispstrs">Method: <em><var>out</var> =</em> <strong>dispstrs</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Get display strings for each element of <var>obj</var>.
+</p>
+<p>Returns a cellstr the same size as <var>obj</var>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="calendarDuration_002eisnan"></span><div class="header">
+<p>
+Previous: <a href="#calendarDuration_002edispstrs" accesskey="p" rel="prev">calendarDuration.dispstrs</a>, Up: <a href="#calendarDuration" accesskey="u" rel="up">calendarDuration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="calendarDuration_002eisnan-1"></span><h4 class="subsubsection">7.2.1.8 calendarDuration.isnan</h4>
+<dl>
+<dt id="index-isnan">Method: <em><var>out</var> =</em> <strong>isnan</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>True if input elements are NaT. This is just an alias for <code>isnat</code>,
+provided for compatibility and polymorphic programming purposes.
+</p>
+<p>Returns logical array the same size as <var>obj</var>.
 </p>
 </dd></dl>
 
@@ -865,7 +1104,7 @@ Next: <a href="#datetime_002eofDatestruct" accesskey="n" rel="next">datetime.ofD
 <dd>
 <p>Converts a datenum array to a datetime array.
 </p>
-<p>Returns an unzoned <code>datetime</code> array.
+<p>Returns an unzoned <code>datetime</code> array of the same size as the input.
 </p>
 </dd></dl>
 
@@ -1008,7 +1247,7 @@ Next: <a href="#datetime_002eweek" accesskey="n" rel="next">datetime.week</a>, P
 </div>
 <span id="datetime_002etimeofday-1"></span><h4 class="subsubsection">7.2.4.10 datetime.timeofday</h4>
 <dl>
-<dt id="index-timeofday">Method: <em>[<var>out</var>] =</em> <strong>timeofday</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-timeofday">Method: <em><var>out</var> =</em> <strong>timeofday</strong> <em>(<var>obj</var>)</em></dt>
 <dd>
 <p>Get the time of day (elapsed time since midnight).
 </p>
@@ -1026,7 +1265,7 @@ Next: <a href="#datetime_002edispstrs" accesskey="n" rel="next">datetime.dispstr
 </div>
 <span id="datetime_002eweek-1"></span><h4 class="subsubsection">7.2.4.11 datetime.week</h4>
 <dl>
-<dt id="index-week">Method: <em>[<var>out</var>] =</em> <strong>week</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-week">Method: <em><var>out</var> =</em> <strong>week</strong> <em>(<var>obj</var>)</em></dt>
 <dd>
 <p>Get the week of the year.
 </p>
@@ -1042,7 +1281,7 @@ Next: <a href="#datetime_002edatestr" accesskey="n" rel="next">datetime.datestr<
 </div>
 <span id="datetime_002edispstrs-1"></span><h4 class="subsubsection">7.2.4.12 datetime.dispstrs</h4>
 <dl>
-<dt id="index-dispstrs">Method: <em>[<var>out</var>] =</em> <strong>dispstrs</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-dispstrs-1">Method: <em><var>out</var> =</em> <strong>dispstrs</strong> <em>(<var>obj</var>)</em></dt>
 <dd>
 <p>Get display strings for each element of <var>obj</var>.
 </p>
@@ -1058,8 +1297,8 @@ Next: <a href="#datetime_002edatestrs" accesskey="n" rel="next">datetime.datestr
 </div>
 <span id="datetime_002edatestr-1"></span><h4 class="subsubsection">7.2.4.13 datetime.datestr</h4>
 <dl>
-<dt id="index-datestr">Method: <em>[<var>out</var>] =</em> <strong>datestr</strong> <em>(<var>obj</var>)</em></dt>
-<dt id="index-datestr-1">Method: <em>[<var>out</var>] =</em> <strong>datestr</strong> <em>(<var>obj</var>, &hellip;)</em></dt>
+<dt id="index-datestr">Method: <em><var>out</var> =</em> <strong>datestr</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-datestr-1">Method: <em><var>out</var> =</em> <strong>datestr</strong> <em>(<var>obj</var>, &hellip;)</em></dt>
 <dd>
 <p>Format <var>obj</var> as date strings. Supports all arguments that core Octave&rsquo;s
 <code>datestr</code> does.
@@ -1076,8 +1315,8 @@ Next: <a href="#datetime_002edatestruct" accesskey="n" rel="next">datetime.dates
 </div>
 <span id="datetime_002edatestrs-1"></span><h4 class="subsubsection">7.2.4.14 datetime.datestrs</h4>
 <dl>
-<dt id="index-datestrs">Method: <em>[<var>out</var>] =</em> <strong>datestrs</strong> <em>(<var>obj</var>)</em></dt>
-<dt id="index-datestrs-1">Method: <em>[<var>out</var>] =</em> <strong>datestrs</strong> <em>(<var>obj</var>, &hellip;)</em></dt>
+<dt id="index-datestrs">Method: <em><var>out</var> =</em> <strong>datestrs</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-datestrs-1">Method: <em><var>out</var> =</em> <strong>datestrs</strong> <em>(<var>obj</var>, &hellip;)</em></dt>
 <dd>
 <p>Format <var>obj</var> as date strings, returning cellstr.
 Supports all arguments that core Octave&rsquo;s <code>datestr</code> does.
@@ -1094,7 +1333,7 @@ Next: <a href="#datetime_002eposixtime" accesskey="n" rel="next">datetime.posixt
 </div>
 <span id="datetime_002edatestruct-1"></span><h4 class="subsubsection">7.2.4.15 datetime.datestruct</h4>
 <dl>
-<dt id="index-datestruct">Method: <em>[<var>out</var>] =</em> <strong>datestruct</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-datestruct">Method: <em><var>out</var> =</em> <strong>datestruct</strong> <em>(<var>obj</var>)</em></dt>
 <dd>
 <p>Converts this to a &quot;datestruct&quot; broken-down time structure.
 </p>
@@ -1120,7 +1359,7 @@ Next: <a href="#datetime_002edatenum" accesskey="n" rel="next">datetime.datenum<
 </div>
 <span id="datetime_002eposixtime-1"></span><h4 class="subsubsection">7.2.4.16 datetime.posixtime</h4>
 <dl>
-<dt id="index-posixtime">Method: <em>[<var>out</var>] =</em> <strong>posixtime</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-posixtime">Method: <em><var>out</var> =</em> <strong>posixtime</strong> <em>(<var>obj</var>)</em></dt>
 <dd>
 <p>Converts this to POSIX time values (seconds since the Unix epoch)
 </p>
@@ -1140,7 +1379,7 @@ Next: <a href="#datetime_002eisnat" accesskey="n" rel="next">datetime.isnat</a>,
 </div>
 <span id="datetime_002edatenum-1"></span><h4 class="subsubsection">7.2.4.17 datetime.datenum</h4>
 <dl>
-<dt id="index-datenum">Method: <em>[<var>out</var>] =</em> <strong>datenum</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-datenum">Method: <em><var>out</var> =</em> <strong>datenum</strong> <em>(<var>obj</var>)</em></dt>
 <dd>
 <p>DATENUM Convert this to datenums that represent the same local time
 </p>
@@ -1156,7 +1395,7 @@ Next: <a href="#datetime_002eisnan" accesskey="n" rel="next">datetime.isnan</a>,
 </div>
 <span id="datetime_002eisnat-1"></span><h4 class="subsubsection">7.2.4.18 datetime.isnat</h4>
 <dl>
-<dt id="index-isnat">Method: <em>[<var>out</var>] =</em> <strong>isnat</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-isnat-1">Method: <em><var>out</var> =</em> <strong>isnat</strong> <em>(<var>obj</var>)</em></dt>
 <dd>
 <p>True if input elements are NaT.
 </p>
@@ -1172,7 +1411,7 @@ Next: <a href="#datetime_002elt" accesskey="n" rel="next">datetime.lt</a>, Previ
 </div>
 <span id="datetime_002eisnan-1"></span><h4 class="subsubsection">7.2.4.19 datetime.isnan</h4>
 <dl>
-<dt id="index-isnan">Method: <em>[<var>out</var>] =</em> <strong>isnan</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-isnan-1">Method: <em><var>out</var> =</em> <strong>isnan</strong> <em>(<var>obj</var>)</em></dt>
 <dd>
 <p>True if input elements are NaT. This is an alias for <code>isnat</code>
 to support type compatibility and polymorphic programming.
@@ -1189,7 +1428,7 @@ Next: <a href="#datetime_002ele" accesskey="n" rel="next">datetime.le</a>, Previ
 </div>
 <span id="datetime_002elt-1"></span><h4 class="subsubsection">7.2.4.20 datetime.lt</h4>
 <dl>
-<dt id="index-lt">Method: <em>[<var>out</var>] =</em> <strong>lt</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt id="index-lt">Method: <em><var>out</var> =</em> <strong>lt</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd>
 <p>True if <var>A</var> is less than <var>B</var>. This defines the <code>&lt;</code> operator
 for <code>datetime</code>s.
@@ -1209,7 +1448,7 @@ Next: <a href="#datetime_002ene" accesskey="n" rel="next">datetime.ne</a>, Previ
 </div>
 <span id="datetime_002ele-1"></span><h4 class="subsubsection">7.2.4.21 datetime.le</h4>
 <dl>
-<dt id="index-le">Method: <em>[<var>out</var>] =</em> <strong>le</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt id="index-le">Method: <em><var>out</var> =</em> <strong>le</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd>
 <p>True if <var>A</var> is less than or equal to<var>B</var>. This defines the <code>&lt;=</code> operator
 for <code>datetime</code>s.
@@ -1229,7 +1468,7 @@ Next: <a href="#datetime_002eeq" accesskey="n" rel="next">datetime.eq</a>, Previ
 </div>
 <span id="datetime_002ene-1"></span><h4 class="subsubsection">7.2.4.22 datetime.ne</h4>
 <dl>
-<dt id="index-ne">Method: <em>[<var>out</var>] =</em> <strong>ne</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt id="index-ne">Method: <em><var>out</var> =</em> <strong>ne</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd>
 <p>True if <var>A</var> is not equal to <var>B</var>. This defines the <code>!=</code> operator
 for <code>datetime</code>s.
@@ -1249,7 +1488,7 @@ Next: <a href="#datetime_002ege" accesskey="n" rel="next">datetime.ge</a>, Previ
 </div>
 <span id="datetime_002eeq-1"></span><h4 class="subsubsection">7.2.4.23 datetime.eq</h4>
 <dl>
-<dt id="index-eq">Method: <em>[<var>out</var>] =</em> <strong>eq</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt id="index-eq">Method: <em><var>out</var> =</em> <strong>eq</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd>
 <p>True if <var>A</var> is equal to <var>B</var>. This defines the <code>==</code> operator
 for <code>datetime</code>s.
@@ -1269,7 +1508,7 @@ Next: <a href="#datetime_002egt" accesskey="n" rel="next">datetime.gt</a>, Previ
 </div>
 <span id="datetime_002ege-1"></span><h4 class="subsubsection">7.2.4.24 datetime.ge</h4>
 <dl>
-<dt id="index-ge">Method: <em>[<var>out</var>] =</em> <strong>ge</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt id="index-ge">Method: <em><var>out</var> =</em> <strong>ge</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd>
 <p>True if <var>A</var> is greater than or equal to <var>B</var>. This defines the <code>&gt;=</code> operator
 for <code>datetime</code>s.
@@ -1289,7 +1528,7 @@ Next: <a href="#datetime_002eplus" accesskey="n" rel="next">datetime.plus</a>, P
 </div>
 <span id="datetime_002egt-1"></span><h4 class="subsubsection">7.2.4.25 datetime.gt</h4>
 <dl>
-<dt id="index-gt">Method: <em>[<var>out</var>] =</em> <strong>gt</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt id="index-gt">Method: <em><var>out</var> =</em> <strong>gt</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd>
 <p>True if <var>A</var> is greater than <var>B</var>. This defines the <code>&gt;</code> operator
 for <code>datetime</code>s.
@@ -1309,7 +1548,7 @@ Next: <a href="#datetime_002eminus" accesskey="n" rel="next">datetime.minus</a>,
 </div>
 <span id="datetime_002eplus-1"></span><h4 class="subsubsection">7.2.4.26 datetime.plus</h4>
 <dl>
-<dt id="index-plus">Method: <em>[<var>out</var>] =</em> <strong>plus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt id="index-plus-1">Method: <em><var>out</var> =</em> <strong>plus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd>
 <p>Addition (<code>+</code> operator). Adds a <code>duration</code>, <code>calendarDuration</code>,
 or numeric <var>B</var> to a <code>datetime</code> <var>A</var>.
@@ -1329,7 +1568,7 @@ Next: <a href="#datetime_002ediff" accesskey="n" rel="next">datetime.diff</a>, P
 </div>
 <span id="datetime_002eminus-1"></span><h4 class="subsubsection">7.2.4.27 datetime.minus</h4>
 <dl>
-<dt id="index-minus">Method: <em>[<var>out</var>] =</em> <strong>minus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt id="index-minus">Method: <em><var>out</var> =</em> <strong>minus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd>
 <p>Subtraction (<code>-</code> operator). Subtracts a <code>duration</code>,
 <code>calendarDuration</code> or numeric <var>B</var> from a <code>datetime</code> <var>A</var>,
@@ -1353,7 +1592,7 @@ Next: <a href="#datetime_002eisbetween" accesskey="n" rel="next">datetime.isbetw
 </div>
 <span id="datetime_002ediff-1"></span><h4 class="subsubsection">7.2.4.28 datetime.diff</h4>
 <dl>
-<dt id="index-diff">Method: <em>[<var>out</var>] =</em> <strong>diff</strong> <em>(<var>obj</var>)</em></dt>
+<dt id="index-diff">Method: <em><var>out</var> =</em> <strong>diff</strong> <em>(<var>obj</var>)</em></dt>
 <dd>
 <p>Differences between elements.
 </p>
@@ -1372,7 +1611,7 @@ Next: <a href="#datetime_002elinspace" accesskey="n" rel="next">datetime.linspac
 </div>
 <span id="datetime_002eisbetween-1"></span><h4 class="subsubsection">7.2.4.29 datetime.isbetween</h4>
 <dl>
-<dt id="index-isbetween">Method: <em>[<var>out</var>] =</em> <strong>isbetween</strong> <em>(<var>obj</var>, <var>lower</var>, <var>upper</var>)</em></dt>
+<dt id="index-isbetween">Method: <em><var>out</var> =</em> <strong>isbetween</strong> <em>(<var>obj</var>, <var>lower</var>, <var>upper</var>)</em></dt>
 <dd>
 <p>Tests whether the elements of <var>obj</var> are between <var>lower</var> and
 <var>upper</var>.
@@ -1392,13 +1631,15 @@ Next: <a href="#datetime_002econvertDatenumTimeZone" accesskey="n" rel="next">da
 </div>
 <span id="datetime_002elinspace-1"></span><h4 class="subsubsection">7.2.4.30 datetime.linspace</h4>
 <dl>
-<dt id="index-linspace">Method: <em>[<var>out</var>] =</em> <strong>linspace</strong> <em>(<var>from</var>, <var>to</var>, <var>n</var>)</em></dt>
+<dt id="index-linspace">Method: <em><var>out</var> =</em> <strong>linspace</strong> <em>(<var>from</var>, <var>to</var>, <var>n</var>)</em></dt>
 <dd>
 <p>Linearly-spaced values in date/time space.
 </p>
 <p>Constructs a vector of <code>datetime</code>s that represent linearly spaced points
 starting at <var>from</var> and going up to <var>to</var>, with <var>n</var> points in the
 vector.
+</p>
+<p><var>from</var> and <var>to</var> are implicitly converted to <code>datetime</code>s.
 </p>
 <p><var>n</var> is how many points to use. If omitted, defaults to 100.
 </p>
@@ -1414,7 +1655,7 @@ Previous: <a href="#datetime_002elinspace" accesskey="p" rel="prev">datetime.lin
 </div>
 <span id="datetime_002econvertDatenumTimeZone-1"></span><h4 class="subsubsection">7.2.4.31 datetime.convertDatenumTimeZone</h4>
 <dl>
-<dt id="index-datetime_002econvertDatenumTimeZone">Static Method: <em>[<var>out</var>] =</em> <strong>datetime.convertDatenumTimeZone</strong> <em>(<var>dnum</var>, <var>fromZoneId</var>, <var>toZoneId</var>)</em></dt>
+<dt id="index-datetime_002econvertDatenumTimeZone">Static Method: <em><var>out</var> =</em> <strong>datetime.convertDatenumTimeZone</strong> <em>(<var>dnum</var>, <var>fromZoneId</var>, <var>toZoneId</var>)</em></dt>
 <dd>
 <p>Convert a datenum from one time zone to another.
 </p>
@@ -1459,7 +1700,7 @@ Next: <a href="#hours" accesskey="n" rel="next">hours</a>, Previous: <a href="#d
 </div>
 <span id="duration-1"></span><h4 class="subsection">7.2.6 duration</h4>
 <dl>
-<dt id="index-duration-5">Class: <strong>duration</strong></dt>
+<dt id="index-duration-6">Class: <strong>duration</strong></dt>
 <dd>
 <p>Represents durations or periods of time as an amount of fixed-length
 time (i.e. fixed-length seconds). It does not care about calendar things
@@ -1470,6 +1711,53 @@ also contains some Octave-specific extensions.
 </p>
 </dd></dl>
 
+<dl>
+<dt id="index-days-of-duration">Instance Variable of duration: <em><code>double</code></em> <strong>days</strong></dt>
+<dd>
+<p>The underlying datenums that represent the durations, as number of (whole and
+fractional) days. These are uniform 24-hour days, not calendar days.
+</p>
+<p>This is a planar property: the size of <code>days</code> is the same size as the
+containing <code>duration</code> array object.
+</p>
+</dd></dl>
+
+<dl>
+<dt id="index-Format-of-duration">Instance Variable of duration: <em><code>char</code></em> <strong>Format</strong></dt>
+<dd>
+<p>The format to display this <code>duration</code> in. Currently unsupported.
+</p>
+</dd></dl>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#duration_002eduration" accesskey="1">duration.duration</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#duration_002eofDays" accesskey="2">duration.ofDays</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#duration_002eyears" accesskey="3">duration.years</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#duration_002ehours" accesskey="4">duration.hours</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#duration_002eminutes" accesskey="5">duration.minutes</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#duration_002eseconds" accesskey="6">duration.seconds</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#duration_002emilliseconds" accesskey="7">duration.milliseconds</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#duration_002edispstrs" accesskey="8">duration.dispstrs</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#datetime_002echar" accesskey="9">datetime.char</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#duration_002elinspace">duration.linspace</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<span id="duration_002eduration"></span><div class="header">
+<p>
+Next: <a href="#duration_002eofDays" accesskey="n" rel="next">duration.ofDays</a>, Up: <a href="#duration" accesskey="u" rel="up">duration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="duration_002eduration-1"></span><h4 class="subsubsection">7.2.6.1 duration.duration</h4>
 <dl>
 <dt id="index-duration">Constructor: <em><var>obj</var> =</em> <strong>duration</strong> <em>()</em></dt>
 <dd>
@@ -1489,13 +1777,185 @@ also contains some Octave-specific extensions.
 
 
 <hr>
+<span id="duration_002eofDays"></span><div class="header">
+<p>
+Next: <a href="#duration_002eyears" accesskey="n" rel="next">duration.years</a>, Previous: <a href="#duration_002eduration" accesskey="p" rel="prev">duration.duration</a>, Up: <a href="#duration" accesskey="u" rel="up">duration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="duration_002eofDays-1"></span><h4 class="subsubsection">7.2.6.2 duration.ofDays</h4>
+<dl>
+<dt id="index-duration_002eofDays">Static Method: <em><var>obj</var> =</em> <strong>duration.ofDays</strong> <em>(<var>dnums</var>)</em></dt>
+<dd>
+<p>Converts a double array representing durations in whole and fractional days
+to a <code>duration</code> array. This is the method that is used for implicit conversion
+of numerics in many cases.
+</p>
+<p>Returns a <code>duration</code> array of the same size as the input.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="duration_002eyears"></span><div class="header">
+<p>
+Next: <a href="#duration_002ehours" accesskey="n" rel="next">duration.hours</a>, Previous: <a href="#duration_002eofDays" accesskey="p" rel="prev">duration.ofDays</a>, Up: <a href="#duration" accesskey="u" rel="up">duration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="duration_002eyears-1"></span><h4 class="subsubsection">7.2.6.3 duration.years</h4>
+<dl>
+<dt id="index-years">Method: <em><var>out</var> =</em> <strong>years</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Equivalent number of years.
+</p>
+<p>Gets the number of fixed-length 365.2425-day years that is equivalent
+to this duration.
+</p>
+<p>Returns double array the same size as <var>obj</var>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="duration_002ehours"></span><div class="header">
+<p>
+Next: <a href="#duration_002eminutes" accesskey="n" rel="next">duration.minutes</a>, Previous: <a href="#duration_002eyears" accesskey="p" rel="prev">duration.years</a>, Up: <a href="#duration" accesskey="u" rel="up">duration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="duration_002ehours-1"></span><h4 class="subsubsection">7.2.6.4 duration.hours</h4>
+<dl>
+<dt id="index-hours">Method: <em><var>out</var> =</em> <strong>hours</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Equivalent number of hours.
+</p>
+<p>Gets the number of fixed-length 60-minute hours that is equivalent
+to this duration.
+</p>
+<p>Returns double array the same size as <var>obj</var>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="duration_002eminutes"></span><div class="header">
+<p>
+Next: <a href="#duration_002eseconds" accesskey="n" rel="next">duration.seconds</a>, Previous: <a href="#duration_002ehours" accesskey="p" rel="prev">duration.hours</a>, Up: <a href="#duration" accesskey="u" rel="up">duration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="duration_002eminutes-1"></span><h4 class="subsubsection">7.2.6.5 duration.minutes</h4>
+<dl>
+<dt id="index-minutes">Method: <em><var>out</var> =</em> <strong>minutes</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Equivalent number of minutes.
+</p>
+<p>Gets the number of fixed-length 60-second minutes that is equivalent
+to this duration.
+</p>
+<p>Returns double array the same size as <var>obj</var>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="duration_002eseconds"></span><div class="header">
+<p>
+Next: <a href="#duration_002emilliseconds" accesskey="n" rel="next">duration.milliseconds</a>, Previous: <a href="#duration_002eminutes" accesskey="p" rel="prev">duration.minutes</a>, Up: <a href="#duration" accesskey="u" rel="up">duration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="duration_002eseconds-1"></span><h4 class="subsubsection">7.2.6.6 duration.seconds</h4>
+<dl>
+<dt id="index-seconds">Method: <em><var>out</var> =</em> <strong>seconds</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Equivalent number of seconds.
+</p>
+<p>Gets the number of seconds that is equivalent
+to this duration.
+</p>
+<p>Returns double array the same size as <var>obj</var>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="duration_002emilliseconds"></span><div class="header">
+<p>
+Next: <a href="#duration_002edispstrs" accesskey="n" rel="next">duration.dispstrs</a>, Previous: <a href="#duration_002eseconds" accesskey="p" rel="prev">duration.seconds</a>, Up: <a href="#duration" accesskey="u" rel="up">duration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="duration_002emilliseconds-1"></span><h4 class="subsubsection">7.2.6.7 duration.milliseconds</h4>
+<dl>
+<dt id="index-milliseconds">Method: <em><var>out</var> =</em> <strong>milliseconds</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Equivalent number of milliseconds.
+</p>
+<p>Gets the number of milliseconds that is equivalent
+to this duration.
+</p>
+<p>Returns double array the same size as <var>obj</var>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="duration_002edispstrs"></span><div class="header">
+<p>
+Next: <a href="#datetime_002echar" accesskey="n" rel="next">datetime.char</a>, Previous: <a href="#duration_002emilliseconds" accesskey="p" rel="prev">duration.milliseconds</a>, Up: <a href="#duration" accesskey="u" rel="up">duration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="duration_002edispstrs-1"></span><h4 class="subsubsection">7.2.6.8 duration.dispstrs</h4>
+<dl>
+<dt id="index-duration-5">Method: <em><var>out</var> =</em> <strong>duration</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Get display strings for each element of <var>obj</var>.
+</p>
+<p>Returns a cellstr the same size as <var>obj</var>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="datetime_002echar"></span><div class="header">
+<p>
+Next: <a href="#duration_002elinspace" accesskey="n" rel="next">duration.linspace</a>, Previous: <a href="#duration_002edispstrs" accesskey="p" rel="prev">duration.dispstrs</a>, Up: <a href="#duration" accesskey="u" rel="up">duration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="datetime_002echar-1"></span><h4 class="subsubsection">7.2.6.9 datetime.char</h4>
+<dl>
+<dt id="index-char">Method: <em><var>out</var> =</em> <strong>char</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Convert to char. The contents of the strings will be the same as
+returned by <code>dispstrs</code>.
+</p>
+<p>This is primarily a convenience method for use on scalar <var>obj</var>s.
+</p>
+<p>Returns a 2-D char array with one row per element in <var>obj</var>.
+</p>
+</dd></dl>
+
+
+<hr>
+<span id="duration_002elinspace"></span><div class="header">
+<p>
+Previous: <a href="#datetime_002echar" accesskey="p" rel="prev">datetime.char</a>, Up: <a href="#duration" accesskey="u" rel="up">duration</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="duration_002elinspace-1"></span><h4 class="subsubsection">7.2.6.10 duration.linspace</h4>
+<dl>
+<dt id="index-linspace-1">Method: <em><var>out</var> =</em> <strong>linspace</strong> <em>(<var>from</var>, <var>to</var>, <var>n</var>)</em></dt>
+<dd>
+<p>Linearly-spaced values in time duration space.
+</p>
+<p>Constructs a vector of <code>duration</code>s that represent linearly spaced points
+starting at <var>from</var> and going up to <var>to</var>, with <var>n</var> points in the
+vector.
+</p>
+<p><var>from</var> and <var>to</var> are implicitly converted to <code>duration</code>s.
+</p>
+<p><var>n</var> is how many points to use. If omitted, defaults to 100.
+</p>
+<p>Returns an <var>n</var>-long <code>datetime</code> vector.
+</p>
+</dd></dl>
+
+
+<hr>
 <span id="hours"></span><div class="header">
 <p>
 Next: <a href="#isdatetime" accesskey="n" rel="next">isdatetime</a>, Previous: <a href="#duration" accesskey="p" rel="prev">duration</a>, Up: <a href="#Functions-Alphabetically" accesskey="u" rel="up">Functions Alphabetically</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <span id="hours-1"></span><h4 class="subsection">7.2.7 hours</h4>
 <dl>
-<dt id="index-hours">Function File: <em><var>out</var> =</em> <strong>hours</strong> <em>(<var>x</var>)</em></dt>
+<dt id="index-hours-1">Function File: <em><var>out</var> =</em> <strong>hours</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Create a <code>duration</code> <var>x</var> hours long, or get the hours in a <code>duration</code>
 <var>x</var>.
 </p>
@@ -1545,7 +2005,7 @@ Next: <a href="#minutes" accesskey="n" rel="next">minutes</a>, Previous: <a href
 </div>
 <span id="milliseconds-1"></span><h4 class="subsection">7.2.10 milliseconds</h4>
 <dl>
-<dt id="index-milliseconds">Function File: <em><var>out</var> =</em> <strong>milliseconds</strong> <em>(<var>x</var>)</em></dt>
+<dt id="index-milliseconds-1">Function File: <em><var>out</var> =</em> <strong>milliseconds</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Create a <code>duration</code> <var>x</var> milliseconds long, or get the milliseconds in a <code>duration</code>
 <var>x</var>.
 </p>
@@ -1565,7 +2025,7 @@ Next: <a href="#NaT" accesskey="n" rel="next">NaT</a>, Previous: <a href="#milli
 </div>
 <span id="minutes-1"></span><h4 class="subsection">7.2.11 minutes</h4>
 <dl>
-<dt id="index-hours-1">Function File: <em><var>out</var> =</em> <strong>hours</strong> <em>(<var>x</var>)</em></dt>
+<dt id="index-hours-2">Function File: <em><var>out</var> =</em> <strong>hours</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Create a <code>duration</code> <var>x</var> hours long, or get the hours in a <code>duration</code>
 <var>x</var>.
 </p>
@@ -1600,7 +2060,7 @@ Next: <a href="#timezones" accesskey="n" rel="next">timezones</a>, Previous: <a 
 </div>
 <span id="seconds-1"></span><h4 class="subsection">7.2.13 seconds</h4>
 <dl>
-<dt id="index-seconds">Function File: <em><var>out</var> =</em> <strong>seconds</strong> <em>(<var>x</var>)</em></dt>
+<dt id="index-seconds-1">Function File: <em><var>out</var> =</em> <strong>seconds</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Create a <code>duration</code> <var>x</var> seconds long, or get the seconds in a <code>duration</code>
 <var>x</var>.
 </p>
@@ -1656,7 +2116,7 @@ Previous: <a href="#timezones" accesskey="p" rel="prev">timezones</a>, Up: <a hr
 </div>
 <span id="years-1"></span><h4 class="subsection">7.2.15 years</h4>
 <dl>
-<dt id="index-years">Function File: <em><var>out</var> =</em> <strong>years</strong> <em>(<var>x</var>)</em></dt>
+<dt id="index-years-1">Function File: <em><var>out</var> =</em> <strong>years</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Create a <code>duration</code> <var>x</var> years long, or get the years in a <code>duration</code>
 <var>x</var>.
 </p>
@@ -1697,7 +2157,7 @@ Previous: <a href="#Function-Reference" accesskey="p" rel="prev">Function Refere
 </p>
 <span id="Manual-Copyright"></span><h3 class="section">8.2 Manual Copyright</h3>
 
-<p>This manual is for Chrono, version 0.2.1+.
+<p>This manual is for Chrono, version 0.3.0.
 </p>
 <p>Copyright &copy; 2019 Andrew Janke
 </p>

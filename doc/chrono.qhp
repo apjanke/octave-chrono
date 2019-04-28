@@ -32,6 +32,22 @@
                     </section>
                     <section title="Functions Alphabetically" ref="html/Functions-Alphabetically.html">
                         <section title="calendarDuration" ref="html/calendarDuration.html">
+                            <section title="calendarDuration.calendarDuration" ref="html/calendarDuration_002ecalendarDuration.html">
+                            </section>
+                            <section title="calendarDuration.isnat" ref="html/calendarDuration_002eisnat.html">
+                            </section>
+                            <section title="calendarDuration.uminus" ref="html/calendarDuration_002euminus.html">
+                            </section>
+                            <section title="calendarDuration.plus" ref="html/calendarDuration_002eplus.html">
+                            </section>
+                            <section title="calendarDuration.times" ref="html/calendarDuration_002etimes.html">
+                            </section>
+                            <section title="calendarDuration.minus" ref="html/calendarDuration_002eminus.html">
+                            </section>
+                            <section title="calendarDuration.dispstrs" ref="html/calendarDuration_002edispstrs.html">
+                            </section>
+                            <section title="calendarDuration.isnan" ref="html/calendarDuration_002eisnan.html">
+                            </section>
                         </section>
                         <section title="calmonths" ref="html/calmonths.html">
                         </section>
@@ -104,6 +120,26 @@
                         <section title="days" ref="html/days.html">
                         </section>
                         <section title="duration" ref="html/duration.html">
+                            <section title="duration.duration" ref="html/duration_002eduration.html">
+                            </section>
+                            <section title="duration.ofDays" ref="html/duration_002eofDays.html">
+                            </section>
+                            <section title="duration.years" ref="html/duration_002eyears.html">
+                            </section>
+                            <section title="duration.hours" ref="html/duration_002ehours.html">
+                            </section>
+                            <section title="duration.minutes" ref="html/duration_002eminutes.html">
+                            </section>
+                            <section title="duration.seconds" ref="html/duration_002eseconds.html">
+                            </section>
+                            <section title="duration.milliseconds" ref="html/duration_002emilliseconds.html">
+                            </section>
+                            <section title="duration.dispstrs" ref="html/duration_002edispstrs.html">
+                            </section>
+                            <section title="datetime.char" ref="html/datetime_002echar.html">
+                            </section>
+                            <section title="duration.linspace" ref="html/duration_002elinspace.html">
+                            </section>
                         </section>
                         <section title="hours" ref="html/hours.html">
                         </section>
@@ -159,6 +195,16 @@
             <file>html/isduration.html</file>
             <file>html/isdatetime.html</file>
             <file>html/hours.html</file>
+            <file>html/duration_002elinspace.html</file>
+            <file>html/datetime_002echar.html</file>
+            <file>html/duration_002edispstrs.html</file>
+            <file>html/duration_002emilliseconds.html</file>
+            <file>html/duration_002eseconds.html</file>
+            <file>html/duration_002eminutes.html</file>
+            <file>html/duration_002ehours.html</file>
+            <file>html/duration_002eyears.html</file>
+            <file>html/duration_002eofDays.html</file>
+            <file>html/duration_002eduration.html</file>
             <file>html/duration.html</file>
             <file>html/days.html</file>
             <file>html/datetime_002econvertDatenumTimeZone.html</file>
@@ -195,6 +241,14 @@
             <file>html/datetime.html</file>
             <file>html/calyears.html</file>
             <file>html/calmonths.html</file>
+            <file>html/calendarDuration_002eisnan.html</file>
+            <file>html/calendarDuration_002edispstrs.html</file>
+            <file>html/calendarDuration_002eminus.html</file>
+            <file>html/calendarDuration_002etimes.html</file>
+            <file>html/calendarDuration_002eplus.html</file>
+            <file>html/calendarDuration_002euminus.html</file>
+            <file>html/calendarDuration_002eisnat.html</file>
+            <file>html/calendarDuration_002ecalendarDuration.html</file>
             <file>html/calendarDuration.html</file>
             <file>html/Functions-Alphabetically.html</file>
             <file>html/Functions-by-Category.html</file>
