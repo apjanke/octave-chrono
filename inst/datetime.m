@@ -19,28 +19,51 @@
 ## -*- texinfo -*-
 ## @deftp {Class} datetime
 ##
-## Represents points in time using the Gregorian calendar.
+## @code{datetime} represents points in time using the Gregorian calendar.
 ##
 ## The underlying values are doubles representing the number of days since the
 ## Matlab epoch of "January 0, year 0". This has a precision of around nanoseconds
 ## for typical times.
 ##
+## A @code{datetime} array is an array of date/time values, with each element
+## holding a complete date/time. The overall array may also have a TimeZone and a
+## Format associated with it, which apply to all elements in the array.
+##
+##
+## This is an attempt to reproduce the functionality of Matlab's @code{datetime}. It
+## also contains some Octave-specific extensions.
+##
 ## @end deftp
 ##
 ## @deftypeivar datetime @code{double} dnums
-## The underlying datenums that represent the points in time.
+##
+## The underlying datenums that represent the points in time. These are always in UTC.
+##
+## This is a planar property: the size of @code{dnums} is the same size as the 
+## containing @code{datetime} array object.
+##
 ## @end deftypeivar
 ##
 ## @deftypeivar datetime @code{char} TimeZone
+##
 ## The time zone this @code{datetime} array is in. Empty if this does not have a
 ## time zone associated with it (“unzoned”). The name of an IANA time zone if
 ## this does.
+##
+## Setting the @code{TimeZone} of a @code{datetime} array changes the time zone it
+## is presented in for strings and broken-down times, but does not change the
+## underlying UTC times that its elements represent.
+##
 ## @end deftypeivar 
 ##
 ## @deftypeivar datetime @code{char} Format
+##
 ## The format to display this @code{datetime} in. Currently unsupported.
+##
 ## @end deftypeivar
 ##
+## @node datetime.datetime
+## @subsubsection datetime.datetime
 ## @deftypefn {Constructor} {@var{obj} =} datetime ()
 ##
 ## Constructs a new scalar @code{datetime} containing the current local time, with
@@ -65,12 +88,6 @@
 ## @end deftypefn
 
 classdef datetime
-  %DATETIME Date/time values
-  %
-  % Datetime represents points in time using the Gregorian calendar.
-  %
-  % This is an attempt to reproduce the functionality of Matlab's @datetime. It
-  % also contains some Octave-specific extensions.
   
   properties (Constant)
     PosixEpochDatenum = datenum (1970, 1, 1);
@@ -98,15 +115,34 @@ classdef datetime
   endproperties
   
   methods (Static)
+    ## -*- texinfo -*-
+    ## @node datetime.ofDatenum
+    ## @subsubsection datetime.ofDatenum
+    ## @deftypefn {Class Method} {@var{obj} =} datetime.ofDatenum (@var{dnums})
+    ##
+    ## Converts a datenum array to a datetime array.
+    ##
+    ## Returns an unzoned @code{datetime} array.
+    ##
+    ## @end deftypefn
     function out = ofDatenum (dnums)
-      %OFDATENUM Convert datenums to datetimes.
-      %
-      % This is an Octave extension.
       out = datetime (dnums, 'ConvertFrom', 'datenum');
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.ofDatestruct
+    ## @subsubsection datetime.ofDatestruct
+    ## @deftypefn {Class Method} {@var{obj} =} datetime.ofDatestruct (@var{dstruct})
+    ##
+    ## Converts a datestruct to a datetime array.
+    ##
+    ## A datestruct is a special struct format used by Chrono that has fields 
+    ## Year, Month, Day, Hour, Minute, and Second. It is not a standard Octave datatype.
+    ##
+    ## Returns an unzoned @code{datetime} array.
+    ##
+    ## @end deftypefn
     function out = ofDatestruct (dstruct)
-      %OFDATESTRUCT Convert "datestruct" to datetimes.
       dnums = datetime.datestruct2datenum (dstruct);
       out = datetime (dnums, 'ConvertFrom', 'datenum');
     endfunction
@@ -128,23 +164,35 @@ classdef datetime
       out = datetime (NaN, 'Backdoor');
     endfunction
         
+    ## -*- texinfo -*-
+    ## @node datetime.posix2datenum
+    ## @subsubsection datetime.posix2datenum
+    ## @deftypefn {Class Method} {@var{dnums} =} datetime.posix2datenum (@var{pdates})
+    ##
+    ## Converts Unix (POSIX) times to datenums
+    ##
+    ## Pdates (numeric) is an array of Unix dates. A Unix date is the number
+    ## of seconds since January 1, 1970 UTC, excluding leap seconds. The output
+    ## is implicitly in UTC.
+    ##
+    ## @end deftypefn
     function out = posix2datenum (pdates)
-      %POSIX2DATENUM Convert POSIX times to datenums
-      %
-      % out = posix2datenum(pdates)
-      %
-      % Pdates (numeric) is an array of POSIX dates. A POSIX date is the number
-      % of seconds since January 1, 1970 UTC, excluding leap seconds. The output
-      % is implicitly in UTC.
       out = (double (pdates) / (24 * 60 * 60)) + datetime.PosixEpochDatenum;
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.datenum2posix
+    ## @subsubsection datetime.datenum2posix
+    ## @deftypefn {Class Method} {@var{out} =} datetime.datenum2posix (@var{dnums})
+    ##
+    ## Converts Octave datenums to Unix dates.
+    ##
+    ## The input datenums are assumed to be in UTC.
+    ##
+    ## Returns a double, which may have fractional seconds.
+    ##
+    ## @end deftypefn
     function out = datenum2posix (dnums)
-      %DATENUM2POSIX Convert datenums to POSIX times
-      %
-      % The input is assumed to be in UTC.
-      %
-      % Returns double, which may have fractional seconds.
       out = (dnums - datetime.PosixEpochDatenum) * (24 * 60 * 60);
     endfunction
   endmethods
@@ -285,7 +333,23 @@ classdef datetime
       endif
     endfunction
     
-    function [keysA,keysB] = proxyKeys (a, b)
+    ## -*- texinfo -*-
+    ## @node datetime.proxyKeys
+    ## @subsubsection datetime.proxyKeys
+    ## @deftypefn {Method} {[@var{keysA}, @var{keysB}] =} proxyKeys (@var{a}, @var{b})
+    ##
+    ## Computes proxy key values for two datetime arrays. Proxy keys are numeric
+    ## values whose rows have the same equivalence relationships as the elements of
+    ## the inputs.
+    ##
+    ## This is primarily for Chrono's internal use; users will typically not need to call
+    ## it or know how it works.
+    ##
+    ## Returns two 2-D numeric matrices of size n-by-k, where n is the number of elements
+    ## in the corresponding input.
+    ##
+    ## @end deftypefn
+    function [keysA, keysB] = proxyKeys (a, b)
       %PROXYKEYS Proxy key values for sorting and set operations
       keysA = a.dnums(:);
       keysB = b.dnums(:);
@@ -406,6 +470,18 @@ classdef datetime
       out = ceil (this.Month / 3);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.ymd
+    ## @subsubsection datetime.ymd
+    ## @deftypefn {Method} {[@var{y}, @var{m}, @var{d}] =} ymd (@var{obj})
+    ##
+    ## Get the Year, Month, and Day components of a @var{obj}.
+    ##
+    ## For zoned @code{datetime}s, these will be local times in the associated time zone.
+    ##
+    ## Returns double arrays the same size as @code{obj}.
+    ##
+    ## @end deftypefn
     function [y, m, d] = ymd (this)
       s = datestruct (this);
       y = s.Year;
@@ -413,6 +489,18 @@ classdef datetime
       d = s.Day;
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.hms
+    ## @subsubsection datetime.hms
+    ## @deftypefn {Method} {[@var{h}, @var{m}, @var{s}] =} hms (@var{obj})
+    ##
+    ## Get the Hour, Minute, and Second components of a @var{obj}.
+    ##
+    ## For zoned @code{datetime}s, these will be local times in the associated time zone.
+    ##
+    ## Returns double arrays the same size as @code{obj}.
+    ##
+    ## @end deftypefn
     function [h, m, s] = hms (this)
       st = datestruct (this);
       h = st.Hour;
@@ -492,6 +580,12 @@ classdef datetime
       endif
     endfunction
     
+    ## -*- texinfo -*-
+    ## @deftp {Class} HelloWorld
+    ##
+    ## This is just some dummy documentation to test mkdoc.pl.
+    ##
+    ## @end deftp
     function out = datestr (this, varargin)
       %DATESTR Format as date string.
       out = datestr (this.dnums, varargin{:});
