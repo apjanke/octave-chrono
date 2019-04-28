@@ -537,7 +537,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.timeofday
     ## @subsubsection datetime.timeofday
-    ## @deftypefn {Method} {[@var{out}] =} timeofday (@var{obj})
+    ## @deftypefn {Method} {@var{out} =} timeofday (@var{obj})
     ##
     ## Get the time of day (elapsed time since midnight).
     ##
@@ -555,7 +555,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.week
     ## @subsubsection datetime.week
-    ## @deftypefn {Method} {[@var{out}] =} week (@var{obj})
+    ## @deftypefn {Method} {@var{out} =} week (@var{obj})
     ##
     ## Get the week of the year.
     ##
@@ -598,7 +598,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.dispstrs
     ## @subsubsection datetime.dispstrs
-    ## @deftypefn {Method} {[@var{out}] =} dispstrs (@var{obj})
+    ## @deftypefn {Method} {@var{out} =} dispstrs (@var{obj})
     ##
     ## Get display strings for each element of @var{obj}.
     ##
@@ -624,8 +624,8 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.datestr
     ## @subsubsection datetime.datestr
-    ## @deftypefn {Method} {[@var{out}] =} datestr (@var{obj})
-    ## @deftypefnx {Method} {[@var{out}] =} datestr (@var{obj}, @dots{})
+    ## @deftypefn {Method} {@var{out} =} datestr (@var{obj})
+    ## @deftypefnx {Method} {@var{out} =} datestr (@var{obj}, @dots{})
     ##
     ## Format @var{obj} as date strings. Supports all arguments that core Octave's
     ## @code{datestr} does.
@@ -641,8 +641,8 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.datestrs
     ## @subsubsection datetime.datestrs
-    ## @deftypefn {Method} {[@var{out}] =} datestrs (@var{obj})
-    ## @deftypefnx {Method} {[@var{out}] =} datestrs (@var{obj}, @dots{})
+    ## @deftypefn {Method} {@var{out} =} datestrs (@var{obj})
+    ## @deftypefnx {Method} {@var{out} =} datestrs (@var{obj}, @dots{})
     ##
     ## Format @var{obj} as date strings, returning cellstr.
     ## Supports all arguments that core Octave's @code{datestr} does.
@@ -664,7 +664,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.datestruct
     ## @subsubsection datetime.datestruct
-    ## @deftypefn {Method} {[@var{out}] =} datestruct (@var{obj})
+    ## @deftypefn {Method} {@var{out} =} datestruct (@var{obj})
     ##
     ## Converts this to a "datestruct" broken-down time structure.
     ##
@@ -696,7 +696,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.posixtime
     ## @subsubsection datetime.posixtime
-    ## @deftypefn {Method} {[@var{out}] =} posixtime (@var{obj})
+    ## @deftypefn {Method} {@var{out} =} posixtime (@var{obj})
     ##
     ## Converts this to POSIX time values (seconds since the Unix epoch)
     ##
@@ -714,7 +714,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.datenum
     ## @subsubsection datetime.datenum
-    ## @deftypefn {Method} {[@var{out}] =} datenum (@var{obj})
+    ## @deftypefn {Method} {@var{out} =} datenum (@var{obj})
     ##
     ## DATENUM Convert this to datenums that represent the same local time
     ##
@@ -732,7 +732,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.isnat
     ## @subsubsection datetime.isnat
-    ## @deftypefn {Method} {[@var{out}] =} isnat (@var{obj})
+    ## @deftypefn {Method} {@var{out} =} isnat (@var{obj})
     ##
     ## True if input elements are NaT.
     ##
@@ -747,7 +747,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.isnan
     ## @subsubsection datetime.isnan
-    ## @deftypefn {Method} {[@var{out}] =} isnan (@var{obj})
+    ## @deftypefn {Method} {@var{out} =} isnan (@var{obj})
     ##
     ## True if input elements are NaT. This is an alias for @code{isnat}
     ## to support type compatibility and polymorphic programming.
@@ -767,7 +767,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.lt
     ## @subsubsection datetime.lt
-    ## @deftypefn {Method} {[@var{out}] =} lt (@var{A}, @var{B})
+    ## @deftypefn {Method} {@var{out} =} lt (@var{A}, @var{B})
     ##
     ## True if @var{A} is less than @var{B}. This defines the @code{<} operator
     ## for @code{datetime}s.
@@ -787,7 +787,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.le
     ## @subsubsection datetime.le
-    ## @deftypefn {Method} {[@var{out}] =} le (@var{A}, @var{B})
+    ## @deftypefn {Method} {@var{out} =} le (@var{A}, @var{B})
     ##
     ## True if @var{A} is less than or equal to@var{B}. This defines the @code{<=} operator
     ## for @code{datetime}s.
@@ -807,7 +807,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.ne
     ## @subsubsection datetime.ne
-    ## @deftypefn {Method} {[@var{out}] =} ne (@var{A}, @var{B})
+    ## @deftypefn {Method} {@var{out} =} ne (@var{A}, @var{B})
     ##
     ## True if @var{A} is not equal to @var{B}. This defines the @code{!=} operator
     ## for @code{datetime}s.
@@ -827,7 +827,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.eq
     ## @subsubsection datetime.eq
-    ## @deftypefn {Method} {[@var{out}] =} eq (@var{A}, @var{B})
+    ## @deftypefn {Method} {@var{out} =} eq (@var{A}, @var{B})
     ##
     ## True if @var{A} is equal to @var{B}. This defines the @code{==} operator
     ## for @code{datetime}s.
@@ -847,7 +847,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.ge
     ## @subsubsection datetime.ge
-    ## @deftypefn {Method} {[@var{out}] =} ge (@var{A}, @var{B})
+    ## @deftypefn {Method} {@var{out} =} ge (@var{A}, @var{B})
     ##
     ## True if @var{A} is greater than or equal to @var{B}. This defines the @code{>=} operator
     ## for @code{datetime}s.
@@ -867,7 +867,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.gt
     ## @subsubsection datetime.gt
-    ## @deftypefn {Method} {[@var{out}] =} gt (@var{A}, @var{B})
+    ## @deftypefn {Method} {@var{out} =} gt (@var{A}, @var{B})
     ##
     ## True if @var{A} is greater than @var{B}. This defines the @code{>} operator
     ## for @code{datetime}s.
@@ -889,7 +889,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.plus
     ## @subsubsection datetime.plus
-    ## @deftypefn {Method} {[@var{out}] =} plus (@var{A}, @var{B})
+    ## @deftypefn {Method} {@var{out} =} plus (@var{A}, @var{B})
     ##
     ## Addition (@code{+} operator). Adds a @code{duration}, @code{calendarDuration},
     ## or numeric @var{B} to a @code{datetime} @var{A}.
@@ -944,7 +944,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.minus
     ## @subsubsection datetime.minus
-    ## @deftypefn {Method} {[@var{out}] =} minus (@var{A}, @var{B})
+    ## @deftypefn {Method} {@var{out} =} minus (@var{A}, @var{B})
     ##
     ## Subtraction (@code{-} operator). Subtracts a @code{duration}, 
     ## @code{calendarDuration} or numeric @var{B} from a @code{datetime} @var{A},
@@ -972,7 +972,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.diff
     ## @subsubsection datetime.diff
-    ## @deftypefn {Method} {[@var{out}] =} diff (@var{obj})
+    ## @deftypefn {Method} {@var{out} =} diff (@var{obj})
     ##
     ## Differences between elements.
     ##
@@ -990,7 +990,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.isbetween
     ## @subsubsection datetime.isbetween
-    ## @deftypefn {Method} {[@var{out}] =} isbetween (@var{obj}, @var{lower}, @var{upper})
+    ## @deftypefn {Method} {@var{out} =} isbetween (@var{obj}, @var{lower}, @var{upper})
     ##
     ## Tests whether the elements of @var{obj} are between @var{lower} and
     ## @var{upper}.
@@ -1033,13 +1033,15 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.linspace
     ## @subsubsection datetime.linspace
-    ## @deftypefn {Method} {[@var{out}] =} linspace (@var{from}, @var{to}, @var{n})
+    ## @deftypefn {Method} {@var{out} =} linspace (@var{from}, @var{to}, @var{n})
     ##
     ## Linearly-spaced values in date/time space.
     ##
     ## Constructs a vector of @code{datetime}s that represent linearly spaced points
     ## starting at @var{from} and going up to @var{to}, with @var{n} points in the
     ## vector.
+    ##
+    ## @var{from} and @var{to} are implicitly converted to @code{datetime}s.
     ##
     ## @var{n} is how many points to use. If omitted, defaults to 100.
     ##
@@ -1410,7 +1412,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.convertDatenumTimeZone
     ## @subsubsection datetime.convertDatenumTimeZone
-    ## @deftypefn {Static Method} {[@var{out}] =} datetime.convertDatenumTimeZone @
+    ## @deftypefn {Static Method} {@var{out} =} datetime.convertDatenumTimeZone @
     ##  (@var{dnum}, @var{fromZoneId}, @var{toZoneId})
     ##
     ## Convert a datenum from one time zone to another.
