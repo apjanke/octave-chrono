@@ -12,6 +12,14 @@ Chrono TODO
 
 * Report crash: giving duration a days method while it has a days property results in a crash.
 
+# Doco stuff
+
+* Document my new class/namespace-supporting stuff
+  * Stick a README in the doc/ directory describing how my new stuff works, and detailing the texinfo conventions needed to work with it.
+* Add support for namespaces
+  * Recursively find files
+  * Establish node naming convention for things in namespaces
+
 # Areas
 
 * `datetime`
