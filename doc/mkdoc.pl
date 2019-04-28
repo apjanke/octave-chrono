@@ -22,23 +22,20 @@
 # block will contain the identifier for that block (based on the input file
 # name), and the subsequent lines are the Texinfo contents extracted from that file.
 #
-# In M-files, the texinfo doco is located as the first comment block following
-# an optional initial Copyright block in each file.
-# It should start with the string "## -*- texinfo -*-" to indicate that it
-# is in Texinfo format; otherwise a warning is issued. Leading comments
-# and whitespace and trailing whitespace are stripped.
+# In M-files, the texinfo doco is located as comment blocks anywhere in
+# the file, but following an optional initial Copyright block in each file.
+# Each comment block must start with the string "## -*- texinfo -*-" to indicate that it
+# is in Texinfo format. The block is all the contiguous lines that start with "## ",
+# with optional leading whitespace before the "##". The leading "## "
+# and any trailing whitespace are stripped.
 #
 # In C++ files, the doco blocks are the string arguments to each DEFUN_DLD
 # macro.
 #
-# Comment blocks must be prefixed on each line with "#", "%", or "//". C-style
-# "/* ... */" comment blocks do not count and are ignored.
-#
-# The entire texinfo help must be in a single comment block. Subsequent texinfo
-# comment blocks are ignored.
-#
-# The found texinfo help blocks are all concatenated, with "\037%s\n" 
-# separating each entry.
+# The found texinfo help blocks are all concatenated, with "\037%s\n" (ASCII US)
+# separating each entry. Each entry should be considered one thing that gets
+# an entry into the function index in whatever final output help format you
+# are using.
 #
 # Progress messages are written to stdout. Warnings and diagnostics are
 # written to stderr.
@@ -151,16 +148,16 @@ foreach my $file ( @cxx_files ) {
 
 # Grab help from m-files
 foreach my $file (@m_files) {
-    #my $desc = DocStuff::extract_description_from_mfile($file);
     my $descs = DocStuff::extract_multiple_texinfo_blocks_from_mfile($file);
-    my $desc = join("\n\n", @$descs);
-    my $identifier = basename($file, ('.m'));
-    die "Error: Null identifier name (file $file)\n" unless $identifier;
-    if ($desc eq "") {
-        printf STDERR "Function/class %s (file %s) does not contain texinfo help\n",
-                    $identifier, $file;
+    if (scalar (@$descs) == 0) {
+        printf STDERR "Function/class file %s does not contain texinfo help\n",
+                    $file;
     }
-    emit sprintf("\037%s\n%s\n", $identifier, $desc);
+    for my $desc (@$descs) {
+        my $node_name = $desc->{"node"};
+        my $block = $desc->{"block"};
+        emit sprintf("\037%s\n%s\n", $node_name, $block);
+    }
 }
 
 

@@ -24,7 +24,10 @@
 # DocStuff module: common code for mk*.pl in Chrono Octave package
 
 use strict;
+
 package DocStuff;
+
+use File::Basename;
 
 # Read an INDEX file. Returns hashref:
 # {
@@ -127,10 +130,12 @@ sub extract_description_from_mfile { # {{{1
 } # 1}}}
 
 # Extract all Octave Texinfo documentation comments from an m-file
-# Returns an arrayref of extracted blocks
+# Returns an arrayref of extracted blocks, with each block being
+# a hashref with keys "node" and "block".
 sub extract_multiple_texinfo_blocks_from_mfile { # {{{1
     my ($mfile) = @_;
     my $retval = '';
+    my $file_node_name = basename($mfile, ('.m'));
 
     unless (open (IN, $mfile)) {
         die "Error: Could not open file $mfile: $!\n";
@@ -151,30 +156,46 @@ sub extract_multiple_texinfo_blocks_from_mfile { # {{{1
     my $block; # the current block
     my $in_block = 0;
     my $line;
+    my $node;
     while (<IN>) {
         if (/^\s*## -\*- texinfo -\*-/) {
             # block start
             if ($in_block) {
-                push @blocks, $block;
+                push @blocks, { node => $node, block => $block};
             }
+            # Block output must start with "-*- texinfo -*-" for historical reasons
             $block = "-*- texinfo -*-";
             $in_block = 1;
+            # Grab next line so we can detect node name
+            $line = <IN>;
+            $line = strip_mfile_block_line ($line);
+            if ($line =~ /^\s*\@node (\S*)/) {
+                $node = $1;
+            } else {
+                # For back-compatibility, the first block may take the file as its node name
+                # Only the first block! Otherwise you'd have collisions.
+                if (scalar (@blocks) == 0) {
+                    $node = $file_node_name;
+                } else {
+                    die "Found non-first block with no \@node statement in file $mfile\n";
+                }
+            }
+            $block .= "$line\n";
         } elsif (/^\s*##\s/) {
             if ($in_block) {
-                s/^\s*##\s?//;   # strip leading comment characters
-                s/[\cM\s]*$//;   # strip trailing spaces.
-                $block .= "$_\n";
+                $line = strip_mfile_block_line ($_);
+                $block .= "$line\n";
             }
         } else {
             if ($in_block) {
-                push @blocks, $block;
+                push @blocks, { node => $node, block => $block};
                 $block = "";
                 $in_block = 0;
             }
         }
     }
     if ($in_block) {
-        push @blocks, $block;
+        push @blocks, { node => $node, block => $block};
         $block = "-*- texinfo -*-";
         $in_block = 0;
     }
@@ -182,6 +203,13 @@ sub extract_multiple_texinfo_blocks_from_mfile { # {{{1
     my $n_blocks = scalar @blocks;
     return \@blocks;
 } # 1}}}
+
+sub strip_mfile_block_line {
+    my ($line) = @_;
+    $line =~ s/^\s*##\s?//;   # strip leading comment characters
+    $line =~ s/[\cM\s]*$//;   # strip trailing spaces.
+    return $line;
+}
 
 sub get_package_metadata_from_description_file {
     my $description_file = "../DESCRIPTION";
