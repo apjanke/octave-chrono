@@ -335,8 +335,8 @@ classdef duration
     endfunction
     
     ## -*- texinfo -*-
-    ## @node datetime.char
-    ## @subsubsection datetime.char
+    ## @node duration.char
+    ## @subsubsection duration.char
     ## @deftypefn {Method} {@var{out} =} char (@var{obj})
     ##
     ## Convert to char. The contents of the strings will be the same as
