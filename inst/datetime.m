@@ -118,7 +118,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.ofDatenum
     ## @subsubsection datetime.ofDatenum
-    ## @deftypefn {Class Method} {@var{obj} =} datetime.ofDatenum (@var{dnums})
+    ## @deftypefn {Static Method} {@var{obj} =} datetime.ofDatenum (@var{dnums})
     ##
     ## Converts a datenum array to a datetime array.
     ##
@@ -132,7 +132,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.ofDatestruct
     ## @subsubsection datetime.ofDatestruct
-    ## @deftypefn {Class Method} {@var{obj} =} datetime.ofDatestruct (@var{dstruct})
+    ## @deftypefn {Static Method} {@var{obj} =} datetime.ofDatestruct (@var{dstruct})
     ##
     ## Converts a datestruct to a datetime array.
     ##
@@ -167,7 +167,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.posix2datenum
     ## @subsubsection datetime.posix2datenum
-    ## @deftypefn {Class Method} {@var{dnums} =} datetime.posix2datenum (@var{pdates})
+    ## @deftypefn {Static Method} {@var{dnums} =} datetime.posix2datenum (@var{pdates})
     ##
     ## Converts POSIX (Unix) times to datenums
     ##
@@ -183,7 +183,7 @@ classdef datetime
     ## -*- texinfo -*-
     ## @node datetime.datenum2posix
     ## @subsubsection datetime.datenum2posix
-    ## @deftypefn {Class Method} {@var{out} =} datetime.datenum2posix (@var{dnums})
+    ## @deftypefn {Static Method} {@var{out} =} datetime.datenum2posix (@var{dnums})
     ##
     ## Converts Octave datenums to Unix dates.
     ##
@@ -969,11 +969,38 @@ classdef datetime
       endif
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.diff
+    ## @subsubsection datetime.diff
+    ## @deftypefn {Method} {[@var{out}] =} diff (@var{obj})
+    ##
+    ## Differences between elements.
+    ##
+    ## Computes the difference between each successive element in @var{obj}, as a
+    ## @code{duration}.
+    ##
+    ## Returns a @code{duration} array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = diff (this)
       %DIFF Differences between elements
       out = duration.ofDays (diff (this.dnums));
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.isbetween
+    ## @subsubsection datetime.isbetween
+    ## @deftypefn {Method} {[@var{out}] =} isbetween (@var{obj}, @var{lower}, @var{upper})
+    ##
+    ## Tests whether the elements of @var{obj} are between @var{lower} and
+    ## @var{upper}.
+    ##
+    ## All inputs are implicitly converted to @code{datetime} arrays, and are subject
+    ## to scalar expansion.
+    ##
+    ## Returns a logical array the same size as the scalar expansion of the inputs.
+    ##
+    ## @end deftypefn
     function out = isbetween (this, lower, upper)
       %ISBETWEEN Whether elements are within a time interval
       [this, lower, upper] = datetime.promote (this, lower, upper);
@@ -1003,6 +1030,22 @@ classdef datetime
       out.dnums = this.dnums:increment.days:limit.dnums;
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.linspace
+    ## @subsubsection datetime.linspace
+    ## @deftypefn {Method} {[@var{out}] =} linspace (@var{from}, @var{to}, @var{n})
+    ##
+    ## Linearly-spaced values in date/time space.
+    ##
+    ## Constructs a vector of @code{datetime}s that represent linearly spaced points
+    ## starting at @var{from} and going up to @var{to}, with @var{n} points in the
+    ## vector.
+    ##
+    ## @var{n} is how many points to use. If omitted, defaults to 100.
+    ##
+    ## Returns an @var{n}-long @code{datetime} vector.
+    ##
+    ## @end deftypefn
     function out = linspace (from, to, n)
       %LINSPACE Linearly-spaced values
       narginchk (2, 3);
@@ -1364,6 +1407,25 @@ classdef datetime
   
   methods (Static = true)
 
+    ## -*- texinfo -*-
+    ## @node datetime.convertDatenumTimeZone
+    ## @subsubsection datetime.convertDatenumTimeZone
+    ## @deftypefn {Static Method} {[@var{out}] =} datetime.convertDatenumTimeZone @
+    ##  (@var{dnum}, @var{fromZoneId}, @var{toZoneId})
+    ##
+    ## Convert a datenum from one time zone to another.
+    ##
+    ## @var{dnum} is a datenum array to convert.
+    ##
+    ## @var{fromZoneId} is a charvec containing the IANA Time Zone identifier for
+    ## the time zone to convert from.
+    ##
+    ## @var{toZoneId} is a charvec containing the IANA Time Zone identifier for
+    ## the time zone to convert to.
+    ##
+    ## Returns a datenum array the same size as @var{dnum}.
+    ##
+    ## @end deftypefn
     function out = convertDatenumTimeZone (dnum, fromZoneId, toZoneId)
       %CONVERTDATENUMTIMEZONE Convert time zone on datenums
       narginchk (3, 3);
