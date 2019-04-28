@@ -169,9 +169,9 @@ classdef datetime
     ## @subsubsection datetime.posix2datenum
     ## @deftypefn {Class Method} {@var{dnums} =} datetime.posix2datenum (@var{pdates})
     ##
-    ## Converts Unix (POSIX) times to datenums
+    ## Converts POSIX (Unix) times to datenums
     ##
-    ## Pdates (numeric) is an array of Unix dates. A Unix date is the number
+    ## Pdates (numeric) is an array of POSIX dates. A POSIX date is the number
     ## of seconds since January 1, 1970 UTC, excluding leap seconds. The output
     ## is implicitly in UTC.
     ##
@@ -508,6 +508,19 @@ classdef datetime
       s = st.Second;
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.ymdhms
+    ## @subsubsection datetime.ymdhms
+    ## @deftypefn {Method} {[@var{y}, @var{m}, @var{d}, @var{h}, @var{mi}, @var{s}] =} ymdhms @
+    ##   (@var{obj})
+    ##
+    ## Get the Year, Month, Day, Hour, Minute, and Second components of a @var{obj}.
+    ##
+    ## For zoned @code{datetime}s, these will be local times in the associated time zone.
+    ##
+    ## Returns double arrays the same size as @code{obj}.
+    ##
+    ## @end deftypefn
     function [y, m, d, h, mi, s] = ymdhms (this)
       %YMDHMS Get the year, month, day, etc components of this.
       %
@@ -521,13 +534,34 @@ classdef datetime
       s = ds.Second;
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.timeofday
+    ## @subsubsection datetime.timeofday
+    ## @deftypefn {Method} {[@var{out}] =} timeofday (@var{obj})
+    ##
+    ## Get the time of day (elapsed time since midnight).
+    ##
+    ## For zoned @code{datetime}s, these will be local times in the associated time zone.
+    ##
+    ## Returns a @code{duration} array the same size as @code{obj}.
+    ##
+    ## @end deftypefn
     function out = timeofday (this)
-      %TIMEOFDAY Elapsed time since midnight.
-      
       % Use mod, not rem, so negative dates give correct result
-      out = duration.ofDays (mod (this.dnums, 1));
+      local_dnums = datetime.convertDatenumTimeZone (this.dnums, 'UTC', this.TimeZone);
+      out = duration.ofDays (mod (local_dnums, 1));
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.week
+    ## @subsubsection datetime.week
+    ## @deftypefn {Method} {[@var{out}] =} week (@var{obj})
+    ##
+    ## Get the week of the year.
+    ##
+    ## This method is unimplemented.
+    ##
+    ## @end deftypefn
     function out = week (this)
       error('week() is unimplemented');
     endfunction
@@ -561,10 +595,17 @@ classdef datetime
       endif
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.dispstrs
+    ## @subsubsection datetime.dispstrs
+    ## @deftypefn {Method} {[@var{out}] =} dispstrs (@var{obj})
+    ##
+    ## Get display strings for each element of @var{obj}.
+    ##
+    ## Returns a cellstr the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = dispstrs (this)
-      %DISPSTRS Custom display strings.
-      %
-      % This is an Octave extension.
 
       % TODO: Uh oh; TimeZone isn't included in the output here!
       if isempty (this.TimeZone)
@@ -581,16 +622,34 @@ classdef datetime
     endfunction
     
     ## -*- texinfo -*-
-    ## @deftp {Class} HelloWorld
+    ## @node datetime.datestr
+    ## @subsubsection datetime.datestr
+    ## @deftypefn {Method} {[@var{out}] =} datestr (@var{obj})
+    ## @deftypefnx {Method} {[@var{out}] =} datestr (@var{obj}, @dots{})
     ##
-    ## This is just some dummy documentation to test mkdoc.pl.
+    ## Format @var{obj} as date strings. Supports all arguments that core Octave's
+    ## @code{datestr} does.
     ##
-    ## @end deftp
+    ## Returns date strings as a 2-D char array.
+    ##
+    ## @end deftypefn
     function out = datestr (this, varargin)
       %DATESTR Format as date string.
       out = datestr (this.dnums, varargin{:});
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.datestrs
+    ## @subsubsection datetime.datestrs
+    ## @deftypefn {Method} {[@var{out}] =} datestrs (@var{obj})
+    ## @deftypefnx {Method} {[@var{out}] =} datestrs (@var{obj}, @dots{})
+    ##
+    ## Format @var{obj} as date strings, returning cellstr.
+    ## Supports all arguments that core Octave's @code{datestr} does.
+    ##
+    ## Returns a cellstr array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = datestrs (this, varargin)
       %DATESTSRS Format as date strings.
       %
@@ -602,16 +661,27 @@ classdef datetime
       out = reshape (c, size (this));
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.datestruct
+    ## @subsubsection datetime.datestruct
+    ## @deftypefn {Method} {[@var{out}] =} datestruct (@var{obj})
+    ##
+    ## Converts this to a "datestruct" broken-down time structure.
+    ##
+    ## A "datestruct" is a format of struct that Chrono came up with. It is a scalar
+    ## struct with fields Year, Month, Day, Hour, Minute, and Second, each containing
+    ## a double array the same size as the date array it represents.
+    ##
+    ## The values in the returned broken-down time are those of the local time
+    ## in this' defined time zone, if it has one.
+    ##
+    ## Returns a struct with fields Year, Month, Day, Hour, Minute, and Second.
+    ## Each field contains a double array of the same size as this.
+    ##
+    ## This is an Octave extension.
+    ##
+    ## @end deftypefn
     function out = datestruct (this)
-      %DATESTRUCT Convert to a "datestruct" broken-down time
-      %
-      % The values in the returned broken-down time are those of the local time
-      % in this' defined time zone, if it has one.
-      %
-      % Returns a struct with fields Year, Month, Day, Hour, Minute, and Second.
-      % Each field contains a double array of the same size as this.
-      %
-      % This is an Octave extension.
       local_dnums = datetime.convertDatenumTimeZone (this.dnums, 'UTC', this.TimeZone);
       dvec = datevec (local_dnums);
       sz = size (this);
@@ -623,25 +693,35 @@ classdef datetime
       out.Second = reshape (dvec(:,6), sz);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.posixtime
+    ## @subsubsection datetime.posixtime
+    ## @deftypefn {Method} {[@var{out}] =} posixtime (@var{obj})
+    ##
+    ## Converts this to POSIX time values (seconds since the Unix epoch)
+    ##
+    ## Converts this to POSIX time values that represent the same time. The
+    ## returned values will be doubles that may include fractional second values.
+    ## POSIX times are, by definition, in UTC.
+    ##
+    ## Returns double array of same size as this.
+    ##
+    ## @end deftypefn
     function out = posixtime (this)
-      %POSIXTIME Convert this to POSIX time values (seconds since the Unix epoch)
-      %
-      % Converts this to POSIX time values that represent the same time. The
-      % returned values will be doubles that may include fractional second values.
-      % POSIX times are, by definition, in UTC.
-      %
-      % Returns double array of same size as this.
-      %
-      % This is an Octave extension.
       out = datetime.datenum2posix (this.dnums);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.datenum
+    ## @subsubsection datetime.datenum
+    ## @deftypefn {Method} {[@var{out}] =} datenum (@var{obj})
+    ##
+    ## DATENUM Convert this to datenums that represent the same local time
+    ##
+    ## Returns double array of same size as this.
+    ##
+    ## @end deftypefn
     function out = datenum (this)
-      %DATENUM Convert this to datenums that represent the same local time
-      %
-      % Returns double array of same size as this.
-      %
-      % This is an Octave extension.
       dnums = this.dnums;
       if !isempty (this.TimeZone) && !isequal (this.TimeZone, 'UTC')
         dnums = datetime.convertDatenumTimeZone (dnums, 'UTC', this.TimeZone);
@@ -649,11 +729,32 @@ classdef datetime
       out = dnums;
     endfunction
 
+    ## -*- texinfo -*-
+    ## @node datetime.isnat
+    ## @subsubsection datetime.isnat
+    ## @deftypefn {Method} {[@var{out}] =} isnat (@var{obj})
+    ##
+    ## True if input elements are NaT.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = isnat (this)
       %ISNAT True if input is NaT.
       out = isnan (this.dnums);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.isnan
+    ## @subsubsection datetime.isnan
+    ## @deftypefn {Method} {[@var{out}] =} isnan (@var{obj})
+    ##
+    ## True if input elements are NaT. This is an alias for @code{isnat}
+    ## to support type compatibility and polymorphic programming.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = isnan (this)
       %ISNAN Alias for isnat.
       %
