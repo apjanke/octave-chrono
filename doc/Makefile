@@ -11,10 +11,11 @@
 #   - each @node must be followed immediately by a @chapter/@section/@subsection/@subsubsection
 #
 # Notes:
-# - This requires a newer version of Texinfo that ships with macOS. You must
-# `brew install texinfo` and manually add `$(brew --prefix texinfo)/bin` to your
-# $PATH before using this Makefile. I do this by running
-# `PATH="$(brew --prefix texinfo)/bin:$PATH" when I start working with this code.
+# - Mac: This requires a newer version of Texinfo that ships with macOS. 4.8 and 5.2 are too
+#   old. 6.x is required; I tested on 6.6. You must
+#   `brew install texinfo` and manually add `$(brew --prefix texinfo)/bin` to the FRONT of your
+#   $PATH before using this Makefile. I do this by running
+#   `PATH="$(brew --prefix texinfo)/bin:$PATH" when I start working with this code.
 # - On Ubuntu, don't forget to `apt-get install qt5-defaults`!
 # - On macOS, `brew install findutils`
 #

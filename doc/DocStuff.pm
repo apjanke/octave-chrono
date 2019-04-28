@@ -88,7 +88,7 @@ sub read_index_file { # {{{1
 }
 
 
-# Extract the entire documentation comment from an m-file.
+# Extract the entire main documentation comment from an m-file.
 # This grabs the first comment block after an optional initial copyright block.
 # It ignores M-code syntax, so if you don't have a file-level comment block,
 # it may end up grabbing a comment block from inside one of your functions.
@@ -124,6 +124,63 @@ sub extract_description_from_mfile { # {{{1
     }
     close(IN);
     return $retval;
+} # 1}}}
+
+# Extract all Octave Texinfo documentation comments from an m-file
+# Returns an arrayref of extracted blocks
+sub extract_multiple_texinfo_blocks_from_mfile { # {{{1
+    my ($mfile) = @_;
+    my $retval = '';
+
+    unless (open (IN, $mfile)) {
+        die "Error: Could not open file $mfile: $!\n";
+    }
+    # Skip leading blank lines
+    while (<IN>) {
+        last if /\S/;
+    }
+    # First block may be copyright statement; skip it
+    if (m/\s*[%\#][\s\#%]* Copyright/) {
+        while (<IN>) {
+            last unless /^\s*[%\#]/;
+        }
+    }
+
+    # Okay, now detect all Texinfo comment blocks
+    my @blocks;
+    my $block; # the current block
+    my $in_block = 0;
+    my $line;
+    while (<IN>) {
+        if (/^\s*## -\*- texinfo -\*-/) {
+            # block start
+            if ($in_block) {
+                push @blocks, $block;
+            }
+            $block = "-*- texinfo -*-";
+            $in_block = 1;
+        } elsif (/^\s*##\s/) {
+            if ($in_block) {
+                s/^\s*##\s?//;   # strip leading comment characters
+                s/[\cM\s]*$//;   # strip trailing spaces.
+                $block .= "$_\n";
+            }
+        } else {
+            if ($in_block) {
+                push @blocks, $block;
+                $block = "";
+                $in_block = 0;
+            }
+        }
+    }
+    if ($in_block) {
+        push @blocks, $block;
+        $block = "-*- texinfo -*-";
+        $in_block = 0;
+    }
+
+    my $n_blocks = scalar @blocks;
+    return \@blocks;
 } # 1}}}
 
 sub get_package_metadata_from_description_file {

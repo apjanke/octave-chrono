@@ -4,7 +4,8 @@
 # Andrew Janke 2019
 # 
 # Extracts the help in texinfo format from *.cc and *.m files for use
-# in documentation. Based on make_index script from octave_forge.
+# in documentation, and generates the DOCSTRINGS.texi.tmp function doco index.
+# Based on make_index script from octave_forge.
 #
 # Usage:
 #
@@ -14,6 +15,9 @@
 #
 # The dir <sourcedir> is searched recursively for Octave function
 # source code files.
+#
+# The <outfile> is the function doco index file you want to create; typically
+# DOCSTRINGS.texi.tmp. This file is a [TODO: describe the file format.].
 #
 # In M-files, the texinfo doco is located as the first comment block following
 # an optional initial Copyright block in each file.
@@ -107,7 +111,7 @@ foreach my $file ( @cxx_files ) {
         die "Error: Could not open file ($file): $!\n";
     }
     while (<IN>) {
-        # skip to the first defined Octave function
+        # skip to the next defined Octave function
         next unless /^DEFUN_DLD/;
         # extract function name
         /\DEFUN_DLD\s*\(\s*(\w+)\s*,/;
@@ -144,11 +148,13 @@ foreach my $file ( @cxx_files ) {
 
 # Grab help from m-files
 foreach my $file (@m_files) {
-    my $desc     = DocStuff::extract_description_from_mfile($file);
+    #my $desc = DocStuff::extract_description_from_mfile($file);
+    my $descs = DocStuff::extract_multiple_texinfo_blocks_from_mfile($file);
+    my $desc = join("\n\n", @$descs);
     my $function = basename($file, ('.m'));
     die "Error: Null function name (file $file)\n" unless $function;
-    if (!($desc =~ /^\s*-[*]- texinfo -[*]-/)) {
-        printf STDERR "Function %s (file %s) does not contain texinfo help\n",
+    if ($desc eq "") {
+        printf STDERR "Function/class %s (file %s) does not contain texinfo help\n",
                     $function, $file;
     }
     emit sprintf("\037%s\n%s\n", $function, $desc);
