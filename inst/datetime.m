@@ -764,36 +764,120 @@ classdef datetime
     
     % Relational operations
 
+    ## -*- texinfo -*-
+    ## @node datetime.lt
+    ## @subsubsection datetime.lt
+    ## @deftypefn {Method} {[@var{out}] =} lt (@var{A}, @var{B})
+    ##
+    ## True if @var{A} is less than @var{B}. This defines the @code{<} operator
+    ## for @code{datetime}s.
+    ##
+    ## Inputs are implicitly converted to @code{datetime} using the one-arg
+    ## constructor or conversion method.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = lt (A, B)
       %LT Less than.
       [A, B] = datetime.promote (A, B);
       out = A.dnums < B.dnums;
     endfunction
 
+    ## -*- texinfo -*-
+    ## @node datetime.le
+    ## @subsubsection datetime.le
+    ## @deftypefn {Method} {[@var{out}] =} le (@var{A}, @var{B})
+    ##
+    ## True if @var{A} is less than or equal to@var{B}. This defines the @code{<=} operator
+    ## for @code{datetime}s.
+    ##
+    ## Inputs are implicitly converted to @code{datetime} using the one-arg
+    ## constructor or conversion method.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = le (A, B)
       %LE Less than or equal.
       [A, B] = datetime.promote (A, B);
       out = A.dnums <= B.dnums;
     endfunction
 
+    ## -*- texinfo -*-
+    ## @node datetime.ne
+    ## @subsubsection datetime.ne
+    ## @deftypefn {Method} {[@var{out}] =} ne (@var{A}, @var{B})
+    ##
+    ## True if @var{A} is not equal to @var{B}. This defines the @code{!=} operator
+    ## for @code{datetime}s.
+    ##
+    ## Inputs are implicitly converted to @code{datetime} using the one-arg
+    ## constructor or conversion method.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = ne (A, B)
       %NE Not equal.
       [A, B] = datetime.promote (A, B);
       out = A.dnums ~= B.dnums;
     endfunction
 
+    ## -*- texinfo -*-
+    ## @node datetime.eq
+    ## @subsubsection datetime.eq
+    ## @deftypefn {Method} {[@var{out}] =} eq (@var{A}, @var{B})
+    ##
+    ## True if @var{A} is equal to @var{B}. This defines the @code{==} operator
+    ## for @code{datetime}s.
+    ##
+    ## Inputs are implicitly converted to @code{datetime} using the one-arg
+    ## constructor or conversion method.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = eq (A, B)
       %EQ Equals.
       [A, B] = datetime.promote (A, B);
       out = A.dnums == B.dnums;
     endfunction
 
+    ## -*- texinfo -*-
+    ## @node datetime.ge
+    ## @subsubsection datetime.ge
+    ## @deftypefn {Method} {[@var{out}] =} ge (@var{A}, @var{B})
+    ##
+    ## True if @var{A} is greater than or equal to @var{B}. This defines the @code{>=} operator
+    ## for @code{datetime}s.
+    ##
+    ## Inputs are implicitly converted to @code{datetime} using the one-arg
+    ## constructor or conversion method.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = ge (A, B)
       %GE Greater than or equal.
       [A, B] = datetime.promote (A, B);
       out = A.dnums >= B.dnums;
     endfunction
 
+    ## -*- texinfo -*-
+    ## @node datetime.gt
+    ## @subsubsection datetime.gt
+    ## @deftypefn {Method} {[@var{out}] =} gt (@var{A}, @var{B})
+    ##
+    ## True if @var{A} is greater than @var{B}. This defines the @code{>} operator
+    ## for @code{datetime}s.
+    ##
+    ## Inputs are implicitly converted to @code{datetime} using the one-arg
+    ## constructor or conversion method.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = gt (A, B)
       %GT Greater than.
       [A, B] = datetime.promote (A, B);
@@ -802,8 +886,25 @@ classdef datetime
 
     % Arithmetic
     
+    ## -*- texinfo -*-
+    ## @node datetime.plus
+    ## @subsubsection datetime.plus
+    ## @deftypefn {Method} {[@var{out}] =} plus (@var{A}, @var{B})
+    ##
+    ## Addition (@code{+} operator). Adds a @code{duration}, @code{calendarDuration},
+    ## or numeric @var{B} to a @code{datetime} @var{A}.
+    ##
+    ## Numeric @var{B} inputs are implicitly converted to @code{duration} using
+    ## @code{duration.ofDays}.
+    ##
+    ## Returns @code{datetime} array the same size as @var{A}.
+    ##
+    ## @end deftypefn
     function out = plus (A, B)
       %PLUS Addition.
+
+      % TODO: Maybe support `duration + datetime` form by just swapping the
+      % arguments.
       if ~isa (A, 'datetime')
         error ('Expected left-hand side of A + B to be a datetime; got a %s', ...
           class (A));
@@ -813,6 +914,7 @@ classdef datetime
         out.dnums = A.dnums + B.days;
       elseif isa (B, 'calendarDuration')
         if ~isscalar (B)
+          % TODO: Remove this limitation
           error ('calendarDuration inputs must be scalar');
         endif
         ds = datestruct (A);
@@ -839,6 +941,24 @@ classdef datetime
       endif
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.minus
+    ## @subsubsection datetime.minus
+    ## @deftypefn {Method} {[@var{out}] =} minus (@var{A}, @var{B})
+    ##
+    ## Subtraction (@code{-} operator). Subtracts a @code{duration}, 
+    ## @code{calendarDuration} or numeric @var{B} from a @code{datetime} @var{A},
+    ## or subtracts two @code{datetime}s from each other.
+    ##
+    ## If both inputs are @code{datetime}, then the output is a @code{duration}.
+    ## Otherwise, the output is a @code{datetime}.
+    ##
+    ## Numeric @var{B} inputs are implicitly converted to @code{duration} using
+    ## @code{duration.ofDays}.
+    ##
+    ## Returns an array the same size as @var{A}.
+    ##
+    ## @end deftypefn
     function out = minus (A, B)
       %MINUS Subtraction.
       if isa (A, 'datetime') && isa (B, 'datetime')
