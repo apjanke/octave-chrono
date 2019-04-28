@@ -43,7 +43,6 @@
 ##
 ## @end deftypefn
 
-
 function out = timezones (area)
   %TIMEZONES List time zones
   %
