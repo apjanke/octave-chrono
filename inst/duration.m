@@ -28,6 +28,24 @@
 ##
 ## @end deftp
 ##
+## @deftypeivar duration @code{double} days
+##
+## The underlying datenums that represent the durations, as number of (whole and
+## fractional) days. These are uniform 24-hour days, not calendar days.
+##
+## This is a planar property: the size of @code{days} is the same size as the 
+## containing @code{duration} array object.
+##
+## @end deftypeivar
+##
+## @deftypeivar duration @code{char} Format
+##
+## The format to display this @code{duration} in. Currently unsupported.
+##
+## @end deftypeivar
+##
+## @node duration.duration
+## @subsubsection duration.duration
 ## @deftypefn {Constructor} {@var{obj} =} duration ()
 ##
 ## Constructs a new scalar @code{duration} of zero elapsed time.
@@ -61,6 +79,18 @@ classdef duration
   endproperties
   
   methods (Static)
+    ## -*- texinfo -*-
+    ## @node duration.ofDays
+    ## @subsubsection duration.ofDays
+    ## @deftypefn {Static Method} {@var{obj} =} duration.ofDays (@var{dnums})
+    ##
+    ## Converts a double array representing durations in whole and fractional days
+    ## to a @code{duration} array. This is the method that is used for implicit conversion
+    ## of numerics in many cases.
+    ##
+    ## Returns a @code{duration} array of the same size as the input.
+    ##
+    ## @end deftypefn
     function out = ofDays (dnums)
       %OFDAYS Convert days/datenums to durations
       out = duration (double (dnums), 'Backdoor');
@@ -128,6 +158,19 @@ classdef duration
       error ('Changing the Format of duration is currently unimplemented.');
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node duration.years
+    ## @subsubsection duration.years
+    ## @deftypefn {Method} {@var{out} =} years (@var{obj})
+    ##
+    ## Equivalent number of years.
+    ##
+    ## Gets the number of fixed-length 365.2425-day years that is equivalent
+    ## to this duration.
+    ##
+    ## Returns double array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = years (this)
       %YEARS Number of fixed-length years equivalent to this.
       out = this.days / 365.2425;      
@@ -143,21 +186,73 @@ classdef duration
 ##      out = this.days;
 ##    endfunction
 
+    ## -*- texinfo -*-
+    ## @node duration.hours
+    ## @subsubsection duration.hours
+    ## @deftypefn {Method} {@var{out} =} hours (@var{obj})
+    ##
+    ## Equivalent number of hours.
+    ##
+    ## Gets the number of fixed-length 60-minute hours that is equivalent
+    ## to this duration.
+    ##
+    ## Returns double array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = hours (this)
       %HOURS Number of hours equivalent to this.
       out = this.days * 24;
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node duration.minutes
+    ## @subsubsection duration.minutes
+    ## @deftypefn {Method} {@var{out} =} minutes (@var{obj})
+    ##
+    ## Equivalent number of minutes.
+    ##
+    ## Gets the number of fixed-length 60-second minutes that is equivalent
+    ## to this duration.
+    ##
+    ## Returns double array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = minutes (this)
       %MINUTES Number of minutes equivalent to this.
       out = this.days * (24 * 60);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node duration.seconds
+    ## @subsubsection duration.seconds
+    ## @deftypefn {Method} {@var{out} =} seconds (@var{obj})
+    ##
+    ## Equivalent number of seconds.
+    ##
+    ## Gets the number of seconds that is equivalent
+    ## to this duration.
+    ##
+    ## Returns double array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = seconds (this)
       %SECPMDS Number of seconds equivalent to this.
       out = this.days * (24 * 60 * 60);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node duration.milliseconds
+    ## @subsubsection duration.milliseconds
+    ## @deftypefn {Method} {@var{out} =} milliseconds (@var{obj})
+    ##
+    ## Equivalent number of milliseconds.
+    ##
+    ## Gets the number of milliseconds that is equivalent
+    ## to this duration.
+    ##
+    ## Returns double array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = milliseconds (this)
       %MILLISECONDS Number of milliseconds equivalent to this.
       out = this.days * (24 * 60 * 60 * 1000);
@@ -188,6 +283,16 @@ classdef duration
       fprintf ('%s\n', out);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node duration.dispstrs
+    ## @subsubsection duration.dispstrs
+    ## @deftypefn {Method} {@var{out} =} duration (@var{obj})
+    ##
+    ## Get display strings for each element of @var{obj}.
+    ##
+    ## Returns a cellstr the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = dispstrs (this)
       %DISPSTRS Custom display strings.
       % This is an Octave extension.
@@ -229,6 +334,19 @@ classdef duration
       endfor
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.char
+    ## @subsubsection datetime.char
+    ## @deftypefn {Method} {@var{out} =} char (@var{obj})
+    ##
+    ## Convert to char. The contents of the strings will be the same as
+    ## returned by @code{dispstrs}.
+    ##
+    ## This is primarily a convenience method for use on scalar @var{obj}s.
+    ##
+    ## Returns a 2-D char array with one row per element in @var{obj}.
+    ##
+    ## @end deftypefn
     function out = char (this)
       %CHAR Convert to char.
       %
@@ -380,6 +498,24 @@ classdef duration
       out.days = from.days:increment.days:to.days;
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node duration.linspace
+    ## @subsubsection duration.linspace
+    ## @deftypefn {Method} {@var{out} =} linspace (@var{from}, @var{to}, @var{n})
+    ##
+    ## Linearly-spaced values in time duration space.
+    ##
+    ## Constructs a vector of @code{duration}s that represent linearly spaced points
+    ## starting at @var{from} and going up to @var{to}, with @var{n} points in the
+    ## vector.
+    ##
+    ## @var{from} and @var{to} are implicitly converted to @code{duration}s.
+    ##
+    ## @var{n} is how many points to use. If omitted, defaults to 100.
+    ##
+    ## Returns an @var{n}-long @code{datetime} vector.
+    ##
+    ## @end deftypefn
     function out = linspace (A, B, n)
       %LINSPACE Linearly spaced elements between two values
       narginchk (2, 3);
