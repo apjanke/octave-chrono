@@ -19,12 +19,65 @@
 ## -*- texinfo -*-
 ## @deftp {Class} calendarDuration
 ##
-## Durations in time using variable-length calendar periods, such as days,
+## Durations of time using variable-length calendar periods, such as days,
 ## months, and years, which may vary in length over time. (For example, a
 ## calendar month may have 28, 30, or 31 days.)
 ##
 ## @end deftp
 ##
+## @deftypeivar calendarDuration @code{char} Sign
+##
+## The sign (1 or -1) of this duration, which indicates whether it is a
+## positive or negative span of time.
+##
+## @end deftypeivar
+##
+## @deftypeivar calendarDuration @code{char} Years
+##
+## The number of whole calendar years in this duration. Must be integer-valued.
+##
+## @end deftypeivar
+##
+## @deftypeivar calendarDuration @code{char} Months
+##
+## The number of whole calendar months in this duration. Must be integer-valued.
+##
+## @end deftypeivar
+##
+## @deftypeivar calendarDuration @code{char} Days
+##
+## The number of whole calendar days in this duration. Must be integer-valued.
+##
+## @end deftypeivar
+##
+## @deftypeivar calendarDuration @code{char} Hours
+##
+## The number of whole hours in this duration. Must be integer-valued.
+##
+## @end deftypeivar
+##
+## @deftypeivar calendarDuration @code{char} Minutes
+##
+## The number of whole minutes in this duration. Must be integer-valued.
+##
+## @end deftypeivar
+##
+## @deftypeivar calendarDuration @code{char} Seconds
+##
+## The number of seconds in this duration. May contain fractional values.
+##
+## @end deftypeivar
+##
+## @deftypeivar calendarDuration @code{char} Format
+##
+## The format to display this @code{calendarDuration} in. Currently unsupported.
+##
+## This is a single value that applies to the whole array.
+##
+## @end deftypeivar
+##
+## @node calendarDuration.calendarDuration
+## @subsubsection calendarDuration.calendarDuration
 ## @deftypefn {Constructor} {@var{obj} =} calendarDuration ()
 ##
 ## Constructs a new scalar @code{calendarDuration} of zero elapsed time.
@@ -40,7 +93,6 @@
 ## @end deftypefn
 
 classdef calendarDuration
-  %CALENDARDURATION Lengths of time in variable-length calendar units
   
   % planar precedence: (IsNaN,Sign,Years,Months,Days,Time)
   
@@ -180,17 +232,52 @@ classdef calendarDuration
     
     % Arithmetic
     
+    ## -*- texinfo -*-
+    ## @node calendarDuration.isnat
+    ## @subsubsection calendarDuration.isnat
+    ## @deftypefn {Method} {@var{out} =} isnat (@var{obj})
+    ##
+    ## True if input elements are NaT.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = isnat (this)
       %ISNAT True for Not-a-Time.
       out = isnan (this);
     endfunction
 
+    ## -*- texinfo -*-
+    ## @node calendarDuration.uminus
+    ## @subsubsection calendarDuration.uminus
+    ## @deftypefn {Method} {@var{out} =} uminus (@var{obj})
+    ##
+    ## Unary minus. Negates the sign of @var{obj}.
+    ##
+    ## @end deftypefn
     function out = uminus (this)
       %UMINUS Unary minus.
       out = this;
       out.Sign = -out.Sign;
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node calendarDuration.plus
+    ## @subsubsection calendarDuration.plus
+    ## @deftypefn {Method} {@var{out} =} plus (@var{A}, @var{B})
+    ##
+    ## Addition: add two @code{calendarDuration}s.
+    ##
+    ## All the calendar elements (properties) of the two inputs are added
+    ## together. No normalization is done across the elements, aside from
+    ## the normalization of NaNs.
+    ##
+    ## If @var{B} is numeric, it is converted to a @code{calendarDuration}
+    ## using @code{calendarDuration.ofDays}.
+    ##
+    ## Returns a @code{calendarDuration}.
+    ##
+    ## @end deftypefn
     function out = plus (this, B)
       %PLUS Addition.
       if ~isa (this, 'calendarDuration')
@@ -213,6 +300,16 @@ classdef calendarDuration
       endif
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node calendarDuration.times
+    ## @subsubsection calendarDuration.times
+    ## @deftypefn {Method} {@var{out} =} times (@var{obj}, @var{B})
+    ##
+    ## Multiplication: Multiplies a @code{calendarDuration} by a numeric factor.
+    ##
+    ## Returns a @code{calendarDuration}.
+    ##
+    ## @end deftypefn
     function out = times (this, B)
       %TIMES Array multiplication.
       if isnumeric (this) && isa (B, 'calendarDuration')
@@ -238,6 +335,16 @@ classdef calendarDuration
       out = normalizeNaNs (out);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node calendarDuration.minus
+    ## @subsubsection calendarDuration.minus
+    ## @deftypefn {Method} {@var{out} =} times (@var{A}, @var{B})
+    ##
+    ## Subtraction: Subtracts one @code{calendarDuration} from another.
+    ##
+    ## Returns a @code{calendarDuration}.
+    ##
+    ## @end deftypefn
     function out = minus (A, B)
       %MINUS Subtraction.
       out = A + -B;
@@ -263,6 +370,16 @@ classdef calendarDuration
       fprintf ('%s\n', octave.chrono.internal.format_dispstr_array (dispstrs (this)));
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node calendarDuration.dispstrs
+    ## @subsubsection calendarDuration.dispstrs
+    ## @deftypefn {Method} {@var{out} =} dispstrs (@var{obj})
+    ##
+    ## Get display strings for each element of @var{obj}.
+    ##
+    ## Returns a cellstr the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = dispstrs (this)
       %DISPSTRS Custom display strings.
       out = cell (size (this));
@@ -368,6 +485,17 @@ classdef calendarDuration
       out = ismatrix (this.Sign);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node calendarDuration.isnan
+    ## @subsubsection calendarDuration.isnan
+    ## @deftypefn {Method} {@var{out} =} isnan (@var{obj})
+    ##
+    ## True if input elements are NaT. This is just an alias for @code{isnat},
+    ## provided for compatibility and polymorphic programming purposes.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = isnan (this)
       %ISNAN True for Not-a-Number.
       out = isnan (this.Days) ...
