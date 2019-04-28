@@ -832,7 +832,7 @@ classdef datetime
           tmp.dnums = tmp.dnums + B.Time;
           out.dnums = tmp.dnums;
         endif
-      elseif isa (B, 'double')
+      elseif isnumeric (B)
         out = A + duration.ofDays (B);
       else
         error ('Invalid input type: %s', class (B));
