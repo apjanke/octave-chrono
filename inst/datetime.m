@@ -122,7 +122,7 @@ classdef datetime
     ##
     ## Converts a datenum array to a datetime array.
     ##
-    ## Returns an unzoned @code{datetime} array.
+    ## Returns an unzoned @code{datetime} array of the same size as the input.
     ##
     ## @end deftypefn
     function out = ofDatenum (dnums)
