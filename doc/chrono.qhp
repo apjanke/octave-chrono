@@ -38,6 +38,68 @@
                         <section title="calyears" ref="html/calyears.html">
                         </section>
                         <section title="datetime" ref="html/datetime.html">
+                            <section title="datetime.datetime" ref="html/datetime_002edatetime.html">
+                            </section>
+                            <section title="datetime.ofDatenum" ref="html/datetime_002eofDatenum.html">
+                            </section>
+                            <section title="datetime.ofDatestruct" ref="html/datetime_002eofDatestruct.html">
+                            </section>
+                            <section title="datetime.posix2datenum" ref="html/datetime_002eposix2datenum.html">
+                            </section>
+                            <section title="datetime.datenum2posix" ref="html/datetime_002edatenum2posix.html">
+                            </section>
+                            <section title="datetime.proxyKeys" ref="html/datetime_002eproxyKeys.html">
+                            </section>
+                            <section title="datetime.ymd" ref="html/datetime_002eymd.html">
+                            </section>
+                            <section title="datetime.hms" ref="html/datetime_002ehms.html">
+                            </section>
+                            <section title="datetime.ymdhms" ref="html/datetime_002eymdhms.html">
+                            </section>
+                            <section title="datetime.timeofday" ref="html/datetime_002etimeofday.html">
+                            </section>
+                            <section title="datetime.week" ref="html/datetime_002eweek.html">
+                            </section>
+                            <section title="datetime.dispstrs" ref="html/datetime_002edispstrs.html">
+                            </section>
+                            <section title="datetime.datestr" ref="html/datetime_002edatestr.html">
+                            </section>
+                            <section title="datetime.datestrs" ref="html/datetime_002edatestrs.html">
+                            </section>
+                            <section title="datetime.datestruct" ref="html/datetime_002edatestruct.html">
+                            </section>
+                            <section title="datetime.posixtime" ref="html/datetime_002eposixtime.html">
+                            </section>
+                            <section title="datetime.datenum" ref="html/datetime_002edatenum.html">
+                            </section>
+                            <section title="datetime.isnat" ref="html/datetime_002eisnat.html">
+                            </section>
+                            <section title="datetime.isnan" ref="html/datetime_002eisnan.html">
+                            </section>
+                            <section title="datetime.lt" ref="html/datetime_002elt.html">
+                            </section>
+                            <section title="datetime.le" ref="html/datetime_002ele.html">
+                            </section>
+                            <section title="datetime.ne" ref="html/datetime_002ene.html">
+                            </section>
+                            <section title="datetime.eq" ref="html/datetime_002eeq.html">
+                            </section>
+                            <section title="datetime.ge" ref="html/datetime_002ege.html">
+                            </section>
+                            <section title="datetime.gt" ref="html/datetime_002egt.html">
+                            </section>
+                            <section title="datetime.plus" ref="html/datetime_002eplus.html">
+                            </section>
+                            <section title="datetime.minus" ref="html/datetime_002eminus.html">
+                            </section>
+                            <section title="datetime.diff" ref="html/datetime_002ediff.html">
+                            </section>
+                            <section title="datetime.isbetween" ref="html/datetime_002eisbetween.html">
+                            </section>
+                            <section title="datetime.linspace" ref="html/datetime_002elinspace.html">
+                            </section>
+                            <section title="datetime.convertDatenumTimeZone" ref="html/datetime_002econvertDatenumTimeZone.html">
+                            </section>
                         </section>
                         <section title="days" ref="html/days.html">
                         </section>
@@ -99,6 +161,37 @@
             <file>html/hours.html</file>
             <file>html/duration.html</file>
             <file>html/days.html</file>
+            <file>html/datetime_002econvertDatenumTimeZone.html</file>
+            <file>html/datetime_002elinspace.html</file>
+            <file>html/datetime_002eisbetween.html</file>
+            <file>html/datetime_002ediff.html</file>
+            <file>html/datetime_002eminus.html</file>
+            <file>html/datetime_002eplus.html</file>
+            <file>html/datetime_002egt.html</file>
+            <file>html/datetime_002ege.html</file>
+            <file>html/datetime_002eeq.html</file>
+            <file>html/datetime_002ene.html</file>
+            <file>html/datetime_002ele.html</file>
+            <file>html/datetime_002elt.html</file>
+            <file>html/datetime_002eisnan.html</file>
+            <file>html/datetime_002eisnat.html</file>
+            <file>html/datetime_002edatenum.html</file>
+            <file>html/datetime_002eposixtime.html</file>
+            <file>html/datetime_002edatestruct.html</file>
+            <file>html/datetime_002edatestrs.html</file>
+            <file>html/datetime_002edatestr.html</file>
+            <file>html/datetime_002edispstrs.html</file>
+            <file>html/datetime_002eweek.html</file>
+            <file>html/datetime_002etimeofday.html</file>
+            <file>html/datetime_002eymdhms.html</file>
+            <file>html/datetime_002ehms.html</file>
+            <file>html/datetime_002eymd.html</file>
+            <file>html/datetime_002eproxyKeys.html</file>
+            <file>html/datetime_002edatenum2posix.html</file>
+            <file>html/datetime_002eposix2datenum.html</file>
+            <file>html/datetime_002eofDatestruct.html</file>
+            <file>html/datetime_002eofDatenum.html</file>
+            <file>html/datetime_002edatetime.html</file>
             <file>html/datetime.html</file>
             <file>html/calyears.html</file>
             <file>html/calmonths.html</file>
