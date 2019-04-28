@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- This manual is for Chrono, version 0.3.0.
+<!-- This manual is for Chrono, version 0.3.0+.
 
 Copyright (C) 2019 Andrew Janke
 
@@ -18,10 +18,10 @@ into another language, under the same conditions as for modified versions. -->
 <!-- Created by GNU Texinfo 6.6, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>datetime (Chrono for GNU Octave v0.3.0)</title>
+<title>datetime (Chrono for GNU Octave v0.3.0+)</title>
 
 <meta name="description" content="User manual for Chrono for Octave.">
-<meta name="keywords" content="datetime (Chrono for GNU Octave v0.3.0)">
+<meta name="keywords" content="datetime (Chrono for GNU Octave v0.3.0+)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -111,73 +111,8 @@ underlying UTC times that its elements represent.
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top">&bull; <a href="datetime_002edatetime.html#datetime_002edatetime" accesskey="1">datetime.datetime</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eofDatenum.html#datetime_002eofDatenum" accesskey="2">datetime.ofDatenum</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eofDatestruct.html#datetime_002eofDatestruct" accesskey="3">datetime.ofDatestruct</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eposix2datenum.html#datetime_002eposix2datenum" accesskey="4">datetime.posix2datenum</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002edatenum2posix.html#datetime_002edatenum2posix" accesskey="5">datetime.datenum2posix</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eproxyKeys.html#datetime_002eproxyKeys" accesskey="6">datetime.proxyKeys</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eymd.html#datetime_002eymd" accesskey="7">datetime.ymd</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002ehms.html#datetime_002ehms" accesskey="8">datetime.hms</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eymdhms.html#datetime_002eymdhms" accesskey="9">datetime.ymdhms</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002etimeofday.html#datetime_002etimeofday">datetime.timeofday</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eweek.html#datetime_002eweek">datetime.week</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002edispstrs.html#datetime_002edispstrs">datetime.dispstrs</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002edatestr.html#datetime_002edatestr">datetime.datestr</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002edatestrs.html#datetime_002edatestrs">datetime.datestrs</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002edatestruct.html#datetime_002edatestruct">datetime.datestruct</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eposixtime.html#datetime_002eposixtime">datetime.posixtime</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002edatenum.html#datetime_002edatenum">datetime.datenum</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eisnat.html#datetime_002eisnat">datetime.isnat</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eisnan.html#datetime_002eisnan">datetime.isnan</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002elt.html#datetime_002elt">datetime.lt</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002ele.html#datetime_002ele">datetime.le</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002ene.html#datetime_002ene">datetime.ne</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eeq.html#datetime_002eeq">datetime.eq</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002ege.html#datetime_002ege">datetime.ge</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002egt.html#datetime_002egt">datetime.gt</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eplus.html#datetime_002eplus">datetime.plus</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eminus.html#datetime_002eminus">datetime.minus</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002ediff.html#datetime_002ediff">datetime.diff</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002eisbetween.html#datetime_002eisbetween">datetime.isbetween</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002elinspace.html#datetime_002elinspace">datetime.linspace</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="datetime_002econvertDatenumTimeZone.html#datetime_002econvertDatenumTimeZone">datetime.convertDatenumTimeZone</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
 </table>
 
-<hr>
-<div class="header">
-<p>
-Next: <a href="days.html#days" accesskey="n" rel="next">days</a>, Previous: <a href="calyears.html#calyears" accesskey="p" rel="prev">calyears</a>, Up: <a href="Functions-Alphabetically.html#Functions-Alphabetically" accesskey="u" rel="up">Functions Alphabetically</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
-</div>
 
 
 
