@@ -17,7 +17,10 @@
 # source code files.
 #
 # The <outfile> is the function doco index file you want to create; typically
-# DOCSTRINGS.texi.tmp. This file is a [TODO: describe the file format.].
+# DOCSTRINGS.texi.tmp. This file is a sequence of Texinfo blocks, one per
+# input file, separated by ASCII 037 (Unit Separator). The first line in each
+# block will contain the identifier for that block (based on the input file
+# name), and the subsequent lines are the Texinfo contents extracted from that file.
 #
 # In M-files, the texinfo doco is located as the first comment block following
 # an optional initial Copyright block in each file.
@@ -151,13 +154,13 @@ foreach my $file (@m_files) {
     #my $desc = DocStuff::extract_description_from_mfile($file);
     my $descs = DocStuff::extract_multiple_texinfo_blocks_from_mfile($file);
     my $desc = join("\n\n", @$descs);
-    my $function = basename($file, ('.m'));
-    die "Error: Null function name (file $file)\n" unless $function;
+    my $identifier = basename($file, ('.m'));
+    die "Error: Null identifier name (file $file)\n" unless $identifier;
     if ($desc eq "") {
         printf STDERR "Function/class %s (file %s) does not contain texinfo help\n",
-                    $function, $file;
+                    $identifier, $file;
     }
-    emit sprintf("\037%s\n%s\n", $function, $desc);
+    emit sprintf("\037%s\n%s\n", $identifier, $desc);
 }
 
 

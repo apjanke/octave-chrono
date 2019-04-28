@@ -111,6 +111,7 @@ while (my $line = <IN>) {
 	my $section_level = $level_map{$section_type};
 	my $section_qhelp_title = $section_title =~ s/@\w+{(.*?)}/\1/rg;
 	my $html_title = $node_name =~ s/\s/-/gr;
+	$html_title = $html_title =~ s/\./_002e/gr; # I don't know why this happens -apj
 	$html_title = "index" if $html_title eq "Top";
 	my $html_file = "$html_title.html";
 	unshift @files, $html_file;
