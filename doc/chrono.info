@@ -1,6 +1,6 @@
 This is chrono.info, produced by makeinfo version 6.6 from chrono.texi.
 
-This manual is for Chrono, version 0.2.1.
+This manual is for Chrono, version 0.2.1+.
 
    Copyright © 2019 Andrew Janke
 
@@ -23,7 +23,7 @@ File: chrono.info,  Node: Top,  Next: Introduction
 Chrono for GNU Octave
 *********************
 
-This manual is for Chrono, version 0.2.1.
+This manual is for Chrono, version 0.2.1+.
 
 * Menu:
 
@@ -46,7 +46,7 @@ File: chrono.info,  Node: Introduction,  Next: Getting Started,  Up: Top
 
                            — _Douglas Adams_
 
-   This is the manual for the Chrono package version 0.2.1 for GNU
+   This is the manual for the Chrono package version 0.2.1+ for GNU
 Octave.
 
    This document is a work in progress.  You are invited to help improve
@@ -1283,7 +1283,7 @@ the Unicode License (http://www.unicode.org/copyright.html).
 8.2 Manual Copyright
 ====================
 
-This manual is for Chrono, version 0.2.1.
+This manual is for Chrono, version 0.2.1+.
 
    Copyright © 2019 Andrew Janke
 
@@ -1303,68 +1303,68 @@ This manual is for Chrono, version 0.2.1.
 
 
 Tag Table:
-Node: Top760
-Node: Introduction1063
-Node: Getting Started2273
-Node: Date Representation3112
-Node: datetime Class3363
-Node: datenum Compatibility4192
-Node: Time Zones5594
-Node: Defined Time Zones8427
-Node: Durations9398
-Node: duration Class9577
-Node: calendarDuration Class10328
-Node: Missing Functionality11229
-Node: Function Reference12198
-Node: Functions by Category12410
-Node: Functions Alphabetically14075
-Node: calendarDuration15502
-Node: calmonths16182
-Node: calyears16773
-Node: datetime17116
-Node: datetime.datetime19445
-Node: datetime.ofDatenum20263
-Node: datetime.ofDatestruct20589
-Node: datetime.posix2datenum21098
-Node: datetime.datenum2posix21580
-Node: datetime.proxyKeys21981
-Node: datetime.ymd22621
-Node: datetime.hms23009
-Node: datetime.ymdhms23398
-Node: datetime.timeofday23835
-Node: datetime.week24253
-Node: datetime.dispstrs24511
-Node: datetime.datestr24808
-Node: datetime.datestrs25200
-Node: datetime.datestruct25621
-Node: datetime.posixtime26456
-Node: datetime.datenum26988
-Node: datetime.isnat27310
-Node: datetime.isnan27587
-Node: datetime.lt27956
-Node: datetime.le28385
-Node: datetime.ne28823
-Node: datetime.eq29253
-Node: datetime.ge29679
-Node: datetime.gt30121
-Node: datetime.plus30552
-Node: datetime.minus31012
-Node: datetime.diff31655
-Node: datetime.isbetween32033
-Node: datetime.linspace32519
-Node: datetime.convertDatenumTimeZone33067
-Node: days33719
-Node: duration34183
-Node: hours35089
-Node: isdatetime35570
-Node: isduration35858
-Node: milliseconds36153
-Node: minutes36691
-Node: NaT36947
-Node: seconds37611
-Node: timezones38104
-Node: years39137
-Node: Copying39819
+Node: Top761
+Node: Introduction1065
+Node: Getting Started2276
+Node: Date Representation3115
+Node: datetime Class3366
+Node: datenum Compatibility4195
+Node: Time Zones5597
+Node: Defined Time Zones8430
+Node: Durations9401
+Node: duration Class9580
+Node: calendarDuration Class10331
+Node: Missing Functionality11232
+Node: Function Reference12201
+Node: Functions by Category12413
+Node: Functions Alphabetically14078
+Node: calendarDuration15505
+Node: calmonths16185
+Node: calyears16776
+Node: datetime17119
+Node: datetime.datetime19448
+Node: datetime.ofDatenum20266
+Node: datetime.ofDatestruct20592
+Node: datetime.posix2datenum21101
+Node: datetime.datenum2posix21583
+Node: datetime.proxyKeys21984
+Node: datetime.ymd22624
+Node: datetime.hms23012
+Node: datetime.ymdhms23401
+Node: datetime.timeofday23838
+Node: datetime.week24256
+Node: datetime.dispstrs24514
+Node: datetime.datestr24811
+Node: datetime.datestrs25203
+Node: datetime.datestruct25624
+Node: datetime.posixtime26459
+Node: datetime.datenum26991
+Node: datetime.isnat27313
+Node: datetime.isnan27590
+Node: datetime.lt27959
+Node: datetime.le28388
+Node: datetime.ne28826
+Node: datetime.eq29256
+Node: datetime.ge29682
+Node: datetime.gt30124
+Node: datetime.plus30555
+Node: datetime.minus31015
+Node: datetime.diff31658
+Node: datetime.isbetween32036
+Node: datetime.linspace32522
+Node: datetime.convertDatenumTimeZone33070
+Node: days33722
+Node: duration34186
+Node: hours35092
+Node: isdatetime35573
+Node: isduration35861
+Node: milliseconds36156
+Node: minutes36694
+Node: NaT36950
+Node: seconds37614
+Node: timezones38107
+Node: years39140
+Node: Copying39822
 
 End Tag Table
 
