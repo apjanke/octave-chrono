@@ -134,9 +134,9 @@ classdef duration
     endfunction
 
     # Can't have a days() function as well as a days property or it will cause Octave to crash
-    # At least, sometimes it does. And it's happened often that I don't want
+    # At least, sometimes it does. And it's happened often enough that I don't want
     # to leave it in. If you can find out what conditions reproduce this, please
-    # bug report.
+    # bug report. -apj
     
 ##    function out = days (this)
 ##      %DAYS Number of fixed-length days equivalent to this.
