@@ -235,7 +235,7 @@ while (my $line = <TEXI>) {
 	my $section_level = $level_map{$section_type};
 	my $section_qhelp_title = $section_title =~ s/@\w+{(.*?)}/\1/rg;
 	my $html_title = $node_name =~ s/\s/-/gr;
-	$html_title = $html_title =~ s/\./_002e/gr; # I don't know why this happens -apj
+	$html_title =~ s/\./_002e/g; # I don't know why this happens -apj
 	$html_title = "index" if $html_title eq "Top";
 	my $html_file = "$html_title.html";
     print "Adding node $node_name, html file $html_file to files list\n";
@@ -287,7 +287,8 @@ my @node_names = keys %$node_index;
 qhp "        <keywords>\n";
 for my $node (@node_names) {
 	my $file_base = $node;
-	$file_base =~ s/\./_002e/gr; # I don't know why this happens -apj
+	$file_base =~ s/\./_002e/g; # I don't know why this happens -apj
+    print "node $node: file_base = $file_base\n";
 	qhp "            <keyword name=\"$node\" id=\"$node\" ref=\"html/$file_base.html\"/>\n";
 }
 qhp "        </keywords>\n";
