@@ -1,6 +1,6 @@
 This is chrono.info, produced by makeinfo version 6.6 from chrono.texi.
 
-This manual is for Chrono, version 0.3.0+.
+This manual is for Chrono, version 0.3.1.
 
    Copyright © 2019 Andrew Janke
 
@@ -23,7 +23,7 @@ File: chrono.info,  Node: Top,  Next: Introduction
 Chrono for GNU Octave
 *********************
 
-This manual is for Chrono, version 0.3.0+.
+This manual is for Chrono, version 0.3.1.
 
 * Menu:
 
@@ -46,7 +46,7 @@ File: chrono.info,  Node: Introduction,  Next: Getting Started,  Up: Top
 
                            — _Douglas Adams_
 
-   This is the manual for the Chrono package version 0.3.0+ for GNU
+   This is the manual for the Chrono package version 0.3.1 for GNU
 Octave.
 
    This document is a work in progress.  You are invited to help improve
@@ -78,7 +78,7 @@ The easiest way to obtain Chrono is by using Octave’s ‘pkg’ package
 manager.  To install the a development prerelease of Chrono, run this in
 Octave:
 
-     pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.3.0/chrono-0.3.0.tar.gz
+     pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.3.1/chrono-0.3.1.tar.gz
 
    (Check the releases page at
 <https://github.com/apjanke/octave-chrono/releases> to find out what the
@@ -1607,7 +1607,7 @@ the Unicode License (http://www.unicode.org/copyright.html).
 8.2 Manual Copyright
 ====================
 
-This manual is for Chrono, version 0.3.0+.
+This manual is for Chrono, version 0.3.1.
 
    Copyright © 2019 Andrew Janke
 
@@ -1627,86 +1627,86 @@ This manual is for Chrono, version 0.3.0+.
 
 
 Tag Table:
-Node: Top761
-Node: Introduction1065
-Node: Getting Started2276
-Node: Date Representation3140
-Node: datetime Class3391
-Node: datenum Compatibility4220
-Node: Time Zones5760
-Node: Defined Time Zones8593
-Node: Durations9564
-Node: duration Class9743
-Node: calendarDuration Class10494
-Node: Missing Functionality11395
-Node: Function Reference12364
-Node: Functions by Category12576
-Node: Functions Alphabetically14241
-Node: calendarDuration15668
-Node: calendarDuration.calendarDuration17554
-Node: calendarDuration.isnat18060
-Node: calendarDuration.uminus18391
-Node: calendarDuration.plus18670
-Node: calendarDuration.times19275
-Node: calendarDuration.minus19632
-Node: calendarDuration.dispstrs19977
-Node: calendarDuration.isnan20317
-Node: calmonths20717
-Node: calyears21308
-Node: datetime21651
-Node: datetime.datetime23980
-Node: datetime.ofDatenum24798
-Node: datetime.ofDatestruct25154
-Node: datetime.posix2datenum25663
-Node: datetime.datenum2posix26145
-Node: datetime.proxyKeys26546
-Node: datetime.ymd27186
-Node: datetime.hms27574
-Node: datetime.ymdhms27963
-Node: datetime.timeofday28400
-Node: datetime.week28816
-Node: datetime.dispstrs29072
-Node: datetime.datestr29367
-Node: datetime.datestrs29755
-Node: datetime.datestruct30172
-Node: datetime.posixtime31005
-Node: datetime.datenum31535
-Node: datetime.isnat31855
-Node: datetime.isnan32130
-Node: datetime.lt32497
-Node: datetime.le32924
-Node: datetime.ne33360
-Node: datetime.eq33788
-Node: datetime.ge34212
-Node: datetime.gt34652
-Node: datetime.plus35081
-Node: datetime.minus35539
-Node: datetime.diff36180
-Node: datetime.isbetween36556
-Node: datetime.linspace37040
-Node: datetime.convertDatenumTimeZone37649
-Node: days38299
-Node: duration38763
-Node: duration.duration39963
-Node: duration.ofDays40501
-Node: duration.years40980
-Node: duration.hours41346
-Node: duration.minutes41710
-Node: duration.seconds42086
-Node: duration.milliseconds42441
-Node: duration.dispstrs42827
-Node: duration.char43125
-Node: duration.linspace43548
-Node: hours44116
-Node: isdatetime44597
-Node: isduration44885
-Node: milliseconds45180
-Node: minutes45718
-Node: NaT45974
-Node: seconds46666
-Node: timezones47159
-Node: years48192
-Node: Copying48874
+Node: Top760
+Node: Introduction1063
+Node: Getting Started2273
+Node: Date Representation3137
+Node: datetime Class3388
+Node: datenum Compatibility4217
+Node: Time Zones5757
+Node: Defined Time Zones8590
+Node: Durations9561
+Node: duration Class9740
+Node: calendarDuration Class10491
+Node: Missing Functionality11392
+Node: Function Reference12361
+Node: Functions by Category12573
+Node: Functions Alphabetically14238
+Node: calendarDuration15665
+Node: calendarDuration.calendarDuration17551
+Node: calendarDuration.isnat18057
+Node: calendarDuration.uminus18388
+Node: calendarDuration.plus18667
+Node: calendarDuration.times19272
+Node: calendarDuration.minus19629
+Node: calendarDuration.dispstrs19974
+Node: calendarDuration.isnan20314
+Node: calmonths20714
+Node: calyears21305
+Node: datetime21648
+Node: datetime.datetime23977
+Node: datetime.ofDatenum24795
+Node: datetime.ofDatestruct25151
+Node: datetime.posix2datenum25660
+Node: datetime.datenum2posix26142
+Node: datetime.proxyKeys26543
+Node: datetime.ymd27183
+Node: datetime.hms27571
+Node: datetime.ymdhms27960
+Node: datetime.timeofday28397
+Node: datetime.week28813
+Node: datetime.dispstrs29069
+Node: datetime.datestr29364
+Node: datetime.datestrs29752
+Node: datetime.datestruct30169
+Node: datetime.posixtime31002
+Node: datetime.datenum31532
+Node: datetime.isnat31852
+Node: datetime.isnan32127
+Node: datetime.lt32494
+Node: datetime.le32921
+Node: datetime.ne33357
+Node: datetime.eq33785
+Node: datetime.ge34209
+Node: datetime.gt34649
+Node: datetime.plus35078
+Node: datetime.minus35536
+Node: datetime.diff36177
+Node: datetime.isbetween36553
+Node: datetime.linspace37037
+Node: datetime.convertDatenumTimeZone37646
+Node: days38296
+Node: duration38760
+Node: duration.duration39960
+Node: duration.ofDays40498
+Node: duration.years40977
+Node: duration.hours41343
+Node: duration.minutes41707
+Node: duration.seconds42083
+Node: duration.milliseconds42438
+Node: duration.dispstrs42824
+Node: duration.char43122
+Node: duration.linspace43545
+Node: hours44113
+Node: isdatetime44594
+Node: isduration44882
+Node: milliseconds45177
+Node: minutes45715
+Node: NaT45971
+Node: seconds46663
+Node: timezones47156
+Node: years48189
+Node: Copying48871
 
 End Tag Table
 
