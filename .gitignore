@@ -2,7 +2,6 @@
 *.oct
 /target
 /doc/*.dvi
-/doc/*.qhc
 /doc/*.qhp
 /doc/html
 /doc/html/*
