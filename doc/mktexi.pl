@@ -60,7 +60,7 @@ use FileHandle;
 use IPC::Open3;
 use POSIX ":sys_wait_h";
 
-use DocStuff;
+use OctTexiDoc;
 
 my $infile = shift @ARGV;
 my $indexfile = shift @ARGV;
@@ -72,7 +72,7 @@ my $debug = 0;
 my $verbose = 0;
 
 # Extract the Texinfo docs from the source code
-my $docs = DocStuff::OctTexDocs->new;
+my $docs = OctTexiDoc::DocSet->new;
 for my $sourcedir (@sourcedirs) {
     $docs->read_source_dir($sourcedir);
 }
@@ -94,9 +94,25 @@ sub emit {
 }
 
 # Get metadata from DESCRIPTION file
-my $pkg_meta = DocStuff::get_package_metadata_from_description_file();
+my $pkg_meta = OctTexiDoc::get_package_metadata_from_description_file();
 my $pkg_name = $$pkg_meta{"Name"};
 my $pkg_version = $$pkg_meta{"Version"};
+
+sub unique {
+    my @vals = @_;
+    my %vals = ();
+    for (@vals) {
+        $vals{$_} = 1;
+    }
+    return sort(keys %vals);
+}
+
+sub setdiff {
+    my ($a, $b) = @_;
+    my %in_b = map {$_ => 1} @$b;
+    my @diff = grep {not $in_b{$_}} @$a;
+    return @diff;
+}
 
 # Generate the <pkg>.texi file
 
@@ -114,15 +130,21 @@ while (my $line = <IN>) {
         $line =~ /^\@REFERENCE_SECTION\((.*?)\)\s*/;
         my $refsection_name = $1;
 
-        my $fcn_index = DocStuff::read_index_file ($indexfile);
-        my @all_fcns = @{$$fcn_index{"functions"}};
+        my $fcn_index = OctTexiDoc::read_index_file ($indexfile);
+        my @all_index_fcns = @{$$fcn_index{"functions"}};
+        my @topic_nodes = $docs->topic_node_names;
+        my @all_topics = unique(@all_index_fcns, @topic_nodes);
+        @all_topics = sort { lc($a) cmp lc($b) } @all_topics;
         my %categories = %{$$fcn_index{"by_category"}};
         my %descriptions = %{$$fcn_index{"descriptions"}};
 
+        # Build "by Category" index based on INDEX listing
         emit "\@node Functions by Category\n";
         emit "\@section Functions by Category\n";
+        my @all_ctg_fcns;
         for my $category (@{$$fcn_index{"categories"}}) {
             my @ctg_fcns = @{$categories{$category}};
+            push @all_ctg_fcns, @ctg_fcns;
             emit "\@subsection $category\n";
             emit "\@table \@asis\n";
             for my $fcn (@ctg_fcns) {
@@ -133,28 +155,40 @@ while (my $line = <IN>) {
             }
             emit "\@end table\n";
         }
+        my @uncategorized = setdiff(\@all_topics, \@all_ctg_fcns);
+        if (scalar (@uncategorized)) {
+            emit "\@subsection Uncategorized\n";
+            emit "\@table \@asis\n";
+            for my $fcn (@uncategorized) {
+                emit "\@item \@ref{$fcn}\n";
+                my $description = $descriptions{$fcn} || $docs->get_node_summary($fcn);
+                emit "$description\n";
+                emit "\n";
+            }
+            emit "\@end table\n";
+        }
         emit "\n";
 
+        # Build "Alphabetically" listing based on seen nodes + INDEX listing
         emit "\@node Functions Alphabetically\n";
         emit "\@section Functions Alphabetically\n";
-        @all_fcns = sort { lc($a) cmp lc($b) } @all_fcns;
         emit "\@menu\n";
-        for my $fcn (@all_fcns) {
-            my $description = $descriptions{$fcn} || $docs->get_node_summary($fcn);
-            emit wrap("", "\t\t", "* ${fcn}::\t$description\n");
+        for my $node (@all_topics) {
+            my $description = $descriptions{$node} || $docs->get_node_summary($node);
+            emit wrap("", "\t\t", "* ${node}::\t$description\n");
         }
         emit "\@end menu\n";
         emit "\n";
-        for my $fcn (@all_fcns) {
-            emit "\@node $fcn\n";
-            emit "\@subsection $fcn\n";
-            my $node = $docs->docs->{$fcn};
+        for my $node (@all_topics) {
+            emit "\@node $node\n";
+            emit "\@subsection $node\n";
+            my $node = $docs->docs->{$node};
             if ($node) {
-                my $main_doc = DocStuff::munge_texi_block_text($$node{block});
+                my $main_doc = OctTexiDoc::munge_texi_block_text($$node{block});
                 emit "$main_doc\n\n";
                 for my $subnode (@{$$node{children}}) {
                     my $subnode_name = $$subnode{node};
-                    my $subnode_doc = DocStuff::munge_texi_block_text($$subnode{block});
+                    my $subnode_doc = OctTexiDoc::munge_texi_block_text($$subnode{block});
                     emit "\@node $subnode_name\n";
                     emit "\@subsubsection $subnode_name\n\n";
                     emit "$subnode_doc\n";

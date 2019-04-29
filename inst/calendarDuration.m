@@ -75,22 +75,6 @@
 ## This is a single value that applies to the whole array.
 ##
 ## @end deftypeivar
-##
-## @node calendarDuration.calendarDuration
-## @subsubsection calendarDuration.calendarDuration
-## @deftypefn {Constructor} {@var{obj} =} calendarDuration ()
-##
-## Constructs a new scalar @code{calendarDuration} of zero elapsed time.
-##
-## @end deftypefn
-##
-## @deftypefn {Constructor} {@var{obj} =} calendarDuration (@var{Y}, @var{M}, @var{D})
-## @deftypefnx {Constructor} {@var{obj} =} calendarDuration (@var{Y}, @var{M}, @
-##   @var{D}, @var{H}, @var{MI}, @var{S})
-##
-## Constructs new @code{calendarDuration} arrays based on input values.
-##
-## @end deftypefn
 
 classdef calendarDuration
   
@@ -115,6 +99,22 @@ classdef calendarDuration
   endproperties
   
   methods
+
+    ## -*- texinfo -*-
+    ## @node calendarDuration.calendarDuration
+    ## @deftypefn {Constructor} {@var{obj} =} calendarDuration ()
+    ##
+    ## Constructs a new scalar @code{calendarDuration} of zero elapsed time.
+    ##
+    ## @end deftypefn
+    ##
+    ## @deftypefn {Constructor} {@var{obj} =} calendarDuration (@var{Y}, @var{M}, @var{D})
+    ## @deftypefnx {Constructor} {@var{obj} =} calendarDuration (@var{Y}, @var{M}, @
+    ##   @var{D}, @var{H}, @var{MI}, @var{S})
+    ##
+    ## Constructs new @code{calendarDuration} arrays based on input values.
+    ##
+    ## @end deftypefn
     function this = calendarDuration (varargin)
       %CALENDARDURATION Construct a new calendar duration.
       %

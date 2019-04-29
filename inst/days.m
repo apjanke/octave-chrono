@@ -30,7 +30,6 @@
 ##
 ## @end deftypefn
 
-
 function out = days (x)
   %DAYS duration in days
   %

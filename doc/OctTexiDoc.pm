@@ -21,14 +21,14 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-# DocStuff module: common code for mk*.pl in Chrono Octave package
+# OctTexiDoc module: common code for mk*.pl in Chrono Octave package
 
 use strict;
 
-# An OctTexDocs is a collection of Texinfo doco from Octave source files.
+# A DocSet is a collection of Texinfo doco from Octave source files.
 # It knows how to read in source directories, accumulating the Texinfo
 # blocks as it goes.
-package DocStuff::OctTexDocs;
+package OctTexiDoc::DocSet;
 use Moose;
 
 use File::Basename;
@@ -43,6 +43,16 @@ use File::Basename;
 has 'docs' => ( is  => 'rw', isa => 'HashRef', default => sub { {} } );
 # Index into all the nodes: {$node => {}}
 has 'nodes' => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
+
+sub topic_node_names {
+    my $this = shift;
+    return keys %{$this->docs};
+}
+
+sub all_node_names {
+    my $this = shift;
+    return keys %{$this->nodes};
+}
 
 sub add_thing {
     my $self = shift;
@@ -88,17 +98,16 @@ sub read_source_dir {
         my $file = "$dir/$file_name";
         if (-d $file) {
             if ($file_name =~ /^\+/) {
-                if ($file_name eq "+internal") {
-                    # Ignore +internal namespaces; they're not part of the public API
-                    next;
-                }
-                $self->read_source_dir ($file, DocStuff::append_namespace ($namespace, $file_name));
+                # Ignore +internal namespaces; they're not part of the public API
+                next if ($file_name eq "+internal");
+                $self->read_source_dir ($file, OctTexiDoc::append_namespace ($namespace, $file_name));
             } elsif ($file_name =~ /^\@/) {
                 $self->read_class_at_dir ($file, $namespace);
             } else {
                 # ignore
             }
         } else {
+            next if $file_name =~ /^__/;  # __foo__ functions are internal impl details
             if ($file_name =~ /\.m$/) {
                 $self->read_m_source_file ($file, $namespace);
             } elsif ($file_name =~ /\.cc$/) {
@@ -114,7 +123,9 @@ sub read_source_dir {
 sub read_m_source_file {
     my $self = shift;
     my ($file, $namespace) = @_;
-    my $blocks = DocStuff::extract_multiple_texinfo_blocks_from_mfile ($file);
+    my $blocks = OctTexiDoc::extract_multiple_texinfo_blocks_from_mfile ($file, $namespace);
+    my $n_blocks = scalar (@$blocks);
+    my $ns_name = $namespace || "";
     return unless (scalar (@$blocks));
     my $first_block = shift @$blocks;
     my $node = $$first_block{node};
@@ -129,7 +140,7 @@ sub read_m_source_file {
 sub read_cxx_source_file {
     my $self = shift;
     my ($file, $namespace) = @_;
-    my $blocks = DocStuff::extract_texinfo_from_cxxfile ($file);
+    my $blocks = OctTexiDoc::extract_texinfo_from_cxxfile ($file);
     for my $block (@$blocks) {
         my $node = $$block{node};
         my $texi = $$block{block};
@@ -154,7 +165,7 @@ sub read_class_at_dir {
         printf STDERR "Warning: No classdef file found in dir $dir\n";
         return;
     }
-    my $main_blocks = DocStuff::extract_multiple_texinfo_blocks_from_mfile ($class_file);
+    my $main_blocks = OctTexiDoc::extract_multiple_texinfo_blocks_from_mfile ($class_file);
     return unless (scalar (@$main_blocks));
     my $class_block = shift @$main_blocks;
     $$class_block{file} = $class_file;
@@ -168,12 +179,12 @@ sub read_class_at_dir {
         next unless $file_name =~ /\.m$/;
         next if $file_name eq $class_file_name;
         my $method_file = "$dir/$file_name";
-        my $blocks = DocStuff::extract_multiple_texinfo_blocks_from_mfile ($method_file);
+        my $blocks = OctTexiDoc::extract_multiple_texinfo_blocks_from_mfile ($method_file);
         push @{$$class_block{children}}, @$blocks;
     }
 
     # Stash the docs
-    my $node = DocStuff::append_namespace($namespace, $class_name);
+    my $node = OctTexiDoc::append_namespace($namespace, $class_name);
     $self->add_thing($node, $class_block);
 }
 
@@ -184,7 +195,7 @@ sub get_node_doco {
     my $block = $self->nodes->{$node_name};
     return undef unless $block;
     my $block_text = $$block{block};
-    return DocStuff::munge_texi_block_text($block_text);
+    return OctTexiDoc::munge_texi_block_text($block_text);
 }
 
 sub get_node_summary {
@@ -192,13 +203,13 @@ sub get_node_summary {
     my ($node_name) = @_;
     my $texi = $self->get_node_doco($node_name);
     return undef unless $texi;
-    return DocStuff::first_sentence($texi);
+    return OctTexiDoc::first_sentence($texi);
 }
 
 
 # Get the first sentence of a given node's doc text
 
-package DocStuff;
+package OctTexiDoc;
 
 use File::Basename;
 use IO::File;
@@ -339,7 +350,7 @@ sub extract_description_from_mfile {
 # Returns an arrayref of extracted blocks, with each block being
 # a hashref with keys "node" and "block".
 sub extract_multiple_texinfo_blocks_from_mfile {
-    my ($mfile) = @_;
+    my ($mfile, $namespace) = @_;
     my $retval = '';
     my $file_node_name = basename($mfile, ('.m'));
 
@@ -380,18 +391,13 @@ sub extract_multiple_texinfo_blocks_from_mfile {
             $line = <$fh>;
             $line = strip_mfile_block_line ($line);
             if ($line =~ /^\s*\@node (\S*)/) {
-                $node = $1;
-                # Temporary hack for compatibility with what I originally wrote
-                $line = <$fh>;
-                $line = strip_mfile_block_line($line);
-                unless ($line =~ /^\s*\@[sub]*section/) {
-                    $block .= "$line\n";
-                }
+                my $node_basename = $1;
+                $node = append_namespace($namespace, $node_basename);
             } else {
                 # For back-compatibility, the first block may take the file as its node name
                 # Only the first block! Otherwise you'd have collisions.
                 if ((scalar (@blocks)) == 0) {
-                    $node = $file_node_name;
+                    $node = append_namespace($namespace, $file_node_name);
                 } else {
                     print STDERR "Found non-first block with no \@node statement in file $mfile\n";
                     die "Found non-first block with no \@node statement in file $mfile\n";

@@ -35,7 +35,7 @@ Chrono Release Checklist
       * In Octave, you need to use `system('wget ...')`, not `!wget ...`.
     * This affects both Ubuntu 16.x Xenial and Ubuntu 18.04 Bionic (Octave 4.2.2).
   * ANY failure borks the release once we get near 1.0!
-    * Let ‘em go for now so we can get code out for review.
+    * Let ’em go for now so we can get code out for review.
     * TODO: Decide on policy on what to do then. Can git tags/GitHub Releases be removed?
 * Post an announcement comment on the ["Updates" issue](https://github.com/apjanke/octave-chrono/issues/2).
 * Post an announcement on the [Savannah bug for datetime support](https://savannah.gnu.org/bugs/index.php?47032) if this is a significant release.

@@ -61,31 +61,6 @@
 ## The format to display this @code{datetime} in. Currently unsupported.
 ##
 ## @end deftypeivar
-##
-## @node datetime.datetime
-## @subsubsection datetime.datetime
-## @deftypefn {Constructor} {@var{obj} =} datetime ()
-##
-## Constructs a new scalar @code{datetime} containing the current local time, with
-## no time zone attached.
-##
-## @end deftypefn
-##
-## @deftypefn {Constructor} {@var{obj} =} datetime (@var{datevec})
-## @deftypefnx {Constructor} {@var{obj} =} datetime (@var{datestrs})
-## @deftypefnx {Constructor} {@var{obj} =} datetime (@var{in}, @code{'ConvertFrom'}, @var{inType})
-## @deftypefnx {Constructor} {@var{obj} =} datetime @
-##   (@var{Y}, @var{M}, @var{D}, @var{H}, @var{MI}, @var{S})
-## @deftypefnx {Constructor} {@var{obj} =} datetime @
-##   (@var{Y}, @var{M}, @var{D}, @var{H}, @var{MI}, @var{MS})
-## @deftypefnx {Constructor} {@var{obj} =} datetime @
-##   (@dots{}, @code{'Format'}, @var{Format}, @code{'InputFormat'}, @var{InputFormat}, @
-##    @code{'Locale'}, @var{InputLocale}, @code{'PivotYear'}, @var{PivotYear}, @
-##    @code{'TimeZone'}, @var{TimeZone})
-##
-## Constructs a new @code{datetime} array based on input values.
-##
-## @end deftypefn
 
 classdef datetime
   
@@ -195,6 +170,30 @@ classdef datetime
 
   methods
     
+    ## -*- texinfo -*-
+    ## @node datetime.datetime
+    ## @deftypefn {Constructor} {@var{obj} =} datetime ()
+    ##
+    ## Constructs a new scalar @code{datetime} containing the current local time, with
+    ## no time zone attached.
+    ##
+    ## @end deftypefn
+    ##
+    ## @deftypefn {Constructor} {@var{obj} =} datetime (@var{datevec})
+    ## @deftypefnx {Constructor} {@var{obj} =} datetime (@var{datestrs})
+    ## @deftypefnx {Constructor} {@var{obj} =} datetime (@var{in}, @code{'ConvertFrom'}, @var{inType})
+    ## @deftypefnx {Constructor} {@var{obj} =} datetime @
+    ##   (@var{Y}, @var{M}, @var{D}, @var{H}, @var{MI}, @var{S})
+    ## @deftypefnx {Constructor} {@var{obj} =} datetime @
+    ##   (@var{Y}, @var{M}, @var{D}, @var{H}, @var{MI}, @var{MS})
+    ## @deftypefnx {Constructor} {@var{obj} =} datetime @
+    ##   (@dots{}, @code{'Format'}, @var{Format}, @code{'InputFormat'}, @var{InputFormat}, @
+    ##    @code{'Locale'}, @var{InputLocale}, @code{'PivotYear'}, @var{PivotYear}, @
+    ##    @code{'TimeZone'}, @var{TimeZone})
+    ##
+    ## Constructs a new @code{datetime} array based on input values.
+    ##
+    ## @end deftypefn
     function this = datetime (varargin)
       %DATETIME Construct a new datetime array.
       %
