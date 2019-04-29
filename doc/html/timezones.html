@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This manual is for Chrono, version 0.3.0+.
+
+Copyright (C) 2019 Andrew Janke
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the same conditions as for modified versions. -->
+<!-- Created by GNU Texinfo 6.6, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>timezones (Chrono for GNU Octave v0.3.0+)</title>
+
+<meta name="description" content="User manual for Chrono for Octave.">
+<meta name="keywords" content="timezones (Chrono for GNU Octave v0.3.0+)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Functions-Alphabetically.html#Functions-Alphabetically" rel="up" title="Functions Alphabetically">
+<link href="years.html#years" rel="next" title="years">
+<link href="seconds.html#seconds" rel="prev" title="seconds">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<span id="timezones"></span><div class="header">
+<p>
+Next: <a href="years.html#years" accesskey="n" rel="next">years</a>, Previous: <a href="seconds.html#seconds" accesskey="p" rel="prev">seconds</a>, Up: <a href="Functions-Alphabetically.html#Functions-Alphabetically" accesskey="u" rel="up">Functions Alphabetically</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<span id="timezones-1"></span><h4 class="subsection">7.2.14 timezones</h4>
+<dl>
+<dt id="index-timezones">Function: <em><var>out</var> =</em> <strong>timezones</strong> <em>()</em></dt>
+<dt id="index-timezones-1">Function: <em><var>out</var> =</em> <strong>timezones</strong> <em>(<var>area</var>)</em></dt>
+<dd>
+<p>List all the time zones defined on this system.
+</p>
+<p>This lists all the time zones that are defined in the IANA time zone database
+used by this Octave. (On Linux and macOS, that will generally be the system
+time zone database from <samp>/usr/share/zoneinfo</samp>. On Windows, it will be
+the database redistributed with the Chrono package.
+</p>
+<p>If the return is captured, the output is returned as a table if your Octave
+has table support, or a struct if it does not. It will have fields/variables
+containing column vectors:
+</p>
+<dl compact="compact">
+<dt><code>Name</code></dt>
+<dd><p>The IANA zone name, as cellstr.
+</p></dd>
+<dt><code>Area</code></dt>
+<dd><p>The geographical area the zone is in, as cellstr.
+</p></dd>
+</dl>
+
+<p>Compatibility note: Matlab also includes UTCOffset and DSTOffset fields in
+the output; these are currently unimplemented.
+</p>
+</dd></dl>
+
+
+
+
+
+</body>
+</html>
