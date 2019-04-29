@@ -105,7 +105,7 @@ TIMESTAMP: $(SRCFILES)
 
 # This target generates <pkg>.texi and also <pkg>.qhp as a side effect
 .PRECIOUS: %.texi
-%.texi : %.texi.in mkdoc.pl mktexi.pl $(SRCFILES) TIMESTAMP
+%.texi : %.texi.in mktexi.pl $(SRCFILES) TIMESTAMP
 	export SOURCE_DATE_EPOCH=`cat TIMESTAMP`; \
 	$(PERL) ./mktexi.pl $< $(INDEX) $@ $(package).qhp $(SRCDIRS)
 
