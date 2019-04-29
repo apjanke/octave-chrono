@@ -1,6 +1,7 @@
 chrono >> Chrono
 Date Representation
  datetime
+ localdate
  isdatetime
  NaT
 Durations
