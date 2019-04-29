@@ -234,7 +234,6 @@ classdef calendarDuration
     
     ## -*- texinfo -*-
     ## @node calendarDuration.isnat
-    ## @subsubsection calendarDuration.isnat
     ## @deftypefn {Method} {@var{out} =} isnat (@var{obj})
     ##
     ## True if input elements are NaT.
@@ -249,7 +248,6 @@ classdef calendarDuration
 
     ## -*- texinfo -*-
     ## @node calendarDuration.uminus
-    ## @subsubsection calendarDuration.uminus
     ## @deftypefn {Method} {@var{out} =} uminus (@var{obj})
     ##
     ## Unary minus. Negates the sign of @var{obj}.
@@ -263,7 +261,6 @@ classdef calendarDuration
     
     ## -*- texinfo -*-
     ## @node calendarDuration.plus
-    ## @subsubsection calendarDuration.plus
     ## @deftypefn {Method} {@var{out} =} plus (@var{A}, @var{B})
     ##
     ## Addition: add two @code{calendarDuration}s.
@@ -302,7 +299,6 @@ classdef calendarDuration
     
     ## -*- texinfo -*-
     ## @node calendarDuration.times
-    ## @subsubsection calendarDuration.times
     ## @deftypefn {Method} {@var{out} =} times (@var{obj}, @var{B})
     ##
     ## Multiplication: Multiplies a @code{calendarDuration} by a numeric factor.
@@ -337,7 +333,6 @@ classdef calendarDuration
     
     ## -*- texinfo -*-
     ## @node calendarDuration.minus
-    ## @subsubsection calendarDuration.minus
     ## @deftypefn {Method} {@var{out} =} times (@var{A}, @var{B})
     ##
     ## Subtraction: Subtracts one @code{calendarDuration} from another.
@@ -372,7 +367,6 @@ classdef calendarDuration
     
     ## -*- texinfo -*-
     ## @node calendarDuration.dispstrs
-    ## @subsubsection calendarDuration.dispstrs
     ## @deftypefn {Method} {@var{out} =} dispstrs (@var{obj})
     ##
     ## Get display strings for each element of @var{obj}.
@@ -487,7 +481,6 @@ classdef calendarDuration
     
     ## -*- texinfo -*-
     ## @node calendarDuration.isnan
-    ## @subsubsection calendarDuration.isnan
     ## @deftypefn {Method} {@var{out} =} isnan (@var{obj})
     ##
     ## True if input elements are NaT. This is just an alias for @code{isnat},

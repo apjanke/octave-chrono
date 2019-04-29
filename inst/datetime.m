@@ -117,7 +117,6 @@ classdef datetime
   methods (Static)
     ## -*- texinfo -*-
     ## @node datetime.ofDatenum
-    ## @subsubsection datetime.ofDatenum
     ## @deftypefn {Static Method} {@var{obj} =} datetime.ofDatenum (@var{dnums})
     ##
     ## Converts a datenum array to a datetime array.
@@ -131,7 +130,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.ofDatestruct
-    ## @subsubsection datetime.ofDatestruct
     ## @deftypefn {Static Method} {@var{obj} =} datetime.ofDatestruct (@var{dstruct})
     ##
     ## Converts a datestruct to a datetime array.
@@ -166,7 +164,6 @@ classdef datetime
         
     ## -*- texinfo -*-
     ## @node datetime.posix2datenum
-    ## @subsubsection datetime.posix2datenum
     ## @deftypefn {Static Method} {@var{dnums} =} datetime.posix2datenum (@var{pdates})
     ##
     ## Converts POSIX (Unix) times to datenums
@@ -182,7 +179,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.datenum2posix
-    ## @subsubsection datetime.datenum2posix
     ## @deftypefn {Static Method} {@var{out} =} datetime.datenum2posix (@var{dnums})
     ##
     ## Converts Octave datenums to Unix dates.
@@ -335,7 +331,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.proxyKeys
-    ## @subsubsection datetime.proxyKeys
     ## @deftypefn {Method} {[@var{keysA}, @var{keysB}] =} proxyKeys (@var{a}, @var{b})
     ##
     ## Computes proxy key values for two datetime arrays. Proxy keys are numeric
@@ -472,7 +467,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.ymd
-    ## @subsubsection datetime.ymd
     ## @deftypefn {Method} {[@var{y}, @var{m}, @var{d}] =} ymd (@var{obj})
     ##
     ## Get the Year, Month, and Day components of a @var{obj}.
@@ -491,7 +485,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.hms
-    ## @subsubsection datetime.hms
     ## @deftypefn {Method} {[@var{h}, @var{m}, @var{s}] =} hms (@var{obj})
     ##
     ## Get the Hour, Minute, and Second components of a @var{obj}.
@@ -510,7 +503,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.ymdhms
-    ## @subsubsection datetime.ymdhms
     ## @deftypefn {Method} {[@var{y}, @var{m}, @var{d}, @var{h}, @var{mi}, @var{s}] =} ymdhms @
     ##   (@var{obj})
     ##
@@ -536,7 +528,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.timeofday
-    ## @subsubsection datetime.timeofday
     ## @deftypefn {Method} {@var{out} =} timeofday (@var{obj})
     ##
     ## Get the time of day (elapsed time since midnight).
@@ -554,7 +545,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.week
-    ## @subsubsection datetime.week
     ## @deftypefn {Method} {@var{out} =} week (@var{obj})
     ##
     ## Get the week of the year.
@@ -597,7 +587,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.dispstrs
-    ## @subsubsection datetime.dispstrs
     ## @deftypefn {Method} {@var{out} =} dispstrs (@var{obj})
     ##
     ## Get display strings for each element of @var{obj}.
@@ -623,7 +612,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.datestr
-    ## @subsubsection datetime.datestr
     ## @deftypefn {Method} {@var{out} =} datestr (@var{obj})
     ## @deftypefnx {Method} {@var{out} =} datestr (@var{obj}, @dots{})
     ##
@@ -640,7 +628,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.datestrs
-    ## @subsubsection datetime.datestrs
     ## @deftypefn {Method} {@var{out} =} datestrs (@var{obj})
     ## @deftypefnx {Method} {@var{out} =} datestrs (@var{obj}, @dots{})
     ##
@@ -663,7 +650,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.datestruct
-    ## @subsubsection datetime.datestruct
     ## @deftypefn {Method} {@var{out} =} datestruct (@var{obj})
     ##
     ## Converts this to a "datestruct" broken-down time structure.
@@ -695,7 +681,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.posixtime
-    ## @subsubsection datetime.posixtime
     ## @deftypefn {Method} {@var{out} =} posixtime (@var{obj})
     ##
     ## Converts this to POSIX time values (seconds since the Unix epoch)
@@ -713,7 +698,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.datenum
-    ## @subsubsection datetime.datenum
     ## @deftypefn {Method} {@var{out} =} datenum (@var{obj})
     ##
     ## DATENUM Convert this to datenums that represent the same local time
@@ -731,7 +715,6 @@ classdef datetime
 
     ## -*- texinfo -*-
     ## @node datetime.isnat
-    ## @subsubsection datetime.isnat
     ## @deftypefn {Method} {@var{out} =} isnat (@var{obj})
     ##
     ## True if input elements are NaT.
@@ -746,7 +729,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.isnan
-    ## @subsubsection datetime.isnan
     ## @deftypefn {Method} {@var{out} =} isnan (@var{obj})
     ##
     ## True if input elements are NaT. This is an alias for @code{isnat}
@@ -766,7 +748,6 @@ classdef datetime
 
     ## -*- texinfo -*-
     ## @node datetime.lt
-    ## @subsubsection datetime.lt
     ## @deftypefn {Method} {@var{out} =} lt (@var{A}, @var{B})
     ##
     ## True if @var{A} is less than @var{B}. This defines the @code{<} operator
@@ -786,7 +767,6 @@ classdef datetime
 
     ## -*- texinfo -*-
     ## @node datetime.le
-    ## @subsubsection datetime.le
     ## @deftypefn {Method} {@var{out} =} le (@var{A}, @var{B})
     ##
     ## True if @var{A} is less than or equal to@var{B}. This defines the @code{<=} operator
@@ -806,7 +786,6 @@ classdef datetime
 
     ## -*- texinfo -*-
     ## @node datetime.ne
-    ## @subsubsection datetime.ne
     ## @deftypefn {Method} {@var{out} =} ne (@var{A}, @var{B})
     ##
     ## True if @var{A} is not equal to @var{B}. This defines the @code{!=} operator
@@ -826,7 +805,6 @@ classdef datetime
 
     ## -*- texinfo -*-
     ## @node datetime.eq
-    ## @subsubsection datetime.eq
     ## @deftypefn {Method} {@var{out} =} eq (@var{A}, @var{B})
     ##
     ## True if @var{A} is equal to @var{B}. This defines the @code{==} operator
@@ -846,7 +824,6 @@ classdef datetime
 
     ## -*- texinfo -*-
     ## @node datetime.ge
-    ## @subsubsection datetime.ge
     ## @deftypefn {Method} {@var{out} =} ge (@var{A}, @var{B})
     ##
     ## True if @var{A} is greater than or equal to @var{B}. This defines the @code{>=} operator
@@ -866,7 +843,6 @@ classdef datetime
 
     ## -*- texinfo -*-
     ## @node datetime.gt
-    ## @subsubsection datetime.gt
     ## @deftypefn {Method} {@var{out} =} gt (@var{A}, @var{B})
     ##
     ## True if @var{A} is greater than @var{B}. This defines the @code{>} operator
@@ -888,7 +864,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.plus
-    ## @subsubsection datetime.plus
     ## @deftypefn {Method} {@var{out} =} plus (@var{A}, @var{B})
     ##
     ## Addition (@code{+} operator). Adds a @code{duration}, @code{calendarDuration},
@@ -943,7 +918,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.minus
-    ## @subsubsection datetime.minus
     ## @deftypefn {Method} {@var{out} =} minus (@var{A}, @var{B})
     ##
     ## Subtraction (@code{-} operator). Subtracts a @code{duration}, 
@@ -971,7 +945,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.diff
-    ## @subsubsection datetime.diff
     ## @deftypefn {Method} {@var{out} =} diff (@var{obj})
     ##
     ## Differences between elements.
@@ -989,7 +962,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.isbetween
-    ## @subsubsection datetime.isbetween
     ## @deftypefn {Method} {@var{out} =} isbetween (@var{obj}, @var{lower}, @var{upper})
     ##
     ## Tests whether the elements of @var{obj} are between @var{lower} and
@@ -1032,7 +1004,6 @@ classdef datetime
     
     ## -*- texinfo -*-
     ## @node datetime.linspace
-    ## @subsubsection datetime.linspace
     ## @deftypefn {Method} {@var{out} =} linspace (@var{from}, @var{to}, @var{n})
     ##
     ## Linearly-spaced values in date/time space.
@@ -1411,7 +1382,6 @@ classdef datetime
 
     ## -*- texinfo -*-
     ## @node datetime.convertDatenumTimeZone
-    ## @subsubsection datetime.convertDatenumTimeZone
     ## @deftypefn {Static Method} {@var{out} =} datetime.convertDatenumTimeZone @
     ##  (@var{dnum}, @var{fromZoneId}, @var{toZoneId})
     ##
