@@ -222,6 +222,7 @@ while (my $line = <TEXI>) {
 	chomp $line;
 	next unless ($line =~ /^\s*\@node +(.*?)(,|$)/);
 	my $node_name = $1;
+    print "Found node $node_name\n";
 	my $next_line = <TEXI>;
 	while ($next_line && $next_line =~ /^\s*$/) {
 		$next_line = <TEXI>;
@@ -237,6 +238,7 @@ while (my $line = <TEXI>) {
 	$html_title = $html_title =~ s/\./_002e/gr; # I don't know why this happens -apj
 	$html_title = "index" if $html_title eq "Top";
 	my $html_file = "$html_title.html";
+    print "Adding node $node_name, html file $html_file to files list\n";
 	unshift @files, $html_file;
 	print "Node: '$node_name' ($section_type): \"$section_title\" => \"$section_qhelp_title\""
 	    . " (level $section_level),  HTML: $html_file\n"
@@ -294,8 +296,10 @@ qhp "        </keywords>\n";
 
 qhp "        <files>\n";
 qhp "            <file>$pkg_name.html</file>\n";
+my $n_files = scalar (@files);
+print "Adding $n_files files to file list\n";
 foreach my $file (@files) {
-	emit "            <file>html/$file</file>\n";
+	qhp "            <file>html/$file</file>\n";
 }
 qhp "        </files>\n";
 
