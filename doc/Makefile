@@ -89,7 +89,6 @@ DVIDOC = $(patsubst %.info,%.dvi,$(INFODOC))
 PSDOC = $(patsubst %.info,%.ps,$(INFODOC))
 PDFDOC = $(patsubst %.info,%.pdf,$(INFODOC))
 TEXIDOC = $(patsubst %.info,%.texi,$(INFODOC))
-DOCSTRINGS = DOCSTRINGS.texi.tmp
 INDEX = ../INDEX
 
 default: all
@@ -104,13 +103,11 @@ qhelp: $(package).qhc
 TIMESTAMP: $(SRCFILES)
 	$(FIND) $(SRCDIRS) -type f -printf '%T@\n' | cut -d '.' -f 1 | sort -n | tail -1 > TIMESTAMP
 
-$(DOCSTRINGS): mkdoc.pl $(SRCFILES)
-	$(PERL) ./mkdoc.pl $(DOCSTRINGS) ../inst ../src 
-
+# This target generates <pkg>.texi and also <pkg>.qhp as a side effect
 .PRECIOUS: %.texi
-%.texi : %.texi.in mkdoc.pl mktexi.pl $(DOCSTRINGS) $(SRCFILES) TIMESTAMP
+%.texi : %.texi.in mkdoc.pl mktexi.pl $(SRCFILES) TIMESTAMP
 	export SOURCE_DATE_EPOCH=`cat TIMESTAMP`; \
-	$(PERL) ./mktexi.pl $< $(DOCSTRINGS) $(INDEX) $@
+	$(PERL) ./mktexi.pl $< $(INDEX) $@ $(package).qhp $(SRCDIRS)
 
 %.dvi: %.texi
 	$(TEXI2DVI) --quiet --clean -o $@ $<
@@ -124,9 +121,6 @@ $(DOCSTRINGS): mkdoc.pl $(SRCFILES)
 
 %.ps: %.dvi
 	$(DVIPS) -o $@ $<
-
-$(package).qhp: $(package).texi mkqhp.pl
-	$(PERL) mkqhp.pl $(package).texi $(package).qhp
 
 $(package).qhc: $(package).qhcp $(package).qhp TIMESTAMP
 	$(QHELPGENERATOR) $(package).qhcp -o $(package).qhc

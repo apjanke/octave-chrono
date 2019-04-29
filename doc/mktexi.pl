@@ -3,20 +3,24 @@
 # David Bateman Feb 02 2003
 # Andrew Janke 2019
 # 
-# Extracts the help in texinfo format for particular function for use
-# in documentation. Based on make_index script from octave_forge.
+# Extracts the help in texinfo format from Octave source code for use
+# in documentation and generates <pkg>.texi and <pkg>.qhp files from it.
 #
 # Usage:
 #
-#   mktexi.pl <file> <docfile> <indexfile> <outfile>
+#   mktexi.pl <infile> <indexfile> <outfile> <qhpoutfile> <sourcedir> [<sourcedir> ...]
 #
 #   <file> is the input .texi.in template file.
-#   <docfile> is the output of mkdoc.pl.
 #   <index> is the main INDEX file at the root of the package repo.
 #   <outfile> is the output .texi file to generate.
+#   <qhpoutfile> is the output .qhp file to generate.
+#   <sourcedir> is an M-code or oct-file source directory. You may specify as many
+#       of them as you want.
 #
-# Munges the texi output of mkdoc.pl, producing a function index, among
-# other things.
+# Takes various input files (the package source code, INDEX, DESCRIPTION, <pkg>.texi.in),
+# extracts the Texinfo documentation and metadata from them, and generates
+# the combined <pkg>.texi help document, along with the <pkg>.qhp index file
+# for generating the QHelp collection.
 #
 # Emits diagnostic messages to stdout.
 
@@ -48,6 +52,7 @@ BEGIN {
 }
 
 use strict;
+use Data::Dumper;
 use File::Find;
 use File::Basename;
 use Text::Wrap;
@@ -57,24 +62,43 @@ use POSIX ":sys_wait_h";
 
 use DocStuff;
 
-my $file = shift @ARGV;
-my $docfile = shift @ARGV;
+my $infile = shift @ARGV;
 my $indexfile = shift @ARGV;
 my $outfile = shift @ARGV;
+my $qhpoutfile = shift @ARGV;
+my @sourcedirs = @ARGV;
 
-unless (open (IN, $file)) {
-    die "Error: Could not open input file $file: $!";
+my $debug = 0;
+my $verbose = 0;
+
+# Extract the Texinfo docs from the source code
+my $docs = DocStuff::OctTexDocs->new;
+for my $sourcedir (@sourcedirs) {
+    $docs->read_source_dir($sourcedir);
 }
-unless (open (OUT, ">", $outfile)) {
-    die "Error: Could not open output file $outfile: $!";
+# Debugging output
+if ($debug) {
+    open (TMP, ">", "topics.tmp")
+        or die "Error: Could not open output file topics.tmp: $!\n";
+    print TMP Data::Dumper->Dump([$docs]);
+    close TMP;
 }
-sub emit { # {{{1
+
+open (IN, $infile)
+    or die "Error: Could not open input file $infile: $!\n";
+open (OUT, ">", $outfile)
+    or die "Error: Could not open output file $outfile: $!\n";
+
+sub emit {
     print OUT @_;
-} # 1}}}
+}
 
 # Get metadata from DESCRIPTION file
 my $pkg_meta = DocStuff::get_package_metadata_from_description_file();
+my $pkg_name = $$pkg_meta{"Name"};
 my $pkg_version = $$pkg_meta{"Version"};
+
+# Generate the <pkg>.texi file
 
 my $in_tex = 0;
 while (my $line = <IN>) {
@@ -84,7 +108,7 @@ while (my $line = <IN>) {
         my $fcn_name = $1;
         $fcn_name =~ /^(.*?),(.*)/;
         my ($func0, $func1) = ($1, $2);
-        my $fcn_doco = func_doco ($func0);
+        my $fcn_doco = $docs->get_node_doco($func0);
         emit "$fcn_doco\n";
     } elsif ($line =~ /^\@REFERENCE_SECTION/) {
         $line =~ /^\@REFERENCE_SECTION\((.*?)\)\s*/;
@@ -103,7 +127,7 @@ while (my $line = <IN>) {
             emit "\@table \@asis\n";
             for my $fcn (@ctg_fcns) {
                 emit "\@item \@ref{$fcn}\n";
-                my $description = $descriptions{$fcn} || func_summary($fcn);
+                my $description = $descriptions{$fcn} || $docs->get_node_summary($fcn);
                 emit "$description\n";
                 emit "\n";
             }
@@ -116,7 +140,7 @@ while (my $line = <IN>) {
         @all_fcns = sort { lc($a) cmp lc($b) } @all_fcns;
         emit "\@menu\n";
         for my $fcn (@all_fcns) {
-            my $description = $descriptions{$fcn} || func_summary($fcn);
+            my $description = $descriptions{$fcn} || $docs->get_node_summary($fcn);
             emit wrap("", "\t\t", "* ${fcn}::\t$description\n");
         }
         emit "\@end menu\n";
@@ -124,9 +148,17 @@ while (my $line = <IN>) {
         for my $fcn (@all_fcns) {
             emit "\@node $fcn\n";
             emit "\@subsection $fcn\n";
-            my $fcn_doco = func_doco ($fcn);
-            if ($fcn_doco) {
-                emit "$fcn_doco\n";
+            my $node = $docs->docs->{$fcn};
+            if ($node) {
+                my $main_doc = DocStuff::munge_texi_block_text($$node{block});
+                emit "$main_doc\n\n";
+                for my $subnode (@{$$node{children}}) {
+                    my $subnode_name = $$subnode{node};
+                    my $subnode_doc = DocStuff::munge_texi_block_text($$subnode{block});
+                    emit "\@node $subnode_name\n";
+                    emit "\@subsubsection $subnode_name\n\n";
+                    emit "$subnode_doc\n";
+                }
             } else {
                 emit "\@emph{Not implemented}\n";
             }
@@ -145,204 +177,131 @@ while (my $line = <IN>) {
     }
 }
 
+close IN;
+close OUT;
 
-# Extract a given function's full doc text from the DOCSTRINGS file
-sub func_doco { # {{{1
-    my ($want_func,    # in function name to search for
-        )              = @_;
+# Generate the <pkg>.qhp file
 
-    unless ( open(DOC, $docfile) ) {
-        die "Error: Could not open file $docfile: $!\n";
-    }
-    my $out = undef;
-    while (<DOC>) {
-        next unless /\037/;
-        my $function = $_;
-        $function =~ s/\037//;
-        $function =~ s/[\n\r]+//;
-        if ($function eq $want_func) {
-            my $docline;
-            my $doctex = 0;
-            my $desc = "";
-            while (($docline = <DOC>) && ($docline !~ /^\037/)) {
-                $docline =~ s/^\s*-[*]- texinfo -[*]-\s*//;
-                if ($docline =~ /\@tex/) {
-                    $doctex = 1;
-                }
-                if ($doctex) {
-                    $docline =~ s/\\\\/\\/g;
-                }
-                if ($docline =~ /\@end tex/) {
-                    $doctex = 0;
-                }
-                $desc .= $docline;
-            }
-            $desc =~ s/\@seealso\{(.*[^}])\}/See also: \1/g;
-            $out = $desc;
-            last;
-        }
-    }
-    close (DOC);
-    print STDERR "Warning: doco for function $want_func not found in doc file $docfile\n"
-        unless $out;
-    return $out;
-} # 1}}}
+my %level_map = (
+	"top" => 1,
+	"chapter" => 2,
+	"section" => 3,
+	"subsection" => 4,
+	"subsubsection" => 5
+);
 
-# Extract a given function's summary (first doco sentence) from the
-# DOCSTRINGS file
-sub func_summary { # {{{1
-    my ($func,          # in function name
-        )               = @_;
+open (QHP, ">", $qhpoutfile)
+    or die "Error: Could not open output .qhp file $qhpoutfile: $!\n";
 
-    my $desc = "";
-    my $found = 0;
-    unless (open (DOC, $docfile) ) {
-        die "Error: Could not open file $docfile: $!\n";
-    }
-    while (<DOC>) {
-        next unless /\037/;
-        my $function = $_;
-        $function =~ s/\037//;
-        $function =~ s/[\n\r]+//;
-        if ($function =~ /^$func$/) {
-            my $docline;
-            my $doctex = 0;
-            while (($docline = <DOC>) && ($docline !~ /^\037/)) {
-                if ($docline =~ /\@tex/) {
-                    $doctex = 1;
-                }
-                if ($doctex) {
-                    $docline =~ s/\\\\/\\/g;
-                }
-                if ($docline =~ /\@end tex/) {
-                    $doctex = 0;
-                }
-                $desc .= $docline;
-            }
-            $desc =~ s/\@seealso\{(.*[^}])\}/See also: \1/g;
-                        $found = 1;
-                        last;
-        }
-    }
-    close (DOC);
-    if (! $found) {
-        $desc = "\@emph{Not implemented}";
-    }
-    return first_sentence($desc);
-} # 1}}}
+sub qhp {
+    print QHP @_;
+}
 
+my $preamble = <<EOS;
+<?xml version="1.0" encoding="UTF-8"?>
+<QtHelpProject version="1.0">
+    <namespace>octave.community.$pkg_name</namespace>
+    <virtualFolder>doc</virtualFolder>
+    <filterSection>
+        <toc>
+EOS
+qhp $preamble;
 
-sub first_sentence { # {{{1
-# grab the first real sentence from the function documentation
-    my ($desc) = @_;
-    my $retval = '';
-    my $line;
-    my $next;
-    my @lines;
+# TOC section
 
-    my $trace = 0;
-    # $trace = 1 if $desc =~ /Levenberg/;
-    return "" unless defined $desc;
-    if ($desc =~ /^\s*-[*]- texinfo -[*]-/) {
-        # help text contains texinfo.    Strip the indicator and run it
-        # through makeinfo. (XXX FIXME XXX this needs to be a function)
-        $desc =~ s/^\s*-[*]- texinfo -[*]-\s*//;
-        my $cmd = "makeinfo --fill-column 1600 --no-warn --no-validate --no-headers --force --ifinfo";
-        open3(*Writer, *Reader, *Errer, $cmd) or die "Error: Could not run info: $!";
-        print Writer "\@macro seealso {args}\n\n\@noindent\nSee also: \\args\\.\n\@end macro\n";
-        print Writer "$desc";
-        close (Writer);
-        @lines = <Reader>;
-        close (Reader);
-        my @err = <Errer>;
-        close (Errer);
-        waitpid (-1, &WNOHANG);
+my @files;
+my @classes;
+my @functions;
 
-        # Display source and errors, if any
-        if (@err) {
-            my $n = 1;
-            foreach $line ( split(/\n/,$desc) ) {
-                printf "%2d: %s\n",$n++,$line;
-            }
-            print ">>> @err";
-        }
+open TEXI, $outfile
+    or die "Could not open generated .texi file for reading: $outfile: $!\n";
 
-        # Print trace showing formatted output
-        # print "<texinfo--------------------------------\n";
-        # print @lines;
-        # print "--------------------------------texinfo>\n";
+my $level = 0;
+my $indent = "        ";
+while (my $line = <TEXI>) {
+	chomp $line;
+	next unless ($line =~ /^\s*\@node +(.*?)(,|$)/);
+	my $node_name = $1;
+	my $next_line = <TEXI>;
+	while ($next_line && $next_line =~ /^\s*$/) {
+		$next_line = <TEXI>;
+	}
+	chomp $next_line;
+	unless ($next_line =~ /^\s*\@(\S+) +(.*)/) {
+		die "Error: Failed parsing section line for node '$node_name': $next_line";
+	}
+	my ($section_type, $section_title) = ($1, $2);
+	my $section_level = $level_map{$section_type};
+	my $section_qhelp_title = $section_title =~ s/@\w+{(.*?)}/\1/rg;
+	my $html_title = $node_name =~ s/\s/-/gr;
+	$html_title = $html_title =~ s/\./_002e/gr; # I don't know why this happens -apj
+	$html_title = "index" if $html_title eq "Top";
+	my $html_file = "$html_title.html";
+	unshift @files, $html_file;
+	print "Node: '$node_name' ($section_type): \"$section_title\" => \"$section_qhelp_title\""
+	    . " (level $section_level),  HTML: $html_file\n"
+	    if $verbose;
+	die "Error: Unrecognized section type: $section_type\n" unless $section_level;
+	if ($section_level == $level) {
+		# close last node as sibling
+		qhp $indent . ("    " x $level) . "</section>\n";
+	} elsif ($section_level > $level) {
+		# leave last node open as parent
+		if ($section_level > $level + 1) {
+			die "Error: Discontinuity in section levels at node $node_name ($level to $section_level)";
+		}
+	} elsif ($section_level < $level) {
+		# close last two nodes
+		my $levels_up = $level - $section_level;
+		while ($level > $section_level) {
+			qhp $indent . ("    " x $level--) . "</section>\n";
+		}
+		qhp $indent . ("    " x $level) . "</section>\n";
+	}
+	qhp $indent . ("    " x $section_level) 
+	    . "<section title=\"$section_qhelp_title\" ref=\"html/$html_file\">\n";
+	qhp $indent . ("    " x $section_level) 
+	    . "    <!-- orig_title=\"$section_title\" node_name=\"$node_name\" -->\n"
+	    if $debug;
+	$level = $section_level;
+}
+while ($level > 1) {
+	qhp $indent . ("    " x $level--) . "</section>\n";
+}
+# Include the all-on-one-page version
+qhp $indent . ("    " x $level) 
+    . "<section title=\"Entire Manual in One Page\" ref=\"$pkg_name.html\"/>\n"
+    . "$indent</section>\n";
+qhp <<EOS;
+        </toc>
+EOS
+close TEXI;
 
-        # Skip prototype and blank lines
-        while (1) {
-            return "" unless @lines;
-            $line = shift @lines;
-            next if $line =~ /^\s*-/;
-            next if $line =~ /^\s*$/;
-            last;
-        }
+# Keyword index
 
-    } else {
+my $node_index = $docs->nodes;
+my @node_names = keys %$node_index;
+@node_names = sort (@node_names);
+qhp "        <keywords>\n";
+for my $node (@node_names) {
+	my $file_base = $node;
+	$file_base =~ s/\./_002e/gr; # I don't know why this happens -apj
+	qhp "            <keyword name=\"$node\" id=\"$node\" ref=\"html/$file_base.html\"/>\n";
+}
+qhp "        </keywords>\n";
 
-        # print "<plain--------------------------------\n";
-        # print $desc;
-        # print "--------------------------------plain>\n";
+# Files section
 
-        # Skip prototype and blank lines
-        @lines = split(/\n/,$desc);
-        while (1) {
-            return "" if ($#lines < 0);
-            $line = shift @lines;
-            next if $line =~ /^\s*[Uu][Ss][Aa][Gg][Ee]/; # skip " usage "
+qhp "        <files>\n";
+qhp "            <file>$pkg_name.html</file>\n";
+foreach my $file (@files) {
+	emit "            <file>html/$file</file>\n";
+}
+qhp "        </files>\n";
 
-            $line =~ s/^\s*\w+\s*://;                           # chop " blah : "
-            print "strip blah: $line\n" if $trace;
-            $line =~ s/^\s*[Ff]unction\s+//;            # chop " function "
-            print "strip function $line\n" if $trace;
-            $line =~ s/^\s*\[.*\]\s*=\s*//;             # chop " [a,b] = "
-            print "strip []= $line\n" if $trace;
-            $line =~ s/^\s*\w+\s*=\s*//;                    # chop " a = "
-            print "strip a= $line\n" if $trace;
-            $line =~ s/^\s*\w+\s*\([^\)]*\)\s*//; # chop " f(x) "
-            print "strip f(x) $line\n" if $trace;
-            $line =~ s/^\s*[;:]\s*//;                                # chop " ; "
-            print "strip ; $line\n" if $trace;
+# Closing
+qhp <<EOS;
+    </filterSection>
+</QtHelpProject>
 
-            $line =~ s/^\s*[[:upper:]][[:upper:]0-9_]+//; # chop " BLAH"
-            print "strip BLAH $line\n" if $trace;
-            $line =~ s/^\s*\w*\s*[-]+\s+//;              # chop " blah --- "
-            print "strip blah --- $line\n" if $trace;
-            $line =~ s/^\s*\w+ *\t\s*//;                    # chop " blah <TAB> "
-            print "strip blah <TAB> $line\n" if $trace;
-            $line =~ s/^\s*\w+\s\s+//;                      # chop " blah    "
-            print "strip blah <NL> $line\n" if $trace;
-
-            # next if $line =~ /^\s*\[/;                   # skip  [a,b] = f(x)
-            # next if $line =~ /^\s*\w+\s*(=|\()/; # skip a = f(x) OR f(x)
-            next if $line =~ /^\s*or\s*$/;          # skip blah \n or \n blah
-            next if $line =~ /^\s*$/;                        # skip blank line
-            next if $line =~ /^\s?!\//;                  # skip # !/usr/bin/octave
-            # XXX FIXME XXX should be testing for unmatched () in proto
-            # before going to the next line!
-            last;
-        }
-    }
-
-    # Try to make a complete sentence, including the '.'
-    if ( "$line " !~ /[^.][.]\s/ && $#lines >= 0) {
-        my $next = $lines[0];
-        $line =~ s/\s*$//;  # trim trailing blanks on last
-        $next =~ s/^\s*//;      # trim leading blanks on next
-        $line .= " $next" if "$next " =~ /[^.][.]\s/; # ends the sentence
-    }
-
-    # Tidy up the sentence.
-    chomp $line;                    # trim trailing newline, if there is one
-    $line =~ s/^\s*//;      # trim leading blanks on line
-    $line =~ s/([^.][.])\s.*$/$1/; # trim everything after the sentence
-    print "Skipping:\n$desc---\n" if $line eq "";
-
-    # And return it.
-    return $line;
-
-} # 1}}}
-
+EOS

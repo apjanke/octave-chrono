@@ -33,13 +33,50 @@ use Moose;
 
 use File::Basename;
 
-# Docs: {$node => {node => $node, block => $block, file => $file, children => [...]}}
-# children are also {node => $node, block => $block}
+# Docs: top-level thing index
+#  {$node => {node => $node, block => $block, file => $file, children => [...]}}
+# Children are also {node => $node, block => $block, file => $file}
 # where:
 #   $node is the fully-namespace-qualified class or function name
 #   $block is the stripped text of the texinfo block
 #   $file is the path to the file where this block came from
 has 'docs' => ( is  => 'rw', isa => 'HashRef', default => sub { {} } );
+# Index into all the nodes: {$node => {}}
+has 'nodes' => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
+
+sub add_thing {
+    my $self = shift;
+    my ($node_name, $block) = @_;
+    my $file = $$block{file};
+    if ($self->docs->{$node_name}) {
+        my $other_file = $self->docs->{$node_name}{file};
+        printf STDERR "Warning: Node $node_name from file $file is shadowed by previous file $other_file\n";
+        return;
+    }
+    $self->docs->{$node_name} = $block;
+    $self->nodes->{$node_name} = $block;
+    for my $child (@{$$block{children}}) {
+        $self->nodes->{$$child{node}} = $child;
+    }
+}
+
+sub add_sub_thing {
+    my $self = shift;
+    my ($node_name, $parent_thing_name, $block) = @_;
+    my $file = $$block{file};
+    if ($self->nodes->{$node_name}) {
+        my $other_file = $self->nodes->{$node_name}{file};
+        printf STDERR "Warning: Node $node_name from file $file is shadowed by previous file $other_file\n";
+        return;
+    }
+    my $parent_thing = $self->docs->{$parent_thing_name};
+    if ($parent_thing) {
+        push @{$$parent_thing{children}}, $block;
+    } else {
+        printf STDERR "Warning: Parent thing $parent_thing_name for node $node_name from file $file does not exist\n";
+    }
+    $self->nodes->{$node_name} = $block;
+}
 
 sub read_source_dir {
     my $self = shift;
@@ -84,15 +121,11 @@ sub read_m_source_file {
     my $texi = $$first_block{block};
     $$first_block{children} = $blocks;
     $$first_block{file} = $file;
-    if ($self->docs->{$node}) {
-        my $other_file = $self->docs->{$node}{file};
-        printf STDERR "Node $node from file $file is shadowed by previous file $other_file\n";
-        return;
-    }
-    $self->docs->{$node} = $first_block;
+    $self->add_thing($node, $first_block);
 }
 
 # Read a top-level .cxx oct-file source file
+# This assumes oct-files are always in the base namespace/package
 sub read_cxx_source_file {
     my $self = shift;
     my ($file, $namespace) = @_;
@@ -101,12 +134,8 @@ sub read_cxx_source_file {
         my $node = $$block{node};
         my $texi = $$block{block};
         $$block{file} = $file;
-        if ($self->docs->{$node}) {
-            my $other_file = $self->docs->{$node}{file};
-            printf STDERR "Warning: Node $node from file $file is shadowed by previous file $other_file\n";
-            next;
-        }
-        $self->docs->{$node} = $block;
+        $$block{children} = [];
+        $self->add_thing($node, $block);
     }
 }
 
@@ -119,7 +148,7 @@ sub read_class_at_dir {
     my $dir_base = basename ($dir);
     my $class_name = $dir_base;
     $class_name =~ s/^\@//;
-    my $class_file_name = "$class_name.m"
+    my $class_file_name = "$class_name.m";
     my $class_file = "$dir/$class_file_name";
     unless (-f $class_file) {
         printf STDERR "Warning: No classdef file found in dir $dir\n";
@@ -145,19 +174,35 @@ sub read_class_at_dir {
 
     # Stash the docs
     my $node = DocStuff::append_namespace($namespace, $class_name);
-    if ($self->docs->{$node}) {
-        my $other_file = $self->docs->{$node}{file};
-        printf STDERR "Warning: Node $node from \@<class> dir $dir is shadowed by previous file $other_file\n";
-        # TODO: Should we actually just push our non-main blocks into the existing block,
-        # since they are monkey-patching methods into it?
-        return;
-    }
-    $self->docs->{$node} = $class_block;
+    $self->add_thing($node, $class_block);
 }
+
+# Get a given node's full doc text
+sub get_node_doco {
+    my $self = shift;
+    my ($node_name) = @_;
+    my $block = $self->nodes->{$node_name};
+    return undef unless $block;
+    my $block_text = $$block{block};
+    return DocStuff::munge_texi_block_text($block_text);
+}
+
+sub get_node_summary {
+    my $self = shift;
+    my ($node_name) = @_;
+    my $texi = $self->get_node_doco($node_name);
+    return undef unless $texi;
+    return DocStuff::first_sentence($texi);
+}
+
+
+# Get the first sentence of a given node's doc text
 
 package DocStuff;
 
 use File::Basename;
+use IO::File;
+use IPC::Open3;
 
 sub append_namespace {
     my ($parent, $child) = @_;
@@ -165,6 +210,30 @@ sub append_namespace {
     return $child unless $parent and $parent ne "";
     return "$parent.$child";
 }
+
+# Munge texinfo doco blocks into actual texinfo, or whatever it is that
+# we put in the <pkg>.texi file.
+sub munge_texi_block_text {
+    my ($txt) = @_;
+    my $texi = "";
+    my @lines = split ("\n", $txt);
+    my $in_doctex = 0;
+    for my $line (@lines) {
+        if ($line =~ /\@tex/) {
+            $in_doctex = 1;
+        }
+        if ($in_doctex) {
+            $line =~ s/\\\\/\\/g;
+        }
+        if ($line =~ /\@end tex/) {
+            $in_doctex = 0;
+        }
+        $texi .= "$line\n";
+    }
+    $texi =~ s/\@seealso\{(.*[^}])\}/See also: $1/g;
+    return $texi;
+}
+
 
 # Read an INDEX file. Returns hashref:
 # {
@@ -232,7 +301,7 @@ sub read_index_file { # {{{1
 # This grabs the first comment block after an optional initial copyright block.
 # It ignores M-code syntax, so if you don't have a file-level comment block,
 # it may end up grabbing a comment block from inside one of your functions.
-sub extract_description_from_mfile { # {{{1
+sub extract_description_from_mfile {
     my ($mfile) = @_;
     my $retval = '';
 
@@ -264,26 +333,26 @@ sub extract_description_from_mfile { # {{{1
     }
     close(IN);
     return $retval;
-} # 1}}}
+}
 
 # Extract all Octave Texinfo documentation comments from an m-file
 # Returns an arrayref of extracted blocks, with each block being
 # a hashref with keys "node" and "block".
-sub extract_multiple_texinfo_blocks_from_mfile { # {{{1
+sub extract_multiple_texinfo_blocks_from_mfile {
     my ($mfile) = @_;
     my $retval = '';
     my $file_node_name = basename($mfile, ('.m'));
 
-    unless (open (IN, $mfile)) {
-        die "Error: Could not open file $mfile: $!\n";
-    }
+    my $fh = IO::File->new($mfile, "r")
+        or die "Error: Could not open file $mfile: $!\n";
+
     # Skip leading blank lines
-    while (<IN>) {
+    while (<$fh>) {
         last if /\S/;
     }
     # First block may be copyright statement; skip it
     if (m/\s*[%\#][\s\#%]* Copyright/) {
-        while (<IN>) {
+        while (<$fh>) {
             last unless /^\s*[%\#]/;
         }
     }
@@ -298,30 +367,37 @@ sub extract_multiple_texinfo_blocks_from_mfile { # {{{1
     my $in_block = 0;
     my $line;
     my $node;
-    while (<IN>) {
+    while (<$fh>) {
+        my $line_num = $fh->input_line_number();
         if (/^\s*## -\*- texinfo -\*-/) {
             # block start
             if ($in_block) {
                 push @blocks, { node => $node, block => $block};
             }
-            # Block output must start with "-*- texinfo -*-" for historical reasons
-            $block = "-*- texinfo -*-";
+            $block = "";
             $in_block = 1;
             # Grab next line so we can detect node name
-            $line = <IN>;
+            $line = <$fh>;
             $line = strip_mfile_block_line ($line);
             if ($line =~ /^\s*\@node (\S*)/) {
                 $node = $1;
+                # Temporary hack for compatibility with what I originally wrote
+                $line = <$fh>;
+                $line = strip_mfile_block_line($line);
+                unless ($line =~ /^\s*\@[sub]*section/) {
+                    $block .= "$line\n";
+                }
             } else {
                 # For back-compatibility, the first block may take the file as its node name
                 # Only the first block! Otherwise you'd have collisions.
-                if (scalar (@blocks) == 0) {
+                if ((scalar (@blocks)) == 0) {
                     $node = $file_node_name;
                 } else {
+                    print STDERR "Found non-first block with no \@node statement in file $mfile\n";
                     die "Found non-first block with no \@node statement in file $mfile\n";
                 }
+                $block .= "$line\n";
             }
-            $block .= "$line\n";
         } elsif (/^\s*##\s/) {
             if ($in_block) {
                 $line = strip_mfile_block_line ($_);
@@ -335,6 +411,7 @@ sub extract_multiple_texinfo_blocks_from_mfile { # {{{1
             }
         }
     }
+    my $line_num = $fh->input_line_number();
     if ($in_block) {
         push @blocks, { node => $node, block => $block};
         $block = "-*- texinfo -*-";
@@ -343,7 +420,7 @@ sub extract_multiple_texinfo_blocks_from_mfile { # {{{1
 
     my $n_blocks = scalar @blocks;
     return \@blocks;
-} # 1}}}
+}
 
 sub strip_mfile_block_line {
     my ($line) = @_;
@@ -422,5 +499,71 @@ sub get_package_metadata_from_description_file {
     $defn{$key} = $value if $key;
     return \%defn;
 }
+
+sub first_sentence { # {{{1
+# grab the first real sentence from the function documentation
+    my ($desc) = @_;
+    my $retval = '';
+    my $line;
+    my $next;
+    my @lines;
+
+    my $trace = 0;
+    # $trace = 1 if $desc =~ /Levenberg/;
+    return "" unless defined $desc;
+
+    # Run the texinfo through makeinfo to get plain text
+    my $cmd = "makeinfo --fill-column 1600 --no-warn --no-validate "
+        . "--no-headers --force --ifinfo";
+    open3(*Writer, *Reader, *Errer, $cmd)
+        or die "Error: Could not run makeinfo: $!";
+    print Writer "\@macro seealso {args}\n\n\@noindent\nSee also: \\args\\.\n\@end macro\n";
+    print Writer "$desc";
+    close (Writer);
+    @lines = <Reader>;
+    close (Reader);
+    my @err = <Errer>;
+    close (Errer);
+    # I think this &WNOHANG needs "use POSIX ":sys_wait_h"" -apj
+    #waitpid (-1, &WNOHANG);
+    waitpid (-1, 0);
+
+    # Display source and errors, if any
+    if (@err) {
+        my $n = 1;
+        foreach $line ( split(/\n/,$desc) ) {
+            printf "%2d: %s\n",$n++,$line;
+        }
+        print ">>> @err";
+    }
+
+    # Skip prototype and blank lines
+    while (1) {
+        return "" unless @lines;
+        $line = shift @lines;
+        next if $line =~ /^\s*-/;
+        next if $line =~ /^\s*$/;
+        last;
+    }
+
+    # Try to make a complete sentence, including the '.'
+    if ( "$line " !~ /[^.][.]\s/ && $#lines >= 0) {
+        my $next = $lines[0];
+        $line =~ s/\s*$//;   # trim trailing blanks on last
+        $next =~ s/^\s*//;   # trim leading blanks on next
+        $line .= " $next" if "$next " =~ /[^.][.]\s/; # ends the sentence
+    }
+
+    # Tidy up the sentence.
+    chomp $line;
+    $line =~ s/^\s*//;             # trim leading blanks on line
+    $line =~ s/([^.][.])\s.*$/$1/; # trim everything after the sentence
+    print "Skipping:\n$desc---\n" if $line eq "";
+
+    # And return it.
+    return $line;
+
+} # 1}}}
+
 
 1;
