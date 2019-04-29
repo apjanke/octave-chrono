@@ -497,9 +497,16 @@ File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Up: Functions Alp
 * Menu:
 
 * calendarDuration.calendarDuration::
+* calendarDuration.isnat::
+* calendarDuration.uminus::
+* calendarDuration.plus::
+* calendarDuration.times::
+* calendarDuration.minus::
+* calendarDuration.dispstrs::
+* calendarDuration.isnan::
 
 
-File: chrono.info,  Node: calendarDuration.calendarDuration,  Up: calendarDuration
+File: chrono.info,  Node: calendarDuration.calendarDuration,  Next: calendarDuration.isnat,  Up: calendarDuration
 
 7.2.1.1 calendarDuration.calendarDuration
 .........................................
@@ -512,6 +519,97 @@ File: chrono.info,  Node: calendarDuration.calendarDuration,  Up: calendarDurati
  -- Constructor: OBJ = calendarDuration (Y, M, D, H, MI, S)
 
      Constructs new ‘calendarDuration’ arrays based on input values.
+
+
+File: chrono.info,  Node: calendarDuration.isnat,  Next: calendarDuration.uminus,  Prev: calendarDuration.calendarDuration,  Up: calendarDuration
+
+7.2.1.2 calendarDuration.isnat
+..............................
+
+ -- Method: OUT = isnat (OBJ)
+
+     True if input elements are NaT.
+
+     Returns logical array the same size as OBJ.
+
+
+File: chrono.info,  Node: calendarDuration.uminus,  Next: calendarDuration.plus,  Prev: calendarDuration.isnat,  Up: calendarDuration
+
+7.2.1.3 calendarDuration.uminus
+...............................
+
+ -- Method: OUT = uminus (OBJ)
+
+     Unary minus.  Negates the sign of OBJ.
+
+
+File: chrono.info,  Node: calendarDuration.plus,  Next: calendarDuration.times,  Prev: calendarDuration.uminus,  Up: calendarDuration
+
+7.2.1.4 calendarDuration.plus
+.............................
+
+ -- Method: OUT = plus (A, B)
+
+     Addition: add two ‘calendarDuration’s.
+
+     All the calendar elements (properties) of the two inputs are added
+     together.  No normalization is done across the elements, aside from
+     the normalization of NaNs.
+
+     If B is numeric, it is converted to a ‘calendarDuration’ using
+     ‘calendarDuration.ofDays’.
+
+     Returns a ‘calendarDuration’.
+
+
+File: chrono.info,  Node: calendarDuration.times,  Next: calendarDuration.minus,  Prev: calendarDuration.plus,  Up: calendarDuration
+
+7.2.1.5 calendarDuration.times
+..............................
+
+ -- Method: OUT = times (OBJ, B)
+
+     Multiplication: Multiplies a ‘calendarDuration’ by a numeric
+     factor.
+
+     Returns a ‘calendarDuration’.
+
+
+File: chrono.info,  Node: calendarDuration.minus,  Next: calendarDuration.dispstrs,  Prev: calendarDuration.times,  Up: calendarDuration
+
+7.2.1.6 calendarDuration.minus
+..............................
+
+ -- Method: OUT = times (A, B)
+
+     Subtraction: Subtracts one ‘calendarDuration’ from another.
+
+     Returns a ‘calendarDuration’.
+
+
+File: chrono.info,  Node: calendarDuration.dispstrs,  Next: calendarDuration.isnan,  Prev: calendarDuration.minus,  Up: calendarDuration
+
+7.2.1.7 calendarDuration.dispstrs
+.................................
+
+ -- Method: OUT = dispstrs (OBJ)
+
+     Get display strings for each element of OBJ.
+
+     Returns a cellstr the same size as OBJ.
+
+
+File: chrono.info,  Node: calendarDuration.isnan,  Prev: calendarDuration.dispstrs,  Up: calendarDuration
+
+7.2.1.8 calendarDuration.isnan
+..............................
+
+ -- Method: OUT = isnan (OBJ)
+
+     True if input elements are NaT. This is just an alias for ‘isnat’,
+     provided for compatibility and polymorphic programming purposes.
+
+     Returns logical array the same size as OBJ.
 
 
 File: chrono.info,  Node: calmonths,  Next: calyears,  Prev: calendarDuration,  Up: Functions Alphabetically
@@ -594,9 +692,39 @@ File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: Functions
 * Menu:
 
 * datetime.datetime::
+* datetime.ofDatenum::
+* datetime.ofDatestruct::
+* datetime.posix2datenum::
+* datetime.datenum2posix::
+* datetime.proxyKeys::
+* datetime.ymd::
+* datetime.hms::
+* datetime.ymdhms::
+* datetime.timeofday::
+* datetime.week::
+* datetime.dispstrs::
+* datetime.datestr::
+* datetime.datestrs::
+* datetime.datestruct::
+* datetime.posixtime::
+* datetime.datenum::
+* datetime.isnat::
+* datetime.isnan::
+* datetime.lt::
+* datetime.le::
+* datetime.ne::
+* datetime.eq::
+* datetime.ge::
+* datetime.gt::
+* datetime.plus::
+* datetime.minus::
+* datetime.diff::
+* datetime.isbetween::
+* datetime.linspace::
+* datetime.convertDatenumTimeZone::
 
 
-File: chrono.info,  Node: datetime.datetime,  Up: datetime
+File: chrono.info,  Node: datetime.datetime,  Next: datetime.ofDatenum,  Up: datetime
 
 7.2.4.1 datetime.datetime
 .........................
@@ -616,6 +744,474 @@ File: chrono.info,  Node: datetime.datetime,  Up: datetime
           ‘'PivotYear'’, PIVOTYEAR, ‘'TimeZone'’, TIMEZONE)
 
      Constructs a new ‘datetime’ array based on input values.
+
+
+File: chrono.info,  Node: datetime.ofDatenum,  Next: datetime.ofDatestruct,  Prev: datetime.datetime,  Up: datetime
+
+7.2.4.2 datetime.ofDatenum
+..........................
+
+ -- Static Method: OBJ = datetime.ofDatenum (DNUMS)
+
+     Converts a datenum array to a datetime array.
+
+     Returns an unzoned ‘datetime’ array of the same size as the input.
+
+
+File: chrono.info,  Node: datetime.ofDatestruct,  Next: datetime.posix2datenum,  Prev: datetime.ofDatenum,  Up: datetime
+
+7.2.4.3 datetime.ofDatestruct
+.............................
+
+ -- Static Method: OBJ = datetime.ofDatestruct (DSTRUCT)
+
+     Converts a datestruct to a datetime array.
+
+     A datestruct is a special struct format used by Chrono that has
+     fields Year, Month, Day, Hour, Minute, and Second.  It is not a
+     standard Octave datatype.
+
+     Returns an unzoned ‘datetime’ array.
+
+
+File: chrono.info,  Node: datetime.posix2datenum,  Next: datetime.datenum2posix,  Prev: datetime.ofDatestruct,  Up: datetime
+
+7.2.4.4 datetime.posix2datenum
+..............................
+
+ -- Static Method: DNUMS = datetime.posix2datenum (PDATES)
+
+     Converts POSIX (Unix) times to datenums
+
+     Pdates (numeric) is an array of POSIX dates.  A POSIX date is the
+     number of seconds since January 1, 1970 UTC, excluding leap
+     seconds.  The output is implicitly in UTC.
+
+
+File: chrono.info,  Node: datetime.datenum2posix,  Next: datetime.proxyKeys,  Prev: datetime.posix2datenum,  Up: datetime
+
+7.2.4.5 datetime.datenum2posix
+..............................
+
+ -- Static Method: OUT = datetime.datenum2posix (DNUMS)
+
+     Converts Octave datenums to Unix dates.
+
+     The input datenums are assumed to be in UTC.
+
+     Returns a double, which may have fractional seconds.
+
+
+File: chrono.info,  Node: datetime.proxyKeys,  Next: datetime.ymd,  Prev: datetime.datenum2posix,  Up: datetime
+
+7.2.4.6 datetime.proxyKeys
+..........................
+
+ -- Method: [KEYSA, KEYSB] = proxyKeys (A, B)
+
+     Computes proxy key values for two datetime arrays.  Proxy keys are
+     numeric values whose rows have the same equivalence relationships
+     as the elements of the inputs.
+
+     This is primarily for Chrono’s internal use; users will typically
+     not need to call it or know how it works.
+
+     Returns two 2-D numeric matrices of size n-by-k, where n is the
+     number of elements in the corresponding input.
+
+
+File: chrono.info,  Node: datetime.ymd,  Next: datetime.hms,  Prev: datetime.proxyKeys,  Up: datetime
+
+7.2.4.7 datetime.ymd
+....................
+
+ -- Method: [Y, M, D] = ymd (OBJ)
+
+     Get the Year, Month, and Day components of a OBJ.
+
+     For zoned ‘datetime’s, these will be local times in the associated
+     time zone.
+
+     Returns double arrays the same size as ‘obj’.
+
+
+File: chrono.info,  Node: datetime.hms,  Next: datetime.ymdhms,  Prev: datetime.ymd,  Up: datetime
+
+7.2.4.8 datetime.hms
+....................
+
+ -- Method: [H, M, S] = hms (OBJ)
+
+     Get the Hour, Minute, and Second components of a OBJ.
+
+     For zoned ‘datetime’s, these will be local times in the associated
+     time zone.
+
+     Returns double arrays the same size as ‘obj’.
+
+
+File: chrono.info,  Node: datetime.ymdhms,  Next: datetime.timeofday,  Prev: datetime.hms,  Up: datetime
+
+7.2.4.9 datetime.ymdhms
+.......................
+
+ -- Method: [Y, M, D, H, MI, S] = ymdhms (OBJ)
+
+     Get the Year, Month, Day, Hour, Minute, and Second components of a
+     OBJ.
+
+     For zoned ‘datetime’s, these will be local times in the associated
+     time zone.
+
+     Returns double arrays the same size as ‘obj’.
+
+
+File: chrono.info,  Node: datetime.timeofday,  Next: datetime.week,  Prev: datetime.ymdhms,  Up: datetime
+
+7.2.4.10 datetime.timeofday
+...........................
+
+ -- Method: OUT = timeofday (OBJ)
+
+     Get the time of day (elapsed time since midnight).
+
+     For zoned ‘datetime’s, these will be local times in the associated
+     time zone.
+
+     Returns a ‘duration’ array the same size as ‘obj’.
+
+
+File: chrono.info,  Node: datetime.week,  Next: datetime.dispstrs,  Prev: datetime.timeofday,  Up: datetime
+
+7.2.4.11 datetime.week
+......................
+
+ -- Method: OUT = week (OBJ)
+
+     Get the week of the year.
+
+     This method is unimplemented.
+
+
+File: chrono.info,  Node: datetime.dispstrs,  Next: datetime.datestr,  Prev: datetime.week,  Up: datetime
+
+7.2.4.12 datetime.dispstrs
+..........................
+
+ -- Method: OUT = dispstrs (OBJ)
+
+     Get display strings for each element of OBJ.
+
+     Returns a cellstr the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.datestr,  Next: datetime.datestrs,  Prev: datetime.dispstrs,  Up: datetime
+
+7.2.4.13 datetime.datestr
+.........................
+
+ -- Method: OUT = datestr (OBJ)
+ -- Method: OUT = datestr (OBJ, ...)
+
+     Format OBJ as date strings.  Supports all arguments that core
+     Octave’s ‘datestr’ does.
+
+     Returns date strings as a 2-D char array.
+
+
+File: chrono.info,  Node: datetime.datestrs,  Next: datetime.datestruct,  Prev: datetime.datestr,  Up: datetime
+
+7.2.4.14 datetime.datestrs
+..........................
+
+ -- Method: OUT = datestrs (OBJ)
+ -- Method: OUT = datestrs (OBJ, ...)
+
+     Format OBJ as date strings, returning cellstr.  Supports all
+     arguments that core Octave’s ‘datestr’ does.
+
+     Returns a cellstr array the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.datestruct,  Next: datetime.posixtime,  Prev: datetime.datestrs,  Up: datetime
+
+7.2.4.15 datetime.datestruct
+............................
+
+ -- Method: OUT = datestruct (OBJ)
+
+     Converts this to a "datestruct" broken-down time structure.
+
+     A "datestruct" is a format of struct that Chrono came up with.  It
+     is a scalar struct with fields Year, Month, Day, Hour, Minute, and
+     Second, each containing a double array the same size as the date
+     array it represents.
+
+     The values in the returned broken-down time are those of the local
+     time in this’ defined time zone, if it has one.
+
+     Returns a struct with fields Year, Month, Day, Hour, Minute, and
+     Second.  Each field contains a double array of the same size as
+     this.
+
+     This is an Octave extension.
+
+
+File: chrono.info,  Node: datetime.posixtime,  Next: datetime.datenum,  Prev: datetime.datestruct,  Up: datetime
+
+7.2.4.16 datetime.posixtime
+...........................
+
+ -- Method: OUT = posixtime (OBJ)
+
+     Converts this to POSIX time values (seconds since the Unix epoch)
+
+     Converts this to POSIX time values that represent the same time.
+     The returned values will be doubles that may include fractional
+     second values.  POSIX times are, by definition, in UTC.
+
+     Returns double array of same size as this.
+
+
+File: chrono.info,  Node: datetime.datenum,  Next: datetime.isnat,  Prev: datetime.posixtime,  Up: datetime
+
+7.2.4.17 datetime.datenum
+.........................
+
+ -- Method: OUT = datenum (OBJ)
+
+     DATENUM Convert this to datenums that represent the same local time
+
+     Returns double array of same size as this.
+
+
+File: chrono.info,  Node: datetime.isnat,  Next: datetime.isnan,  Prev: datetime.datenum,  Up: datetime
+
+7.2.4.18 datetime.isnat
+.......................
+
+ -- Method: OUT = isnat (OBJ)
+
+     True if input elements are NaT.
+
+     Returns logical array the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.isnan,  Next: datetime.lt,  Prev: datetime.isnat,  Up: datetime
+
+7.2.4.19 datetime.isnan
+.......................
+
+ -- Method: OUT = isnan (OBJ)
+
+     True if input elements are NaT. This is an alias for ‘isnat’ to
+     support type compatibility and polymorphic programming.
+
+     Returns logical array the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.lt,  Next: datetime.le,  Prev: datetime.isnan,  Up: datetime
+
+7.2.4.20 datetime.lt
+....................
+
+ -- Method: OUT = lt (A, B)
+
+     True if A is less than B.  This defines the ‘<’ operator for
+     ‘datetime’s.
+
+     Inputs are implicitly converted to ‘datetime’ using the one-arg
+     constructor or conversion method.
+
+     Returns logical array the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.le,  Next: datetime.ne,  Prev: datetime.lt,  Up: datetime
+
+7.2.4.21 datetime.le
+....................
+
+ -- Method: OUT = le (A, B)
+
+     True if A is less than or equal toB.  This defines the ‘<=’
+     operator for ‘datetime’s.
+
+     Inputs are implicitly converted to ‘datetime’ using the one-arg
+     constructor or conversion method.
+
+     Returns logical array the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.ne,  Next: datetime.eq,  Prev: datetime.le,  Up: datetime
+
+7.2.4.22 datetime.ne
+....................
+
+ -- Method: OUT = ne (A, B)
+
+     True if A is not equal to B.  This defines the ‘!=’ operator for
+     ‘datetime’s.
+
+     Inputs are implicitly converted to ‘datetime’ using the one-arg
+     constructor or conversion method.
+
+     Returns logical array the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.eq,  Next: datetime.ge,  Prev: datetime.ne,  Up: datetime
+
+7.2.4.23 datetime.eq
+....................
+
+ -- Method: OUT = eq (A, B)
+
+     True if A is equal to B.  This defines the ‘==’ operator for
+     ‘datetime’s.
+
+     Inputs are implicitly converted to ‘datetime’ using the one-arg
+     constructor or conversion method.
+
+     Returns logical array the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.ge,  Next: datetime.gt,  Prev: datetime.eq,  Up: datetime
+
+7.2.4.24 datetime.ge
+....................
+
+ -- Method: OUT = ge (A, B)
+
+     True if A is greater than or equal to B.  This defines the ‘>=’
+     operator for ‘datetime’s.
+
+     Inputs are implicitly converted to ‘datetime’ using the one-arg
+     constructor or conversion method.
+
+     Returns logical array the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.gt,  Next: datetime.plus,  Prev: datetime.ge,  Up: datetime
+
+7.2.4.25 datetime.gt
+....................
+
+ -- Method: OUT = gt (A, B)
+
+     True if A is greater than B.  This defines the ‘>’ operator for
+     ‘datetime’s.
+
+     Inputs are implicitly converted to ‘datetime’ using the one-arg
+     constructor or conversion method.
+
+     Returns logical array the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.plus,  Next: datetime.minus,  Prev: datetime.gt,  Up: datetime
+
+7.2.4.26 datetime.plus
+......................
+
+ -- Method: OUT = plus (A, B)
+
+     Addition (‘+’ operator).  Adds a ‘duration’, ‘calendarDuration’, or
+     numeric B to a ‘datetime’ A.
+
+     Numeric B inputs are implicitly converted to ‘duration’ using
+     ‘duration.ofDays’.
+
+     Returns ‘datetime’ array the same size as A.
+
+
+File: chrono.info,  Node: datetime.minus,  Next: datetime.diff,  Prev: datetime.plus,  Up: datetime
+
+7.2.4.27 datetime.minus
+.......................
+
+ -- Method: OUT = minus (A, B)
+
+     Subtraction (‘-’ operator).  Subtracts a ‘duration’,
+     ‘calendarDuration’ or numeric B from a ‘datetime’ A, or subtracts
+     two ‘datetime’s from each other.
+
+     If both inputs are ‘datetime’, then the output is a ‘duration’.
+     Otherwise, the output is a ‘datetime’.
+
+     Numeric B inputs are implicitly converted to ‘duration’ using
+     ‘duration.ofDays’.
+
+     Returns an array the same size as A.
+
+
+File: chrono.info,  Node: datetime.diff,  Next: datetime.isbetween,  Prev: datetime.minus,  Up: datetime
+
+7.2.4.28 datetime.diff
+......................
+
+ -- Method: OUT = diff (OBJ)
+
+     Differences between elements.
+
+     Computes the difference between each successive element in OBJ, as
+     a ‘duration’.
+
+     Returns a ‘duration’ array the same size as OBJ.
+
+
+File: chrono.info,  Node: datetime.isbetween,  Next: datetime.linspace,  Prev: datetime.diff,  Up: datetime
+
+7.2.4.29 datetime.isbetween
+...........................
+
+ -- Method: OUT = isbetween (OBJ, LOWER, UPPER)
+
+     Tests whether the elements of OBJ are between LOWER and UPPER.
+
+     All inputs are implicitly converted to ‘datetime’ arrays, and are
+     subject to scalar expansion.
+
+     Returns a logical array the same size as the scalar expansion of
+     the inputs.
+
+
+File: chrono.info,  Node: datetime.linspace,  Next: datetime.convertDatenumTimeZone,  Prev: datetime.isbetween,  Up: datetime
+
+7.2.4.30 datetime.linspace
+..........................
+
+ -- Method: OUT = linspace (FROM, TO, N)
+
+     Linearly-spaced values in date/time space.
+
+     Constructs a vector of ‘datetime’s that represent linearly spaced
+     points starting at FROM and going up to TO, with N points in the
+     vector.
+
+     FROM and TO are implicitly converted to ‘datetime’s.
+
+     N is how many points to use.  If omitted, defaults to 100.
+
+     Returns an N-long ‘datetime’ vector.
+
+
+File: chrono.info,  Node: datetime.convertDatenumTimeZone,  Prev: datetime.linspace,  Up: datetime
+
+7.2.4.31 datetime.convertDatenumTimeZone
+........................................
+
+ -- Static Method: OUT = datetime.convertDatenumTimeZone (DNUM,
+          FROMZONEID, TOZONEID)
+
+     Convert a datenum from one time zone to another.
+
+     DNUM is a datenum array to convert.
+
+     FROMZONEID is a charvec containing the IANA Time Zone identifier
+     for the time zone to convert from.
+
+     TOZONEID is a charvec containing the IANA Time Zone identifier for
+     the time zone to convert to.
+
+     Returns a datenum array the same size as DNUM.
 
 
 File: chrono.info,  Node: days,  Next: duration,  Prev: datetime,  Up: Functions Alphabetically
@@ -666,9 +1262,18 @@ File: chrono.info,  Node: duration,  Next: hours,  Prev: days,  Up: Functions Al
 * Menu:
 
 * duration.duration::
+* duration.ofDays::
+* duration.years::
+* duration.hours::
+* duration.minutes::
+* duration.seconds::
+* duration.milliseconds::
+* duration.dispstrs::
+* duration.char::
+* duration.linspace::
 
 
-File: chrono.info,  Node: duration.duration,  Up: duration
+File: chrono.info,  Node: duration.duration,  Next: duration.ofDays,  Up: duration
 
 7.2.6.1 duration.duration
 .........................
@@ -684,6 +1289,141 @@ File: chrono.info,  Node: duration.duration,  Up: duration
  -- Constructor: OBJ = duration (H, MI, S, MS)
 
      Constructs a new ‘duration’ array based on input values.
+
+
+File: chrono.info,  Node: duration.ofDays,  Next: duration.years,  Prev: duration.duration,  Up: duration
+
+7.2.6.2 duration.ofDays
+.......................
+
+ -- Static Method: OBJ = duration.ofDays (DNUMS)
+
+     Converts a double array representing durations in whole and
+     fractional days to a ‘duration’ array.  This is the method that is
+     used for implicit conversion of numerics in many cases.
+
+     Returns a ‘duration’ array of the same size as the input.
+
+
+File: chrono.info,  Node: duration.years,  Next: duration.hours,  Prev: duration.ofDays,  Up: duration
+
+7.2.6.3 duration.years
+......................
+
+ -- Method: OUT = years (OBJ)
+
+     Equivalent number of years.
+
+     Gets the number of fixed-length 365.2425-day years that is
+     equivalent to this duration.
+
+     Returns double array the same size as OBJ.
+
+
+File: chrono.info,  Node: duration.hours,  Next: duration.minutes,  Prev: duration.years,  Up: duration
+
+7.2.6.4 duration.hours
+......................
+
+ -- Method: OUT = hours (OBJ)
+
+     Equivalent number of hours.
+
+     Gets the number of fixed-length 60-minute hours that is equivalent
+     to this duration.
+
+     Returns double array the same size as OBJ.
+
+
+File: chrono.info,  Node: duration.minutes,  Next: duration.seconds,  Prev: duration.hours,  Up: duration
+
+7.2.6.5 duration.minutes
+........................
+
+ -- Method: OUT = minutes (OBJ)
+
+     Equivalent number of minutes.
+
+     Gets the number of fixed-length 60-second minutes that is
+     equivalent to this duration.
+
+     Returns double array the same size as OBJ.
+
+
+File: chrono.info,  Node: duration.seconds,  Next: duration.milliseconds,  Prev: duration.minutes,  Up: duration
+
+7.2.6.6 duration.seconds
+........................
+
+ -- Method: OUT = seconds (OBJ)
+
+     Equivalent number of seconds.
+
+     Gets the number of seconds that is equivalent to this duration.
+
+     Returns double array the same size as OBJ.
+
+
+File: chrono.info,  Node: duration.milliseconds,  Next: duration.dispstrs,  Prev: duration.seconds,  Up: duration
+
+7.2.6.7 duration.milliseconds
+.............................
+
+ -- Method: OUT = milliseconds (OBJ)
+
+     Equivalent number of milliseconds.
+
+     Gets the number of milliseconds that is equivalent to this
+     duration.
+
+     Returns double array the same size as OBJ.
+
+
+File: chrono.info,  Node: duration.dispstrs,  Next: duration.char,  Prev: duration.milliseconds,  Up: duration
+
+7.2.6.8 duration.dispstrs
+.........................
+
+ -- Method: OUT = duration (OBJ)
+
+     Get display strings for each element of OBJ.
+
+     Returns a cellstr the same size as OBJ.
+
+
+File: chrono.info,  Node: duration.char,  Next: duration.linspace,  Prev: duration.dispstrs,  Up: duration
+
+7.2.6.9 duration.char
+.....................
+
+ -- Method: OUT = char (OBJ)
+
+     Convert to char.  The contents of the strings will be the same as
+     returned by ‘dispstrs’.
+
+     This is primarily a convenience method for use on scalar OBJs.
+
+     Returns a 2-D char array with one row per element in OBJ.
+
+
+File: chrono.info,  Node: duration.linspace,  Prev: duration.char,  Up: duration
+
+7.2.6.10 duration.linspace
+..........................
+
+ -- Method: OUT = linspace (FROM, TO, N)
+
+     Linearly-spaced values in time duration space.
+
+     Constructs a vector of ‘duration’s that represent linearly spaced
+     points starting at FROM and going up to TO, with N points in the
+     vector.
+
+     FROM and TO are implicitly converted to ‘duration’s.
+
+     N is how many points to use.  If omitted, defaults to 100.
+
+     Returns an N-long ‘datetime’ vector.
 
 
 File: chrono.info,  Node: hours,  Next: isdatetime,  Prev: duration,  Up: Functions Alphabetically
@@ -764,9 +1504,10 @@ File: chrono.info,  Node: NaT,  Next: seconds,  Prev: minutes,  Up: Functions Al
  -- Function: OUT = NaT ()
  -- Function: OUT = NaT (SZ)
 
-     “Not-a-Time”.  Constructs a new ‘datetime’ array of all ‘NaT’
-     values of the given size.  If no input SZ is given, the result is a
-     scalar ‘NaT’.
+     “Not-a-Time”.  Creates NaT-valued arrays.
+
+     Constructs a new ‘datetime’ array of all ‘NaT’ values of the given
+     size.  If no input SZ is given, the result is a scalar ‘NaT’.
 
      ‘NaT’ is the ‘datetime’ equivalent of ‘NaN’.  It represents a
      missing or invalid value.  ‘NaT’ values never compare equal to,
@@ -902,24 +1643,70 @@ Node: Function Reference12364
 Node: Functions by Category12576
 Node: Functions Alphabetically14241
 Node: calendarDuration15668
-Node: calendarDuration.calendarDuration17362
-Node: calmonths17837
-Node: calyears18428
-Node: datetime18771
-Node: datetime.datetime20476
-Node: days21267
-Node: duration21731
-Node: duration.duration22743
-Node: hours23257
-Node: isdatetime23738
-Node: isduration24026
-Node: milliseconds24321
-Node: minutes24859
-Node: NaT25115
-Node: seconds25779
-Node: timezones26272
-Node: years27305
-Node: Copying27987
+Node: calendarDuration.calendarDuration17554
+Node: calendarDuration.isnat18060
+Node: calendarDuration.uminus18391
+Node: calendarDuration.plus18670
+Node: calendarDuration.times19275
+Node: calendarDuration.minus19632
+Node: calendarDuration.dispstrs19977
+Node: calendarDuration.isnan20317
+Node: calmonths20717
+Node: calyears21308
+Node: datetime21651
+Node: datetime.datetime23980
+Node: datetime.ofDatenum24798
+Node: datetime.ofDatestruct25154
+Node: datetime.posix2datenum25663
+Node: datetime.datenum2posix26145
+Node: datetime.proxyKeys26546
+Node: datetime.ymd27186
+Node: datetime.hms27574
+Node: datetime.ymdhms27963
+Node: datetime.timeofday28400
+Node: datetime.week28816
+Node: datetime.dispstrs29072
+Node: datetime.datestr29367
+Node: datetime.datestrs29755
+Node: datetime.datestruct30172
+Node: datetime.posixtime31005
+Node: datetime.datenum31535
+Node: datetime.isnat31855
+Node: datetime.isnan32130
+Node: datetime.lt32497
+Node: datetime.le32924
+Node: datetime.ne33360
+Node: datetime.eq33788
+Node: datetime.ge34212
+Node: datetime.gt34652
+Node: datetime.plus35081
+Node: datetime.minus35539
+Node: datetime.diff36180
+Node: datetime.isbetween36556
+Node: datetime.linspace37040
+Node: datetime.convertDatenumTimeZone37649
+Node: days38299
+Node: duration38763
+Node: duration.duration39963
+Node: duration.ofDays40501
+Node: duration.years40980
+Node: duration.hours41346
+Node: duration.minutes41710
+Node: duration.seconds42086
+Node: duration.milliseconds42441
+Node: duration.dispstrs42827
+Node: duration.char43125
+Node: duration.linspace43548
+Node: hours44116
+Node: isdatetime44597
+Node: isduration44885
+Node: milliseconds45180
+Node: minutes45718
+Node: NaT45974
+Node: seconds46666
+Node: timezones47159
+Node: years48192
+Node: Copying48874
 
 End Tag Table
 
