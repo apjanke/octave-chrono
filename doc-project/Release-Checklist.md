@@ -1,5 +1,5 @@
 Chrono Release Checklist
-=======================
+========================
 
 * Run all the tests.
   * `make test`, duh.
