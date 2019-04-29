@@ -31,7 +31,6 @@
 ## any other value results in a @code{NaT}.
 ##
 ## @end deftypefn
-
 function out = NaT (sz)
   %NaT Not-a-Time
   %
