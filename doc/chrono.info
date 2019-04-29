@@ -405,6 +405,18 @@ File: chrono.info,  Node: Functions by Category,  Next: Functions Alphabetically
      Create a ’duration’ X years long, or get the years in a ’duration’
      X.
 
+7.1.3 Uncategorized
+-------------------
+
+*note localdate::
+     Represents a complete day using the Gregorian calendar.
+
+*note octave.chrono.dummy_function::
+     A dummy function just for testing the doco tools.
+
+*note octave.chrono.DummyClass::
+     ’DummyClass’ is a do-nothing class just for testing the doco tools.
+
 
 File: chrono.info,  Node: Functions Alphabetically,  Prev: Functions by Category,  Up: Function Reference
 
@@ -429,11 +441,16 @@ File: chrono.info,  Node: Functions Alphabetically,  Prev: Functions by Category
 		’duration’ X.
 * isdatetime::	True if input is a ’datetime’ array, false otherwise.
 * isduration::	True if input is a ’duration’ array, false otherwise.
+* localdate::	Represents a complete day using the Gregorian calendar.
 * milliseconds::	Create a ’duration’ X milliseconds long, or get the
 		milliseconds in a ’duration’ X.
 * minutes::	Create a ’duration’ X hours long, or get the hours in a
 		’duration’ X.
 * NaT:: “Not-a-Time”.
+* octave.chrono.dummy_function::	A dummy function just for testing
+		the doco tools.
+* octave.chrono.DummyClass::	’DummyClass’ is a do-nothing class just for
+		testing the doco tools.
 * seconds::	Create a ’duration’ X seconds long, or get the seconds in a
 		’duration’ X.
 * timezones::	List all the time zones defined on this system.
@@ -691,11 +708,11 @@ File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: Functions
 
 * Menu:
 
-* datetime.datetime::
 * datetime.ofDatenum::
 * datetime.ofDatestruct::
 * datetime.posix2datenum::
 * datetime.datenum2posix::
+* datetime.datetime::
 * datetime.proxyKeys::
 * datetime.ymd::
 * datetime.hms::
@@ -724,9 +741,65 @@ File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: Functions
 * datetime.convertDatenumTimeZone::
 
 
-File: chrono.info,  Node: datetime.datetime,  Next: datetime.ofDatenum,  Up: datetime
+File: chrono.info,  Node: datetime.ofDatenum,  Next: datetime.ofDatestruct,  Up: datetime
 
-7.2.4.1 datetime.datetime
+7.2.4.1 datetime.ofDatenum
+..........................
+
+ -- Static Method: OBJ = datetime.ofDatenum (DNUMS)
+
+     Converts a datenum array to a datetime array.
+
+     Returns an unzoned ‘datetime’ array of the same size as the input.
+
+
+File: chrono.info,  Node: datetime.ofDatestruct,  Next: datetime.posix2datenum,  Prev: datetime.ofDatenum,  Up: datetime
+
+7.2.4.2 datetime.ofDatestruct
+.............................
+
+ -- Static Method: OBJ = datetime.ofDatestruct (DSTRUCT)
+
+     Converts a datestruct to a datetime array.
+
+     A datestruct is a special struct format used by Chrono that has
+     fields Year, Month, Day, Hour, Minute, and Second.  It is not a
+     standard Octave datatype.
+
+     Returns an unzoned ‘datetime’ array.
+
+
+File: chrono.info,  Node: datetime.posix2datenum,  Next: datetime.datenum2posix,  Prev: datetime.ofDatestruct,  Up: datetime
+
+7.2.4.3 datetime.posix2datenum
+..............................
+
+ -- Static Method: DNUMS = datetime.posix2datenum (PDATES)
+
+     Converts POSIX (Unix) times to datenums
+
+     Pdates (numeric) is an array of POSIX dates.  A POSIX date is the
+     number of seconds since January 1, 1970 UTC, excluding leap
+     seconds.  The output is implicitly in UTC.
+
+
+File: chrono.info,  Node: datetime.datenum2posix,  Next: datetime.datetime,  Prev: datetime.posix2datenum,  Up: datetime
+
+7.2.4.4 datetime.datenum2posix
+..............................
+
+ -- Static Method: OUT = datetime.datenum2posix (DNUMS)
+
+     Converts Octave datenums to Unix dates.
+
+     The input datenums are assumed to be in UTC.
+
+     Returns a double, which may have fractional seconds.
+
+
+File: chrono.info,  Node: datetime.datetime,  Next: datetime.proxyKeys,  Prev: datetime.datenum2posix,  Up: datetime
+
+7.2.4.5 datetime.datetime
 .........................
 
  -- Constructor: OBJ = datetime ()
@@ -746,63 +819,7 @@ File: chrono.info,  Node: datetime.datetime,  Next: datetime.ofDatenum,  Up: dat
      Constructs a new ‘datetime’ array based on input values.
 
 
-File: chrono.info,  Node: datetime.ofDatenum,  Next: datetime.ofDatestruct,  Prev: datetime.datetime,  Up: datetime
-
-7.2.4.2 datetime.ofDatenum
-..........................
-
- -- Static Method: OBJ = datetime.ofDatenum (DNUMS)
-
-     Converts a datenum array to a datetime array.
-
-     Returns an unzoned ‘datetime’ array of the same size as the input.
-
-
-File: chrono.info,  Node: datetime.ofDatestruct,  Next: datetime.posix2datenum,  Prev: datetime.ofDatenum,  Up: datetime
-
-7.2.4.3 datetime.ofDatestruct
-.............................
-
- -- Static Method: OBJ = datetime.ofDatestruct (DSTRUCT)
-
-     Converts a datestruct to a datetime array.
-
-     A datestruct is a special struct format used by Chrono that has
-     fields Year, Month, Day, Hour, Minute, and Second.  It is not a
-     standard Octave datatype.
-
-     Returns an unzoned ‘datetime’ array.
-
-
-File: chrono.info,  Node: datetime.posix2datenum,  Next: datetime.datenum2posix,  Prev: datetime.ofDatestruct,  Up: datetime
-
-7.2.4.4 datetime.posix2datenum
-..............................
-
- -- Static Method: DNUMS = datetime.posix2datenum (PDATES)
-
-     Converts POSIX (Unix) times to datenums
-
-     Pdates (numeric) is an array of POSIX dates.  A POSIX date is the
-     number of seconds since January 1, 1970 UTC, excluding leap
-     seconds.  The output is implicitly in UTC.
-
-
-File: chrono.info,  Node: datetime.datenum2posix,  Next: datetime.proxyKeys,  Prev: datetime.posix2datenum,  Up: datetime
-
-7.2.4.5 datetime.datenum2posix
-..............................
-
- -- Static Method: OUT = datetime.datenum2posix (DNUMS)
-
-     Converts Octave datenums to Unix dates.
-
-     The input datenums are assumed to be in UTC.
-
-     Returns a double, which may have fractional seconds.
-
-
-File: chrono.info,  Node: datetime.proxyKeys,  Next: datetime.ymd,  Prev: datetime.datenum2posix,  Up: datetime
+File: chrono.info,  Node: datetime.proxyKeys,  Next: datetime.ymd,  Prev: datetime.datetime,  Up: datetime
 
 7.2.4.6 datetime.proxyKeys
 ..........................
@@ -1291,9 +1308,12 @@ File: chrono.info,  Node: duration.duration,  Next: duration.ofDays,  Up: durati
      Constructs a new ‘duration’ array based on input values.
 
 
-File: chrono.info,  Node: duration.ofDays,  Next: duration.years,  Prev: duration.duration,  Up: duration
+File: chrono.info,  Node: duration.ofDays,  Prev: duration.duration,  Up: duration
 
 7.2.6.2 duration.ofDays
+.......................
+
+7.2.6.3 duration.ofDays
 .......................
 
  -- Static Method: OBJ = duration.ofDays (DNUMS)
@@ -1305,9 +1325,12 @@ File: chrono.info,  Node: duration.ofDays,  Next: duration.years,  Prev: duratio
      Returns a ‘duration’ array of the same size as the input.
 
 
-File: chrono.info,  Node: duration.years,  Next: duration.hours,  Prev: duration.ofDays,  Up: duration
+File: chrono.info,  Node: duration.years,  Up: duration
 
-7.2.6.3 duration.years
+7.2.6.4 duration.years
+......................
+
+7.2.6.5 duration.years
 ......................
 
  -- Method: OUT = years (OBJ)
@@ -1320,9 +1343,12 @@ File: chrono.info,  Node: duration.years,  Next: duration.hours,  Prev: duration
      Returns double array the same size as OBJ.
 
 
-File: chrono.info,  Node: duration.hours,  Next: duration.minutes,  Prev: duration.years,  Up: duration
+File: chrono.info,  Node: duration.hours,  Up: duration
 
-7.2.6.4 duration.hours
+7.2.6.6 duration.hours
+......................
+
+7.2.6.7 duration.hours
 ......................
 
  -- Method: OUT = hours (OBJ)
@@ -1335,9 +1361,12 @@ File: chrono.info,  Node: duration.hours,  Next: duration.minutes,  Prev: durati
      Returns double array the same size as OBJ.
 
 
-File: chrono.info,  Node: duration.minutes,  Next: duration.seconds,  Prev: duration.hours,  Up: duration
+File: chrono.info,  Node: duration.minutes,  Up: duration
 
-7.2.6.5 duration.minutes
+7.2.6.8 duration.minutes
+........................
+
+7.2.6.9 duration.minutes
 ........................
 
  -- Method: OUT = minutes (OBJ)
@@ -1350,10 +1379,13 @@ File: chrono.info,  Node: duration.minutes,  Next: duration.seconds,  Prev: dura
      Returns double array the same size as OBJ.
 
 
-File: chrono.info,  Node: duration.seconds,  Next: duration.milliseconds,  Prev: duration.minutes,  Up: duration
+File: chrono.info,  Node: duration.seconds,  Up: duration
 
-7.2.6.6 duration.seconds
-........................
+7.2.6.10 duration.seconds
+.........................
+
+7.2.6.11 duration.seconds
+.........................
 
  -- Method: OUT = seconds (OBJ)
 
@@ -1364,10 +1396,13 @@ File: chrono.info,  Node: duration.seconds,  Next: duration.milliseconds,  Prev:
      Returns double array the same size as OBJ.
 
 
-File: chrono.info,  Node: duration.milliseconds,  Next: duration.dispstrs,  Prev: duration.seconds,  Up: duration
+File: chrono.info,  Node: duration.milliseconds,  Up: duration
 
-7.2.6.7 duration.milliseconds
-.............................
+7.2.6.12 duration.milliseconds
+..............................
+
+7.2.6.13 duration.milliseconds
+..............................
 
  -- Method: OUT = milliseconds (OBJ)
 
@@ -1379,10 +1414,13 @@ File: chrono.info,  Node: duration.milliseconds,  Next: duration.dispstrs,  Prev
      Returns double array the same size as OBJ.
 
 
-File: chrono.info,  Node: duration.dispstrs,  Next: duration.char,  Prev: duration.milliseconds,  Up: duration
+File: chrono.info,  Node: duration.dispstrs,  Up: duration
 
-7.2.6.8 duration.dispstrs
-.........................
+7.2.6.14 duration.dispstrs
+..........................
+
+7.2.6.15 duration.dispstrs
+..........................
 
  -- Method: OUT = duration (OBJ)
 
@@ -1391,10 +1429,13 @@ File: chrono.info,  Node: duration.dispstrs,  Next: duration.char,  Prev: durati
      Returns a cellstr the same size as OBJ.
 
 
-File: chrono.info,  Node: duration.char,  Next: duration.linspace,  Prev: duration.dispstrs,  Up: duration
+File: chrono.info,  Node: duration.char,  Up: duration
 
-7.2.6.9 duration.char
-.....................
+7.2.6.16 duration.char
+......................
+
+7.2.6.17 duration.char
+......................
 
  -- Method: OUT = char (OBJ)
 
@@ -1406,9 +1447,12 @@ File: chrono.info,  Node: duration.char,  Next: duration.linspace,  Prev: durati
      Returns a 2-D char array with one row per element in OBJ.
 
 
-File: chrono.info,  Node: duration.linspace,  Prev: duration.char,  Up: duration
+File: chrono.info,  Node: duration.linspace,  Up: duration
 
-7.2.6.10 duration.linspace
+7.2.6.18 duration.linspace
+..........................
+
+7.2.6.19 duration.linspace
 ..........................
 
  -- Method: OUT = linspace (FROM, TO, N)
@@ -1456,7 +1500,7 @@ File: chrono.info,  Node: isdatetime,  Next: isduration,  Prev: hours,  Up: Func
      Returns a logical array the same size as X.
 
 
-File: chrono.info,  Node: isduration,  Next: milliseconds,  Prev: isdatetime,  Up: Functions Alphabetically
+File: chrono.info,  Node: isduration,  Next: localdate,  Prev: isdatetime,  Up: Functions Alphabetically
 
 7.2.9 isduration
 ----------------
@@ -1468,9 +1512,26 @@ File: chrono.info,  Node: isduration,  Next: milliseconds,  Prev: isdatetime,  U
      Returns a logical array the same size as X.
 
 
-File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: isduration,  Up: Functions Alphabetically
+File: chrono.info,  Node: localdate,  Next: milliseconds,  Prev: isduration,  Up: Functions Alphabetically
 
-7.2.10 milliseconds
+7.2.10 localdate
+----------------
+
+ -- Class: localdate
+
+     Represents a complete day using the Gregorian calendar.
+
+     This class is useful for indexing daily-granularity data or
+     representing time periods that cover an entire day in local time
+     somewhere.  The major purpose of this class is "type safety", to
+     prevent time-of-day values from sneaking in to data sets that
+     should be daily only.  As a secondary benefit, this uses less
+     memory than datetimes.
+
+
+File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: localdate,  Up: Functions Alphabetically
+
+7.2.11 milliseconds
 -------------------
 
  -- Function File: OUT = milliseconds (X)
@@ -1488,7 +1549,7 @@ File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: isduration,  Up: 
 
 File: chrono.info,  Node: minutes,  Next: NaT,  Prev: milliseconds,  Up: Functions Alphabetically
 
-7.2.11 minutes
+7.2.12 minutes
 --------------
 
  -- Function File: OUT = hours (X)
@@ -1496,9 +1557,9 @@ File: chrono.info,  Node: minutes,  Next: NaT,  Prev: milliseconds,  Up: Functio
      X.
 
 
-File: chrono.info,  Node: NaT,  Next: seconds,  Prev: minutes,  Up: Functions Alphabetically
+File: chrono.info,  Node: NaT,  Next: octave.chrono.dummy_function,  Prev: minutes,  Up: Functions Alphabetically
 
-7.2.12 NaT
+7.2.13 NaT
 ----------
 
  -- Function: OUT = NaT ()
@@ -1516,9 +1577,97 @@ File: chrono.info,  Node: NaT,  Next: seconds,  Prev: minutes,  Up: Functions Al
      ‘NaT’.
 
 
-File: chrono.info,  Node: seconds,  Next: timezones,  Prev: NaT,  Up: Functions Alphabetically
+File: chrono.info,  Node: octave.chrono.dummy_function,  Next: octave.chrono.DummyClass,  Prev: NaT,  Up: Functions Alphabetically
 
-7.2.13 seconds
+7.2.14 octave.chrono.dummy_function
+-----------------------------------
+
+ -- Function: OUT = dummy_function (X)
+
+     A dummy function just for testing the doco tools.
+
+     Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Curabitur
+     ullamcorper pulvinar ligula, sit amet accumsan turpis dapibus at.
+     Ut sit amet quam orci.  Donec vel mauris elementum massa pretium
+     tincidunt.
+
+
+File: chrono.info,  Node: octave.chrono.DummyClass,  Next: seconds,  Prev: octave.chrono.dummy_function,  Up: Functions Alphabetically
+
+7.2.15 octave.chrono.DummyClass
+-------------------------------
+
+ -- Class: DummyClass
+
+     ‘DummyClass’ is a do-nothing class just for testing the doco tools.
+
+     Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Curabitur
+     ullamcorper pulvinar ligula, sit amet accumsan turpis dapibus at.
+     Ut sit amet quam orci.  Donec vel mauris elementum massa pretium
+     tincidunt.
+
+ -- Instance Variable of DummyClass: ‘double’ x
+
+     A x.  Has no semantics.
+
+ -- Instance Variable of DummyClass: ‘double’ y
+
+     A y.  Has no semantics.
+
+* Menu:
+
+* octave.chrono.DummyClass.DummyClass::
+* octave.chrono.DummyClass.foo::
+* octave.chrono.DummyClass.bar::
+
+
+File: chrono.info,  Node: octave.chrono.DummyClass.DummyClass,  Next: octave.chrono.DummyClass.foo,  Up: octave.chrono.DummyClass
+
+7.2.15.1 octave.chrono.DummyClass.DummyClass
+............................................
+
+ -- Constructor: OBJ = octave.chrono.DummyClass ()
+
+     Constructs a new scalar ‘DummyClass’ with default values.
+
+ -- Constructor: OBJ = octave.chrono.DummyClass (X, Y)
+
+     Constructs a new ‘DummyClass’ with the specified values.
+
+
+File: chrono.info,  Node: octave.chrono.DummyClass.foo,  Next: octave.chrono.DummyClass.bar,  Prev: octave.chrono.DummyClass.DummyClass,  Up: octave.chrono.DummyClass
+
+7.2.15.2 octave.chrono.DummyClass.foo
+.....................................
+
+ -- Method: OUT = foo (OBJ)
+
+     Computes a foo value.
+
+     Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Curabitur
+     ullamcorper pulvinar ligula, sit amet accumsan turpis dapibus at.
+     Ut sit amet quam orci.  Donec vel mauris elementum massa pretium
+     tincidunt.
+
+
+File: chrono.info,  Node: octave.chrono.DummyClass.bar,  Prev: octave.chrono.DummyClass.foo,  Up: octave.chrono.DummyClass
+
+7.2.15.3 octave.chrono.DummyClass.bar
+.....................................
+
+ -- Method: OUT = bar (OBJ)
+
+     Computes a bar value.
+
+     Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Curabitur
+     ullamcorper pulvinar ligula, sit amet accumsan turpis dapibus at.
+     Ut sit amet quam orci.  Donec vel mauris elementum massa pretium
+     tincidunt.
+
+
+File: chrono.info,  Node: seconds,  Next: timezones,  Prev: octave.chrono.DummyClass,  Up: Functions Alphabetically
+
+7.2.16 seconds
 --------------
 
  -- Function File: OUT = seconds (X)
@@ -1536,7 +1685,7 @@ File: chrono.info,  Node: seconds,  Next: timezones,  Prev: NaT,  Up: Functions 
 
 File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: Functions Alphabetically
 
-7.2.14 timezones
+7.2.17 timezones
 ----------------
 
  -- Function: OUT = timezones ()
@@ -1565,7 +1714,7 @@ File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: Function
 
 File: chrono.info,  Node: years,  Prev: timezones,  Up: Functions Alphabetically
 
-7.2.15 years
+7.2.18 years
 ------------
 
  -- Function File: OUT = years (X)
@@ -1641,72 +1790,78 @@ Node: calendarDuration Class10491
 Node: Missing Functionality11392
 Node: Function Reference12361
 Node: Functions by Category12573
-Node: Functions Alphabetically14238
-Node: calendarDuration15665
-Node: calendarDuration.calendarDuration17551
-Node: calendarDuration.isnat18057
-Node: calendarDuration.uminus18388
-Node: calendarDuration.plus18667
-Node: calendarDuration.times19272
-Node: calendarDuration.minus19629
-Node: calendarDuration.dispstrs19974
-Node: calendarDuration.isnan20314
-Node: calmonths20714
-Node: calyears21305
-Node: datetime21648
-Node: datetime.datetime23977
-Node: datetime.ofDatenum24795
-Node: datetime.ofDatestruct25151
-Node: datetime.posix2datenum25660
-Node: datetime.datenum2posix26142
-Node: datetime.proxyKeys26543
-Node: datetime.ymd27183
-Node: datetime.hms27571
-Node: datetime.ymdhms27960
-Node: datetime.timeofday28397
-Node: datetime.week28813
-Node: datetime.dispstrs29069
-Node: datetime.datestr29364
-Node: datetime.datestrs29752
-Node: datetime.datestruct30169
-Node: datetime.posixtime31002
-Node: datetime.datenum31532
-Node: datetime.isnat31852
-Node: datetime.isnan32127
-Node: datetime.lt32494
-Node: datetime.le32921
-Node: datetime.ne33357
-Node: datetime.eq33785
-Node: datetime.ge34209
-Node: datetime.gt34649
-Node: datetime.plus35078
-Node: datetime.minus35536
-Node: datetime.diff36177
-Node: datetime.isbetween36553
-Node: datetime.linspace37037
-Node: datetime.convertDatenumTimeZone37646
-Node: days38296
-Node: duration38760
-Node: duration.duration39960
-Node: duration.ofDays40498
-Node: duration.years40977
-Node: duration.hours41343
-Node: duration.minutes41707
-Node: duration.seconds42083
-Node: duration.milliseconds42438
-Node: duration.dispstrs42824
-Node: duration.char43122
-Node: duration.linspace43545
-Node: hours44113
-Node: isdatetime44594
-Node: isduration44882
-Node: milliseconds45177
-Node: minutes45715
-Node: NaT45971
-Node: seconds46663
-Node: timezones47156
-Node: years48189
-Node: Copying48871
+Node: Functions Alphabetically14563
+Node: calendarDuration16248
+Node: calendarDuration.calendarDuration18134
+Node: calendarDuration.isnat18640
+Node: calendarDuration.uminus18971
+Node: calendarDuration.plus19250
+Node: calendarDuration.times19855
+Node: calendarDuration.minus20212
+Node: calendarDuration.dispstrs20557
+Node: calendarDuration.isnan20897
+Node: calmonths21297
+Node: calyears21888
+Node: datetime22231
+Node: datetime.ofDatenum24560
+Node: datetime.ofDatestruct24890
+Node: datetime.posix2datenum25399
+Node: datetime.datenum2posix25881
+Node: datetime.datetime26281
+Node: datetime.proxyKeys27130
+Node: datetime.ymd27765
+Node: datetime.hms28153
+Node: datetime.ymdhms28542
+Node: datetime.timeofday28979
+Node: datetime.week29395
+Node: datetime.dispstrs29651
+Node: datetime.datestr29946
+Node: datetime.datestrs30334
+Node: datetime.datestruct30751
+Node: datetime.posixtime31584
+Node: datetime.datenum32114
+Node: datetime.isnat32434
+Node: datetime.isnan32709
+Node: datetime.lt33076
+Node: datetime.le33503
+Node: datetime.ne33939
+Node: datetime.eq34367
+Node: datetime.ge34791
+Node: datetime.gt35231
+Node: datetime.plus35660
+Node: datetime.minus36118
+Node: datetime.diff36759
+Node: datetime.isbetween37135
+Node: datetime.linspace37619
+Node: datetime.convertDatenumTimeZone38228
+Node: days38878
+Node: duration39342
+Node: duration.duration40542
+Node: duration.ofDays41080
+Node: duration.years41585
+Node: duration.hours41951
+Node: duration.minutes42314
+Node: duration.seconds42693
+Node: duration.milliseconds43048
+Node: duration.dispstrs43448
+Node: duration.char43751
+Node: duration.linspace44171
+Node: hours44772
+Node: isdatetime45253
+Node: isduration45541
+Node: localdate45833
+Node: milliseconds46430
+Node: minutes46967
+Node: NaT47223
+Node: octave.chrono.dummy_function47936
+Node: octave.chrono.DummyClass48470
+Node: octave.chrono.DummyClass.DummyClass49287
+Node: octave.chrono.DummyClass.foo49754
+Node: octave.chrono.DummyClass.bar50289
+Node: seconds50780
+Node: timezones51294
+Node: years52327
+Node: Copying53009
 
 End Tag Table
 

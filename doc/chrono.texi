@@ -385,6 +385,18 @@ List all the time zones defined on this system.
 Create a 'duration' X years long, or get the years in a 'duration' X.
 
 @end table
+@subsection Uncategorized
+@table @asis
+@item @ref{localdate}
+Represents a complete day using the Gregorian calendar.
+
+@item @ref{octave.chrono.dummy_function}
+A dummy function just for testing the doco tools.
+
+@item @ref{octave.chrono.DummyClass}
+'DummyClass' is a do-nothing class just for testing the doco tools.
+
+@end table
 
 @node Functions Alphabetically
 @section Functions Alphabetically
@@ -405,11 +417,16 @@ Create a 'duration' X years long, or get the years in a 'duration' X.
 		'duration' X.
 * isdatetime::	True if input is a 'datetime' array, false otherwise.
 * isduration::	True if input is a 'duration' array, false otherwise.
+* localdate::	Represents a complete day using the Gregorian calendar.
 * milliseconds::	Create a 'duration' X milliseconds long, or get the
 		milliseconds in a 'duration' X.
 * minutes::	Create a 'duration' X hours long, or get the hours in a
 		'duration' X.
 * NaT:: “Not-a-Time”.
+* octave.chrono.dummy_function::	A dummy function just for testing
+		the doco tools.
+* octave.chrono.DummyClass::	'DummyClass' is a do-nothing class just for
+		testing the doco tools.
 * seconds::	Create a 'duration' X seconds long, or get the seconds in a
 		'duration' X.
 * timezones::	List all the time zones defined on this system.
@@ -478,8 +495,10 @@ This is a single value that applies to the whole array.
 
 @end deftypeivar
 
+
 @node calendarDuration.calendarDuration
 @subsubsection calendarDuration.calendarDuration
+
 @deftypefn {Constructor} {@var{obj} =} calendarDuration ()
 
 Constructs a new scalar @code{calendarDuration} of zero elapsed time.
@@ -493,7 +512,6 @@ Constructs a new scalar @code{calendarDuration} of zero elapsed time.
 Constructs new @code{calendarDuration} arrays based on input values.
 
 @end deftypefn
-
 
 @node calendarDuration.isnat
 @subsubsection calendarDuration.isnat
@@ -656,31 +674,6 @@ The format to display this @code{datetime} in. Currently unsupported.
 
 @end deftypeivar
 
-@node datetime.datetime
-@subsubsection datetime.datetime
-@deftypefn {Constructor} {@var{obj} =} datetime ()
-
-Constructs a new scalar @code{datetime} containing the current local time, with
-no time zone attached.
-
-@end deftypefn
-
-@deftypefn {Constructor} {@var{obj} =} datetime (@var{datevec})
-@deftypefnx {Constructor} {@var{obj} =} datetime (@var{datestrs})
-@deftypefnx {Constructor} {@var{obj} =} datetime (@var{in}, @code{'ConvertFrom'}, @var{inType})
-@deftypefnx {Constructor} {@var{obj} =} datetime @
-  (@var{Y}, @var{M}, @var{D}, @var{H}, @var{MI}, @var{S})
-@deftypefnx {Constructor} {@var{obj} =} datetime @
-  (@var{Y}, @var{M}, @var{D}, @var{H}, @var{MI}, @var{MS})
-@deftypefnx {Constructor} {@var{obj} =} datetime @
-  (@dots{}, @code{'Format'}, @var{Format}, @code{'InputFormat'}, @var{InputFormat}, @
-   @code{'Locale'}, @var{InputLocale}, @code{'PivotYear'}, @var{PivotYear}, @
-   @code{'TimeZone'}, @var{TimeZone})
-
-Constructs a new @code{datetime} array based on input values.
-
-@end deftypefn
-
 
 @node datetime.ofDatenum
 @subsubsection datetime.ofDatenum
@@ -730,6 +723,32 @@ Converts Octave datenums to Unix dates.
 The input datenums are assumed to be in UTC.
 
 Returns a double, which may have fractional seconds.
+
+@end deftypefn
+
+@node datetime.datetime
+@subsubsection datetime.datetime
+
+@deftypefn {Constructor} {@var{obj} =} datetime ()
+
+Constructs a new scalar @code{datetime} containing the current local time, with
+no time zone attached.
+
+@end deftypefn
+
+@deftypefn {Constructor} {@var{obj} =} datetime (@var{datevec})
+@deftypefnx {Constructor} {@var{obj} =} datetime (@var{datestrs})
+@deftypefnx {Constructor} {@var{obj} =} datetime (@var{in}, @code{'ConvertFrom'}, @var{inType})
+@deftypefnx {Constructor} {@var{obj} =} datetime @
+  (@var{Y}, @var{M}, @var{D}, @var{H}, @var{MI}, @var{S})
+@deftypefnx {Constructor} {@var{obj} =} datetime @
+  (@var{Y}, @var{M}, @var{D}, @var{H}, @var{MI}, @var{MS})
+@deftypefnx {Constructor} {@var{obj} =} datetime @
+  (@dots{}, @code{'Format'}, @var{Format}, @code{'InputFormat'}, @var{InputFormat}, @
+   @code{'Locale'}, @var{InputLocale}, @code{'PivotYear'}, @var{PivotYear}, @
+   @code{'TimeZone'}, @var{TimeZone})
+
+Constructs a new @code{datetime} array based on input values.
 
 @end deftypefn
 
@@ -1180,6 +1199,7 @@ Constructs a new @code{duration} array based on input values.
 @node duration.ofDays
 @subsubsection duration.ofDays
 
+@subsubsection duration.ofDays
 @deftypefn {Static Method} {@var{obj} =} duration.ofDays (@var{dnums})
 
 Converts a double array representing durations in whole and fractional days
@@ -1193,6 +1213,7 @@ Returns a @code{duration} array of the same size as the input.
 @node duration.years
 @subsubsection duration.years
 
+@subsubsection duration.years
 @deftypefn {Method} {@var{out} =} years (@var{obj})
 
 Equivalent number of years.
@@ -1207,6 +1228,7 @@ Returns double array the same size as @var{obj}.
 @node duration.hours
 @subsubsection duration.hours
 
+@subsubsection duration.hours
 @deftypefn {Method} {@var{out} =} hours (@var{obj})
 
 Equivalent number of hours.
@@ -1221,6 +1243,7 @@ Returns double array the same size as @var{obj}.
 @node duration.minutes
 @subsubsection duration.minutes
 
+@subsubsection duration.minutes
 @deftypefn {Method} {@var{out} =} minutes (@var{obj})
 
 Equivalent number of minutes.
@@ -1235,6 +1258,7 @@ Returns double array the same size as @var{obj}.
 @node duration.seconds
 @subsubsection duration.seconds
 
+@subsubsection duration.seconds
 @deftypefn {Method} {@var{out} =} seconds (@var{obj})
 
 Equivalent number of seconds.
@@ -1249,6 +1273,7 @@ Returns double array the same size as @var{obj}.
 @node duration.milliseconds
 @subsubsection duration.milliseconds
 
+@subsubsection duration.milliseconds
 @deftypefn {Method} {@var{out} =} milliseconds (@var{obj})
 
 Equivalent number of milliseconds.
@@ -1263,6 +1288,7 @@ Returns double array the same size as @var{obj}.
 @node duration.dispstrs
 @subsubsection duration.dispstrs
 
+@subsubsection duration.dispstrs
 @deftypefn {Method} {@var{out} =} duration (@var{obj})
 
 Get display strings for each element of @var{obj}.
@@ -1274,6 +1300,7 @@ Returns a cellstr the same size as @var{obj}.
 @node duration.char
 @subsubsection duration.char
 
+@subsubsection duration.char
 @deftypefn {Method} {@var{out} =} char (@var{obj})
 
 Convert to char. The contents of the strings will be the same as
@@ -1288,6 +1315,7 @@ Returns a 2-D char array with one row per element in @var{obj}.
 @node duration.linspace
 @subsubsection duration.linspace
 
+@subsubsection duration.linspace
 @deftypefn {Method} {@var{out} =} linspace (@var{from}, @var{to}, @var{n})
 
 Linearly-spaced values in time duration space.
@@ -1339,6 +1367,21 @@ Returns a logical array the same size as @var{x}.
 @end deftypefn
 
 
+@node localdate
+@subsection localdate
+@deftp {Class} localdate
+
+Represents a complete day using the Gregorian calendar.
+
+This class is useful for indexing daily-granularity data or representing
+time periods that cover an entire day in local time somewhere. The major
+purpose of this class is "type safety", to prevent time-of-day values
+from sneaking in to data sets that should be daily only. As a secondary
+benefit, this uses less memory than datetimes.
+
+@end deftp
+
+
 @node milliseconds
 @subsection milliseconds
 @deftypefn {Function File} {@var{out} =} milliseconds (@var{x})
@@ -1380,6 +1423,85 @@ any other value results in a @code{NaT}.
 
 @end deftypefn
 
+
+@node octave.chrono.dummy_function
+@subsection octave.chrono.dummy_function
+@deftypefn {Function} {@var{out} =} dummy_function (@var{x})
+
+A dummy function just for testing the doco tools.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+ullamcorper pulvinar ligula, sit amet accumsan turpis dapibus at.
+Ut sit amet quam orci. Donec vel mauris elementum massa pretium tincidunt.
+
+@end deftypefn
+
+
+@node octave.chrono.DummyClass
+@subsection octave.chrono.DummyClass
+@deftp {Class} DummyClass
+
+@code{DummyClass} is a do-nothing class just for testing the doco tools.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+ullamcorper pulvinar ligula, sit amet accumsan turpis dapibus at.
+Ut sit amet quam orci. Donec vel mauris elementum massa pretium tincidunt.
+
+@end deftp
+
+@deftypeivar DummyClass @code{double} x
+
+A x. Has no semantics.
+
+@end deftypeivar
+
+@deftypeivar DummyClass @code{double} y
+
+A y. Has no semantics.
+
+@end deftypeivar
+
+
+@node octave.chrono.DummyClass.DummyClass
+@subsubsection octave.chrono.DummyClass.DummyClass
+
+@deftypefn {Constructor} {@var{obj} =} octave.chrono.DummyClass ()
+
+Constructs a new scalar @code{DummyClass} with default values.
+
+@end deftypefn
+
+@deftypefn {Constructor} {@var{obj} =} octave.chrono.DummyClass (@var{x}, @var{y})
+
+Constructs a new @code{DummyClass} with the specified values.
+
+@end deftypefn
+
+@node octave.chrono.DummyClass.foo
+@subsubsection octave.chrono.DummyClass.foo
+
+@deftypefn {Method} {@var{out} =} foo (@var{obj})
+
+Computes a foo value.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+ullamcorper pulvinar ligula, sit amet accumsan turpis dapibus at.
+Ut sit amet quam orci. Donec vel mauris elementum massa pretium tincidunt.
+
+@end deftypefn
+
+@node octave.chrono.DummyClass.bar
+@subsubsection octave.chrono.DummyClass.bar
+
+@deftypefn {Method} {@var{out} =} bar (@var{obj})
+
+Computes a bar value.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+ullamcorper pulvinar ligula, sit amet accumsan turpis dapibus at.
+Ut sit amet quam orci. Donec vel mauris elementum massa pretium tincidunt.
+
+@end deftypefn
 
 @node seconds
 @subsection seconds
