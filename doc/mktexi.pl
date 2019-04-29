@@ -222,7 +222,6 @@ while (my $line = <TEXI>) {
 	chomp $line;
 	next unless ($line =~ /^\s*\@node +(.*?)(,|$)/);
 	my $node_name = $1;
-    print "Found node $node_name\n";
 	my $next_line = <TEXI>;
 	while ($next_line && $next_line =~ /^\s*$/) {
 		$next_line = <TEXI>;
@@ -235,10 +234,9 @@ while (my $line = <TEXI>) {
 	my $section_level = $level_map{$section_type};
 	my $section_qhelp_title = $section_title =~ s/@\w+{(.*?)}/\1/rg;
 	my $html_title = $node_name =~ s/\s/-/gr;
-	$html_title =~ s/\./_002e/g; # I don't know why this happens -apj
 	$html_title = "index" if $html_title eq "Top";
-	my $html_file = "$html_title.html";
-    print "Adding node $node_name, html file $html_file to files list\n";
+	my $html_file_base = $html_title =~ s/\./_002e/gr; # I don't know why this happens -apj
+	my $html_file = "$html_file_base.html";
 	unshift @files, $html_file;
 	print "Node: '$node_name' ($section_type): \"$section_title\" => \"$section_qhelp_title\""
 	    . " (level $section_level),  HTML: $html_file\n"
@@ -288,7 +286,6 @@ qhp "        <keywords>\n";
 for my $node (@node_names) {
 	my $file_base = $node;
 	$file_base =~ s/\./_002e/g; # I don't know why this happens -apj
-    print "node $node: file_base = $file_base\n";
 	qhp "            <keyword name=\"$node\" id=\"$node\" ref=\"html/$file_base.html\"/>\n";
 }
 qhp "        </keywords>\n";
@@ -297,8 +294,6 @@ qhp "        </keywords>\n";
 
 qhp "        <files>\n";
 qhp "            <file>$pkg_name.html</file>\n";
-my $n_files = scalar (@files);
-print "Adding $n_files files to file list\n";
 foreach my $file (@files) {
 	qhp "            <file>html/$file</file>\n";
 }
