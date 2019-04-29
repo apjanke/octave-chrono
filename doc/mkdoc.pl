@@ -90,6 +90,7 @@ my @cxx_files = ();
 find(\&cc_and_m_files, @srcdirs);
 
 sub cc_and_m_files { # {{{1 populates global array @files
+    # This prune is probably superfluous -apj
     if ($_ eq "+internal" or $_ eq "private") {
         $File::Find::prune = 1;
     }
@@ -105,42 +106,10 @@ sub cc_and_m_files { # {{{1 populates global array @files
 
 # Grab help from C++ files
 foreach my $file ( @cxx_files ) {
-    # XXX FIXME XXX. Should run the preprocessor over the file first, since 
-    # the help might include defines that are compile dependent.
-    unless ( open(IN, $file) ) {
-        die "Error: Could not open file ($file): $!\n";
-    }
-    while (<IN>) {
-        # skip to the next defined Octave function
-        next unless /^DEFUN_DLD/;
-        # extract function name
-        /\DEFUN_DLD\s*\(\s*(\w+)\s*,/;
-        my $function = $1;
-        # Advance to the comment string in the DEFUN_DLD
-        # The comment string in the DEFUN_DLD is the first line with "..."
-        $_ = <IN> until /\"/;
-        my $desc = $_;
-        $desc =~ s/^[^\"]*\"//;
-        # Slurp in C-style implicitly-concatenated strings
-        while ($desc !~ /[^\\]\"\s*\S/ && $desc !~ /^\"/) {
-            # if line ends in '\', chop it and the following '\n'
-            $desc =~ s/\\\s*\n//;
-            # join with the next line
-            $desc .= <IN>;
-            # eliminate consecutive quotes, being careful to ignore
-            # preceding slashes. XXX FIXME XXX what about \\" ?
-            $desc =~ s/([^\\])\"\s*\"/$1/;
-        }
-        $desc = "" if $desc =~ /^\"/; # chop everything if it was ""
-        $desc =~ s/\\n/\n/g;          # insert fake line ends
-        $desc =~ s/([^\"])\".*$/$1/;  # chop everything after final '"'
-        $desc =~ s/\\\"/\"/;          # convert \"; XXX FIXME XXX \\"
-        $desc =~ s/$//g;              # chop trailing ...
-
-        if (!($desc =~ /^\s*-\*- texinfo -\*-/m)) {
-            printf STDERR ("Function %s (file %s) does not contain texinfo help:%s\n",
-                    $function, $file);
-        }
+    my $blocks = DocStuff::extract_texinfo_from_cxxfile ($file);
+    for my $block (@$blocks) {
+        my $function = $$block{node};
+        my $desc = $$block{block};
         emit sprintf("\037%s\n%s\n", $function, $desc);
     }
     close (IN);
@@ -156,7 +125,7 @@ foreach my $file (@m_files) {
     for my $desc (@$descs) {
         my $node_name = $desc->{"node"};
         my $block = $desc->{"block"};
-        emit sprintf("\037%s\n%s\n", $node_name, $block);
+        emit sprintf ("\037%s\n%s\n", $node_name, $block);
     }
 }
 

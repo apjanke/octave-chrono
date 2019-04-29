@@ -158,7 +158,9 @@ my $fcn_index = DocStuff::read_index_file ("../INDEX");
 emit "        <keywords>\n";
 my $fcn_list = $$fcn_index{"functions"};
 for my $fcn (@$fcn_list) {
-	emit "            <keyword name=\"$fcn\" id=\"$fcn\" ref=\"html/$fcn.html\"/>\n";
+	my $file_base = $fcn;
+	$file_base =~ s/\./_002e/gr; # I don't know why this happens -apj
+	emit "            <keyword name=\"$fcn\" id=\"$fcn\" ref=\"html/$file_base.html\"/>\n";
 }
 emit "        </keywords>\n";
 

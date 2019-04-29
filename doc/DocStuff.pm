@@ -25,9 +25,146 @@
 
 use strict;
 
+# An OctTexDocs is a collection of Texinfo doco from Octave source files.
+# It knows how to read in source directories, accumulating the Texinfo
+# blocks as it goes.
+package DocStuff::OctTexDocs;
+use Moose;
+
+use File::Basename;
+
+# Docs: {$node => {node => $node, block => $block, file => $file, children => [...]}}
+# children are also {node => $node, block => $block}
+# where:
+#   $node is the fully-namespace-qualified class or function name
+#   $block is the stripped text of the texinfo block
+#   $file is the path to the file where this block came from
+has 'docs' => ( is  => 'rw', isa => 'HashRef', default => sub { {} } );
+
+sub read_source_dir {
+    my $self = shift;
+    my ($dir, $namespace) = @_;
+    opendir my $dh, $dir
+        or die "Unable to open directory $dir: $!\n";
+    while (my $file_name = readdir($dh)) {
+        next if $file_name =~ /^\./;
+        my $file = "$dir/$file_name";
+        if (-d $file) {
+            if ($file_name =~ /^\+/) {
+                if ($file_name eq "+internal") {
+                    # Ignore +internal namespaces; they're not part of the public API
+                    next;
+                }
+                $self->read_source_dir ($file, DocStuff::append_namespace ($namespace, $file_name));
+            } elsif ($file_name =~ /^\@/) {
+                $self->read_class_at_dir ($file, $namespace);
+            } else {
+                # ignore
+            }
+        } else {
+            if ($file_name =~ /\.m$/) {
+                $self->read_m_source_file ($file, $namespace);
+            } elsif ($file_name =~ /\.cc$/) {
+                $self->read_cxx_source_file ($file, $namespace);
+            } else {
+                # ignore
+            }
+        }
+    }
+}
+
+# Read a regular, top-level .m function or classdef source file
+sub read_m_source_file {
+    my $self = shift;
+    my ($file, $namespace) = @_;
+    my $blocks = DocStuff::extract_multiple_texinfo_blocks_from_mfile ($file);
+    return unless (scalar (@$blocks));
+    my $first_block = shift @$blocks;
+    my $node = $$first_block{node};
+    my $texi = $$first_block{block};
+    $$first_block{children} = $blocks;
+    $$first_block{file} = $file;
+    if ($self->docs->{$node}) {
+        my $other_file = $self->docs->{$node}{file};
+        printf STDERR "Node $node from file $file is shadowed by previous file $other_file\n";
+        return;
+    }
+    $self->docs->{$node} = $first_block;
+}
+
+# Read a top-level .cxx oct-file source file
+sub read_cxx_source_file {
+    my $self = shift;
+    my ($file, $namespace) = @_;
+    my $blocks = DocStuff::extract_texinfo_from_cxxfile ($file);
+    for my $block (@$blocks) {
+        my $node = $$block{node};
+        my $texi = $$block{block};
+        $$block{file} = $file;
+        if ($self->docs->{$node}) {
+            my $other_file = $self->docs->{$node}{file};
+            printf STDERR "Warning: Node $node from file $file is shadowed by previous file $other_file\n";
+            next;
+        }
+        $self->docs->{$node} = $block;
+    }
+}
+
+# Read a @<classname> class source directory
+sub read_class_at_dir {
+    my $self = shift;
+    my ($dir, $namespace) = @_;
+
+    # Locate and read the main classdef file
+    my $dir_base = basename ($dir);
+    my $class_name = $dir_base;
+    $class_name =~ s/^\@//;
+    my $class_file_name = "$class_name.m"
+    my $class_file = "$dir/$class_file_name";
+    unless (-f $class_file) {
+        printf STDERR "Warning: No classdef file found in dir $dir\n";
+        return;
+    }
+    my $main_blocks = DocStuff::extract_multiple_texinfo_blocks_from_mfile ($class_file);
+    return unless (scalar (@$main_blocks));
+    my $class_block = shift @$main_blocks;
+    $$class_block{file} = $class_file;
+    $$class_block{children} = $main_blocks;
+
+    # Then go through the other method files
+    opendir my $dh, $dir
+        or die "Unable to open directory $dir: $!\n";
+    while (my $file_name = readdir($dh)) {
+        next if $file_name =~ /^\./;
+        next unless $file_name =~ /\.m$/;
+        next if $file_name eq $class_file_name;
+        my $method_file = "$dir/$file_name";
+        my $blocks = DocStuff::extract_multiple_texinfo_blocks_from_mfile ($method_file);
+        push @{$$class_block{children}}, @$blocks;
+    }
+
+    # Stash the docs
+    my $node = DocStuff::append_namespace($namespace, $class_name);
+    if ($self->docs->{$node}) {
+        my $other_file = $self->docs->{$node}{file};
+        printf STDERR "Warning: Node $node from \@<class> dir $dir is shadowed by previous file $other_file\n";
+        # TODO: Should we actually just push our non-main blocks into the existing block,
+        # since they are monkey-patching methods into it?
+        return;
+    }
+    $self->docs->{$node} = $class_block;
+}
+
 package DocStuff;
 
 use File::Basename;
+
+sub append_namespace {
+    my ($parent, $child) = @_;
+    $child =~ s/^\+//; # convenience hack
+    return $child unless $parent and $parent ne "";
+    return "$parent.$child";
+}
 
 # Read an INDEX file. Returns hashref:
 # {
@@ -152,6 +289,10 @@ sub extract_multiple_texinfo_blocks_from_mfile { # {{{1
     }
 
     # Okay, now detect all Texinfo comment blocks
+    #
+    # This is currently broken: I'm using @node lines in the Texinfo to indicate node
+    # starts, but the @node and @section/@subsection/@subsubsection are emitted automatically
+    # by mktexi.pl.
     my @blocks;
     my $block; # the current block
     my $in_block = 0;
@@ -211,6 +352,50 @@ sub strip_mfile_block_line {
     return $line;
 }
 
+# Extract all Octave Texinfo documentation comments from a C++ oct-file
+# source file.
+# Returns an arrayref of extracted blocks, with each block being
+# a hashref with keys "node" and "block".
+sub extract_texinfo_from_cxxfile {
+    my ($file) = @_;
+    open(IN, $file)
+        or die "Error: Could not open file $file: $!\n";
+    my @blocks;
+    while (<IN>) {
+        # skip to the next defined Octave function
+        next unless /^DEFUN_DLD/;
+        # extract function name
+        /\DEFUN_DLD\s*\(\s*(\w+)\s*,/;
+        my $function = $1;
+        # Advance to the comment string in the DEFUN_DLD
+        # The comment string in the DEFUN_DLD is the first line with "..."
+        $_ = <IN> until /\"/;
+        my $desc = $_;
+        $desc =~ s/^[^\"]*\"//;
+        # Slurp in C-style implicitly-concatenated strings
+        while ($desc !~ /[^\\]\"\s*\S/ && $desc !~ /^\"/) {
+            # if line ends in '\', chop it and the following '\n'
+            $desc =~ s/\\\s*\n//;
+            # join with the next line
+            $desc .= <IN>;
+            # eliminate consecutive quotes, being careful to ignore
+            # preceding slashes. XXX FIXME XXX what about \\" ?
+            $desc =~ s/([^\\])\"\s*\"/$1/;
+        }
+        $desc = "" if $desc =~ /^\"/; # chop everything if it was ""
+        $desc =~ s/\\n/\n/g;          # insert fake line ends
+        $desc =~ s/([^\"])\".*$/$1/;  # chop everything after final '"'
+        $desc =~ s/\\\"/\"/;          # convert \"; XXX FIXME XXX \\"
+        $desc =~ s/$//g;              # chop trailing ...
+        if (!($desc =~ /^\s*-\*- texinfo -\*-/m)) {
+            printf STDERR ("Function %s (file %s) does not contain texinfo help:%s\n",
+                    $function, $file);
+        }
+        push @blocks, { node => $function, block => $desc};
+    }
+    return \@blocks;
+}
+
 sub get_package_metadata_from_description_file {
     my $description_file = "../DESCRIPTION";
     unless (open (IN, $description_file)) {
@@ -226,7 +411,7 @@ sub get_package_metadata_from_description_file {
             # continuation line
             my $txt = $_;
             $txt =~ s/^\s+//;
-            $value += $txt;
+            $value .= $txt;
         } elsif (/^(\S+)\s*:\s*(\S.*?)\s*$/) {
             $defn{$key} = $value if $key;
             ($key, $value) = ($1, $2);
