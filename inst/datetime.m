@@ -19,7 +19,7 @@
 ## -*- texinfo -*-
 ## @deftp {Class} datetime
 ##
-## @code{datetime} represents points in time using the Gregorian calendar.
+## Represents points in time using the Gregorian calendar.
 ##
 ## The underlying values are doubles representing the number of days since the
 ## Matlab epoch of "January 0, year 0". This has a precision of around nanoseconds
@@ -88,88 +88,8 @@ classdef datetime
     Minute
     Second
   endproperties
-  
-  methods (Static)
-    ## -*- texinfo -*-
-    ## @node datetime.ofDatenum
-    ## @deftypefn {Static Method} {@var{obj} =} datetime.ofDatenum (@var{dnums})
-    ##
-    ## Converts a datenum array to a datetime array.
-    ##
-    ## Returns an unzoned @code{datetime} array of the same size as the input.
-    ##
-    ## @end deftypefn
-    function out = ofDatenum (dnums)
-      out = datetime (dnums, 'ConvertFrom', 'datenum');
-    endfunction
-    
-    ## -*- texinfo -*-
-    ## @node datetime.ofDatestruct
-    ## @deftypefn {Static Method} {@var{obj} =} datetime.ofDatestruct (@var{dstruct})
-    ##
-    ## Converts a datestruct to a datetime array.
-    ##
-    ## A datestruct is a special struct format used by Chrono that has fields 
-    ## Year, Month, Day, Hour, Minute, and Second. It is not a standard Octave datatype.
-    ##
-    ## Returns an unzoned @code{datetime} array.
-    ##
-    ## @end deftypefn
-    function out = ofDatestruct (dstruct)
-      dnums = datetime.datestruct2datenum (dstruct);
-      out = datetime (dnums, 'ConvertFrom', 'datenum');
-    endfunction
-    
-    function out = datestruct2datenum (dstruct)
-      sz = size (dstruct.Year);
-      n = numel (dstruct.Year);
-      dvec = NaN (n, 6);
-      dvec(:,1) = dstruct.Year(:);
-      dvec(:,2) = dstruct.Month(:);
-      dvec(:,3) = dstruct.Day(:);
-      dvec(:,4) = dstruct.Hour(:);
-      dvec(:,5) = dstruct.Minute(:);
-      dvec(:,6) = dstruct.Second(:);
-      out = datenum (dvec);
-    endfunction
-    
-    function out = NaT ()
-      out = datetime (NaN, 'Backdoor');
-    endfunction
-        
-    ## -*- texinfo -*-
-    ## @node datetime.posix2datenum
-    ## @deftypefn {Static Method} {@var{dnums} =} datetime.posix2datenum (@var{pdates})
-    ##
-    ## Converts POSIX (Unix) times to datenums
-    ##
-    ## Pdates (numeric) is an array of POSIX dates. A POSIX date is the number
-    ## of seconds since January 1, 1970 UTC, excluding leap seconds. The output
-    ## is implicitly in UTC.
-    ##
-    ## @end deftypefn
-    function out = posix2datenum (pdates)
-      out = (double (pdates) / (24 * 60 * 60)) + datetime.PosixEpochDatenum;
-    endfunction
-    
-    ## -*- texinfo -*-
-    ## @node datetime.datenum2posix
-    ## @deftypefn {Static Method} {@var{out} =} datetime.datenum2posix (@var{dnums})
-    ##
-    ## Converts Octave datenums to Unix dates.
-    ##
-    ## The input datenums are assumed to be in UTC.
-    ##
-    ## Returns a double, which may have fractional seconds.
-    ##
-    ## @end deftypefn
-    function out = datenum2posix (dnums)
-      out = (dnums - datetime.PosixEpochDatenum) * (24 * 60 * 60);
-    endfunction
-  endmethods
 
   methods
-    
     ## -*- texinfo -*-
     ## @node datetime.datetime
     ## @deftypefn {Constructor} {@var{obj} =} datetime ()
@@ -327,7 +247,105 @@ classdef datetime
         this.Format = opts.Format;
       endif
     endfunction
+  endmethods
+  
+  methods (Static)
+    ## -*- texinfo -*-
+    ## @node datetime.ofDatenum
+    ## @deftypefn {Static Method} {@var{obj} =} datetime.ofDatenum (@var{dnums})
+    ##
+    ## Converts a datenum array to a datetime array.
+    ##
+    ## Returns an unzoned @code{datetime} array of the same size as the input.
+    ##
+    ## @end deftypefn
+    function out = ofDatenum (dnums)
+      out = datetime (dnums, 'ConvertFrom', 'datenum');
+    endfunction
     
+    ## -*- texinfo -*-
+    ## @node datetime.ofDatestruct
+    ## @deftypefn {Static Method} {@var{obj} =} datetime.ofDatestruct (@var{dstruct})
+    ##
+    ## Converts a datestruct to a datetime array.
+    ##
+    ## A datestruct is a special struct format used by Chrono that has fields 
+    ## Year, Month, Day, Hour, Minute, and Second. It is not a standard Octave datatype.
+    ##
+    ## Returns an unzoned @code{datetime} array.
+    ##
+    ## @end deftypefn
+    function out = ofDatestruct (dstruct)
+      dnums = datetime.datestruct2datenum (dstruct);
+      out = datetime (dnums, 'ConvertFrom', 'datenum');
+    endfunction
+    
+    function out = datestruct2datenum (dstruct)
+      sz = size (dstruct.Year);
+      n = numel (dstruct.Year);
+      dvec = NaN (n, 6);
+      dvec(:,1) = dstruct.Year(:);
+      dvec(:,2) = dstruct.Month(:);
+      dvec(:,3) = dstruct.Day(:);
+      dvec(:,4) = dstruct.Hour(:);
+      dvec(:,5) = dstruct.Minute(:);
+      dvec(:,6) = dstruct.Second(:);
+      out = datenum (dvec);
+    endfunction
+    
+    ## -*- texinfo -*-
+    ## @node datetime.NaT
+    ## @deftypefn {Static Method} {@var{out} =} datetime.NaT ()
+    ## @deftypefnx {Static Method} {@var{out} =} datetime.NaT (@var{sz})
+    ##
+    ## “Not-a-Time”: Creates NaT-valued arrays.
+    ## 
+    ## Constructs a new @code{datetime} array of all @code{NaT} values of
+    ## the given size. If no input @var{sz} is given, the result is a scalar @code{NaT}.
+    ##
+    ## @code{NaT} is the @code{datetime} equivalent of @code{NaN}. It represents a missing
+    ## or invalid value. @code{NaT} values never compare equal to, greater than, or less
+    ## than any value, including other @code{NaT}s. Doing arithmetic with a @code{NaT} and
+    ## any other value results in a @code{NaT}.
+    ##
+    ## @end deftypefn
+    function out = NaT ()
+      out = datetime (NaN, 'Backdoor');
+    endfunction
+        
+    ## -*- texinfo -*-
+    ## @node datetime.posix2datenum
+    ## @deftypefn {Static Method} {@var{dnums} =} datetime.posix2datenum (@var{pdates})
+    ##
+    ## Converts POSIX (Unix) times to datenums
+    ##
+    ## Pdates (numeric) is an array of POSIX dates. A POSIX date is the number
+    ## of seconds since January 1, 1970 UTC, excluding leap seconds. The output
+    ## is implicitly in UTC.
+    ##
+    ## @end deftypefn
+    function out = posix2datenum (pdates)
+      out = (double (pdates) / (24 * 60 * 60)) + datetime.PosixEpochDatenum;
+    endfunction
+    
+    ## -*- texinfo -*-
+    ## @node datetime.datenum2posix
+    ## @deftypefn {Static Method} {@var{out} =} datetime.datenum2posix (@var{dnums})
+    ##
+    ## Converts Octave datenums to Unix dates.
+    ##
+    ## The input datenums are assumed to be in UTC.
+    ##
+    ## Returns a double, which may have fractional seconds.
+    ##
+    ## @end deftypefn
+    function out = datenum2posix (dnums)
+      out = (dnums - datetime.PosixEpochDatenum) * (24 * 60 * 60);
+    endfunction
+  endmethods
+
+  methods
+        
     ## -*- texinfo -*-
     ## @node datetime.proxyKeys
     ## @deftypefn {Method} {[@var{keysA}, @var{keysB}] =} proxyKeys (@var{a}, @var{b})
@@ -468,7 +486,7 @@ classdef datetime
     ## @node datetime.ymd
     ## @deftypefn {Method} {[@var{y}, @var{m}, @var{d}] =} ymd (@var{obj})
     ##
-    ## Get the Year, Month, and Day components of a @var{obj}.
+    ## Get the Year, Month, and Day components of @var{obj}.
     ##
     ## For zoned @code{datetime}s, these will be local times in the associated time zone.
     ##
@@ -663,8 +681,6 @@ classdef datetime
     ## Returns a struct with fields Year, Month, Day, Hour, Minute, and Second.
     ## Each field contains a double array of the same size as this.
     ##
-    ## This is an Octave extension.
-    ##
     ## @end deftypefn
     function out = datestruct (this)
       local_dnums = datetime.convertDatenumTimeZone (this.dnums, 'UTC', this.TimeZone);
@@ -699,7 +715,7 @@ classdef datetime
     ## @node datetime.datenum
     ## @deftypefn {Method} {@var{out} =} datenum (@var{obj})
     ##
-    ## DATENUM Convert this to datenums that represent the same local time
+    ## Convert this to datenums that represent the same local time
     ##
     ## Returns double array of same size as this.
     ##
