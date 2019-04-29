@@ -3,6 +3,8 @@
 /target
 /doc/*.dvi
 /doc/*.qhp
+/doc/html
+/doc/html/*
 /doc/topics.tmp
 cmake-build-debug
 !.idea
