@@ -399,8 +399,7 @@ sub extract_multiple_texinfo_blocks_from_mfile {
                 if ((scalar (@blocks)) == 0) {
                     $node = append_namespace($namespace, $file_node_name);
                 } else {
-                    print STDERR "Found non-first block with no \@node statement in file $mfile\n";
-                    die "Found non-first block with no \@node statement in file $mfile\n";
+                    die "Found non-first block with no \@node statement in file $mfile at line $line_num\n";
                 }
                 $block .= "$line\n";
             }
