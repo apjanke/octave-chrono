@@ -28,13 +28,24 @@
 ## benefit, this uses less memory than datetimes.
 ##
 ## @end deftp
+##
+## @deftypeivar localdate @code{double} dnums
+##
+## The underlying datenum values that represent the days.
+##
+## These are doubles, but
+## they are restricted to be integer-valued, so they represent complete days, with
+## no time-of-day component.
+##
+## @end deftypeivar
+##
+## @deftypeivar localdate @code{char} Format
+##
+## The format to display this @code{localdate} in. Currently unsupported.
+##
+## @end deftypeivar
 
 classdef localdate
-  %LOCALDATE Date values
-  %
-  % Localdate represents days in the Gregorian calendar.
-  %
-  % This is an Octave extension.
 
   properties (Access = private)
     % The underlying datenums, zoneless, always int-valued (midnights)
@@ -50,38 +61,23 @@ classdef localdate
     Day
   endproperties
 
-  methods (Static)
-
-    function out = NaT ()
-      out = localdate (NaN);
-    endfunction
-
-    function out = datestruct2datenum (dstruct)
-      sz = size (dstruct.Year);
-      n = numel (dstruct.Year);
-      dvec = NaN (n, 6);
-      dvec(:,1) = dstruct.Year(:);
-      dvec(:,2) = dstruct.Month(:);
-      dvec(:,3) = dstruct.Day(:);
-      if isfield (dstruct, 'Hour')
-        mustBeIntOrNanOrInf (dstruct.Hour, 'Hour field of datestruct');
-      endif
-      if isfield (dstruct, 'Hour')
-        mustBeIntOrNanOrInf (dstruct.Minute, 'Minute field of datestruct');
-      endif
-      if isfield (dstruct, 'Hour')
-        mustBeIntOrNanOrInf (dstruct.Second, 'Second field of datestruct');
-      endif
-      dvec(:,4) = 0;
-      dvec(:,5) = 0;
-      dvec(:,6) = 0;
-      out = datenum (dvec);
-    endfunction
-    
-  endmethods
-
   methods
-
+    ## -*- texinfo -*-
+    ## @node localdate.localdate
+    ## @deftypefn {Constructor} {@var{obj} =} localdate ()
+    ##
+    ## Constructs a new scalar @code{localdate} containing the current local date.
+    ##
+    ## @end deftypefn
+    ##
+    ## @deftypefn {Constructor} {@var{obj} =} localdate (@var{datenums})
+    ## @deftypefnx {Constructor} {@var{obj} =} localdate (@var{datestrs})
+    ## @deftypefnx {Constructor} {@var{obj} =} localdate (@var{Y}, @var{M}, @var{D})
+    ## @deftypefnx {Constructor} {@var{obj} =} localdate (@dots{}, @code{'Format'}, @var{Format})
+    ##
+    ## Constructs a new @code{localdate} array based on input values.
+    ##
+    ## @end deftypefn
     function this = localdate (varargin)
       %LOCALDATE Construct a new localdate array
       %
@@ -185,6 +181,58 @@ classdef localdate
       endif
       this.validate;
     endfunction
+  endmethods
+
+  methods (Static)
+
+    ## -*- texinfo -*-
+    ## @node localdate.NaT
+    ## @deftypefn {Static Method} {@var{out} =} localdate.NaT ()
+    ## @deftypefnx {Static Method} {@var{out} =} localdate.NaT (@var{sz})
+    ##
+    ## “Not-a-Time”: Creates NaT-valued arrays.
+    ## 
+    ## Constructs a new @code{datetime} array of all @code{NaT} values of
+    ## the given size. If no input @var{sz} is given, the result is a scalar @code{NaT}.
+    ##
+    ## @code{NaT} is the @code{datetime} equivalent of @code{NaN}. It represents a missing
+    ## or invalid value. @code{NaT} values never compare equal to, greater than, or less
+    ## than any value, including other @code{NaT}s. Doing arithmetic with a @code{NaT} and
+    ## any other value results in a @code{NaT}.
+    ##
+    ## This static method is provided because the global @code{NaT} function creates
+    ## @code{datetime}s, not @code{localdate}s
+    ##
+    ## @end deftypefn
+    function out = NaT ()
+      out = localdate (NaN);
+    endfunction
+
+    function out = datestruct2datenum (dstruct)
+      sz = size (dstruct.Year);
+      n = numel (dstruct.Year);
+      dvec = NaN (n, 6);
+      dvec(:,1) = dstruct.Year(:);
+      dvec(:,2) = dstruct.Month(:);
+      dvec(:,3) = dstruct.Day(:);
+      if isfield (dstruct, 'Hour')
+        mustBeIntOrNanOrInf (dstruct.Hour, 'Hour field of datestruct');
+      endif
+      if isfield (dstruct, 'Hour')
+        mustBeIntOrNanOrInf (dstruct.Minute, 'Minute field of datestruct');
+      endif
+      if isfield (dstruct, 'Hour')
+        mustBeIntOrNanOrInf (dstruct.Second, 'Second field of datestruct');
+      endif
+      dvec(:,4) = 0;
+      dvec(:,5) = 0;
+      dvec(:,6) = 0;
+      out = datenum (dvec);
+    endfunction
+    
+  endmethods
+
+  methods
 
     function validate (this)
       mustBeNumeric (this.dnums, 'datenum values');
@@ -249,6 +297,15 @@ classdef localdate
       out = ceil (this.Month / 3);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node localdate.ymd
+    ## @deftypefn {Method} {[@var{y}, @var{m}, @var{d}] =} ymd (@var{obj})
+    ##
+    ## Get the Year, Month, and Day components of @var{obj}.
+    ##
+    ## Returns double arrays the same size as @code{obj}.
+    ##
+    ## @end deftypefn
     function [y, m, d] = ymd (this)
       s = datestruct (this);
       y = s.Year;
@@ -283,6 +340,15 @@ classdef localdate
       endif
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node localdate.dispstrs
+    ## @deftypefn {Method} {@var{out} =} dispstrs (@var{obj})
+    ##
+    ## Get display strings for each element of @var{obj}.
+    ##
+    ## Returns a cellstr the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = dispstrs (this)
       %DISPSTRS Custom display strings.
       % This is an Octave extension.
@@ -295,11 +361,33 @@ classdef localdate
       endif
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node localdate.datestr
+    ## @deftypefn {Method} {@var{out} =} datestr (@var{obj})
+    ## @deftypefnx {Method} {@var{out} =} datestr (@var{obj}, @dots{})
+    ##
+    ## Format @var{obj} as date strings. Supports all arguments that core Octave's
+    ## @code{datestr} does.
+    ##
+    ## Returns date strings as a 2-D char array.
+    ##
+    ## @end deftypefn
     function out = datestr (this, varargin)
       %DATESTR Format as date string.
       out = datestr (this.dnums, varargin{:});
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node localdate.datestrs
+    ## @deftypefn {Method} {@var{out} =} datestrs (@var{obj})
+    ## @deftypefnx {Method} {@var{out} =} datestrs (@var{obj}, @dots{})
+    ##
+    ## Format @var{obj} as date strings, returning cellstr.
+    ## Supports all arguments that core Octave's @code{datestr} does.
+    ##
+    ## Returns a cellstr array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = datestrs (this, varargin)
       %DATESTSRS Format as date strings.
       %
@@ -311,16 +399,26 @@ classdef localdate
       out = reshape (c, size (this));
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node localdate.datestruct
+    ## @deftypefn {Method} {@var{out} =} datestruct (@var{obj})
+    ##
+    ## Converts this to a "datestruct" broken-down time structure.
+    ##
+    ## A "datestruct" is a format of struct that Chrono came up with. It is a scalar
+    ## struct with fields Year, Month, and Day, each containing
+    ## a double array the same size as the date array it represents. This format
+    ## differs from the "datestruct" used by @code{datetime} in that it lacks
+    ## Hour, Minute, and Second components. This is done for efficiency.
+    ##
+    ## The values in the returned broken-down time are those of the local time
+    ## in this' defined time zone, if it has one.
+    ##
+    ## Returns a struct with fields Year, Month, and Day.
+    ## Each field contains a double array of the same size as this.
+    ##
+    ## @end deftypefn
     function out = datestruct (this)
-      %DATESTRUCT Convert to a "datestruct" broken-down time
-      %
-      % The values in the returned broken-down time are those of the local time
-      % in this' defined time zone, if it has one.
-      %
-      % Returns a struct with fields Year, Month, Day.
-      % Each field contains a double array of the same size as this.
-      %
-      % This is an Octave extension.
       dvec = datevec (this.dnums);
       sz = size (this);
       out.Year = reshape (dvec(:,1), sz);
@@ -328,6 +426,19 @@ classdef localdate
       out.Day = reshape (dvec(:,3), sz);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node localdate.posixtime
+    ## @deftypefn {Method} {@var{out} =} posixtime (@var{obj})
+    ##
+    ## Converts this to POSIX time values for midnight of @var{obj}’s days.
+    ##
+    ## Converts this to POSIX time values that represent the same date. The
+    ## returned values will be doubles that will not include fractional second values.
+    ## The times returned are those of midnight UTC on @var{obj}’s days.
+    ##
+    ## Returns double array of same size as this.
+    ##
+    ## @end deftypefn
     function out = posixtime (this)
       %POSIXTIME Convert this to POSIX time values (seconds since the Unix epoch)
       %
@@ -343,20 +454,43 @@ classdef localdate
       out = datetime.datenum2posix (this.dnums);
     endfunction
 
+    ## -*- texinfo -*-
+    ## @node localdate.datenum
+    ## @deftypefn {Method} {@var{out} =} datenum (@var{obj})
+    ##
+    ## Convert this to datenums that represent midnight on @var{obj}’s days.
+    ##
+    ## Returns double array of same size as this.
+    ##
+    ## @end deftypefn
     function out = datenum (this)
-      %DATENUM Convert this to datenums that represent this' dates, at midnight
-      %
-      % Returns double array of same size as this.
-      %
-      % This is an Octave extension.
       out = this.dnums;
     endfunction
 
+    ## -*- texinfo -*-
+    ## @node localdate.isnat
+    ## @deftypefn {Method} {@var{out} =} isnat (@var{obj})
+    ##
+    ## True if input elements are NaT.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = isnat (this)
       %ISNAT True if input is NaT.
       out = isnan (this.dnums);
     endfunction
     
+    ## -*- texinfo -*-
+    ## @node localdate.isnan
+    ## @deftypefn {Method} {@var{out} =} isnan (@var{obj})
+    ##
+    ## True if input elements are NaT. This is an alias for @code{isnat}
+    ## to support type compatibility and polymorphic programming.
+    ##
+    ## Returns logical array the same size as @var{obj}.
+    ##
+    ## @end deftypefn
     function out = isnan (this)
       %ISNAN Alias for isnat.
       %
