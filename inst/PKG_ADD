@@ -25,7 +25,6 @@ endif
 % We can only do this on Octave 4.4 and newer, because 4.2 has no
 % __octave_link_register_doc___
 if compare_versions (version, '4.4.0', '>=')
-  fprintf ("Loading %s Qt help from %s\n", __my_pkg_name, __my_qhelp_file);
   __octave_link_register_doc__ (__my_qhelp_file);
 endif
 

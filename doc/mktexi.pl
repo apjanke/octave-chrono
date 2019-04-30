@@ -204,7 +204,7 @@ while (my $line = <IN>) {
                     emit "$subnode_doc\n";
                 }
             } else {
-                emit "\@emph{Not implemented}\n";
+                emit "\@emph{Not documented}\n";
             }
         }
     } else {

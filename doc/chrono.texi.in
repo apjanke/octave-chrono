@@ -103,7 +103,7 @@ GitHub page}.
 @chapter Getting Started
 
 The easiest way to obtain Chrono is by using Octave's @code{pkg} package manager. 
-To install the a development prerelease of Chrono, run this in Octave:
+To install the development prerelease of Chrono, run this in Octave:
 
 @example
 pkg install https://github.com/apjanke/octave-chrono/releases/download/v%%%%PACKAGE_VERSION%%%%/chrono-%%%%PACKAGE_VERSION%%%%.tar.gz
