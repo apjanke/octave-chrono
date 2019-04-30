@@ -15,6 +15,15 @@ It first appeared in Andrew’s Chrono package in April 2019.
 This toolchain requires Texinfo version 6.0 or newer.
 Versions 5.x and older will result in a lot of errors complaining about node relationships and whatnot.
 
+Perl modules:
+  * `Moose`
+  * `Data::Dumper`
+  * `Date::Parse`
+  * `Text::Wrap`
+  * `IPC::Open3`
+
+Sorry for the dependencies.
+
 # How it works
 
 ## The files

@@ -36,7 +36,7 @@ User manual for Chrono for Octave.
 
 @titlepage
 @title  Chrono for Octave
-@subtitle version @value{VERSION}, January 2019
+@subtitle version @value{VERSION}, %%%%PACKAGE_DATE_YEARMONTH%%%%
 @author Andrew Janke
 @page
 @vskip 0pt plus 1filll

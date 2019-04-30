@@ -53,12 +53,14 @@ BEGIN {
 
 use strict;
 use Data::Dumper;
+use Date::Parse;
 use File::Find;
 use File::Basename;
 use Text::Wrap;
 use FileHandle;
 use IPC::Open3;
 use POSIX ":sys_wait_h";
+use POSIX qw(strftime);
 
 use OctTexiDoc;
 
@@ -97,6 +99,13 @@ sub emit {
 my $pkg_meta = OctTexiDoc::get_package_metadata_from_description_file();
 my $pkg_name = $$pkg_meta{"Name"};
 my $pkg_version = $$pkg_meta{"Version"};
+my $pkg_date_str = $$pkg_meta{"Date"};
+my $pkg_date = str2time($pkg_date_str);
+my $pkg_date_month_str = "Date Unknown";
+if ($pkg_date) {
+    my @pkg_date = strptime($pkg_date_str);
+    $pkg_date_month_str = strftime("%B %Y", @pkg_date);
+}
 
 sub unique {
     my @vals = @_;
@@ -119,6 +128,7 @@ sub setdiff {
 my $in_tex = 0;
 while (my $line = <IN>) {
     $line =~ s/%%%%PACKAGE_VERSION%%%%/$pkg_version/g;
+    $line =~ s/%%%%PACKAGE_DATE_YEARMONTH%%%%/$pkg_date_month_str/g;
     if ($line =~ /^\@DOCSTRING/) {
         $line =~ /^\@DOCSTRING\((.*)\)/;
         my $fcn_name = $1;
