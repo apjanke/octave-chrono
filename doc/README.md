@@ -10,6 +10,11 @@ This is not the standard Octave Forge doco toolchain.
 This is Andrew Janke’s enhancement of it to support classes and namespaces.
 It first appeared in Andrew’s Chrono package in April 2019.
 
+# Requirements
+
+This toolchain requires Texinfo version 6.0 or newer.
+Versions 5.x and older will result in a lot of errors complaining about node relationships and whatnot.
+
 # How it works
 
 ## The files
