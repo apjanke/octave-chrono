@@ -1,79 +1,228 @@
-Package documentation tools
-===========================
+These package documentation tools
+=================================
 
-This is Andrew Janke's summary of how the doco generation tools in this `doc/` directory work.
+This is the README for the doco toolchain of this Octave package.
+It goes with the files `mktexi.pl`, `OctTexiDoc.pm`, and `Makefile`, all of which should be found in the `doc/` subdirectory of an Octave package.
 
-# How it works now
+This is Andrew Janke’s summary of how the doco generation tools in this `doc/` directory work.
+
+This is not the standard Octave Forge doco toolchain.
+This is Andrew Janke’s enhancement of it to support classes and namespaces.
+It first appeared in Andrew’s Chrono package in April 2019.
+
+# How it works
 
 ## The files
 
-Code files:
-  * *.pl, *.pm, Makefile
+Here’s a list of the files involved in the doco toolchain. In this document, `<pkg>` means the package name. E.g. `chrono` or `tablicious`.
 
 User-maintained input files:
-  * ../INDEX
-  * chrono.texi.in
-  * chrono.qhcp
+  * `../DESCRIPTION`
+  * `../INDEX`
+  * `<pkg>.texi.in`
+  * `<pkg>.qhcp`
+
+Doco toolchain script files:
+  * `mktexi.pl`
+    * `OctTexiDoc.pm`
+  * `Makefile`
 
 Generated intermediate files:
-  * chrono.texi
-  * DOCSTRINGS.texi.tmp
-  * TIMESTAMP
-  * html/*
-  * *.dvi
-  * chrono.log
-  * chrono.qhp
+  * `<pkg>.texi`
+  * `TIMESTAMP`
+  * `html/*`
+  * `*.dvi`
+  * `<pkg>.log`
+  * `<pkg>.qhp`
 
 Generated output target files:
-  * chrono.html
-  * chrono.info
-  * chrono.pdf
-  * chrono.qch
+  * `<pkg>.html`
+  * `<pkg>.info`
+  * `<pkg>.pdf`
+  * `<pkg>.qch`
+  * `<pkg>.qhc`
 
-`html/*` is an intermediate file because it's just used for packaging up into `chrono.qch`, the QHelp collection file. It's not intended for users to read directly; the single-node `chrono.html` is for that.
+`html/*` is an intermediate file because it's just used for packaging up into `<pkg>.qch`, the QHelp collection file. It's not intended for users to read directly; the single-node `<pkg>.html` is for that. So it’s excluded from source control in `.gitignore`.
 
-DOCSTRINGS.texi.tmp is not a regular texinfo file. It is a list of blocks, separated by ASCII Unit Separator characters. Each block contains the function/node name on the first line, and then the rest of the block is Texinfo (starting with a `-*- texinfo -*-` line; I don't know if that's part of the actual texinfo code).
+The `<pkg>.{html|info|pdf|qch|qhc}` files are checked in to source control so they are included in the package distribution. Technically, since they are entirely generated from the source and human-maintained index files, they could be re-generated as part of the `pkg install` step for this package. But that would require that users install heavyweight tools like Qt and TeX which are required for their generation, which is undesirable. So we just have the package maintainer generate them at package authoring time and include them in source control and the package distribution file.
+
+### Developer note
+
+This toolchain used to have more steps, broken out into `mkdoc.pl`, `mktexi.pl`, and `mkqhp.pl`. `mkdoc.pl` would scan the source files and build a function index with the extracted texinfo blocks; `mktexi.pl` would take that function index and build `<pkg>.texi`, and `mkqhp.pl` would take `<pkg>.texi`, `../INDEX`, and the function index and build the `<pkg>.qhp` file. I changed the code to unify these three steps into a single `mktexi.pl` because I needed to use a multi-level function/topic index that didn’t fit into the existing function index file format, and doing everything in-memory in a single process simplified the code and resulted in faster execution times.
 
 ## The process
 
   * You launch `make doc` using the `Makefile`. It causes the rest to happen.
-  * `mkdoc.pl` reads the source files (in `../inst` and `../src`) and extracts their embedded Texinfo blocks to `DOCSTRINGS.texi.tmp`
-    * `mkdoc.pl` discovers all .m and .cc files directly under a given directory
-  * `mktexi.pl`
-    * Reads `<pkg>.texi.in`
-    * Reads `../INDEX`
-    * Reads `DOCSTRINGS.texi.tmp`
-    * Substitues stuff in `<pkg>.texi.in`
-      * `%%%%PACKAGE_VERSION%%%%` with package version from `../DESCRIPTION`
-      * `@DOCSTRING(...)` lines with something drawn from `func_doco()`
-        * It's the full doco text from `DOCSTRINGS.texi.tmp`; treating function name as an item/block
-      * `@REFERENCE_SECTION(<name>)` lines with the full generated API reference section
-        * The `<name>` seems to be ignored
-        * “Functions by Category” is generated based on what's in `../INDEX`, with just summary lines under each function. INDEX line order governs the order of items in Functions by Category.
-        * “Functions Alphabetically” is also generated based on `../INDEX`, but includes the full item doco for each function. This is done alphabetically by function name.
-    * Writes `<pkg>.texi`
+  * `mktexi.pl`:
+    * Scans the source files (in `../inst` and `../src`) and extracts their embedded texinfo blocks
+    * Combines that with `<pkg>.texi.in`, `../DESCRIPTION`, and `../INDEX` to produce the unified actual Texinfo document `<pkg>.texi`
+      * Does some substitutions on stuff in `<pkg>.texi.in`
+      * `@DOCSTRING(...)` gets special handling
+      * `%%%%PACKAGE_VERSION%%%%` gets replaced with the version from `../DESCRIPTION`
+    * Generates a `<pkg>.qhcp` index file that can be used to build a QHelp collection from the generated HTML help files
+  * The rest of `make doc` uses standard Texinfo and Qt tools to generate target help files in various formats
+  * You check the resulting files in to source control if they’re good
 
+# Writing Octave Texinfo documentation
 
-`mktexi.pl` automatically emits the `@node`, `@section`, and `@subsection` nodes.
-  * Functions by Category is a `@section`; within it, each category is a `@subsection`, and each function is an `@item` within a `@table`.
-  * Functions Alphabetically is a `@section`; within it, each function is a `@subsection`.
+Here’s how to write the variant of Octave Texinfo doco that’s supported by this package’s doco toolchain.
 
-# What I want to happen
+Octave Texinfo doco is a way of writing embedded user documentation as part of Octave `.m` or `.cc` source files. It’s like Perldoc or Javadoc.
 
-* During file discovery, it should recurse into namespace directories, and `@<classname>` class definition directories; but not arbitrary directories, because Octave paths don't work like that
-* In the reference section, it should be a generic "items" instead of functions, where each item is a global function or a class.
-* Methods, Static Methods, Events, and other things under classes should be `@subsubsection`s under the class `@section` in Functions Alphabetically.
-* Should it require that all methods be included in the INDEX? Or should you just include a class in the INDEX, and that will automatically pull in all its methods that are documented? I think the latter.
-* Each class thing (method, event, maybe property? Or a special Properties node? Maybe constructors?) should be included in the QHelp keyword index
+## Texinfo doco format
 
-To do this, I think I need to structure the parsed help text more. It should be stored in a 2-level "top things" and "sub-things" structure, where the "top things" are the global identifier-named things (that turn into `@subsection`s), and "sub-things" for each top thing holds the blocks for class things (methods, events) (which should turn into `@subsubsection`s). Each of these things should be a node.
+The Texinfo doco in a source file is comprised of one or more Texinfo comment blocks. A regular function file has exactly one Texinfo block. A classdef file can have multiple Texinfo blocks. A class method file has one Texinfo comment block.
 
-Should the keyword index be generated from all `@node`s found in an intermediate .texi file that contains just the API Reference stuff? Or directly from the things structure? Or does that even make a difference.
+Each Texinfo block becomes one topic or subtopic in the generated Texinfo documentation.
 
-I think I want to preserve the order of class things subsubsections within a class, so you get things grouped by topic, instead of alphabetically.
+### Texinfo in `.m` files
 
-Instead of storing namespaced things hierarchically, I think I'll just flatten them, and store everything under its fully-namespace-qualified name in the top level things structure.
+In `.m` files, a Texinfo block is comprised of a contiguous run of comment lines each starting with “`## `” (that’s two octothorps (`#`) followed by a space), with optional spaces before the first “`#`”. The first line in a Texinfo block must be “`## -*- texinfo -*-`”; that’s how the parser knows it’s a Texinfo block instead of a regular comment.
 
-I want to support files in `@<classname>` dirs, having their texinfo blocks go under their defining class as sub-things.
+The Texinfo blocks contain Texinfo markup. Each block should contain the contents of a single node.
 
-For the file format, I think I'll keep the first block in the files as is — no `@node` or `@subsection` lines — for back-compatibility. Then require secondary blocks in files, or blocks in `@<classname>/<method>.m` files, to have explicit `@node` lines. (Otherwise how are you going to know what they're for? I don't want to scan the file for the next function or whatever.) But no `@subsubsection` lines; those will be inserted by the code generator, based on context.
+In a regular function `.m` file, there is a single Texinfo block that documents the function. It should be placed between the initial Copyright header and the `function` line. There is no need to have a `@node` statement in this block; it is generated implicitly.
+
+In a classdef `.m` file, there is a main Texinfo block that documents the overall class, and then one or more additional Texinfo blocks that document individual methods, events, or other things within the class.
+
+The main (class-level) Texinfo block should precede the `classdef` line. It should not have a `@node` statement. The additional (method-level) Texinfo blocks may be placed anywhere throughout the file, but typically should immediately precede the definition of the method or other thing they are documenting. The additional Texinfo blocks _must_ have a `@node` statement as their first line. The node name must be the class-qualified method name in format `<class>.<method>`. For classes that are within a namespace (package), the node name must _not_ include the namespace as a qualification.
+
+For method definition files inside a `@<class>` directory, there should be a single top-level Texinfo block, immediately preceding the method definition. As with a function definition file, it should not have a `@node` statement.
+
+Neither the top-level nor additional blocks should include `@section`, `@subsection`, or `@subsubsection` statements. Those are added implicitly by the doco generation tools. Currently, each top-level block is turned into a `@subsection` and each method-level block is turned into a `@subsubsection`, but that may change.
+
+### Texinfo in `.cc` files
+
+Texinfo blocks in oct-file `.cc` source files are included in comment strings inside the `DEFUN_DLD` macro call.
+
+### Formatting Texinfo elements
+
+These are the conventions that Andrew settled on while documenting the Chrono package. They seem to work okay.
+
+Functions should be documented with `@deftypefn` and optionally `@deftypefnx` statements.
+
+Top-level class Texinfo blocks should contain:
+  * a `@deftp {Class} <class>` that documents the overall class
+  * `@deftypeivar <class> <type> <property>` items that document the user-visible properties
+
+Method-level Texinfo blocks should have `@deftypefn {<type>} <signature>` items that document the method, with optional `@deftypefnx {<type>} <signature>` items to document alternate calling forms. The `<type>` should be:
+  * `{Constructor}` for constructors
+  * `{Method}` for instance methods
+  * `{Static Method}` for static methods
+
+Use `@var{...}` for input and ouptut function parameters. Use `@code{...}` for class, method, and function names.
+
+For functions that take trailing name/value option pairs, use a `@deftypefnx` with the signature form `(@dots{}, @code{'Option'}, @var{Option})` to document them.
+
+The first thing in each function, class, or method doco block should be a one-sentence summary of what it does. This sentence will be extracted and used in other places in the final documentation.
+
+In class doco, use “`obj`” as the conventional name for the method dispatch object in the documentation, even though you might use “`this`” or something else as the parameter in the actual code.
+Documentation is viewed from the caller’s perspective, not the implementation’s perspective, so “`this`” makes less sense.
+
+## Examples
+
+### Example: Function documentation
+
+Here’s what documentation of the regular (global) function `foonly` should look like.
+
+```
+## Copyright (C) 2019 John Doe <jdoe@example.com>
+##
+## [...]
+
+## -*- texinfo -*-
+## @deftypefn {Function} {@var{out} =} foonly (@var{x}, @var{y})
+## @deftypefn {Function} {@var{out} =} foonly (@var{x}, @var{y}, @var{dim})
+## @deftypefn {Function} {@var{out} =} foonly (@dots{}, @code{'Format'}, @var{Format})
+##
+## Do the foonly computation on given inputs.
+##
+## Peforms the foonly computation on inputs @var{x} and @var{y}, optionally along
+## dimension @var{dim}.
+##
+## If the option @var{Format} is supplied, it controls the output format.
+##
+## @end deftypefn
+
+function out = foonly (x, y, varargin)
+  % [...]
+endfunction
+```
+
+### Example: Class documentation
+
+Here’s what documentation of a classdef class named `Example` should look like.
+
+```
+## Copyright (C) 2019 Jane Doe <jdoe@example.com>
+##
+## [...]
+
+## -*- texinfo -*-
+## @deftp {Class} datetime
+##
+## An example class that does nothing.
+##
+## Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur 
+## ullamcorper pulvinar ligula, sit amet accumsan turpis dapibus at. 
+## Ut sit amet quam orci. Donec vel mauris elementum massa pretium tincidunt. 
+##
+## @end deftp
+##
+## @deftypeivar Example @code{double} x
+##
+## The x property. Has no semantics.
+##
+## @end deftypeivar
+##
+## @deftypeivar Example @code{charvec} format
+##
+## The format to display @code{x} in. The name of the format this
+## defined somewhere else.
+##
+## @end deftypeivar
+
+classdef Example
+
+  properties
+    x = NaN
+    format = 'default'
+  endproperties
+
+  methods
+    
+    ## -*- texinfo -*-
+    ## @node Example.Example
+    ## @deftypefn {Constructor} {@var{obj} =} Example ()
+    ##
+    ## Constructs a new scalar Example with the default values.
+    ##
+    ## @end deftypefn
+    ##
+    ## @deftypefn {Constructor} {@var{obj} =} Example (@var{x})
+    ## @deftypefnx {Constructor} {@var{obj} =} Example (@var{x}, @var{format})
+    ##
+    ## Constructs a new Example with the given @var{x} and @var{format}
+    ## values.
+    ##
+    ## @end deftypefn
+    function this = Example (varargin)
+      % ...
+    endfunction
+
+    ## -*- texinfo -*-
+    ## @node Example.foo
+    ## @deftypefn {Method} {[@var{a}, @var{b}] =} foo (@var{obj})
+    ##
+    ## Performs a foo calculation.
+    ##
+    ## @end deftypefn
+    function [a, b] = foo (this)
+      % ...
+    endfunction
+
+  endmethods
+endclassdef
+```
+
+Note the use of a `@node` line in the method and constructor documentation but _not_ in the class-level documentation. This is required.
