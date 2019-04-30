@@ -2,7 +2,7 @@
 
 @c %**start of header
 
-@set VERSION 0.3.1
+@set VERSION 0.3.1+
 
 @setfilename chrono.info
 @settitle Chrono for GNU Octave v@value{VERSION}
@@ -106,7 +106,7 @@ The easiest way to obtain Chrono is by using Octave's @code{pkg} package manager
 To install the a development prerelease of Chrono, run this in Octave:
 
 @example
-pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.3.1/chrono-0.3.1.tar.gz
+pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.3.1+/chrono-0.3.1+.tar.gz
 @end example
 
 (Check the releases page at @url{https://github.com/apjanke/octave-chrono/releases} to

@@ -1,6 +1,6 @@
 This is chrono.info, produced by makeinfo version 6.6 from chrono.texi.
 
-This manual is for Chrono, version 0.3.1.
+This manual is for Chrono, version 0.3.1+.
 
    Copyright © 2019 Andrew Janke
 
@@ -23,7 +23,7 @@ File: chrono.info,  Node: Top,  Next: Introduction
 Chrono for GNU Octave
 *********************
 
-This manual is for Chrono, version 0.3.1.
+This manual is for Chrono, version 0.3.1+.
 
 * Menu:
 
@@ -46,7 +46,7 @@ File: chrono.info,  Node: Introduction,  Next: Getting Started,  Up: Top
 
                            — _Douglas Adams_
 
-   This is the manual for the Chrono package version 0.3.1 for GNU
+   This is the manual for the Chrono package version 0.3.1+ for GNU
 Octave.
 
    This document is a work in progress.  You are invited to help improve
@@ -78,7 +78,7 @@ The easiest way to obtain Chrono is by using Octave’s ‘pkg’ package
 manager.  To install the a development prerelease of Chrono, run this in
 Octave:
 
-     pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.3.1/chrono-0.3.1.tar.gz
+     pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.3.1+/chrono-0.3.1+.tar.gz
 
    (Check the releases page at
 <https://github.com/apjanke/octave-chrono/releases> to find out what the
@@ -1969,7 +1969,7 @@ the Unicode License (http://www.unicode.org/copyright.html).
 8.2 Manual Copyright
 ====================
 
-This manual is for Chrono, version 0.3.1.
+This manual is for Chrono, version 0.3.1+.
 
    Copyright © 2019 Andrew Janke
 
@@ -1989,104 +1989,104 @@ This manual is for Chrono, version 0.3.1.
 
 
 Tag Table:
-Node: Top760
-Node: Introduction1063
-Node: Getting Started2273
-Node: Date Representation3137
-Node: datetime Class3388
-Node: datenum Compatibility4217
-Node: Time Zones5757
-Node: Defined Time Zones8590
-Node: Durations9561
-Node: duration Class9740
-Node: calendarDuration Class10491
-Node: Missing Functionality11392
-Node: Function Reference12361
-Node: Functions by Category12573
-Node: Functions Alphabetically14548
-Node: calendarDuration16216
-Node: calendarDuration.calendarDuration18102
-Node: calendarDuration.isnat18608
-Node: calendarDuration.uminus18939
-Node: calendarDuration.plus19218
-Node: calendarDuration.times19823
-Node: calendarDuration.minus20180
-Node: calendarDuration.dispstrs20525
-Node: calendarDuration.isnan20865
-Node: calmonths21265
-Node: calyears21856
-Node: datetime22199
-Node: datetime.datetime24530
-Node: datetime.ofDatenum25348
-Node: datetime.ofDatestruct25704
-Node: datetime.NaT26203
-Node: datetime.posix2datenum26964
-Node: datetime.datenum2posix27437
-Node: datetime.proxyKeys27838
-Node: datetime.ymd28478
-Node: datetime.hms28864
-Node: datetime.ymdhms29253
-Node: datetime.timeofday29692
-Node: datetime.week30108
-Node: datetime.dispstrs30364
-Node: datetime.datestr30659
-Node: datetime.datestrs31047
-Node: datetime.datestruct31464
-Node: datetime.posixtime32262
-Node: datetime.datenum32792
-Node: datetime.isnat33104
-Node: datetime.isnan33379
-Node: datetime.lt33746
-Node: datetime.le34173
-Node: datetime.ne34609
-Node: datetime.eq35037
-Node: datetime.ge35461
-Node: datetime.gt35901
-Node: datetime.plus36330
-Node: datetime.minus36788
-Node: datetime.diff37429
-Node: datetime.isbetween37805
-Node: datetime.linspace38289
-Node: datetime.convertDatenumTimeZone38898
-Node: days39548
-Node: duration40012
-Node: duration.duration41212
-Node: duration.ofDays41750
-Node: duration.years42255
-Node: duration.hours42621
-Node: duration.minutes42984
-Node: duration.seconds43363
-Node: duration.milliseconds43718
-Node: duration.dispstrs44118
-Node: duration.char44421
-Node: duration.linspace44841
-Node: hours45442
-Node: isdatetime45923
-Node: isduration46211
-Node: localdate46503
-Node: localdate.localdate47738
-Node: localdate.NaT48270
-Node: localdate.ymd49154
-Node: localdate.dispstrs49454
-Node: localdate.datestr49754
-Node: localdate.datestrs50148
-Node: localdate.datestruct50571
-Node: localdate.posixtime51485
-Node: localdate.datenum52052
-Node: localdate.isnat52376
-Node: localdate.isnan52659
-Node: milliseconds53013
-Node: minutes53550
-Node: NaT53806
-Node: octave.chrono.dummy_function54519
-Node: octave.chrono.DummyClass55053
-Node: octave.chrono.DummyClass.DummyClass55870
-Node: octave.chrono.DummyClass.foo56337
-Node: octave.chrono.DummyClass.bar56872
-Node: seconds57363
-Node: timezones57877
-Node: years58910
-Node: Copying59592
+Node: Top761
+Node: Introduction1065
+Node: Getting Started2276
+Node: Date Representation3142
+Node: datetime Class3393
+Node: datenum Compatibility4222
+Node: Time Zones5762
+Node: Defined Time Zones8595
+Node: Durations9566
+Node: duration Class9745
+Node: calendarDuration Class10496
+Node: Missing Functionality11397
+Node: Function Reference12366
+Node: Functions by Category12578
+Node: Functions Alphabetically14553
+Node: calendarDuration16221
+Node: calendarDuration.calendarDuration18107
+Node: calendarDuration.isnat18613
+Node: calendarDuration.uminus18944
+Node: calendarDuration.plus19223
+Node: calendarDuration.times19828
+Node: calendarDuration.minus20185
+Node: calendarDuration.dispstrs20530
+Node: calendarDuration.isnan20870
+Node: calmonths21270
+Node: calyears21861
+Node: datetime22204
+Node: datetime.datetime24535
+Node: datetime.ofDatenum25353
+Node: datetime.ofDatestruct25709
+Node: datetime.NaT26208
+Node: datetime.posix2datenum26969
+Node: datetime.datenum2posix27442
+Node: datetime.proxyKeys27843
+Node: datetime.ymd28483
+Node: datetime.hms28869
+Node: datetime.ymdhms29258
+Node: datetime.timeofday29697
+Node: datetime.week30113
+Node: datetime.dispstrs30369
+Node: datetime.datestr30664
+Node: datetime.datestrs31052
+Node: datetime.datestruct31469
+Node: datetime.posixtime32267
+Node: datetime.datenum32797
+Node: datetime.isnat33109
+Node: datetime.isnan33384
+Node: datetime.lt33751
+Node: datetime.le34178
+Node: datetime.ne34614
+Node: datetime.eq35042
+Node: datetime.ge35466
+Node: datetime.gt35906
+Node: datetime.plus36335
+Node: datetime.minus36793
+Node: datetime.diff37434
+Node: datetime.isbetween37810
+Node: datetime.linspace38294
+Node: datetime.convertDatenumTimeZone38903
+Node: days39553
+Node: duration40017
+Node: duration.duration41217
+Node: duration.ofDays41755
+Node: duration.years42260
+Node: duration.hours42626
+Node: duration.minutes42989
+Node: duration.seconds43368
+Node: duration.milliseconds43723
+Node: duration.dispstrs44123
+Node: duration.char44426
+Node: duration.linspace44846
+Node: hours45447
+Node: isdatetime45928
+Node: isduration46216
+Node: localdate46508
+Node: localdate.localdate47743
+Node: localdate.NaT48275
+Node: localdate.ymd49159
+Node: localdate.dispstrs49459
+Node: localdate.datestr49759
+Node: localdate.datestrs50153
+Node: localdate.datestruct50576
+Node: localdate.posixtime51490
+Node: localdate.datenum52057
+Node: localdate.isnat52381
+Node: localdate.isnan52664
+Node: milliseconds53018
+Node: minutes53555
+Node: NaT53811
+Node: octave.chrono.dummy_function54524
+Node: octave.chrono.DummyClass55058
+Node: octave.chrono.DummyClass.DummyClass55875
+Node: octave.chrono.DummyClass.foo56342
+Node: octave.chrono.DummyClass.bar56877
+Node: seconds57368
+Node: timezones57882
+Node: years58915
+Node: Copying59597
 
 End Tag Table
 
