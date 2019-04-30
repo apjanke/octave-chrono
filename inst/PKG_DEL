@@ -7,34 +7,24 @@
 % Have to hardcode this since it's not available from context
 __my_pkg_name = 'chrono';
 
-% We only want this to happen when we're called by 'pkg unload', not when
-% this code is just removed from the path.
-% Note: This detection is a hack and is brittle WRT changes in Octave's
-% internal implementation.
+% See PKG_ADD for commentary
 
-__stack = dbstack;
-__is_loading = any (ismember ({__stack.name}, {'unload_packages','uninstall'}));
-if ~__is_loading
-  return;
-end
-
-% And we can only do this on Octave 4.4 and newer, because 4.2 has no
-% __octave_link_register_doc___
-if compare_versions (version, '4.4.0', '>=')
-
-  % When a package is installed, the doc/ directory is added as a subdir
-  % of the main installation dir, which contains the inst/ files
-
-  __this_dir = fileparts (mfilename ('fullpath'));
-  __my_doc_dir = fullfile (__this_dir, 'doc');
-  __my_qhelp_file = fullfile (__my_doc_dir, [__my_pkg_name '.qch']);
-  if ~exist (__my_qhelp_file, 'file')
-    % Don't bother warning on unloads
-    return;
-  end
-
-  __octave_link_unregister_doc__ (__my_qhelp_file);
-
+__this_dir = fileparts (mfilename ('fullpath'));
+if exist (fullfile (__this_dir, "doc", [__my_pkg_name ".qch"]), "file")
+  __my_qhelp_file = fullfile (__this_dir, "doc", [__my_pkg_name ".qch"]);
+elseif exist (fullfile (fileparts (__this_dir), "doc", [__my_pkg_name ".qch"]), "file")
+  __my_qhelp_file = fullfile (fileparts (__this_dir), "doc", [__my_pkg_name ".qch"]);
+else
+  % Couldn't find doc file. Oh well.
+  clear __my_pkg_name __this_dir
+  return
 endif
 
-clear __my_pkg_name __stack __is_loading __this_dir __my_doc_dir __my_qhelp_file
+% We can only do this on Octave 4.4 and newer, because 4.2 has no
+% __octave_link_register_doc___
+if compare_versions (version, '4.4.0', '>=')
+  fprintf ("Loading %s Qt help from %s\n", __my_pkg_name, __my_qhelp_file);
+  __octave_link_unregister_doc__ (__my_qhelp_file);
+endif
+
+clear __my_pkg_name __this_dir __my_qhelp_file
