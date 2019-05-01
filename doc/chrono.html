@@ -140,20 +140,22 @@ ul.no-bullet {list-style: none}
         <li><a id="toc-datetime_002edatestruct-1" href="#datetime_002edatestruct">7.2.4.16 datetime.datestruct</a></li>
         <li><a id="toc-datetime_002eposixtime-1" href="#datetime_002eposixtime">7.2.4.17 datetime.posixtime</a></li>
         <li><a id="toc-datetime_002edatenum-1" href="#datetime_002edatenum">7.2.4.18 datetime.datenum</a></li>
-        <li><a id="toc-datetime_002eisnat-1" href="#datetime_002eisnat">7.2.4.19 datetime.isnat</a></li>
-        <li><a id="toc-datetime_002eisnan-1" href="#datetime_002eisnan">7.2.4.20 datetime.isnan</a></li>
-        <li><a id="toc-datetime_002elt-1" href="#datetime_002elt">7.2.4.21 datetime.lt</a></li>
-        <li><a id="toc-datetime_002ele-1" href="#datetime_002ele">7.2.4.22 datetime.le</a></li>
-        <li><a id="toc-datetime_002ene-1" href="#datetime_002ene">7.2.4.23 datetime.ne</a></li>
-        <li><a id="toc-datetime_002eeq-1" href="#datetime_002eeq">7.2.4.24 datetime.eq</a></li>
-        <li><a id="toc-datetime_002ege-1" href="#datetime_002ege">7.2.4.25 datetime.ge</a></li>
-        <li><a id="toc-datetime_002egt-1" href="#datetime_002egt">7.2.4.26 datetime.gt</a></li>
-        <li><a id="toc-datetime_002eplus-1" href="#datetime_002eplus">7.2.4.27 datetime.plus</a></li>
-        <li><a id="toc-datetime_002eminus-1" href="#datetime_002eminus">7.2.4.28 datetime.minus</a></li>
-        <li><a id="toc-datetime_002ediff-1" href="#datetime_002ediff">7.2.4.29 datetime.diff</a></li>
-        <li><a id="toc-datetime_002eisbetween-1" href="#datetime_002eisbetween">7.2.4.30 datetime.isbetween</a></li>
-        <li><a id="toc-datetime_002elinspace-1" href="#datetime_002elinspace">7.2.4.31 datetime.linspace</a></li>
-        <li><a id="toc-datetime_002econvertDatenumTimeZone-1" href="#datetime_002econvertDatenumTimeZone">7.2.4.32 datetime.convertDatenumTimeZone</a></li>
+        <li><a id="toc-datetime_002egmtime-1" href="#datetime_002egmtime">7.2.4.19 datetime.gmtime</a></li>
+        <li><a id="toc-datetime_002elocaltime-1" href="#datetime_002elocaltime">7.2.4.20 datetime.localtime</a></li>
+        <li><a id="toc-datetime_002eisnat-1" href="#datetime_002eisnat">7.2.4.21 datetime.isnat</a></li>
+        <li><a id="toc-datetime_002eisnan-1" href="#datetime_002eisnan">7.2.4.22 datetime.isnan</a></li>
+        <li><a id="toc-datetime_002elt-1" href="#datetime_002elt">7.2.4.23 datetime.lt</a></li>
+        <li><a id="toc-datetime_002ele-1" href="#datetime_002ele">7.2.4.24 datetime.le</a></li>
+        <li><a id="toc-datetime_002ene-1" href="#datetime_002ene">7.2.4.25 datetime.ne</a></li>
+        <li><a id="toc-datetime_002eeq-1" href="#datetime_002eeq">7.2.4.26 datetime.eq</a></li>
+        <li><a id="toc-datetime_002ege-1" href="#datetime_002ege">7.2.4.27 datetime.ge</a></li>
+        <li><a id="toc-datetime_002egt-1" href="#datetime_002egt">7.2.4.28 datetime.gt</a></li>
+        <li><a id="toc-datetime_002eplus-1" href="#datetime_002eplus">7.2.4.29 datetime.plus</a></li>
+        <li><a id="toc-datetime_002eminus-1" href="#datetime_002eminus">7.2.4.30 datetime.minus</a></li>
+        <li><a id="toc-datetime_002ediff-1" href="#datetime_002ediff">7.2.4.31 datetime.diff</a></li>
+        <li><a id="toc-datetime_002eisbetween-1" href="#datetime_002eisbetween">7.2.4.32 datetime.isbetween</a></li>
+        <li><a id="toc-datetime_002elinspace-1" href="#datetime_002elinspace">7.2.4.33 datetime.linspace</a></li>
+        <li><a id="toc-datetime_002econvertDatenumTimeZone-1" href="#datetime_002econvertDatenumTimeZone">7.2.4.34 datetime.convertDatenumTimeZone</a></li>
       </ul></li>
       <li><a id="toc-days-1" href="#days">7.2.5 days</a></li>
       <li><a id="toc-duration-1" href="#duration">7.2.6 duration</a>
@@ -1094,6 +1096,10 @@ underlying UTC times that its elements represent.
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#datetime_002edatenum">datetime.datenum</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#datetime_002egmtime">datetime.gmtime</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#datetime_002elocaltime">datetime.localtime</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#datetime_002eisnat">datetime.isnat</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#datetime_002eisnan">datetime.isnan</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
@@ -1454,7 +1460,7 @@ POSIX times are, by definition, in UTC.
 <hr>
 <span id="datetime_002edatenum"></span><div class="header">
 <p>
-Next: <a href="#datetime_002eisnat" accesskey="n" rel="next">datetime.isnat</a>, Previous: <a href="#datetime_002eposixtime" accesskey="p" rel="prev">datetime.posixtime</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#datetime_002egmtime" accesskey="n" rel="next">datetime.gmtime</a>, Previous: <a href="#datetime_002eposixtime" accesskey="p" rel="prev">datetime.posixtime</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <span id="datetime_002edatenum-1"></span><h4 class="subsubsection">7.2.4.18 datetime.datenum</h4>
 
@@ -1468,11 +1474,59 @@ Next: <a href="#datetime_002eisnat" accesskey="n" rel="next">datetime.isnat</a>,
 </dd></dl>
 
 <hr>
+<span id="datetime_002egmtime"></span><div class="header">
+<p>
+Next: <a href="#datetime_002elocaltime" accesskey="n" rel="next">datetime.localtime</a>, Previous: <a href="#datetime_002edatenum" accesskey="p" rel="prev">datetime.datenum</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="datetime_002egmtime-1"></span><h4 class="subsubsection">7.2.4.19 datetime.gmtime</h4>
+
+<dl>
+<dt id="index-gmtime">Method: <em><var>out</var> =</em> <strong>gmtime</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Convert to TM_STRUCT structure in UTC time.
+</p>
+<p>Converts <var>obj</var> to a TM_STRUCT style structure array. The result is in
+UTC time. If <var>obj</var> is unzoned, it is assumed to be in UTC time.
+</p>
+<p>Returns a struct array in TM_STRUCT style.
+</p>
+</dd></dl>
+
+<hr>
+<span id="datetime_002elocaltime"></span><div class="header">
+<p>
+Next: <a href="#datetime_002eisnat" accesskey="n" rel="next">datetime.isnat</a>, Previous: <a href="#datetime_002egmtime" accesskey="p" rel="prev">datetime.gmtime</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<span id="datetime_002elocaltime-1"></span><h4 class="subsubsection">7.2.4.20 datetime.localtime</h4>
+
+<dl>
+<dt id="index-localtime">Method: <em><var>out</var> =</em> <strong>localtime</strong> <em>(<var>obj</var>)</em></dt>
+<dd>
+<p>Convert to TM_STRUCT structure in UTC time.
+</p>
+<p>Converts <var>obj</var> to a TM_STRUCT style structure array. The result is a
+local time in the system default time zone. Note that the system default
+time zone is always used, regardless of what TimeZone is set on <var>obj</var>.
+</p>
+<p>If <var>obj</var> is unzoned, it is assumed to be in UTC time.
+</p>
+<p>Returns a struct array in TM_STRUCT style.
+</p>
+<p>Example:
+</p><div class="example">
+<pre class="example">dt = datetime;
+dt.TimeZone = datetime.SystemTimeZone;
+tm_struct = localtime (dt);
+</pre></div>
+
+</dd></dl>
+
+<hr>
 <span id="datetime_002eisnat"></span><div class="header">
 <p>
-Next: <a href="#datetime_002eisnan" accesskey="n" rel="next">datetime.isnan</a>, Previous: <a href="#datetime_002edatenum" accesskey="p" rel="prev">datetime.datenum</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#datetime_002eisnan" accesskey="n" rel="next">datetime.isnan</a>, Previous: <a href="#datetime_002elocaltime" accesskey="p" rel="prev">datetime.localtime</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002eisnat-1"></span><h4 class="subsubsection">7.2.4.19 datetime.isnat</h4>
+<span id="datetime_002eisnat-1"></span><h4 class="subsubsection">7.2.4.21 datetime.isnat</h4>
 
 <dl>
 <dt id="index-isnat-1">Method: <em><var>out</var> =</em> <strong>isnat</strong> <em>(<var>obj</var>)</em></dt>
@@ -1488,7 +1542,7 @@ Next: <a href="#datetime_002eisnan" accesskey="n" rel="next">datetime.isnan</a>,
 <p>
 Next: <a href="#datetime_002elt" accesskey="n" rel="next">datetime.lt</a>, Previous: <a href="#datetime_002eisnat" accesskey="p" rel="prev">datetime.isnat</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002eisnan-1"></span><h4 class="subsubsection">7.2.4.20 datetime.isnan</h4>
+<span id="datetime_002eisnan-1"></span><h4 class="subsubsection">7.2.4.22 datetime.isnan</h4>
 
 <dl>
 <dt id="index-isnan-1">Method: <em><var>out</var> =</em> <strong>isnan</strong> <em>(<var>obj</var>)</em></dt>
@@ -1505,7 +1559,7 @@ to support type compatibility and polymorphic programming.
 <p>
 Next: <a href="#datetime_002ele" accesskey="n" rel="next">datetime.le</a>, Previous: <a href="#datetime_002eisnan" accesskey="p" rel="prev">datetime.isnan</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002elt-1"></span><h4 class="subsubsection">7.2.4.21 datetime.lt</h4>
+<span id="datetime_002elt-1"></span><h4 class="subsubsection">7.2.4.23 datetime.lt</h4>
 
 <dl>
 <dt id="index-lt">Method: <em><var>out</var> =</em> <strong>lt</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
@@ -1525,7 +1579,7 @@ constructor or conversion method.
 <p>
 Next: <a href="#datetime_002ene" accesskey="n" rel="next">datetime.ne</a>, Previous: <a href="#datetime_002elt" accesskey="p" rel="prev">datetime.lt</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002ele-1"></span><h4 class="subsubsection">7.2.4.22 datetime.le</h4>
+<span id="datetime_002ele-1"></span><h4 class="subsubsection">7.2.4.24 datetime.le</h4>
 
 <dl>
 <dt id="index-le">Method: <em><var>out</var> =</em> <strong>le</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
@@ -1545,7 +1599,7 @@ constructor or conversion method.
 <p>
 Next: <a href="#datetime_002eeq" accesskey="n" rel="next">datetime.eq</a>, Previous: <a href="#datetime_002ele" accesskey="p" rel="prev">datetime.le</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002ene-1"></span><h4 class="subsubsection">7.2.4.23 datetime.ne</h4>
+<span id="datetime_002ene-1"></span><h4 class="subsubsection">7.2.4.25 datetime.ne</h4>
 
 <dl>
 <dt id="index-ne">Method: <em><var>out</var> =</em> <strong>ne</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
@@ -1565,7 +1619,7 @@ constructor or conversion method.
 <p>
 Next: <a href="#datetime_002ege" accesskey="n" rel="next">datetime.ge</a>, Previous: <a href="#datetime_002ene" accesskey="p" rel="prev">datetime.ne</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002eeq-1"></span><h4 class="subsubsection">7.2.4.24 datetime.eq</h4>
+<span id="datetime_002eeq-1"></span><h4 class="subsubsection">7.2.4.26 datetime.eq</h4>
 
 <dl>
 <dt id="index-eq">Method: <em><var>out</var> =</em> <strong>eq</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
@@ -1585,7 +1639,7 @@ constructor or conversion method.
 <p>
 Next: <a href="#datetime_002egt" accesskey="n" rel="next">datetime.gt</a>, Previous: <a href="#datetime_002eeq" accesskey="p" rel="prev">datetime.eq</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002ege-1"></span><h4 class="subsubsection">7.2.4.25 datetime.ge</h4>
+<span id="datetime_002ege-1"></span><h4 class="subsubsection">7.2.4.27 datetime.ge</h4>
 
 <dl>
 <dt id="index-ge">Method: <em><var>out</var> =</em> <strong>ge</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
@@ -1605,7 +1659,7 @@ constructor or conversion method.
 <p>
 Next: <a href="#datetime_002eplus" accesskey="n" rel="next">datetime.plus</a>, Previous: <a href="#datetime_002ege" accesskey="p" rel="prev">datetime.ge</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002egt-1"></span><h4 class="subsubsection">7.2.4.26 datetime.gt</h4>
+<span id="datetime_002egt-1"></span><h4 class="subsubsection">7.2.4.28 datetime.gt</h4>
 
 <dl>
 <dt id="index-gt">Method: <em><var>out</var> =</em> <strong>gt</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
@@ -1625,7 +1679,7 @@ constructor or conversion method.
 <p>
 Next: <a href="#datetime_002eminus" accesskey="n" rel="next">datetime.minus</a>, Previous: <a href="#datetime_002egt" accesskey="p" rel="prev">datetime.gt</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002eplus-1"></span><h4 class="subsubsection">7.2.4.27 datetime.plus</h4>
+<span id="datetime_002eplus-1"></span><h4 class="subsubsection">7.2.4.29 datetime.plus</h4>
 
 <dl>
 <dt id="index-plus-1">Method: <em><var>out</var> =</em> <strong>plus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
@@ -1645,7 +1699,7 @@ or numeric <var>B</var> to a <code>datetime</code> <var>A</var>.
 <p>
 Next: <a href="#datetime_002ediff" accesskey="n" rel="next">datetime.diff</a>, Previous: <a href="#datetime_002eplus" accesskey="p" rel="prev">datetime.plus</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002eminus-1"></span><h4 class="subsubsection">7.2.4.28 datetime.minus</h4>
+<span id="datetime_002eminus-1"></span><h4 class="subsubsection">7.2.4.30 datetime.minus</h4>
 
 <dl>
 <dt id="index-minus">Method: <em><var>out</var> =</em> <strong>minus</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
@@ -1669,7 +1723,7 @@ Otherwise, the output is a <code>datetime</code>.
 <p>
 Next: <a href="#datetime_002eisbetween" accesskey="n" rel="next">datetime.isbetween</a>, Previous: <a href="#datetime_002eminus" accesskey="p" rel="prev">datetime.minus</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002ediff-1"></span><h4 class="subsubsection">7.2.4.29 datetime.diff</h4>
+<span id="datetime_002ediff-1"></span><h4 class="subsubsection">7.2.4.31 datetime.diff</h4>
 
 <dl>
 <dt id="index-diff">Method: <em><var>out</var> =</em> <strong>diff</strong> <em>(<var>obj</var>)</em></dt>
@@ -1688,7 +1742,7 @@ Next: <a href="#datetime_002eisbetween" accesskey="n" rel="next">datetime.isbetw
 <p>
 Next: <a href="#datetime_002elinspace" accesskey="n" rel="next">datetime.linspace</a>, Previous: <a href="#datetime_002ediff" accesskey="p" rel="prev">datetime.diff</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002eisbetween-1"></span><h4 class="subsubsection">7.2.4.30 datetime.isbetween</h4>
+<span id="datetime_002eisbetween-1"></span><h4 class="subsubsection">7.2.4.32 datetime.isbetween</h4>
 
 <dl>
 <dt id="index-isbetween">Method: <em><var>out</var> =</em> <strong>isbetween</strong> <em>(<var>obj</var>, <var>lower</var>, <var>upper</var>)</em></dt>
@@ -1708,7 +1762,7 @@ to scalar expansion.
 <p>
 Next: <a href="#datetime_002econvertDatenumTimeZone" accesskey="n" rel="next">datetime.convertDatenumTimeZone</a>, Previous: <a href="#datetime_002eisbetween" accesskey="p" rel="prev">datetime.isbetween</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002elinspace-1"></span><h4 class="subsubsection">7.2.4.31 datetime.linspace</h4>
+<span id="datetime_002elinspace-1"></span><h4 class="subsubsection">7.2.4.33 datetime.linspace</h4>
 
 <dl>
 <dt id="index-linspace">Method: <em><var>out</var> =</em> <strong>linspace</strong> <em>(<var>from</var>, <var>to</var>, <var>n</var>)</em></dt>
@@ -1732,7 +1786,7 @@ vector.
 <p>
 Previous: <a href="#datetime_002elinspace" accesskey="p" rel="prev">datetime.linspace</a>, Up: <a href="#datetime" accesskey="u" rel="up">datetime</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<span id="datetime_002econvertDatenumTimeZone-1"></span><h4 class="subsubsection">7.2.4.32 datetime.convertDatenumTimeZone</h4>
+<span id="datetime_002econvertDatenumTimeZone-1"></span><h4 class="subsubsection">7.2.4.34 datetime.convertDatenumTimeZone</h4>
 
 <dl>
 <dt id="index-datetime_002econvertDatenumTimeZone">Static Method: <em><var>out</var> =</em> <strong>datetime.convertDatenumTimeZone</strong> <em>(<var>dnum</var>, <var>fromZoneId</var>, <var>toZoneId</var>)</em></dt>

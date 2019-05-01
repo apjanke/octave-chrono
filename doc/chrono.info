@@ -725,6 +725,8 @@ File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: API Alpha
 * datetime.datestruct::
 * datetime.posixtime::
 * datetime.datenum::
+* datetime.gmtime::
+* datetime.localtime::
 * datetime.isnat::
 * datetime.isnan::
 * datetime.lt::
@@ -1008,7 +1010,7 @@ File: chrono.info,  Node: datetime.posixtime,  Next: datetime.datenum,  Prev: da
      Returns double array of same size as this.
 
 
-File: chrono.info,  Node: datetime.datenum,  Next: datetime.isnat,  Prev: datetime.posixtime,  Up: datetime
+File: chrono.info,  Node: datetime.datenum,  Next: datetime.gmtime,  Prev: datetime.posixtime,  Up: datetime
 
 7.2.4.18 datetime.datenum
 .........................
@@ -1020,9 +1022,48 @@ File: chrono.info,  Node: datetime.datenum,  Next: datetime.isnat,  Prev: dateti
      Returns double array of same size as this.
 
 
-File: chrono.info,  Node: datetime.isnat,  Next: datetime.isnan,  Prev: datetime.datenum,  Up: datetime
+File: chrono.info,  Node: datetime.gmtime,  Next: datetime.localtime,  Prev: datetime.datenum,  Up: datetime
 
-7.2.4.19 datetime.isnat
+7.2.4.19 datetime.gmtime
+........................
+
+ -- Method: OUT = gmtime (OBJ)
+
+     Convert to TM_STRUCT structure in UTC time.
+
+     Converts OBJ to a TM_STRUCT style structure array.  The result is
+     in UTC time.  If OBJ is unzoned, it is assumed to be in UTC time.
+
+     Returns a struct array in TM_STRUCT style.
+
+
+File: chrono.info,  Node: datetime.localtime,  Next: datetime.isnat,  Prev: datetime.gmtime,  Up: datetime
+
+7.2.4.20 datetime.localtime
+...........................
+
+ -- Method: OUT = localtime (OBJ)
+
+     Convert to TM_STRUCT structure in UTC time.
+
+     Converts OBJ to a TM_STRUCT style structure array.  The result is a
+     local time in the system default time zone.  Note that the system
+     default time zone is always used, regardless of what TimeZone is
+     set on OBJ.
+
+     If OBJ is unzoned, it is assumed to be in UTC time.
+
+     Returns a struct array in TM_STRUCT style.
+
+     Example:
+          dt = datetime;
+          dt.TimeZone = datetime.SystemTimeZone;
+          tm_struct = localtime (dt);
+
+
+File: chrono.info,  Node: datetime.isnat,  Next: datetime.isnan,  Prev: datetime.localtime,  Up: datetime
+
+7.2.4.21 datetime.isnat
 .......................
 
  -- Method: OUT = isnat (OBJ)
@@ -1034,7 +1075,7 @@ File: chrono.info,  Node: datetime.isnat,  Next: datetime.isnan,  Prev: datetime
 
 File: chrono.info,  Node: datetime.isnan,  Next: datetime.lt,  Prev: datetime.isnat,  Up: datetime
 
-7.2.4.20 datetime.isnan
+7.2.4.22 datetime.isnan
 .......................
 
  -- Method: OUT = isnan (OBJ)
@@ -1047,7 +1088,7 @@ File: chrono.info,  Node: datetime.isnan,  Next: datetime.lt,  Prev: datetime.is
 
 File: chrono.info,  Node: datetime.lt,  Next: datetime.le,  Prev: datetime.isnan,  Up: datetime
 
-7.2.4.21 datetime.lt
+7.2.4.23 datetime.lt
 ....................
 
  -- Method: OUT = lt (A, B)
@@ -1063,7 +1104,7 @@ File: chrono.info,  Node: datetime.lt,  Next: datetime.le,  Prev: datetime.isnan
 
 File: chrono.info,  Node: datetime.le,  Next: datetime.ne,  Prev: datetime.lt,  Up: datetime
 
-7.2.4.22 datetime.le
+7.2.4.24 datetime.le
 ....................
 
  -- Method: OUT = le (A, B)
@@ -1079,7 +1120,7 @@ File: chrono.info,  Node: datetime.le,  Next: datetime.ne,  Prev: datetime.lt,  
 
 File: chrono.info,  Node: datetime.ne,  Next: datetime.eq,  Prev: datetime.le,  Up: datetime
 
-7.2.4.23 datetime.ne
+7.2.4.25 datetime.ne
 ....................
 
  -- Method: OUT = ne (A, B)
@@ -1095,7 +1136,7 @@ File: chrono.info,  Node: datetime.ne,  Next: datetime.eq,  Prev: datetime.le,  
 
 File: chrono.info,  Node: datetime.eq,  Next: datetime.ge,  Prev: datetime.ne,  Up: datetime
 
-7.2.4.24 datetime.eq
+7.2.4.26 datetime.eq
 ....................
 
  -- Method: OUT = eq (A, B)
@@ -1111,7 +1152,7 @@ File: chrono.info,  Node: datetime.eq,  Next: datetime.ge,  Prev: datetime.ne,  
 
 File: chrono.info,  Node: datetime.ge,  Next: datetime.gt,  Prev: datetime.eq,  Up: datetime
 
-7.2.4.25 datetime.ge
+7.2.4.27 datetime.ge
 ....................
 
  -- Method: OUT = ge (A, B)
@@ -1127,7 +1168,7 @@ File: chrono.info,  Node: datetime.ge,  Next: datetime.gt,  Prev: datetime.eq,  
 
 File: chrono.info,  Node: datetime.gt,  Next: datetime.plus,  Prev: datetime.ge,  Up: datetime
 
-7.2.4.26 datetime.gt
+7.2.4.28 datetime.gt
 ....................
 
  -- Method: OUT = gt (A, B)
@@ -1143,7 +1184,7 @@ File: chrono.info,  Node: datetime.gt,  Next: datetime.plus,  Prev: datetime.ge,
 
 File: chrono.info,  Node: datetime.plus,  Next: datetime.minus,  Prev: datetime.gt,  Up: datetime
 
-7.2.4.27 datetime.plus
+7.2.4.29 datetime.plus
 ......................
 
  -- Method: OUT = plus (A, B)
@@ -1159,7 +1200,7 @@ File: chrono.info,  Node: datetime.plus,  Next: datetime.minus,  Prev: datetime.
 
 File: chrono.info,  Node: datetime.minus,  Next: datetime.diff,  Prev: datetime.plus,  Up: datetime
 
-7.2.4.28 datetime.minus
+7.2.4.30 datetime.minus
 .......................
 
  -- Method: OUT = minus (A, B)
@@ -1179,7 +1220,7 @@ File: chrono.info,  Node: datetime.minus,  Next: datetime.diff,  Prev: datetime.
 
 File: chrono.info,  Node: datetime.diff,  Next: datetime.isbetween,  Prev: datetime.minus,  Up: datetime
 
-7.2.4.29 datetime.diff
+7.2.4.31 datetime.diff
 ......................
 
  -- Method: OUT = diff (OBJ)
@@ -1194,7 +1235,7 @@ File: chrono.info,  Node: datetime.diff,  Next: datetime.isbetween,  Prev: datet
 
 File: chrono.info,  Node: datetime.isbetween,  Next: datetime.linspace,  Prev: datetime.diff,  Up: datetime
 
-7.2.4.30 datetime.isbetween
+7.2.4.32 datetime.isbetween
 ...........................
 
  -- Method: OUT = isbetween (OBJ, LOWER, UPPER)
@@ -1210,7 +1251,7 @@ File: chrono.info,  Node: datetime.isbetween,  Next: datetime.linspace,  Prev: d
 
 File: chrono.info,  Node: datetime.linspace,  Next: datetime.convertDatenumTimeZone,  Prev: datetime.isbetween,  Up: datetime
 
-7.2.4.31 datetime.linspace
+7.2.4.33 datetime.linspace
 ..........................
 
  -- Method: OUT = linspace (FROM, TO, N)
@@ -1230,7 +1271,7 @@ File: chrono.info,  Node: datetime.linspace,  Next: datetime.convertDatenumTimeZ
 
 File: chrono.info,  Node: datetime.convertDatenumTimeZone,  Prev: datetime.linspace,  Up: datetime
 
-7.2.4.32 datetime.convertDatenumTimeZone
+7.2.4.34 datetime.convertDatenumTimeZone
 ........................................
 
  -- Static Method: OUT = datetime.convertDatenumTimeZone (DNUM,
@@ -2016,77 +2057,79 @@ Node: calendarDuration.isnan20802
 Node: calmonths21202
 Node: calyears21787
 Node: datetime22124
-Node: datetime.datetime24449
-Node: datetime.ofDatenum25267
-Node: datetime.ofDatestruct25623
-Node: datetime.NaT26122
-Node: datetime.posix2datenum26883
-Node: datetime.datenum2posix27356
-Node: datetime.proxyKeys27757
-Node: datetime.ymd28397
-Node: datetime.hms28783
-Node: datetime.ymdhms29172
-Node: datetime.timeofday29611
-Node: datetime.week30027
-Node: datetime.dispstrs30283
-Node: datetime.datestr30578
-Node: datetime.datestrs30966
-Node: datetime.datestruct31383
-Node: datetime.posixtime32181
-Node: datetime.datenum32711
-Node: datetime.isnat33023
-Node: datetime.isnan33298
-Node: datetime.lt33665
-Node: datetime.le34092
-Node: datetime.ne34528
-Node: datetime.eq34956
-Node: datetime.ge35380
-Node: datetime.gt35820
-Node: datetime.plus36249
-Node: datetime.minus36707
-Node: datetime.diff37348
-Node: datetime.isbetween37724
-Node: datetime.linspace38208
-Node: datetime.convertDatenumTimeZone38817
-Node: days39467
-Node: duration39925
-Node: duration.duration41119
-Node: duration.ofDays41657
-Node: duration.years42162
-Node: duration.hours42528
-Node: duration.minutes42891
-Node: duration.seconds43270
-Node: duration.milliseconds43625
-Node: duration.dispstrs44025
-Node: duration.char44328
-Node: duration.linspace44748
-Node: hours45349
-Node: isdatetime45824
-Node: isduration46106
-Node: localdate46392
-Node: localdate.localdate47621
-Node: localdate.NaT48153
-Node: localdate.ymd49037
-Node: localdate.dispstrs49337
-Node: localdate.datestr49637
-Node: localdate.datestrs50031
-Node: localdate.datestruct50454
-Node: localdate.posixtime51368
-Node: localdate.datenum51935
-Node: localdate.isnat52259
-Node: localdate.isnan52542
-Node: milliseconds52896
-Node: minutes53427
-Node: NaT53677
-Node: octave.chrono.dummy_function54384
-Node: octave.chrono.DummyClass54912
-Node: octave.chrono.DummyClass.DummyClass55723
-Node: octave.chrono.DummyClass.foo56190
-Node: octave.chrono.DummyClass.bar56725
-Node: seconds57216
-Node: timezones57724
-Node: years58751
-Node: Copying59427
+Node: datetime.datetime24492
+Node: datetime.ofDatenum25310
+Node: datetime.ofDatestruct25666
+Node: datetime.NaT26165
+Node: datetime.posix2datenum26926
+Node: datetime.datenum2posix27399
+Node: datetime.proxyKeys27800
+Node: datetime.ymd28440
+Node: datetime.hms28826
+Node: datetime.ymdhms29215
+Node: datetime.timeofday29654
+Node: datetime.week30070
+Node: datetime.dispstrs30326
+Node: datetime.datestr30621
+Node: datetime.datestrs31009
+Node: datetime.datestruct31426
+Node: datetime.posixtime32224
+Node: datetime.datenum32754
+Node: datetime.gmtime33067
+Node: datetime.localtime33504
+Node: datetime.isnat34222
+Node: datetime.isnan34499
+Node: datetime.lt34866
+Node: datetime.le35293
+Node: datetime.ne35729
+Node: datetime.eq36157
+Node: datetime.ge36581
+Node: datetime.gt37021
+Node: datetime.plus37450
+Node: datetime.minus37908
+Node: datetime.diff38549
+Node: datetime.isbetween38925
+Node: datetime.linspace39409
+Node: datetime.convertDatenumTimeZone40018
+Node: days40668
+Node: duration41126
+Node: duration.duration42320
+Node: duration.ofDays42858
+Node: duration.years43363
+Node: duration.hours43729
+Node: duration.minutes44092
+Node: duration.seconds44471
+Node: duration.milliseconds44826
+Node: duration.dispstrs45226
+Node: duration.char45529
+Node: duration.linspace45949
+Node: hours46550
+Node: isdatetime47025
+Node: isduration47307
+Node: localdate47593
+Node: localdate.localdate48822
+Node: localdate.NaT49354
+Node: localdate.ymd50238
+Node: localdate.dispstrs50538
+Node: localdate.datestr50838
+Node: localdate.datestrs51232
+Node: localdate.datestruct51655
+Node: localdate.posixtime52569
+Node: localdate.datenum53136
+Node: localdate.isnat53460
+Node: localdate.isnan53743
+Node: milliseconds54097
+Node: minutes54628
+Node: NaT54878
+Node: octave.chrono.dummy_function55585
+Node: octave.chrono.DummyClass56113
+Node: octave.chrono.DummyClass.DummyClass56924
+Node: octave.chrono.DummyClass.foo57391
+Node: octave.chrono.DummyClass.bar57926
+Node: seconds58417
+Node: timezones58925
+Node: years59952
+Node: Copying60628
 
 End Tag Table
 
