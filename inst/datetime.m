@@ -729,6 +729,68 @@ classdef datetime
     endfunction
 
     ## -*- texinfo -*-
+    ## @node datetime.gmtime
+    ## @deftypefn {Method} {@var{out} =} gmtime (@var{obj})
+    ##
+    ## Convert to TM_STRUCT structure in UTC time.
+    ##
+    ## Converts @var{obj} to a TM_STRUCT style structure array. The result is in
+    ## UTC time. If @var{obj} is unzoned, it is assumed to be in UTC time.
+    ##
+    ## Returns a struct array in TM_STRUCT style.
+    ##
+    ## @end deftypefn
+    function out = gmtime (this)
+      if isempty (this)
+        tm_struct = gmtime (time ());
+        out = reshape (repmat (tm_struct, [0 0]), size (this));
+        return
+      endif
+      posix = posixtime (this);
+      out = gmtime (posix(1));
+      for i = 2:numel (this)
+        out(i) = gmtime (posix(i));
+      endfor
+      out = reshape (out, size (this));
+    endfunction
+    
+    ## -*- texinfo -*-
+    ## @node datetime.localtime
+    ## @deftypefn {Method} {@var{out} =} localtime (@var{obj})
+    ##
+    ## Convert to TM_STRUCT structure in UTC time.
+    ##
+    ## Converts @var{obj} to a TM_STRUCT style structure array. The result is a
+    ## local time in the system default time zone. Note that the system default
+    ## time zone is always used, regardless of what TimeZone is set on @var{obj}.
+    ##
+    ## If @var{obj} is unzoned, it is assumed to be in UTC time.
+    ##
+    ## Returns a struct array in TM_STRUCT style.
+    ##
+    ## Example:
+    ## @example
+    ## dt = datetime;
+    ## dt.TimeZone = datetime.SystemTimeZone;
+    ## tm_struct = localtime (dt);
+    ## @end example
+    ##
+    ## @end deftypefn
+    function out = localtime (this)
+      if isempty (this)
+        tm_struct = localtime (time ());
+        out = reshape (repmat (tm_struct, [0 0]), size (this));
+        return
+      endif
+      posix = posixtime (this);
+      out = localtime (posix(1));
+      for i = 2:numel (this)
+        out(i) = localtime (posix(i));
+      endfor
+      out = reshape (out, size (this));
+    endfunction
+
+    ## -*- texinfo -*-
     ## @node datetime.isnat
     ## @deftypefn {Method} {@var{out} =} isnat (@var{obj})
     ##
