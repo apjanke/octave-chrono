@@ -75,7 +75,7 @@ File: chrono.info,  Node: Getting Started,  Next: Date Representation,  Prev: In
 *****************
 
 The easiest way to obtain Chrono is by using Octave’s ‘pkg’ package
-manager.  To install the a development prerelease of Chrono, run this in
+manager.  To install the development prerelease of Chrono, run this in
 Octave:
 
      pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.3.1+/chrono-0.3.1+.tar.gz
@@ -337,14 +337,14 @@ File: chrono.info,  Node: Function Reference,  Next: Copying,  Prev: Missing Fun
 
 * Menu:
 
-* Functions by Category::
-* Functions Alphabetically::
+* API by Category::
+* API Alphabetically::
 
 
-File: chrono.info,  Node: Functions by Category,  Next: Functions Alphabetically,  Up: Function Reference
+File: chrono.info,  Node: API by Category,  Next: API Alphabetically,  Up: Function Reference
 
-7.1 Functions by Category
-=========================
+7.1 API by Category
+===================
 
 7.1.1 Date Representation
 -------------------------
@@ -418,10 +418,10 @@ File: chrono.info,  Node: Functions by Category,  Next: Functions Alphabetically
      ’DummyClass’ is a do-nothing class just for testing the doco tools.
 
 
-File: chrono.info,  Node: Functions Alphabetically,  Prev: Functions by Category,  Up: Function Reference
+File: chrono.info,  Node: API Alphabetically,  Prev: API by Category,  Up: Function Reference
 
-7.2 Functions Alphabetically
-============================
+7.2 API Alphabetically
+======================
 
 * Menu:
 
@@ -457,7 +457,7 @@ File: chrono.info,  Node: Functions Alphabetically,  Prev: Functions by Category
 		’duration’ X.
 
 
-File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Up: Functions Alphabetically
+File: chrono.info,  Node: calendarDuration,  Next: calmonths,  Up: API Alphabetically
 
 7.2.1 calendarDuration
 ----------------------
@@ -628,7 +628,7 @@ File: chrono.info,  Node: calendarDuration.isnan,  Prev: calendarDuration.dispst
      Returns logical array the same size as OBJ.
 
 
-File: chrono.info,  Node: calmonths,  Next: calyears,  Prev: calendarDuration,  Up: Functions Alphabetically
+File: chrono.info,  Node: calmonths,  Next: calyears,  Prev: calendarDuration,  Up: API Alphabetically
 
 7.2.2 calmonths
 ---------------
@@ -648,7 +648,7 @@ File: chrono.info,  Node: calmonths,  Next: calyears,  Prev: calendarDuration,  
      *Note calendarDuration::.
 
 
-File: chrono.info,  Node: calyears,  Next: datetime,  Prev: calmonths,  Up: Functions Alphabetically
+File: chrono.info,  Node: calyears,  Next: datetime,  Prev: calmonths,  Up: API Alphabetically
 
 7.2.3 calyears
 --------------
@@ -662,7 +662,7 @@ File: chrono.info,  Node: calyears,  Next: datetime,  Prev: calmonths,  Up: Func
      *Note calendarDuration::.
 
 
-File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: Functions Alphabetically
+File: chrono.info,  Node: datetime,  Next: days,  Prev: calyears,  Up: API Alphabetically
 
 7.2.4 datetime
 --------------
@@ -1249,7 +1249,7 @@ File: chrono.info,  Node: datetime.convertDatenumTimeZone,  Prev: datetime.linsp
      Returns a datenum array the same size as DNUM.
 
 
-File: chrono.info,  Node: days,  Next: duration,  Prev: datetime,  Up: Functions Alphabetically
+File: chrono.info,  Node: days,  Next: duration,  Prev: datetime,  Up: API Alphabetically
 
 7.2.5 days
 ----------
@@ -1266,7 +1266,7 @@ File: chrono.info,  Node: days,  Next: duration,  Prev: datetime,  Up: Functions
      is.
 
 
-File: chrono.info,  Node: duration,  Next: hours,  Prev: days,  Up: Functions Alphabetically
+File: chrono.info,  Node: duration,  Next: hours,  Prev: days,  Up: API Alphabetically
 
 7.2.6 duration
 --------------
@@ -1488,7 +1488,7 @@ File: chrono.info,  Node: duration.linspace,  Up: duration
      Returns an N-long ‘datetime’ vector.
 
 
-File: chrono.info,  Node: hours,  Next: isdatetime,  Prev: duration,  Up: Functions Alphabetically
+File: chrono.info,  Node: hours,  Next: isdatetime,  Prev: duration,  Up: API Alphabetically
 
 7.2.7 hours
 -----------
@@ -1506,7 +1506,7 @@ File: chrono.info,  Node: hours,  Next: isdatetime,  Prev: duration,  Up: Functi
      Returns an array the same size as X.
 
 
-File: chrono.info,  Node: isdatetime,  Next: isduration,  Prev: hours,  Up: Functions Alphabetically
+File: chrono.info,  Node: isdatetime,  Next: isduration,  Prev: hours,  Up: API Alphabetically
 
 7.2.8 isdatetime
 ----------------
@@ -1518,7 +1518,7 @@ File: chrono.info,  Node: isdatetime,  Next: isduration,  Prev: hours,  Up: Func
      Returns a logical array the same size as X.
 
 
-File: chrono.info,  Node: isduration,  Next: localdate,  Prev: isdatetime,  Up: Functions Alphabetically
+File: chrono.info,  Node: isduration,  Next: localdate,  Prev: isdatetime,  Up: API Alphabetically
 
 7.2.9 isduration
 ----------------
@@ -1530,7 +1530,7 @@ File: chrono.info,  Node: isduration,  Next: localdate,  Prev: isdatetime,  Up: 
      Returns a logical array the same size as X.
 
 
-File: chrono.info,  Node: localdate,  Next: milliseconds,  Prev: isduration,  Up: Functions Alphabetically
+File: chrono.info,  Node: localdate,  Next: milliseconds,  Prev: isduration,  Up: API Alphabetically
 
 7.2.10 localdate
 ----------------
@@ -1742,7 +1742,7 @@ File: chrono.info,  Node: localdate.isnan,  Prev: localdate.isnat,  Up: localdat
      Returns logical array the same size as OBJ.
 
 
-File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: localdate,  Up: Functions Alphabetically
+File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: localdate,  Up: API Alphabetically
 
 7.2.11 milliseconds
 -------------------
@@ -1760,7 +1760,7 @@ File: chrono.info,  Node: milliseconds,  Next: minutes,  Prev: localdate,  Up: F
      Returns an array the same size as X.
 
 
-File: chrono.info,  Node: minutes,  Next: NaT,  Prev: milliseconds,  Up: Functions Alphabetically
+File: chrono.info,  Node: minutes,  Next: NaT,  Prev: milliseconds,  Up: API Alphabetically
 
 7.2.12 minutes
 --------------
@@ -1770,7 +1770,7 @@ File: chrono.info,  Node: minutes,  Next: NaT,  Prev: milliseconds,  Up: Functio
      X.
 
 
-File: chrono.info,  Node: NaT,  Next: octave.chrono.dummy_function,  Prev: minutes,  Up: Functions Alphabetically
+File: chrono.info,  Node: NaT,  Next: octave.chrono.dummy_function,  Prev: minutes,  Up: API Alphabetically
 
 7.2.13 NaT
 ----------
@@ -1790,7 +1790,7 @@ File: chrono.info,  Node: NaT,  Next: octave.chrono.dummy_function,  Prev: minut
      ‘NaT’.
 
 
-File: chrono.info,  Node: octave.chrono.dummy_function,  Next: octave.chrono.DummyClass,  Prev: NaT,  Up: Functions Alphabetically
+File: chrono.info,  Node: octave.chrono.dummy_function,  Next: octave.chrono.DummyClass,  Prev: NaT,  Up: API Alphabetically
 
 7.2.14 octave.chrono.dummy_function
 -----------------------------------
@@ -1805,7 +1805,7 @@ File: chrono.info,  Node: octave.chrono.dummy_function,  Next: octave.chrono.Dum
      tincidunt.
 
 
-File: chrono.info,  Node: octave.chrono.DummyClass,  Next: seconds,  Prev: octave.chrono.dummy_function,  Up: Functions Alphabetically
+File: chrono.info,  Node: octave.chrono.DummyClass,  Next: seconds,  Prev: octave.chrono.dummy_function,  Up: API Alphabetically
 
 7.2.15 octave.chrono.DummyClass
 -------------------------------
@@ -1878,7 +1878,7 @@ File: chrono.info,  Node: octave.chrono.DummyClass.bar,  Prev: octave.chrono.Dum
      tincidunt.
 
 
-File: chrono.info,  Node: seconds,  Next: timezones,  Prev: octave.chrono.DummyClass,  Up: Functions Alphabetically
+File: chrono.info,  Node: seconds,  Next: timezones,  Prev: octave.chrono.DummyClass,  Up: API Alphabetically
 
 7.2.16 seconds
 --------------
@@ -1896,7 +1896,7 @@ File: chrono.info,  Node: seconds,  Next: timezones,  Prev: octave.chrono.DummyC
      Returns an array the same size as X.
 
 
-File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: Functions Alphabetically
+File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: API Alphabetically
 
 7.2.17 timezones
 ----------------
@@ -1925,7 +1925,7 @@ File: chrono.info,  Node: timezones,  Next: years,  Prev: seconds,  Up: Function
      fields in the output; these are currently unimplemented.
 
 
-File: chrono.info,  Node: years,  Prev: timezones,  Up: Functions Alphabetically
+File: chrono.info,  Node: years,  Prev: timezones,  Up: API Alphabetically
 
 7.2.18 years
 ------------
@@ -1992,101 +1992,101 @@ Tag Table:
 Node: Top761
 Node: Introduction1065
 Node: Getting Started2276
-Node: Date Representation3142
-Node: datetime Class3393
-Node: datenum Compatibility4222
-Node: Time Zones5762
-Node: Defined Time Zones8595
-Node: Durations9566
-Node: duration Class9745
-Node: calendarDuration Class10496
-Node: Missing Functionality11397
-Node: Function Reference12366
-Node: Functions by Category12578
-Node: Functions Alphabetically14553
-Node: calendarDuration16221
-Node: calendarDuration.calendarDuration18107
-Node: calendarDuration.isnat18613
-Node: calendarDuration.uminus18944
-Node: calendarDuration.plus19223
-Node: calendarDuration.times19828
-Node: calendarDuration.minus20185
-Node: calendarDuration.dispstrs20530
-Node: calendarDuration.isnan20870
-Node: calmonths21270
-Node: calyears21861
-Node: datetime22204
-Node: datetime.datetime24535
-Node: datetime.ofDatenum25353
-Node: datetime.ofDatestruct25709
-Node: datetime.NaT26208
-Node: datetime.posix2datenum26969
-Node: datetime.datenum2posix27442
-Node: datetime.proxyKeys27843
-Node: datetime.ymd28483
-Node: datetime.hms28869
-Node: datetime.ymdhms29258
-Node: datetime.timeofday29697
-Node: datetime.week30113
-Node: datetime.dispstrs30369
-Node: datetime.datestr30664
-Node: datetime.datestrs31052
-Node: datetime.datestruct31469
-Node: datetime.posixtime32267
-Node: datetime.datenum32797
-Node: datetime.isnat33109
-Node: datetime.isnan33384
-Node: datetime.lt33751
-Node: datetime.le34178
-Node: datetime.ne34614
-Node: datetime.eq35042
-Node: datetime.ge35466
-Node: datetime.gt35906
-Node: datetime.plus36335
-Node: datetime.minus36793
-Node: datetime.diff37434
-Node: datetime.isbetween37810
-Node: datetime.linspace38294
-Node: datetime.convertDatenumTimeZone38903
-Node: days39553
-Node: duration40017
-Node: duration.duration41217
-Node: duration.ofDays41755
-Node: duration.years42260
-Node: duration.hours42626
-Node: duration.minutes42989
-Node: duration.seconds43368
-Node: duration.milliseconds43723
-Node: duration.dispstrs44123
-Node: duration.char44426
-Node: duration.linspace44846
-Node: hours45447
-Node: isdatetime45928
-Node: isduration46216
-Node: localdate46508
-Node: localdate.localdate47743
-Node: localdate.NaT48275
-Node: localdate.ymd49159
-Node: localdate.dispstrs49459
-Node: localdate.datestr49759
-Node: localdate.datestrs50153
-Node: localdate.datestruct50576
-Node: localdate.posixtime51490
-Node: localdate.datenum52057
-Node: localdate.isnat52381
-Node: localdate.isnan52664
-Node: milliseconds53018
-Node: minutes53555
-Node: NaT53811
-Node: octave.chrono.dummy_function54524
-Node: octave.chrono.DummyClass55058
-Node: octave.chrono.DummyClass.DummyClass55875
-Node: octave.chrono.DummyClass.foo56342
-Node: octave.chrono.DummyClass.bar56877
-Node: seconds57368
-Node: timezones57882
-Node: years58915
-Node: Copying59597
+Node: Date Representation3140
+Node: datetime Class3391
+Node: datenum Compatibility4220
+Node: Time Zones5760
+Node: Defined Time Zones8593
+Node: Durations9564
+Node: duration Class9743
+Node: calendarDuration Class10494
+Node: Missing Functionality11395
+Node: Function Reference12364
+Node: API by Category12564
+Node: API Alphabetically14515
+Node: calendarDuration16159
+Node: calendarDuration.calendarDuration18039
+Node: calendarDuration.isnat18545
+Node: calendarDuration.uminus18876
+Node: calendarDuration.plus19155
+Node: calendarDuration.times19760
+Node: calendarDuration.minus20117
+Node: calendarDuration.dispstrs20462
+Node: calendarDuration.isnan20802
+Node: calmonths21202
+Node: calyears21787
+Node: datetime22124
+Node: datetime.datetime24449
+Node: datetime.ofDatenum25267
+Node: datetime.ofDatestruct25623
+Node: datetime.NaT26122
+Node: datetime.posix2datenum26883
+Node: datetime.datenum2posix27356
+Node: datetime.proxyKeys27757
+Node: datetime.ymd28397
+Node: datetime.hms28783
+Node: datetime.ymdhms29172
+Node: datetime.timeofday29611
+Node: datetime.week30027
+Node: datetime.dispstrs30283
+Node: datetime.datestr30578
+Node: datetime.datestrs30966
+Node: datetime.datestruct31383
+Node: datetime.posixtime32181
+Node: datetime.datenum32711
+Node: datetime.isnat33023
+Node: datetime.isnan33298
+Node: datetime.lt33665
+Node: datetime.le34092
+Node: datetime.ne34528
+Node: datetime.eq34956
+Node: datetime.ge35380
+Node: datetime.gt35820
+Node: datetime.plus36249
+Node: datetime.minus36707
+Node: datetime.diff37348
+Node: datetime.isbetween37724
+Node: datetime.linspace38208
+Node: datetime.convertDatenumTimeZone38817
+Node: days39467
+Node: duration39925
+Node: duration.duration41119
+Node: duration.ofDays41657
+Node: duration.years42162
+Node: duration.hours42528
+Node: duration.minutes42891
+Node: duration.seconds43270
+Node: duration.milliseconds43625
+Node: duration.dispstrs44025
+Node: duration.char44328
+Node: duration.linspace44748
+Node: hours45349
+Node: isdatetime45824
+Node: isduration46106
+Node: localdate46392
+Node: localdate.localdate47621
+Node: localdate.NaT48153
+Node: localdate.ymd49037
+Node: localdate.dispstrs49337
+Node: localdate.datestr49637
+Node: localdate.datestrs50031
+Node: localdate.datestruct50454
+Node: localdate.posixtime51368
+Node: localdate.datenum51935
+Node: localdate.isnat52259
+Node: localdate.isnan52542
+Node: milliseconds52896
+Node: minutes53427
+Node: NaT53677
+Node: octave.chrono.dummy_function54384
+Node: octave.chrono.DummyClass54912
+Node: octave.chrono.DummyClass.DummyClass55723
+Node: octave.chrono.DummyClass.foo56190
+Node: octave.chrono.DummyClass.bar56725
+Node: seconds57216
+Node: timezones57724
+Node: years58751
+Node: Copying59427
 
 End Tag Table
 

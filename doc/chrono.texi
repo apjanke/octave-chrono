@@ -103,7 +103,7 @@ GitHub page}.
 @chapter Getting Started
 
 The easiest way to obtain Chrono is by using Octave's @code{pkg} package manager. 
-To install the a development prerelease of Chrono, run this in Octave:
+To install the development prerelease of Chrono, run this in Octave:
 
 @example
 pkg install https://github.com/apjanke/octave-chrono/releases/download/v0.3.1+/chrono-0.3.1+.tar.gz
@@ -332,8 +332,8 @@ It is the author's hope that all these will be implemented some day.
 @node Function Reference
 @chapter Function Reference
 
-@node Functions by Category
-@section Functions by Category
+@node API by Category
+@section API by Category
 @subsection Date Representation
 @table @asis
 @item @ref{datetime}
@@ -398,8 +398,8 @@ A dummy function just for testing the doco tools.
 
 @end table
 
-@node Functions Alphabetically
-@section Functions Alphabetically
+@node API Alphabetically
+@section API Alphabetically
 @menu
 * calendarDuration::	Durations of time using variable-length calendar
 		periods, such as days, months, and years, which may vary in
