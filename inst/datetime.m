@@ -950,6 +950,8 @@ classdef datetime
     ## Addition (@code{+} operator). Adds a @code{duration}, @code{calendarDuration},
     ## or numeric @var{B} to a @code{datetime} @var{A}.
     ##
+    ## @var{A} must be a @code{datetime}.
+    ##
     ## Numeric @var{B} inputs are implicitly converted to @code{duration} using
     ## @code{duration.ofDays}.
     ##
@@ -959,41 +961,45 @@ classdef datetime
     function out = plus (A, B)
       %PLUS Addition.
 
-      % TODO: Maybe support `duration + datetime` form by just swapping the
+      % TODO: Maybe support `duration/calendarDuration + datetime` form by just swapping the
       % arguments.
       if ~isa (A, 'datetime')
-        error ('Expected left-hand side of A + B to be a datetime; got a %s', ...
+        error ('datetime.plus: Expected left-hand side of A + B to be a datetime; got a %s', ...
           class (A));
       endif
       if isa (B, 'duration')
         out = A;
         out.dnums = A.dnums + B.days;
       elseif isa (B, 'calendarDuration')
-        if ~isscalar (B)
-          % TODO: Remove this limitation
-          error ('calendarDuration inputs must be scalar');
-        endif
-        ds = datestruct (A);
+        [A, B] = octave.chrono.internal.scalarexpand (A, B);
         out = A;
-        if B.Sign < 0
-          ds.Year = ds.Year - B.Years;
-          ds.Month = ds.Month - B.Months;
-          ds.Day = ds.Day - B.Days;
-          tmp = datetime.ofDatestruct (ds);
-          tmp.dnums = tmp.dnums - B.Time;
-          out.dnums = tmp.dnums;
-        else
-          ds.Year = ds.Year + B.Years;
-          ds.Month = ds.Month + B.Months;
-          ds.Day = ds.Day + B.Days;
-          tmp = datetime.ofDatestruct (ds);
-          tmp.dnums = tmp.dnums + B.Time;
-          out.dnums = tmp.dnums;
-        endif
+        for i = 1:numel (A)
+          out = asgn(out, i, plusScalarCalendarDuration (subset(A, i), B(i)));
+        endfor
       elseif isnumeric (B)
         out = A + duration.ofDays (B);
       else
-        error ('Invalid input type: %s', class (B));
+        error ('datetime.plus: Invalid input type: %s', class (B));
+      endif
+    endfunction
+
+    function out = plusScalarCalendarDuration (this, dur)
+      ds = datestruct (this);
+      out = this;
+      if dur.Sign < 0
+        ds.Year = ds.Year - dur.Years;
+        ds.Month = ds.Month - dur.Months;
+        ds.Day = ds.Day - dur.Days;
+        tmp = datetime.ofDatestruct (ds);
+        tmp.dnums = tmp.dnums - dur.Time;
+        out.dnums = tmp.dnums;
+      else
+        ds.Year = ds.Year + dur.Years;
+        ds.Month = ds.Month + dur.Months;
+        ds.Day = ds.Day + dur.Days;
+        tmp = datetime.ofDatestruct (ds);
+        tmp.dnums = tmp.dnums + dur.Time;
+        out.dnums = tmp.dnums;
       endif
     endfunction
     
