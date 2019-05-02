@@ -31,7 +31,8 @@
 ##
 ## @deftypeivar localdate @code{double} dnums
 ##
-## The underlying datenum values that represent the days.
+## The underlying datenum values that represent the days. The datenums are at
+## the midnight that is at the start of the day it represents.
 ##
 ## These are doubles, but
 ## they are restricted to be integer-valued, so they represent complete days, with

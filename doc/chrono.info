@@ -1589,7 +1589,9 @@ File: chrono.info,  Node: localdate,  Next: milliseconds,  Prev: isduration,  Up
 
  -- Instance Variable of localdate: ‘double’ dnums
 
-     The underlying datenum values that represent the days.
+     The underlying datenum values that represent the days.  The
+     datenums are at the midnight that is at the start of the day it
+     represents.
 
      These are doubles, but they are restricted to be integer-valued, so
      they represent complete days, with no time-of-day component.
@@ -2107,29 +2109,29 @@ Node: hours46550
 Node: isdatetime47025
 Node: isduration47307
 Node: localdate47593
-Node: localdate.localdate48822
-Node: localdate.NaT49354
-Node: localdate.ymd50238
-Node: localdate.dispstrs50538
-Node: localdate.datestr50838
-Node: localdate.datestrs51232
-Node: localdate.datestruct51655
-Node: localdate.posixtime52569
-Node: localdate.datenum53136
-Node: localdate.isnat53460
-Node: localdate.isnan53743
-Node: milliseconds54097
-Node: minutes54628
-Node: NaT54878
-Node: octave.chrono.dummy_function55585
-Node: octave.chrono.DummyClass56113
-Node: octave.chrono.DummyClass.DummyClass56924
-Node: octave.chrono.DummyClass.foo57391
-Node: octave.chrono.DummyClass.bar57926
-Node: seconds58417
-Node: timezones58925
-Node: years59952
-Node: Copying60628
+Node: localdate.localdate48913
+Node: localdate.NaT49445
+Node: localdate.ymd50329
+Node: localdate.dispstrs50629
+Node: localdate.datestr50929
+Node: localdate.datestrs51323
+Node: localdate.datestruct51746
+Node: localdate.posixtime52660
+Node: localdate.datenum53227
+Node: localdate.isnat53551
+Node: localdate.isnan53834
+Node: milliseconds54188
+Node: minutes54719
+Node: NaT54969
+Node: octave.chrono.dummy_function55676
+Node: octave.chrono.DummyClass56204
+Node: octave.chrono.DummyClass.DummyClass57015
+Node: octave.chrono.DummyClass.foo57482
+Node: octave.chrono.DummyClass.bar58017
+Node: seconds58508
+Node: timezones59016
+Node: years60043
+Node: Copying60719
 
 End Tag Table
 

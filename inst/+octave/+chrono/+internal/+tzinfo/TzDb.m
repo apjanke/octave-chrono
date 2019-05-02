@@ -161,12 +161,12 @@ classdef TzDb
     function out = readZoneFile (this, zoneId)
       %READZONEFILE Read and parse a zone definition file
       if ~ismember (zoneId, this.definedZones)
-        error ('Undefined time zone: %s', zoneId);
+        error ("Undefined time zone: '%s'", zoneId);
       endif
       zoneFile = [this.path '/' zoneId];
       if ~exist (zoneFile)
-        error (['tzinfo time zone file for zone %s does not exist: %s\n' ...
-          'This is probably an error in the tzinfo database files.'], ...
+        error (["tzinfo time zone file for zone %s does not exist: %s\n" ...
+          "This is probably an error in the tzinfo database files."], ...
             zoneId, zoneFile);
       endif
       data = octave.chrono.internal.slurpBinaryFile (zoneFile);

@@ -170,6 +170,7 @@ classdef calendarDuration
       this.Months = M;
       this.Days = D;
       this.Time = T;
+      this.Sign = ones (size (Y));
       if isfield (opts, 'Format')
         this.Format = opts.Format;
       endif
@@ -189,10 +190,10 @@ classdef calendarDuration
     % bug report if this is reproducible.
     
     function this = set.Sign (this, x)
-      if ~isscalar (x) || ~isnumeric (x)
-        error ('Sign must be scalar numeric');
+      if ~isnumeric (x)
+        error ('Sign must be numeric');
       endif
-      if ~ismember (x, [-1 1])
+      if ~all (ismember (x(:), [-1 1]))
         error ('Sign must be -1 or 1; got %f', x);
       endif
       this.Sign = x;
@@ -285,10 +286,10 @@ classdef calendarDuration
       endif
       if isa (B, 'calendarDuration')
         out = this;
-        out.Years = this.Years + B.Sign * B.Years;
-        out.Months = this.Months + B.Sign * B.Months;
-        out.Days = this.Days + B.Sign * B.Days;
-        out.Time = this.Time + B.Sign * B.Time;
+        out.Years = this.Years + (B.Sign .* B.Years);
+        out.Months = this.Months + (B.Sign .* B.Months);
+        out.Days = this.Days + (B.Sign .* B.Days);
+        out.Time = this.Time + (B.Sign .* B.Time);
         out.IsNaN = this.IsNaN | B.IsNaN;
         out = normalizeNaNs (out);
       else

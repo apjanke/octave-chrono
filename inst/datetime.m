@@ -683,7 +683,11 @@ classdef datetime
     ##
     ## @end deftypefn
     function out = datestruct (this)
-      local_dnums = datetime.convertDatenumTimeZone (this.dnums, 'UTC', this.TimeZone);
+      if isempty (this.TimeZone)
+        local_dnums = this.dnums;
+      else
+        local_dnums = datetime.convertDatenumTimeZone (this.dnums, 'UTC', this.TimeZone);
+      endif
       dvec = datevec (local_dnums);
       sz = size (this);
       out.Year = reshape (dvec(:,1), sz);
