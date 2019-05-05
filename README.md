@@ -1,8 +1,13 @@
 Chrono for GNU Octave
 =====================
 
-| WARNING: All the code in here is currently in the alpha stage. (Pre-beta, that is.) Do not use it in any production or business code! Seriously!! |
+----------------
+
+| DEPRECATED! This repo is deprecated and no longer worked on. The Chrono package has been merged into the Tablicious package, and new work is going on there instead. See <https://github.com/apjanke/octave-tablicious> |
 | ---- |
+
+----------------
+
 
 Date/time functionality for GNU Octave.
 
